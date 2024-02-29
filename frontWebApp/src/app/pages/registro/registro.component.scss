@@ -47,23 +47,29 @@ body {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"] {
+
+.form-group input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 5px;
+    margin-bottom: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
+
+.card-text{
+    font-size: 13px !important;
+    height: 100px;
+
+}
+
 .form-submit{
     display: flex;
     flex-direction: column;
