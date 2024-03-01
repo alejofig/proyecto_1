@@ -1,0 +1,21 @@
+.side_bard {
+    font-family: Arial, cursive;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    color: #eee;
+     /* Cambia el color de fondo según lo desees */
+}
+
+.btn{
+    font-size: 14px;
+    padding: 4px 18px ;
+}
+
+.name {
+    font-size: 20px;
+}
