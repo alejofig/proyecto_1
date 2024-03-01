@@ -1,4 +1,12 @@
+.contenedor{
+    position: relative;
+    height: 100%;
+}
 .side_bard {
+    
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ajusta según sea necesario */
     font-family: Arial, cursive;
     display: flex;
     flex-direction: column;
