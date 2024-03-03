@@ -40,7 +40,8 @@ def crear_usuario():
         username=json['username'],
         password_hash=json['password_hash']
     )
-    usuario_existe = Usuario.query.filter_by(username=json['username']).first()
+    session = database.get_session()
+    usuario_existe = session.query(Usuario).filter_by(username=json['username']).first()
     if usuario_existe is None:
         database.session.add(usuario)
         database.commit()
