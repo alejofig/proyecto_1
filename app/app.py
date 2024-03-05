@@ -1,6 +1,7 @@
 import os
 
-from flask import Flask, jsonify, request
+import boto3
+from flask import Flask, jsonify, request, json
 
 from .models.database import database
 from .models.router import Usuario
@@ -46,6 +47,83 @@ def crear_usuario():
         database.session.add(usuario)
         database.commit()
     return jsonify({'id': str(usuario.id)}), 201
+
+
+# Ruta para enviar mensajes a la cola
+@app.route('/enviar', methods=['POST'])
+def enviar_mensajes():
+    # ----opcion1
+    sqs1 = boto3.resource('sqs',
+                          region_name="us-west-2",
+                          aws_access_key_id='AKIAVANIV7HUBVMFSFGB',
+                          aws_secret_access_key='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')
+    queue1 = sqs1.get_queue_by_name(QueueName='users')
+
+    mensaje = {'nombre': 'Alejo'}
+
+    data = json.dumps(mensaje)
+    queue1.send_message(MessageBody=data)
+
+    # ----opcion2
+    sqs2 = boto3.client('sqs',
+                        region_name="us-west-2",
+                        aws_access_key_id='AKIAVANIV7HUBVMFSFGB',
+                        aws_secret_access_key='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')
+    queue = sqs2.get_queue_url('users', '344488016360')
+    print(queue.url)
+
+    # ----opcion3
+    session = boto3.Session(
+        region_name="us-west-2",
+        aws_access_key_id='AKIAVANIV7HUBVMFSFGB',
+        aws_secret_access_key='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'
+    )
+    sqs3 = session.resource('sqs')
+
+    # queue = sqs.get_queue_by_name(QueueName='users')
+    queue3 = sqs3.get_queue_url('users', '344488016360')
+    print(queue3.url)
+
+    queue3.send_message(
+        MessageBody='Mensaje a la cola',
+        MessageAttributes={
+            'username': {
+                'StringValue': 'alejo',
+                'DataType': 'String',
+            },
+            'password': {
+                'StringValue': 'mipass',
+                'DataType': 'String'
+            }
+        }
+    )
+
+    # ----opcion4
+    sqs4 = boto3.client('sqs',
+                        region_name="us-west-2",
+                        aws_access_key_id='AKIAVANIV7HUBVMFSFGB',
+                        aws_secret_access_key='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')
+
+    # queue_url = 'https://sqs.us-west-2.amazonaws.com/344488016360/users'
+    # queue = sqs.get_queue_by_name(QueueName='users')
+    queue4 = sqs4.get_queue_url('https://sqs.us-west-2.amazonaws.com/344488016360/users')
+    print(queue4.url)
+
+    response = queue4.send_message(
+        # QueueUrl=queue_url,
+        MessageBody='Mensaje a la cola',
+        MessageAttributes={
+            'username': {
+                'StringValue': 'alejo',
+                'DataType': 'String',
+            },
+            'password': {
+                'StringValue': 'mipass',
+                'DataType': 'String'
+            }
+        }
+    )
+    print(response['MessageId'])
 
 
 if __name__ == '__main__':
