@@ -19,3 +19,5 @@ typing_extensions==4.10.0
 urllib3==2.2.1
 Werkzeug==2.2.2
 zipp==3.17.0
+boto3==1.34.54
+botocore==1.34.54
