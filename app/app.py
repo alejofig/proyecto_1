@@ -9,6 +9,8 @@ from .models.router import Usuario
 app = Flask(__name__)
 
 API_KEY = os.getenv('API_KEY')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
 
 # Ruta de salud para el health check
@@ -54,11 +56,11 @@ def crear_usuario():
 def enviar_mensajes():
     sqs = boto3.client('sqs',
                        region_name='us-west-2',
-                       aws_access_key_id='AKIAVANIV7HUHUKEMCXZ',
-                       aws_secret_access_key='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')
+                       aws_access_key_id=AWS_ACCESS_KEY_ID,
+                       aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
     mensaje = {
-        "username": "usuario",
+        "username": "usuario2",
         "password": "contrasena"
     }
 
