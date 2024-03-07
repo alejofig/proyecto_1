@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { RouterLinkWithHref } from '@angular/router';
 
 @Component({
-  selector: 'app-sidebard',
+  selector: 'app-header-socios',
   standalone: true,
   imports: [RouterLinkWithHref],
-  templateUrl: './sidebard.component.html',
-  styleUrl: './sidebard.component.scss'
+  templateUrl: './header-socios.component.html',
+  styleUrl: './header-socios.component.scss'
 })
-export class SidebardComponent {
+export class HeaderSociosComponent {
 
 }
