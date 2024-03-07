@@ -5,7 +5,7 @@ import { RouterLinkWithHref } from '@angular/router';
   selector: 'app-sidebard',
   standalone: true,
   imports: [RouterLinkWithHref],
-  templateUrl: './sidehbard.component.html',
+  templateUrl: './sidebard.component.html',
   styleUrl: './sidebard.component.scss'
 })
 export class SidebardComponent {
