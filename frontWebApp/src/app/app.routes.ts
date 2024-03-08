@@ -11,6 +11,8 @@ import { AgregarServicoComponent } from './pages/socios/agregar-servico/agregar-
 import { EstadoCuentaComponent } from './pages/socios/estado-cuenta/estado-cuenta.component';
 import { FormasPagoComponent } from './pages/socios/formas-pago/formas-pago.component';
 import { GestionContratosComponent } from './pages/socios/gestion-contratos/gestion-contratos.component';
+import { DeportesComponent } from './pages/admin/deportes/deportes.component';
+import { IndicadoresComponent } from './pages/admin/indicadores/indicadores.component';
 
 export const routes: Routes = [
     { path: '', component: InicioComponent },
@@ -29,6 +31,9 @@ export const routes: Routes = [
     { path: 'socios/agregar_servicios', component: AgregarServicoComponent},
     { path: 'socios/formas_pago', component: FormasPagoComponent},
     { path: 'socios/gestion_contratos', component: GestionContratosComponent},
+
+    {path: 'admin', component: DeportesComponent},
+    {path: 'admin/indicadores', component: IndicadoresComponent},
 
 
 ];

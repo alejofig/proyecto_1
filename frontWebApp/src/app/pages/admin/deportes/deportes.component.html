@@ -1,0 +1,70 @@
+<div class="row">
+
+    <div class="content col-12 position-relative bg-light">
+        
+        <app-header-admin></app-header-admin>
+
+        <div class=" ps-5 pe-4  my-4 ">
+            <h3>Agregar Deporte</h3>
+            <hr>
+            <form action="/submit-sport" method="post">
+                <div class="form-group mb-3">
+                    <label for="sportName">Nombre del Deporte:</label>
+                    <input type="text" class="form-control" id="sportName" name="sportName" required>
+                </div>
+    
+                <div class="form-group mb-3">
+                    <label for="description">Descripción:</label>
+                    <textarea class="form-control" id="description" name="description" required></textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="text">Promedio Intensidad/frecuencia del Deporte</label>
+                    <input class="form-control" id="Intensidad" name="Intensidad" required>
+                </div>
+    
+                <div class="form-group mb-3">
+                    <label for="contact">Información Adicional:</label>
+                    <input type="text" class="form-control" id="contact" name="contact" required>
+                </div>
+    
+                <input type="submit" class="btn btn-danger" value="Registrar Deporte">
+            </form>
+    
+            <h3 class="mt-5">Deportes Registrados</h3>
+            <hr>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre del Deporte</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Intensidad/frecuencia ejercicio</th>
+                        <th scope="col">Información Adicional</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Ciclismo</td>
+                        <td>Deporte en el que se utiliza una bicicleta para recorrer circuitos al aire libre o en pista cubierta.</td>
+                        <td>2 veces por semana</td>
+                        <td>Contacto.ciclismo.com</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Atletismo</td>
+                        <td>Conjunto de disciplinas deportivas que incluyen carreras, saltos, lanzamientos y pruebas combinadas.</td>
+                        <td>3 veces por semana</td>
+                        <td>Contacto.atletismo.com</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+
+        
+    </div>
+
+    <app-footer></app-footer>
+</div>
