@@ -130,5 +130,4 @@ def crear_usuario():
     if response.status_code != 201:
         return jsonify('Error al enviar el mensaje al endpoint de crear usuarios'), 401
     print(response)
-
     return jsonify('Mensaje enviado correctamente al endpoint de crear usuarios.', 201)
