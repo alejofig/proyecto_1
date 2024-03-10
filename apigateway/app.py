@@ -79,13 +79,13 @@ def registrar_usuario():
 # Endpoint para consulta de usuarios
 @app.route('/consultar-usuario/<id_usuario>', methods=['GET'])
 def consultar_usuario(id_usuario):
-    response = requests.get(f"{URL_USERS}/usuarios", headers={})
+    response = requests.get(f"{URL_USERS}/usuarios/{id_usuario}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('El usuario no existe'), 401
     data = response.json()
     print(data)
-    for user in data:
-        if str(user['id']) == str(id_usuario):
-            return jsonify({"El username del usuario es: ": user['username']}), 201
-    return jsonify('El usuario no existe'), 401
+    return jsonify({"El username del usuario es: ": data['username']}), 201
 
 
 # Endpoint para envío de mensajes
