@@ -41,9 +41,9 @@ def send_post_request(url, writer):
     writer.writerow([start_time, end_time, url, status_code])
 
 # Número de peticiones a enviar
-num_requests = 10
+num_requests = 100
 
-with open('peticiones_http.csv', 'w', newline='') as csvfile:
+with open('peticiones_http_down.csv', 'w', newline='') as csvfile:
     fieldnames = ['Hora_inicio', 'Hora_fin', 'Endpoint', 'Estado']
     writer = csv.writer(csvfile)
     writer.writerow(fieldnames)

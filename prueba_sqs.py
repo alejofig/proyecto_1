@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 import os
 import csv
 load_dotenv()
-
+def generate_random_name(length=8):
+    characters = string.ascii_lowercase
+    return ''.join(random.choice(characters) for _ in range(length))
 # Función para generar una contraseña aleatoria
 def generate_random_password(length=8):
     characters = string.ascii_letters + string.digits + string.punctuation
@@ -23,20 +25,31 @@ url_get = f'{os.getenv("APIGATEWAY_ENDPOINT")}consultar-usuario/1'
 url_post = f'{os.getenv("APIGATEWAY_ENDPOINT")}registrar-usuario'
 
 # Función para enviar peticiones GET
-def send_get_request(url):
+def send_get_request(url, writer):
+    start_time = time.time()
     response = requests.get(url)
-    # Aquí puedes agregar cualquier procesamiento adicional de la respuesta si es necesario
+    end_time = time.time()
+    status_code = response.status_code
+    writer.writerow([start_time, end_time, url, status_code])
 
 # Función para enviar peticiones POST
-def send_post_request(url):
-    payload = {'username': generate_random_username(), 'password': generate_random_password()}  # Datos de usuario y contraseña aleatorios
-    response = requests.post(url, data=payload)
-    # Aquí puedes agregar cualquier procesamiento adicional de la respuesta si es necesario
+def send_post_request(url, writer):
+    start_time = time.time()
+    headers = {'Content-Type': 'application/json'}
+    payload = {'username': generate_random_username(),
+                'password_hash': generate_random_password(),
+                'email': f'{generate_random_name()}@example.com',
+                'nombre': generate_random_name(),
+                }  # Datos de usuario y contraseña aleatorios
+    response = requests.post(url, json=payload, headers=headers)
+    end_time = time.time()
+    status_code = response.status_code
+    writer.writerow([start_time, end_time, url, status_code])
 
 # Número de peticiones a enviar
 num_requests = 100
 
-with open('peticiones_sqs.csv', 'w', newline='') as csvfile:
+with open('peticiones_sqs_down.csv', 'w', newline='') as csvfile:
     fieldnames = ['Hora_inicio', 'Hora_fin', 'Endpoint', 'Estado']
     writer = csv.writer(csvfile)
     writer.writerow(fieldnames)
