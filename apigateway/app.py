@@ -127,6 +127,8 @@ def crear_usuario():
     message_url = json.dumps(mensaje)
 
     response = requests.post(f"{URL_USERS}/usuarios", data=message_url, headers={'Content-Type': 'application/json'})
+    if response.status_code != 201:
+        return jsonify('Error al enviar el mensaje al endpoint de crear usuarios'), 401
     print(response)
 
     return jsonify('Mensaje enviado correctamente al endpoint de crear usuarios.', 201)
