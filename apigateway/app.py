@@ -100,3 +100,31 @@ def enviar_mensaje(user_id):
         return jsonify('No hay mensaje'), 401
 
     return jsonify({"Status: ": 201, "SQS Response Id: ": random.randint(0, 500)})
+
+
+@app.route('/crear_usuario', methods=['POST'])
+def crear_usuario():
+    # Obtiene los datos de registro
+    json_entrada = request.get_json()
+
+    # Valida los campos
+    if 'username' in json_entrada:
+        username = json_entrada['username']
+    else:
+        return jsonify('Hay campos incompletos en la solicitud'), 401
+
+    if 'password' in json_entrada:
+        password = json_entrada['password']
+    else:
+        return jsonify('Hay campos incompletos en la solicitud'), 401
+
+    # Arma el mensaje
+    mensaje = {
+        "username": username,
+        "password": password
+    }
+
+    message_url = json.dumps(mensaje)
+    response = requests.post(f"{URL_USERS}/usuarios", data=message_url, headers={})
+
+    return jsonify('Mensaje enviado correctamente al endpoint de crear usuarios.', 201)
