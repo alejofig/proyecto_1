@@ -4,9 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = declarative_base()
 
+
 class Usuario(db):
     __tablename__ = 'usuarios'
-    
+
     id = Column(Integer, primary_key=True)
     nombre = Column(String(100), nullable=True)
     email = Column(String(100), nullable=True, unique=True)

@@ -14,7 +14,7 @@ class Database:
         try:
             self.create_tables()
         except:
-            pass  
+            pass
 
     def create_tables(self):
         db.metadata.create_all(self.engine)
