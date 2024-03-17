@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CuentaComponent } from './cuenta.component';
+import { HeaderInicioComponent } from './header-inicio.component';
 
-describe('CuentaComponent', () => {
-  let component: CuentaComponent;
-  let fixture: ComponentFixture<CuentaComponent>;
+describe('HeaderInicioComponent', () => {
+  let component: HeaderInicioComponent;
+  let fixture: ComponentFixture<HeaderInicioComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CuentaComponent]
+      imports: [HeaderInicioComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CuentaComponent);
+    fixture = TestBed.createComponent(HeaderInicioComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

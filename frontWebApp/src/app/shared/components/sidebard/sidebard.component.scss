@@ -7,7 +7,6 @@
     position: sticky;
     top: 0;
     z-index: 1000; /* Ajusta según sea necesario */
-    font-family: Arial, cursive;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -17,6 +16,10 @@
     background-color: #000;
     color: #eee;
      /* Cambia el color de fondo según lo desees */
+}
+a {
+    text-decoration: none;
+    color: #eee;
 }
 
 .btn{

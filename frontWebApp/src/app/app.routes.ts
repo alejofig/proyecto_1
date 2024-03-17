@@ -13,6 +13,11 @@ import { FormasPagoComponent } from './pages/socios/formas-pago/formas-pago.comp
 import { GestionContratosComponent } from './pages/socios/gestion-contratos/gestion-contratos.component';
 import { DeportesComponent } from './pages/admin/deportes/deportes.component';
 import { IndicadoresComponent } from './pages/admin/indicadores/indicadores.component';
+import { GenerarPlanEntreComponent } from './pages/generar-plan-entre/generar-plan-entre.component';
+import { MototallerComponent } from './pages/servicios/mototaller/mototaller.component';
+import { PrimerosAuxiliosComponent } from './pages/servicios/primeros-auxilios/primeros-auxilios.component';
+import { EntrenadorComponent } from './pages/servicios/entrenador/entrenador.component';
+import {AlimentacionComponent} from './pages/servicios/alimentacion/alimentacion.component'
 
 export const routes: Routes = [
     { path: '', component: InicioComponent },
@@ -22,10 +27,15 @@ export const routes: Routes = [
 
     { path: 'panel', component: PanelComponent},
     
+    {path: 'generar_plan_entrenamiento', component: GenerarPlanEntreComponent},
     { path: 'plan_entrenamiento', component: PlanEntrenamientoComponent},
     { path: 'eventos', component: EventosComponent},
     { path: 'servicios_terceros', component: ServiciosTercerosComponent},
     { path: 'dashboard', component: DashboardComponent},
+
+    {path: 'servicios/mototaller', component: MototallerComponent},
+    {path: 'servicios/alimentacion', component: AlimentacionComponent},
+    {path: 'servicios/entrenador', component: EntrenadorComponent},
 
     { path: 'socios', component: EstadoCuentaComponent},
     { path: 'socios/agregar_servicios', component: AgregarServicoComponent},

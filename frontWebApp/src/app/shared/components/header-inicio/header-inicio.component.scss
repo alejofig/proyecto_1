@@ -1,0 +1,15 @@
+.header {
+    position: relative;
+    background-color: #000; /* Black */
+    color: #fff; /* White */
+    text-align: center;
+    padding: 15px 0;
+    font-family: Arial, cursive;
+  }
+
+  .idioma{
+    position: absolute;
+    top: 30%;
+    right: 2%;
+    z-index: 1000;
+  }
