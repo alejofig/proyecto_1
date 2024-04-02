@@ -1,0 +1,74 @@
+.body {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.formulario-container {
+    width: 60%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    
+}
+
+h2 {
+    color: #fde3e3;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+.input-group div{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+
+}
+
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box; /* Para incluir el padding en el ancho total */
+}
+
+input[type="submit"] {
+    background-color: #ea2020;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color:#fff;
+}
+
+input[type="submit"]:hover {
+    background-color: #d80404;
+}
+
+label {
+    display: block;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Estilos específicos para mejorar la accesibilidad y la apariencia */
+input[type="checkbox"] + label {
+    cursor: pointer;
+}
+
+

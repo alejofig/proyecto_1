@@ -1,0 +1,73 @@
+<div class="row">
+
+    <div class="content col-12 position-relative bg-light ">
+        
+        <app-header-admin></app-header-admin>
+
+        <div class=" ps-5 pe-4  my-4 ">
+            <h3>Agregar Indicador</h3>
+            <hr>
+            <form action="/submit-indicator" method="post">
+                <div class="form-group mb-3">
+                    <label for="indicatorName">Nombre del Indicador:</label>
+                    <input type="text" class="form-control" id="indicatorName" name="indicatorName" required>
+                </div>
+    
+                <div class="form-group mb-3">
+                    <label for="value">Sensor Utilizado:</label>
+                    <input type="number" class="form-control" id="value" name="value" step="0.01" required>
+                </div>
+    
+                <div class="form-group mb-3">
+                    <label for="unit">Unidad de Medida:</label>
+                    <input type="text" class="form-control" id="unit" name="unit" required>
+                </div>
+    
+                <div class="form-group mb-3">
+                    <label for="athlete">Calculo a Utilizar:</label>
+                    <input type="text" class="form-control" id="athlete" name="athlete" required>
+                </div>
+    
+                <input type="submit" class="btn btn-danger" value="Registrar Indicador">
+            </form>
+
+    
+            <h3 class="mt-5">Indicadores Registrados</h3>
+            <hr>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre del Indicador</th>
+                        <th scope="col">Sensor Utilizado</th>
+                        <th scope="col">Unidad de Medida</th>
+                        <th scope="col">Cálculo a Utilizar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ejemplo de filas de indicadores deportivos registrados -->
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>VO2 Máx</td>
+                        <td>Pulsómetro</td>
+                        <td>ml/kg/min</td>
+                        <td>Metodología XYZ</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>FTP (Potencia Umbral Funcional)</td>
+                        <td>Ciclocomputador</td>
+                        <td>watts</td>
+                        <td>95% de la media de potencia máxima en 20 minutos</td>
+                    </tr>
+                    <!-- Agrega más filas según sea necesario -->
+                </tbody>
+            </table>
+
+            
+        </div>
+
+        
+    </div>
+    <app-footer></app-footer>
+</div>

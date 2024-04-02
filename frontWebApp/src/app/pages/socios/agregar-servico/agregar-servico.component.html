@@ -1,0 +1,55 @@
+<div class="row ">
+
+    <div class="content col-12 position-relative  bg-light">
+        
+        <app-header-socios></app-header-socios>
+        
+        <div class="body">
+
+        <div class="formulario-container bg-dark">
+            <h2>Registro de Servicio Deportivo</h2>
+            <hr>
+            <form action="/submit-service" method="post">
+                <div class="input-group">
+                    <label for="serviceName">Nombre del Servicio:</label>
+                    <input type="text" id="serviceName" name="serviceName" required>
+                </div>
+    
+                <div class="input-group">
+                    <label for="serviceType">Tipo de Servicio:</label>
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="bebidas">Bebidas</option>
+                        <option value="transporte">Transporte</option>
+                        <option value="elementos deportivos">Elementos Deportivos</option>
+                    </select>
+                </div>
+    
+                <div class="input-group">
+                    <label for="description">Descripción:</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+    
+                <div class="input-group">
+                    <label for="price">Precio:</label>
+                    <input type="text" id="price" name="price" required>
+                </div>
+    
+                <div class="input-group">
+                    <label for="contact">Información Adicional:</label>
+                    <input type="text" id="contact" name="contact" required>
+                </div>
+    
+                
+    
+                <input type="submit" value="Registrar Servicio">
+            </form>
+        </div>
+    </div>
+
+
+
+    </div>
+    <app-footer></app-footer>
+
+
+</div>

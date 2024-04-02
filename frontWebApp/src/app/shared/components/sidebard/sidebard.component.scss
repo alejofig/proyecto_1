@@ -1,0 +1,36 @@
+.contenedor{
+    position: relative;
+    height: 100%;
+}
+.side_bard {
+    
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ajusta según sea necesario */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    color: #eee;
+     /* Cambia el color de fondo según lo desees */
+}
+a {
+    text-decoration: none;
+    color: #eee;
+}
+
+.btn{
+    font-size: 14px;
+    padding: 4px 18px ;
+}
+
+.name {
+    font-size: 20px;
+}
+
+.b{
+    color:#eee;
+}
