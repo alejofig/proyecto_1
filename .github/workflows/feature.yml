@@ -19,6 +19,7 @@ jobs:
 
   # Integra las ramas develop -> feature.
   automerge-1:
+    permissions: write-all
     name: Merge 'develop -> feature'
     runs-on: ubuntu-latest
     outputs:
