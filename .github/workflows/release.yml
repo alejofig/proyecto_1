@@ -2,8 +2,7 @@
 name: Release
 on:
   push:
-    branches:
-      - 'develop'
+    branches: [ develop ]
 
 jobs:
   # La palabra clave que activa el job es "(crearRelease)".
