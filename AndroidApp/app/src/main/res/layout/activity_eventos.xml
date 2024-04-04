@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EventosActivity"
+    android:background="@color/black_inter"
+    android:paddingTop="40dp"
+    >
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="30dp"
+        android:contentDescription="volver"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/titulo_eventos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="30dp"
+        android:text="Calendario de Eventos"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/backBtn"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_eventos"
+        >
+        <LinearLayout
+            android:id="@+id/heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="30dp"
+            >
+
+
+            <com.applandeo.materialcalendarview.CalendarView
+                android:id="@+id/calendarViewItem"
+                android:layout_width="match_parent"
+                android:layout_height="431dp"
+                android:layout_marginTop="10dp"
+                app:abbreviationsBarColor="@color/black_inter"
+                app:abbreviationsLabelsColor="@color/white"
+                app:anotherMonthsDaysLabelsColor="@color/material_dynamic_neutral40"
+                app:daysLabelsColor="@color/white"
+                app:eventsEnabled="true"
+                app:headerColor="@color/black"
+                app:highlightedDaysLabelsColor="@color/red"
+                app:pagesColor="@color/black_inter"
+
+                app:selectionColor="@color/teal_700"
+                app:todayLabelColor="@color/rose">
+
+                <TextView
+                    android:id="@+id/dayLabel"
+                    android:layout_width="1dp"
+                    android:layout_height="2dp" />
+            </com.applandeo.materialcalendarview.CalendarView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerEvents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingBottom="170dp"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:padding="20dp"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entrenamineto"
+            android:padding="20dp"
+            android:textColor="@color/white" />
+
+        <FrameLayout
+            android:id="@+id/btn_eventos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Eventos">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="boton de eventos"
+                android:src="@drawable/baseline_calendar_month_24"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

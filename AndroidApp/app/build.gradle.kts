@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-
+    implementation("com.applandeo:material-calendar-view:1.9.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
