@@ -21,7 +21,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           source-branch: develop
           target-branch: ${{ github.ref }}
-          commit-message: "Integra 'develop' en -> 'feature'"
+          commit-message: "Actualizar rama feature con respecto a rama develop"
       - name: prepare_release
         id: prepare_release
         run: |
@@ -68,4 +68,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           source-branch: ${{ github.ref }}
           target-branch: develop
-          commit-message: "Integra 'feature' en -> 'develop' (crearRelease)"
+          commit-message: "Integrar rama feature en develop (crearRelease)"
