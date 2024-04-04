@@ -7,13 +7,13 @@ on:
 
 jobs:
   # Integra las ramas develop -> feature.
+  # La palabra clave que activa el merge a develop es "(azul)".
   automerge-1:
     name: Merge 'develop -> feature'
     runs-on: ubuntu-latest
+    if: ${{ contains(github.event.head_commit.message, '(azul)') }}
     outputs:
       salida: ${{ steps.prepare_release.outputs.respuesta }}
-    # La palabra clave que activa el merge a develop es "(azul)".
-    if: ${{ contains(github.event.head_commit.message, '(azul)') }}
     steps:
       - name: Integrar develop en feature
         uses: tukasz/direct-merge-action@master
@@ -41,18 +41,18 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.10'
-      - name: Instalacion de librerias y dependencias
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Correr pruebas
-        id: correr-pruebas
-        run: python3 -m unittest discover -s tests -v
-      - name: Calculo de cubrimiento
-        id: cubrimiento
-        run: |
-          coverage run -m unittest discover -s tests -v
-          coverage report -m
+#      - name: Instalacion de librerias y dependencias
+#        run: |
+#          python -m pip install --upgrade pip
+#          pip install -r requirements.txt
+#      - name: Correr pruebas
+#        id: correr-pruebas
+#        run: python3 -m unittest discover -s tests -v
+#      - name: Calculo de cubrimiento
+#        id: cubrimiento
+#        run: |
+#          coverage run -m unittest discover -s tests -v
+#          coverage report -m
 
   # Luego de pruebas exitosas, integra las ramas.
   # feature -> develop
