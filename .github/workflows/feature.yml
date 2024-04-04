@@ -36,9 +36,9 @@ jobs:
     needs: 'automerge-1'
     steps:
       - name: Checkout de repositorio
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Configuracion de entorno de Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 #      - name: Instalacion de librerias y dependencias
