@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvTrainingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Entrenamiento"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="01:59:05"
+        android:textSize="64sp"
+        android:textColor="#FFEB3B"
+        android:layout_below="@id/tvTrainingTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
+
+    <TextView
+        android:id="@+id/tvActiveCalories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="38 Calorías activas"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/tvTimer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/tvTotalCalories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="63 Calorías totales"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/tvTimer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp" />
+
+    <TextView
+        android:id="@+id/tvPower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="80 pulsaciones"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/tvTimer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="76dp" />
+
+    <TextView
+        android:id="@+id/tvHeartRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="80 pulsaciones"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/tvTimer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="106dp" />
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="24dp">
+
+        <Button
+            android:id="@+id/btnPause"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pausar"
+            android:backgroundTint="#EC0000"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnFinish"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Finalizar"
+            android:backgroundTint="#EC0000" />
+    </LinearLayout>
+
+</RelativeLayout>
