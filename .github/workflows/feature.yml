@@ -86,7 +86,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ needs.prepare-release.outputs.salida }}
+          tag_name: ${{ needs.automerge-2.outputs.salida }}
           release_name: ${{ needs.prepare-release.outputs.salida }}
           draft: false
           prerelease: false
