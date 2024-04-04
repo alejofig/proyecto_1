@@ -6,6 +6,7 @@ on:
       - 'feature**'
 
 jobs:
+  # Parte de Feature:
   # Integra las ramas develop -> feature.
   # La palabra clave que activa el merge a develop es "(azul)".
   automerge-1:
@@ -70,6 +71,7 @@ jobs:
           target-branch: develop
           commit-message: "Integrar rama feature en develop (crearRelease)"
 
+  # Parte de Release:
   # La palabra clave que activa el job es "(crearRelease)".
   prepare-release:
     name: Prepare Release
