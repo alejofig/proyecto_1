@@ -23,7 +23,7 @@ jobs:
   crear-release:
     name: Create release
     runs-on: ubuntu-latest
-    needs: prepare-release
+    needs: 'prepare-release'
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -46,7 +46,7 @@ jobs:
   pull-develop:
     name: Pull develop
     runs-on: ubuntu-latest
-    needs: crear-release
+    needs: 'crear-release'
     steps:
       - name: Integrar feature en develop
         uses: tukasz/direct-merge-action@master
@@ -76,7 +76,7 @@ jobs:
   run-tests-2:
     name: Pre-integration tests
     runs-on: ubuntu-latest
-    needs: automerge-3
+    needs: 'automerge-3'
     steps:
       - name: Checkout de repositorio
         uses: actions/checkout@v2
@@ -102,7 +102,7 @@ jobs:
   automerge-4:
     name: Merge 'release -> main'
     runs-on: ubuntu-latest
-    needs: [ run-tests-3, prepare-release ]
+    needs: [ run-tests-2, prepare-release ]
     steps:
       - name: Integrar release en main
         uses: tukasz/direct-merge-action@master

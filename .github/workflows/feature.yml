@@ -14,7 +14,6 @@ jobs:
       salida: ${{ steps.prepare_release.outputs.respuesta }}
     # La palabra clave que activa el merge a develop es "(azul)".
     if: ${{ contains(github.event.head_commit.message, '(azul)') }}
-    needs: run-tests
     steps:
       - name: Integrar develop en feature
         uses: tukasz/direct-merge-action@master
@@ -34,7 +33,7 @@ jobs:
   run-tests-1:
     name: Integration tests
     runs-on: ubuntu-latest
-    needs: automerge
+    needs: 'automerge-1'
     steps:
       - name: Checkout de repositorio
         uses: actions/checkout@v2
@@ -60,7 +59,7 @@ jobs:
   automerge-2:
     name: Merge 'feature -> develop'
     runs-on: ubuntu-latest
-    needs: 'run-tests-2'
+    needs: 'run-tests-1'
     steps:
       - name: Integrar feature en develop
         uses: tukasz/direct-merge-action@master
