@@ -6,6 +6,17 @@ on:
       - 'feature**'
 
 jobs:
+  pre-run:
+    name: Pre-integration tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout de repositorio
+        uses: actions/checkout@v2
+      - name: Configuracion de entorno de Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
   # Integra las ramas develop -> feature.
   automerge-1:
     name: Merge 'develop -> feature'
@@ -14,6 +25,7 @@ jobs:
       salida: ${{ steps.prepare_release.outputs.respuesta }}
     # La palabra clave que activa el merge a develop es "(azul)".
     if: ${{ contains(github.event.head_commit.message, '(azul)') }}
+    needs: pre-run
     steps:
       - name: Integrar develop en feature
         uses: tukasz/direct-merge-action@master
