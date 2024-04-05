@@ -30,20 +30,21 @@ async def callback(code: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/protected/")
-async def protected_route(token: str = Depends(oauth2_scheme)):
-    try:
-        user = Auth0.get_current_user(token)
-        print(user)
-        return {"message": "Ruta protegida, solo para usuarios autenticados"}
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=401, detail="No se pudo validar las credenciales")
+# @router.get("/protected/")
+# async def protected_route(token: str = Depends(oauth2_scheme)):
+#     try:
+#         user = Auth0.get_current_user(token)
+#         print(user)
+#         return {"message": "Ruta protegida, solo para usuarios autenticados"}
+#     except Exception as e:
+#         print(e)
+#         raise HTTPException(status_code=401, detail="No se pudo validar las credenciales")
 
 
 @router.post("/register/")  # Deshabilitar la generación automática del modelo de respuesta
 async def register_user(user_data: User):
     response = Auth0.register_user(user_data.email, user_data.password)
     user_data.auth0_id = response["user_id"]
-    create_user(user_data)
+    result = create_user(user_data)
+    print("resultado: ",result)
     return {"message": "User registered successfully"}
