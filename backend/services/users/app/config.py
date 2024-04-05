@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 DB_USER = os.getenv("DB_USER","prueba")
 DB_PASSWORD = os.getenv("DB_PASSWORD","prueba")
-DB_HOST = os.getenv("DB_HOST","users")
+DB_HOST = os.getenv("DB_HOST","localhost")
 DB_NAME = os.getenv("DB_NAME","prueba")
 DB_PORT = os.getenv("DB_PORT","5432")
 AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
