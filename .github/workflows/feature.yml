@@ -67,7 +67,7 @@ jobs:
       - name: Start FastAPI App
         working-directory: ./backend/services/users
         run: |
-          nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
       - name: Run Tests
         working-directory: ./backend/services/users
         run: |
