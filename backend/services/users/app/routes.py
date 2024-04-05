@@ -45,6 +45,5 @@ async def callback(code: str):
 async def register_user(user_data: User):
     response = Auth0.register_user(user_data.email, user_data.password)
     user_data.auth0_id = response["user_id"]
-    result = create_user(user_data)
-    print("resultado: ",result)
+    create_user(user_data)
     return {"message": "User registered successfully"}
