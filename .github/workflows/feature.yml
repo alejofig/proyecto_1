@@ -75,7 +75,7 @@ jobs:
       - name: Run cov report
         working-directory: ./backend/services/users
         run: |
-          coverage report --fail-under=70
+          coverage report --fail-under=85
 
   # Luego de pruebas exitosas, integra las ramas.
   # feature -> develop
