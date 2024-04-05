@@ -10,7 +10,6 @@ def test_login_page():
 
 
 def test_register_user():
-    # You should mock the data for registering a user
     user_data = generate_random_user()
     response = client.post("/register/", json=user_data)
     assert response.status_code == 200

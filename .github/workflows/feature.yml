@@ -6,6 +6,7 @@ on:
       - 'feature**'
 
 jobs:
+
   # Parte de Feature:
   # Integra las ramas develop -> feature.
   # La palabra clave que activa el merge a develop es "(azul)".
@@ -34,6 +35,12 @@ jobs:
   run-tests-1:
     name: Integration tests
     runs-on: ubuntu-latest
+    env:
+      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+      AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+      AUTH0_API_IDENTIFIER: ${{ secrets.AUTH0_API_IDENTIFIER }}
+      ALGORITHM: ${{ secrets.ALGORITHM }}
     services:
       users:
         image: postgres
@@ -52,13 +59,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Set up environment variables for dev
-        run: |
-          export AUTH0_CLIENT_ID=3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT
-          export AUTH0_CLIENT_SECRET=SnUDnO1lL3CnvzeCDFFUwwsFABY-Szfr-lRkFyshOf4uSnCiM6EHMgvCDDVQ8v1u
-          export AUTH0_DOMAIN=dev-s8qwnnguwcupqg2o.us.auth0.com
-          export AUTH0_API_IDENTIFIER=https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/
-          export ALGORITHM=RS256
       - name: Install Dependencies
         working-directory: ./backend/services/users
         run: |
