@@ -52,6 +52,13 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+      - name: Set up environment variables for dev
+        run: |
+          export AUTH0_CLIENT_ID= ${{ secrets.AUTH0_CLIENT_ID }}
+          export AUTH0_CLIENT_SECRET= ${{ secrets.AUTH0_CLIENT_SECRET }}
+          export AUTH0_DOMAIN= ${{ secrets.AUTH0_DOMAIN }}
+          export AUTH0_API_IDENTIFIER= ${{ secrets.AUTH0_API_IDENTIFIER }}
+          export ALGORITHM= ${{ secrets.ALGORITHM }}
       - name: Install Dependencies
         working-directory: ./backend/services/users
         run: |
