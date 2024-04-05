@@ -131,3 +131,13 @@ def crear_usuario():
         return jsonify('Error al enviar el mensaje al endpoint de crear usuarios'), 401
     print(response)
     return jsonify('Mensaje enviado correctamente al endpoint de crear usuarios.', 201)
+
+@app.route('api/eventos', methods=['GET'])
+def consultar_eventos():
+    response = requests.get(f"{URL_USERS}/eventos", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('No hay eventos'), 401
+    data = response.json()
+    print(data)
+    return jsonify(data), 201
