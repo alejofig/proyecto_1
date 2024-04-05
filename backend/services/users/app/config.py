@@ -2,11 +2,11 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_NAME = os.getenv("DB_NAME")
-DB_PORT = os.getenv("DB_PORT")
+DB_USER = os.getenv("DB_USER","prueba")
+DB_PASSWORD = os.getenv("DB_PASSWORD","prueba")
+DB_HOST = os.getenv("DB_HOST","users")
+DB_NAME = os.getenv("DB_NAME","prueba")
+DB_PORT = os.getenv("DB_PORT","5432")
 AUTH0_DOMAIN = os.getenv("AUTH0_DOMAIN")
 AUTH0_CLIENT_ID= os.getenv("AUTH0_CLIENT_ID")
 AUTH0_CLIENT_SECRET= os.getenv("AUTH0_CLIENT_SECRET")
