@@ -1,6 +1,9 @@
 # app/routes.py
 from typing import List
 from fastapi import APIRouter, HTTPException, Depends
+from app.models import Evento
+from app.database import create_event, consultar_eventos
+
 import json
 
 router = APIRouter()
@@ -8,22 +11,12 @@ router = APIRouter()
 
 @router.get("/eventos")
 async def consultar_enventos():
-    eventos = [
-        {
-        "fecha": "2024-04-10",
-        "name": "Media Maratón Cali",
-        "lugar" : "Zoológico, Cali"
-        },
-        {
-        "fecha": "2024-04-13",
-        "name": "La Maraton ETB",
-        "lugar" : "ETB, Bogota"
-        },
-        {
-        "fecha": "2024-04-25",
-        "name": "Ruta por la paz",
-        "lugar" : "Intercontinental, Cali"
-        }       
-    ]
+    eventos = consultar_eventos()
+    return eventos
 
-    return json.dumps(eventos)
+
+@router.post("/eventos")
+async def crear_evento(event_data: Evento ):
+    
+    evento = create_event(event_data)
+    return evento
