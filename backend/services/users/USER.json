@@ -1,0 +1,16 @@
+{
+  "id": 0,
+  "username": "alejo",
+  "password": "135.Simetrik24",
+  "email": "alejofig@hotmail.com",
+  "nombre": "Alejo",
+  "apellido": "Fig",
+  "tipo_documentacion": "cc",
+  "numero_identificacion": "1032474702",
+  "genero": "M",
+  "edad": 28,
+  "peso": 85,
+  "pais_nacimiento": "Colombia",
+  "ciudad_nacimiento": "Bogota",
+  "antiguedad_residencia": 10
+}
