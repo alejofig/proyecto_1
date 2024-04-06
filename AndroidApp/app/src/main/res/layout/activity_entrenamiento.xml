@@ -5,6 +5,17 @@
     android:background="#000000"
     android:padding="16dp">
 
+    <!-- Icono de flecha hacia atrás -->
+    <ImageView
+        android:id="@+id/ivBackArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="5dp"/>
+
+    <!-- Título de Entrenamiento ajustado -->
     <TextView
         android:id="@+id/tvTrainingTitle"
         android:layout_width="wrap_content"
@@ -12,64 +23,173 @@
         android:text="Entrenamiento"
         android:textSize="24sp"
         android:textColor="#FFFFFF"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@id/ivBackArrow"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="24dp"/>
 
+    <!-- Icono de campana -->
+    <ImageView
+        android:id="@+id/ivBell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/notifications"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"/>
+
+    <!-- Temporizador -->
     <TextView
         android:id="@+id/tvTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="01:59:05"
-        android:textSize="64sp"
+        android:textSize="70sp"
         android:textColor="#FFEB3B"
         android:layout_below="@id/tvTrainingTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="10dp" />
 
-    <TextView
-        android:id="@+id/tvActiveCalories"
-        android:layout_width="wrap_content"
+    <!-- Container de calorías activas y potencia -->
+    <LinearLayout
+        android:id="@+id/containerCalories"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="38 Calorías activas"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
+        android:orientation="horizontal"
         android:layout_below="@id/tvTimer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="10dp">
 
-    <TextView
-        android:id="@+id/tvTotalCalories"
-        android:layout_width="wrap_content"
+        <!-- Calorías activas -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvActiveCaloriesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calorías activas"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tvActiveCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="38"
+                android:textSize="32sp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <!-- Potencia -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPowerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Potencia (Kg)"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tvPower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="32sp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Container de calorías totales y pulsaciones -->
+    <LinearLayout
+        android:id="@+id/containerActiveCaloriesPower"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="63 Calorías totales"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:layout_below="@id/tvTimer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp" />
+        android:orientation="horizontal"
+        android:layout_below="@id/containerCalories"
+        android:layout_marginTop="10dp">
 
-    <TextView
-        android:id="@+id/tvPower"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="80 pulsaciones"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:layout_below="@id/tvTimer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="76dp" />
+        <!-- Calorías totales -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvHeartRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="80 pulsaciones"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:layout_below="@id/tvTimer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="106dp" />
+            <TextView
+                android:id="@+id/tvTotalCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calorías totales"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF" />
 
+            <TextView
+                android:id="@+id/tvTotalCaloriesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="63"
+                android:textSize="32sp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <!-- Pulsaciones -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPulsaciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pulsaciones"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvHeartRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="80"
+                    android:textSize="32sp"
+                    android:textColor="#EC0000"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    android:id="@+id/tvHeartRateLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="♥"
+                    android:textSize="32sp"
+                    android:textColor="#EC0000" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <!-- Botones Pausar y Finalizar -->
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
@@ -77,7 +197,9 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="24dp"
+        android:layout_below="@id/containerActiveCaloriesPower"
+        android:layout_marginTop="10dp">
 
         <Button
             android:id="@+id/btnPause"
@@ -85,7 +207,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Pausar"
-            android:backgroundTint="#EC0000"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#D32F2F"
             android:layout_marginEnd="8dp" />
 
         <Button
@@ -94,7 +217,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Finalizar"
-            android:backgroundTint="#EC0000" />
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#D32F2F" />
     </LinearLayout>
 
 </RelativeLayout>

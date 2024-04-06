@@ -117,17 +117,17 @@ class EntrenamientoActivity : AppCompatActivity() {
 
 
     private fun calculateTotalCalories(): Int {
-        // Lógica de cálculo de calorías totales
+        // TODO:Lógica de cálculo de calorías totales
         return (Math.random() * 7).toInt() // Valor simulado
     }
 
     private fun calculatePowerOutput(): Int {
-        // Lógica de cálculo de potencia en kg
+        // TODO:Lógica de cálculo de potencia en kg
         return (Math.random() * 100).toInt() // Valor simulado
     }
 
     private fun calculateHeartRate(): Int {
-        // Lógica de cálculo de pulsaciones
+        // TODO:Lógica de cálculo de pulsaciones
         return 60 + (Math.random() * 100).toInt() // Un rango de frecuencia cardíaca de reposo a activa
     }
 
