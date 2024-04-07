@@ -3,6 +3,9 @@ data/
 terraform.tfstate
 terraform.tfstate.backup
 
+**/venv
+**/.env
+
 # Compiled class file
 *.class
 /bin
