@@ -8,7 +8,8 @@ class Evento(SQLModel, table=True):
     fecha: date
     hora: time
     nombre: str
-    lugar: str
+    ciudad: str
+    pais: str
     descripcion: Optional[str] = None
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
