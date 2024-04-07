@@ -1,72 +1,72 @@
 <div class="row">
-    <div class="col-3 p-0">
-        <app-sidebard></app-sidebard>
+  <div class="col-3 p-0">
+    <app-sidebard></app-sidebard>
+  </div>
+  <div class="content col-9 position-relative px-0">
+    <div class="position-sticky top-0 z-3">
+      <app-header></app-header>
     </div>
-    <div class="content col-9 position-relative px-0">
-       <div class="position-sticky top-0 z-3">
-          <app-header></app-header>
-       </div>
     <div class="p-4 mx-5">
-       <h3><b>Registrar Plan de Entrenamiento</b></h3>
-       <hr>
-       <form>
+      <h3><b>Registrar Plan de Entrenamiento</b></h3>
+      <hr>
+      <form [formGroup]="planEntrenamientoForm">
         <div class="bg-light p-4 rounded-3">
-            <h4>Seleciona el Tipo de Plan de Entrenamiento</h4>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  Plan de Entrenamiento Recomendado Basico
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label" for="flexRadioDefault2">
-                  Plan de Entrenamiento Recomendado Avanzado
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label" for="flexRadioDefault2">
-                  Plan de Entrenamiento Personalizado
-                </label>
-              </div>
+          <h4>Seleciona el Tipo de Plan de Entrenamiento</h4>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">
+              Plan de Entrenamiento Recomendado Basico
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              Plan de Entrenamiento Recomendado Avanzado
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              Plan de Entrenamiento Personalizado
+            </label>
+          </div>
         </div>
         <hr>
         <br>
         <h5>Detalles Plan de Entrenamiento</h5>
-        
+
         <select class="form-select my-3" aria-label="Default select example">
-            <option selected>Deporte</option>
-            <option value="1">Atletismo</option>
-            <option value="2">Ciclismo</option>
-          </select>
+          <option selected>Deporte</option>
+          <option value="1">Atletismo</option>
+          <option value="2">Ciclismo</option>
+        </select>
 
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Nombre</span>
-            <input type="text" class="form-control" placeholder="Nombre Deseado" aria-label="Username" aria-describedby="basic-addon1">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">Nombre</span>
+          <input type="text" class="form-control" formControlName="nombre" placeholder="Nombre Deseado" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+
+        <div class="row">
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="basic-addon1">Entrenamientos por Semana</span>
+            <input type="number" class="form-control" formControlName="numeroEntrenamientosSemana" placeholder="0" aria-label="Username" aria-describedby="basic-addon1">
           </div>
 
-          <div class="row">
-            <div class="input-group mb-3 col">
-                <span class="input-group-text" id="basic-addon1">Entrenamientos por Semana</span>
-                <input type="number" class="form-control" placeholder="0" aria-label="Username" aria-describedby="basic-addon1">
-              </div>
-    
-              <div class="input-group mb-3 col">
-                <span class="input-group-text" id="basic-addon1">Objetivo de distancia por Entrenamiento</span>
-                <input type="number" class="form-control" placeholder="0" aria-label="Username" aria-describedby="basic-addon1">
-              </div>
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="basic-addon1">Objetivo de distancia por Entrenamiento</span>
+            <input type="number" class="form-control" formControlName="objetivoDistanciaEntrenamiento" placeholder="0" aria-label="Username" aria-describedby="basic-addon1">
           </div>
-           
-           <a routerLink="/plan_entrenamiento">
-            <button type="submit" class="btn btn-danger">Generar</button>
-           </a>
+        </div>
 
-       </form>
+        <a routerLink="/plan_entrenamiento">
+          <button type="submit" class="btn btn-danger">Generar</button>
+        </a>
+
+      </form>
 
     </div>
 
 
-    </div>
-    
+  </div>
+
 </div>

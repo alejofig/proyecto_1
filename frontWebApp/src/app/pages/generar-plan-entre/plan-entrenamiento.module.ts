@@ -2,7 +2,6 @@ import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {GenerarPlanEntreComponent} from "./generar-plan-entre.component";
 
 @NgModule({
   imports: [
@@ -14,4 +13,5 @@ import {GenerarPlanEntreComponent} from "./generar-plan-entre.component";
   exports: [],
   declarations: []
 })
-export class PlanEntrenamientoModule { }
+export class PlanEntrenamientoModule {
+}
