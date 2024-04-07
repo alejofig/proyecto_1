@@ -13,5 +13,5 @@ import { RouterLinkWithHref } from '@angular/router';
   styleUrl: './generar-plan-entre.component.scss'
 })
 export class GenerarPlanEntreComponent {
-
+  // hola
 }
