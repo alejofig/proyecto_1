@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderSociosComponent } from './header-socios.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('HeaderSociosComponent', () => {
   let component: HeaderSociosComponent;
@@ -8,10 +9,17 @@ describe('HeaderSociosComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderSociosComponent]
+      imports: [HeaderSociosComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+          }
+        }
+      ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(HeaderSociosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

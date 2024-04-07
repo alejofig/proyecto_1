@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GestionContratosComponent } from './gestion-contratos.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('GestionContratosComponent', () => {
   let component: GestionContratosComponent;
@@ -8,10 +9,17 @@ describe('GestionContratosComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GestionContratosComponent]
+      imports: [GestionContratosComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+          }
+        }
+      ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(GestionContratosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

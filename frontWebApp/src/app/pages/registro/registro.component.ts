@@ -66,12 +66,7 @@ export class RegistroComponent {
   }
   validarFormulario(): boolean {
 
-    this.checkIfEmailExists(this.email);
-    const passwordErrorMessage = this.validarPassword();
-    if (passwordErrorMessage) {
-        alert(passwordErrorMessage);
-        return false;
-    } else if (!this.username) {
+    if (!this.username) {
       alert('Por favor ingresa tu nombre.');
       return false;
     } else if (!this.lastname) {
@@ -96,10 +91,13 @@ export class RegistroComponent {
       alert('Por favor ingresa una altura válida.');
       return false;
     }
-
+    const passwordErrorMessage = this.validarPassword();
+    if (passwordErrorMessage) {
+        alert(passwordErrorMessage);
+        return false;
+    }
+    this.checkIfEmailExists(this.email);
     console.log(this.create_form_data());
-    // Solicitud al backend registro.
-    // Redirect al login con un mensaje que diga que su registro está siendo procesado.
     return true;
   }
 
