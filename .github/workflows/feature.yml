@@ -30,8 +30,9 @@ jobs:
           echo "::set-output name=respuesta::$(echo "${{ github.event.head_commit.message }}" | awk '{print $NF}')"
 
   run-tests-front:
-    name: Build and test front-end
+    name: Build and test front-end 
     runs-on: ubuntu-latest
+    needs: 'automerge-1'
     steps:
       - name: Checkout del repositorio
         uses: actions/checkout@v2
@@ -55,21 +56,10 @@ jobs:
         working-directory: ./frontWebApp/
         run: ng build 
   
-      # Ejecuta las pruebas de Angular
+      # Ejecuta las pruebas de Angular y falla si es menor al 80%
       - name: Ejecutar pruebas de Angular
         working-directory: ./frontWebApp/
-        run: ng test --watch=false --code-coverage
-  
-      # Verificar el porcentaje de cobertura
-      - name: Verificar cobertura
-        working-directory: ./frontWebApp/
-        run: |
-          COVERAGE_THRESHOLD=80
-          coverage=$(cat coverage/lcov.info | grep -oP '^.*(?=%)')
-          if [ "$coverage" -lt "$COVERAGE_THRESHOLD" ]; then
-            echo "La cobertura es inferior al 80% ($coverage%)."
-            exit 1
-          fi
+        run: ng test --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI
       
   # Luego de integrar con develop, corre las pruebas de cobertura.
   # Si pasan bien, integra feature a develop.
@@ -159,7 +149,7 @@ jobs:
   automerge-2:
     name: Merge 'feature -> develop'
     runs-on: ubuntu-latest
-    needs: 'run-tests-1'
+    needs: ['run-tests-1', 'run-tests-front']
     steps:
       - name: Integrar feature en develop
         uses: tukasz/direct-merge-action@master
