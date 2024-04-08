@@ -10,7 +10,8 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-threshold-reporter')
     ],
     client: {
       jasmine: {
@@ -32,8 +33,14 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'kjhtml','threshold'],
     browsers: ['ChromeHeadlessCI'],
+    thresholdReporter: {
+      statements: 80,
+      branches: 80,
+      functions: 80,
+      lines: 80
+    },
     customLaunchers: {
       ChromeHeadlessCI: {
         base: 'ChromeHeadless',
