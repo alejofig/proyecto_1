@@ -6,7 +6,6 @@ on:
       - 'feature**'
 
 jobs:
-
   # Parte de Feature:
   # Integra las ramas develop -> feature.
   # La palabra clave que activa el merge a develop es "(azul)".
