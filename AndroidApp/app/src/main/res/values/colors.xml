@@ -12,5 +12,7 @@
     <color name="red">#BA0C0C</color>
     <color name="red_varian">#A80F0F</color>
     <color name="rose">#D16363</color>
-    <color name="yellow">#F1B453</color>
+    <color name="yellow">#FFEB3B"</color>
+    <color name="gray">#554949</color>
+
 </resources>

@@ -27,12 +27,19 @@
             android:padding="20dp"
             android:textColor="@color/white" />
 
-        <TextView
+
+        <FrameLayout
+            android:id="@+id/btn_entrenamiento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Entrenamineto"
-            android:padding="20dp"
-            android:textColor="@color/white" />
+            android:padding="16dp"
+            android:text="entrenamiento">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="boton de entrenamiento"
+                android:src="@drawable/baseline_directions_run_24"/>
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/btn_eventos"
