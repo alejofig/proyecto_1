@@ -44,20 +44,25 @@ jobs:
   
       # Instala las dependencias de Angular
       - name: Instalar dependencias de Angular
+        working-directory: ./frontWebApp/
         run: npm install -g @angular/cli
       - name: Instalar dependencias
+        working-directory: ./frontWebApp/
         run: npm install
   
       # Compila la aplicación Angular
       - name: Compilar la aplicación Angular
+        working-directory: ./frontWebApp/
         run: ng build --prod
   
       # Ejecuta las pruebas de Angular
       - name: Ejecutar pruebas de Angular
+        working-directory: ./frontWebApp/
         run: ng test --watch=false --code-coverage
   
       # Verificar el porcentaje de cobertura
       - name: Verificar cobertura
+        working-directory: ./frontWebApp/
         run: |
           COVERAGE_THRESHOLD=80
           coverage=$(cat coverage/lcov.info | grep -oP '^.*(?=%)')
