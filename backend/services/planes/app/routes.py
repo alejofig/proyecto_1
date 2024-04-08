@@ -1,10 +1,6 @@
-# app/routes.py
-from typing import List
-from fastapi import APIRouter, HTTPException, Depends
-from app.models import Evento
 from app.database import create_event, consultar_eventos
-
-import json
+from app.models import Evento
+from fastapi import APIRouter
 
 router = APIRouter()
 

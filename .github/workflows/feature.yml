@@ -110,6 +110,8 @@ jobs:
       #    cd AndroidApp # Asegúrate de estar en el directorio correcto
       #    ./gradlew test # Ajusta este comando según tus necesidades de pruebas
 
+      # Espacio para despliegue en Terraform
+
 
   # Luego de pruebas exitosas, integra las ramas.
   # feature -> develop
