@@ -53,7 +53,7 @@ jobs:
       # Compila la aplicación Angular
       - name: Compilar la aplicación Angular
         working-directory: ./frontWebApp/
-        run: ng build --prod
+        run: ng build 
   
       # Ejecuta las pruebas de Angular
       - name: Ejecutar pruebas de Angular
