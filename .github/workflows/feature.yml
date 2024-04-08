@@ -31,9 +31,7 @@ jobs:
 
   run-tests-front:
     name: Build and test front-end 
-    name: Build and test front-end 
     runs-on: ubuntu-latest
-    needs: 'automerge-1'
     needs: 'automerge-1'
     steps:
       - name: Checkout del repositorio
@@ -111,77 +109,6 @@ jobs:
         run: |
           coverage report --fail-under=85
       
-      # Espacio para pruebas de Angular ----------------------------------------------
-      #- name: Configuración de Node.js para pruebas de Angular
-      #  uses: actions/setup-node@v2
-      #  with:
-      #    node-version: '16' # Usa la versión de Node.js que necesites
-
-      #- name: Instalación de dependencias de Angular
-      #  run: |
-      #    cd tu-directorio-angular # Cambia esto al directorio de tu proyecto Angular
-      #    npm install
-
-      #- name: Ejecución de pruebas de Angular
-      #  run: |
-      #    cd frontWebApp
-      #    npm run test
-
-      # Espacio para pruebas de Android ----------------------------------------------
-      #- name: Configuración del entorno de Java para Android
-      #  uses: actions/setup-java@v3
-      #  with:
-      #    java-version: '11' # Usa la versión de Java que necesites para tu proyecto Android
-      #    distribution: 'temurin' # Puedes cambiar esto según tu preferencia
-
-      #- name: Instalación de dependencias de Android
-      #  run: |
-      #    cd tAndroidApp # Cambia esto al directorio de tu proyecto Android
-      #    ./gradlew dependencies
-
-      #- name: Ejecución de pruebas de Android
-      #  run: |
-      #    cd AndroidApp # Asegúrate de estar en el directorio correcto
-      #    ./gradlew test # Ajusta este comando según tus necesidades de pruebas
-
-
-  # Luego de pruebas exitosas, integra las ramas.
-  # feature -> develop
-  
-  run-tests-front:
-    name: Build and test front-end
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v2
-
-      # Instala Node.js y Angular CLI
-      - name: Configurar Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '21.x'
-
-      # Instala las dependencias de Angular
-      - name: Instalar dependencias de Angular
-        run: npm install -g @angular/cli
-      - name: Instalar dependencias
-        run: npm install
-
-      # Compila la aplicación Angular
-      - name: Compilar la aplicación Angular
-        run: ng build --prod
-
-      # Ejecuta las pruebas de Angular
-      - name: Ejecutar pruebas de Angular
-        run: ng test --watch=false --code-coverage
-      - name: Verificar cobertura
-        run: |
-          COVERAGE_THRESHOLD=80
-          coverage=$(cat coverage/lcov.info | grep -oP '^.*(?=%)')
-          if [ "$coverage" -lt "$COVERAGE_THRESHOLD" ]; then
-            echo "La cobertura es inferior al 80% ($coverage%)."
-            exit 1
-          fi
   
   automerge-2:
     name: Merge 'feature -> develop'
