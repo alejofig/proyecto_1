@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'feature**'
-
 jobs:
   # Parte de Feature:
   # Integra las ramas develop -> feature.
@@ -109,44 +108,7 @@ jobs:
         working-directory: ./backend/services/users
         run: |
           coverage report --fail-under=85
-      
-      # Espacio para pruebas de Angular ----------------------------------------------
-      #- name: Configuración de Node.js para pruebas de Angular
-      #  uses: actions/setup-node@v2
-      #  with:
-      #    node-version: '16' # Usa la versión de Node.js que necesites
 
-      #- name: Instalación de dependencias de Angular
-      #  run: |
-      #    cd tu-directorio-angular # Cambia esto al directorio de tu proyecto Angular
-      #    npm install
-
-      #- name: Ejecución de pruebas de Angular
-      #  run: |
-      #    cd frontWebApp
-      #    npm run test
-
-      # Espacio para pruebas de Android ----------------------------------------------
-      #- name: Configuración del entorno de Java para Android
-      #  uses: actions/setup-java@v3
-      #  with:
-      #    java-version: '11' # Usa la versión de Java que necesites para tu proyecto Android
-      #    distribution: 'temurin' # Puedes cambiar esto según tu preferencia
-
-      #- name: Instalación de dependencias de Android
-      #  run: |
-      #    cd tAndroidApp # Cambia esto al directorio de tu proyecto Android
-      #    ./gradlew dependencies
-
-      #- name: Ejecución de pruebas de Android
-      #  run: |
-      #    cd AndroidApp # Asegúrate de estar en el directorio correcto
-      #    ./gradlew test # Ajusta este comando según tus necesidades de pruebas
-
-
-  # Luego de pruebas exitosas, integra las ramas.
-  # feature -> develop
-  
   automerge-2:
     name: Merge 'feature -> develop'
     runs-on: ubuntu-latest
