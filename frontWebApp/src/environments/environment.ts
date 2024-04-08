@@ -5,5 +5,6 @@ export const environment = {
   auth0ClientSecret: 'SnUDnO1lL3CnvzeCDFFUwwsFABY-Szfr-lRkFyshOf4uSnCiM6EHMgvCDDVQ8v1u',
   auth0ClientId: '3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT',
   auth0ApiIdentifier: 'https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/',
-  algorithm: 'RS256'
+  algorithm: 'RS256',
+  users_url: 'http://localhost',
 };

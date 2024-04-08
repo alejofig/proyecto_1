@@ -1,11 +1,10 @@
-FROM node:alpine
+FROM node:alpine as angular
+WORKDIR /ng-app
+COPY package*.json .
+RUN npm ci
+COPY . .
+RUN npm run build
 
-WORKDIR /usr/src/app
-
-COPY . /usr/src/app
-
-RUN npm install -g @angular/cli
-
-RUN npm install
-
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+FROM nginx:alpine
+COPY --from=angular /ng-app/dist/front-webb-app/browser /usr/share/nginx/html
+EXPOSE 80

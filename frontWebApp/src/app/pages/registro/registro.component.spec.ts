@@ -3,23 +3,27 @@ import { RegistroComponent } from './registro.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AuthService } from '../servicios/auth.service';
+import { UsersBackendService } from '../../users-backend.service';
+import { of } from 'rxjs';
 
 describe('RegistroComponent', () => {
   let component: RegistroComponent;
   let fixture: ComponentFixture<RegistroComponent>;
   let authService: AuthService;
+  let usersBackendService: UsersBackendService;
   let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, HttpClientTestingModule],
-      providers: [AuthService],
+      providers: [AuthService, UsersBackendService],
       declarations: []
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegistroComponent);
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
+    usersBackendService= TestBed.inject(UsersBackendService);
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });
@@ -75,7 +79,7 @@ describe('RegistroComponent', () => {
     component.deportes = ['Natación'];
 
     spyOn(authService, 'checkIfEmailExists').and.returnValue(Promise.resolve(false));
-
+    spyOn(usersBackendService, 'register_user').and.returnValue(of(false));
     const result = component.validarFormulario();
     expect(result).toBe(true);
   });

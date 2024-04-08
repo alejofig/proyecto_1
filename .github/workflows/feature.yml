@@ -79,6 +79,42 @@ jobs:
 
   # Luego de pruebas exitosas, integra las ramas.
   # feature -> develop
+  
+  run-tests-front:
+    name: Build and test front-end
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v2
+
+      # Instala Node.js y Angular CLI
+      - name: Configurar Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '21.x'
+
+      # Instala las dependencias de Angular
+      - name: Instalar dependencias de Angular
+        run: npm install -g @angular/cli
+      - name: Instalar dependencias
+        run: npm install
+
+      # Compila la aplicación Angular
+      - name: Compilar la aplicación Angular
+        run: ng build --prod
+
+      # Ejecuta las pruebas de Angular
+      - name: Ejecutar pruebas de Angular
+        run: ng test --watch=false --code-coverage
+      - name: Verificar cobertura
+        run: |
+          COVERAGE_THRESHOLD=80
+          coverage=$(cat coverage/lcov.info | grep -oP '^.*(?=%)')
+          if [ "$coverage" -lt "$COVERAGE_THRESHOLD" ]; then
+            echo "La cobertura es inferior al 80% ($coverage%)."
+            exit 1
+          fi
+  
   automerge-2:
     name: Merge 'feature -> develop'
     runs-on: ubuntu-latest

@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../servicios/auth.service';
+import { UsersBackendService } from '../../users-backend.service';
+
 @Component({
   selector: 'app-registro',
   standalone: true,
@@ -17,6 +19,7 @@ import { AuthService } from '../servicios/auth.service';
     FormsModule,
     CommonModule,
     HttpClientModule,
+
   ],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.scss',
@@ -42,7 +45,9 @@ export class RegistroComponent {
   public nuevoDeporte: string = '';
   public deportes: string[] = [];
   public emailExistsError: boolean = false;
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient,
+     private authService: AuthService,
+     private backendService: UsersBackendService) {}
 
   validarPassword() {
     let errorMessage = '';
@@ -97,7 +102,9 @@ export class RegistroComponent {
         return false;
     }
     this.checkIfEmailExists(this.email);
-    console.log(this.create_form_data());
+    this.backendService.register_user(this.create_form_data()).subscribe((response: any) => {
+      console.log('Response:', response);
+    });
     return true;
   }
 

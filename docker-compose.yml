@@ -2,25 +2,25 @@ version: '3'
 
 services:
   frontend:
-    image: frontWebApp:latest  
+    image: front_sportapp:latest  
     ports:
-      - "80:80"  
+      - "4200:80"  
     depends_on:
-      - backend  
+      - users  
     environment:
       - BACKEND_URL=http://backend:80  
 
   users:
-    image: users:latest
+    image: users_sportapp:latest
     ports:
-      - "8000:80"  
+      - "80:80"  
     depends_on:
-      users_db:
+      users-db:
         condition: service_healthy
     environment:
       - DB_USER=prueba
       - DB_PASSWORD=prueba
-      - DB_HOST=db  
+      - DB_HOST=users-db  
       - DB_NAME=prueba
       - DB_PORT=5432
       - AUTH0_DOMAIN=dev-s8qwnnguwcupqg2o.us.auth0.com
@@ -29,7 +29,7 @@ services:
       - REDIRECT_URI=http://127.0.0.1:8000/callback/
       - AUTH0_API_IDENTIFIER=https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/
       - ALGORITHM=RS256
-      - DATABASE_URL=postgresql://prueba:prueba@db:5432/prueba
+      - DATABASE_URL=postgresql://prueba:prueba@users-db:5432/prueba
 
   users-db:
     image: postgres:latest  
@@ -38,7 +38,7 @@ services:
       - POSTGRES_USER=prueba  
       - POSTGRES_PASSWORD=prueba  
     ports:
-      - "5432:5432"  
+      - "5435:5432"  
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 2s
