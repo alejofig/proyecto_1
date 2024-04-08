@@ -1,26 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlanEntrenamientoComponent } from './plan-entrenamiento.component';
+import { AuthButtonComponent } from './auth-button.component';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 
-describe('PlanEntrenamientoComponent', () => {
-  let component: PlanEntrenamientoComponent;
-  let fixture: ComponentFixture<PlanEntrenamientoComponent>;
+describe('AuthButtonComponent', () => {
+  let component: AuthButtonComponent;
+  let fixture: ComponentFixture<AuthButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlanEntrenamientoComponent],
+      imports: [AuthButtonComponent],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: {
           }
+        },
+        {
+          provide: AuthService,
+          useValue: {
+          }
         }
       ]
+
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PlanEntrenamientoComponent);
+    fixture = TestBed.createComponent(AuthButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

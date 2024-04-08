@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - 'feature**'
+
+      
 jobs:
   # Parte de Feature:
   # Integra las ramas develop -> feature.
@@ -106,7 +108,8 @@ jobs:
         working-directory: ./backend/services/users
         run: |
           coverage report --fail-under=85
-
+      
+  
   automerge-2:
     name: Merge 'feature -> develop'
     runs-on: ubuntu-latest
