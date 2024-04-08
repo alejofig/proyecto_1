@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/black"
     android:padding="16dp">
 
     <!-- Icono de flecha hacia atrás -->
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Entrenamiento"
         android:textSize="24sp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:layout_below="@id/ivBackArrow"
         android:layout_marginTop="10dp"
         android:layout_marginStart="24dp"/>
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="01:59:05"
         android:textSize="70sp"
-        android:textColor="#FFEB3B"
+        android:textColor="@color/yellow"
         android:layout_below="@id/tvTrainingTitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:text="Calorías activas"
                 android:textSize="20sp"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/tvActiveCalories"
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:text="38"
                 android:textSize="32sp"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <!-- Potencia -->
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="Potencia (Kg)"
                 android:textSize="20sp"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/tvPower"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:text="10"
                 android:textSize="32sp"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
 
@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:text="Calorías totales"
                 android:textSize="20sp"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/tvTotalCaloriesLabel"
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:text="63"
                 android:textSize="32sp"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
         <!-- Pulsaciones -->
@@ -158,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:text="Pulsaciones"
                 android:textSize="20sp"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/white" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -172,7 +172,7 @@
                     android:layout_height="wrap_content"
                     android:text="80"
                     android:textSize="32sp"
-                    android:textColor="#EC0000"
+                    android:textColor="@color/red"
                     android:layout_marginEnd="4dp" />
 
                 <TextView
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:text="♥"
                     android:textSize="32sp"
-                    android:textColor="#EC0000" />
+                    android:textColor="@color/red" />
             </LinearLayout>
         </LinearLayout>
 
@@ -207,8 +207,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Pausar"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#D32F2F"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
             android:layout_marginEnd="8dp" />
 
         <Button
@@ -217,8 +217,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Finalizar"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#D32F2F" />
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red" />
     </LinearLayout>
 
 </RelativeLayout>
