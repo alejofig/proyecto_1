@@ -43,7 +43,7 @@
         android:id="@+id/tvTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="01:59:05"
+        android:text="00:00:00"
         android:textSize="70sp"
         android:textColor="@color/yellow"
         android:layout_below="@id/tvTrainingTitle"
@@ -79,7 +79,7 @@
                 android:id="@+id/tvActiveCalories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="38"
+                android:text="0"
                 android:textSize="32sp"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -104,7 +104,7 @@
                 android:id="@+id/tvPower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
+                android:text="0"
                 android:textSize="32sp"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -139,7 +139,7 @@
                 android:id="@+id/tvTotalCaloriesLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="63"
+                android:text="0"
                 android:textSize="32sp"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -170,7 +170,7 @@
                     android:id="@+id/tvHeartRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="80"
+                    android:text="0"
                     android:textSize="32sp"
                     android:textColor="@color/red"
                     android:layout_marginEnd="4dp" />
@@ -202,11 +202,11 @@
         android:layout_marginTop="10dp">
 
         <Button
-            android:id="@+id/btnPause"
+            android:id="@+id/btnIniciar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Pausar"
+            android:text="Iniciar"
             android:textColor="@color/white"
             android:backgroundTint="@color/red"
             android:layout_marginEnd="8dp" />
