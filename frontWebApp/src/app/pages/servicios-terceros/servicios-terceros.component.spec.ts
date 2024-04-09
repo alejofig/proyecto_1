@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ServiciosTercerosComponent } from './servicios-terceros.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('ServiciosTercerosComponent', () => {
   let component: ServiciosTercerosComponent;
@@ -8,10 +9,17 @@ describe('ServiciosTercerosComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ServiciosTercerosComponent]
+      imports: [ServiciosTercerosComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+          }
+        }
+      ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ServiciosTercerosComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -3,9 +3,9 @@ from typing import List
 from fastapi import APIRouter, HTTPException, Depends
 from app.auth import Auth0
 from fastapi.security import OAuth2PasswordBearer
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 import app.config as config
-from app.database import create_user
+from app.database import create_user, get_user_by_email
 from app.models import User
 
 router = APIRouter()
@@ -25,7 +25,6 @@ async def login_page():
 async def callback(code: str):
     try:
         token = Auth0.exchange_code_for_token(code)
-        # Almacena el token en una cookie o en el almacenamiento de sesión
         return {"token": token}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -41,9 +40,17 @@ async def callback(code: str):
 #         raise HTTPException(status_code=401, detail="No se pudo validar las credenciales")
 
 
-@router.post("/register/")  # Deshabilitar la generación automática del modelo de respuesta
+@router.post("/register/")  
 async def register_user(user_data: User):
     response = Auth0.register_user(user_data.email, user_data.password)
     user_data.auth0_id = response["user_id"]
     create_user(user_data)
     return {"message": "User registered successfully"}
+
+@router.get("/user/{user_email}")  
+async def get_user(user_email: str):
+    user = get_user_by_email(user_email)
+    if user is None:
+        return JSONResponse(status_code=404, content={"detail": "User not found"})
+    else:
+        return {"message": "User already exists"}
