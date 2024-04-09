@@ -16,8 +16,15 @@
             android:name=".EventosActivity"
             android:exported="false" />
         <activity
-            android:name=".Eventos"
+            android:name=".EntrenamientoActivity"
             android:exported="false" />
+        <activity
+            android:name=".DeporteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuForAllActivitys"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true" >
