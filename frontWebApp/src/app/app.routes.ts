@@ -18,15 +18,16 @@ import { MototallerComponent } from './pages/servicios/mototaller/mototaller.com
 import { PrimerosAuxiliosComponent } from './pages/servicios/primeros-auxilios/primeros-auxilios.component';
 import { EntrenadorComponent } from './pages/servicios/entrenador/entrenador.component';
 import {AlimentacionComponent} from './pages/servicios/alimentacion/alimentacion.component'
+import { AuthButtonComponent } from './pages/auth-button/auth-button.component';
 
 export const routes: Routes = [
     { path: '', component: InicioComponent },
-
+    { path: 'auth0', component: AuthButtonComponent},
     { path: 'inicio_sesion', component: InicioSesionComponent },
     { path: 'registro', component: RegistroComponent },
 
     { path: 'panel', component: PanelComponent},
-    
+
     {path: 'generar_plan_entrenamiento', component: GenerarPlanEntreComponent},
     { path: 'plan_entrenamiento', component: PlanEntrenamientoComponent},
     { path: 'eventos', component: EventosComponent},

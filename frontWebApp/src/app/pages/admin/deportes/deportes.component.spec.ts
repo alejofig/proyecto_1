@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeportesComponent } from './deportes.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('DeportesComponent', () => {
   let component: DeportesComponent;
@@ -8,10 +9,17 @@ describe('DeportesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeportesComponent]
+      imports: [DeportesComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+          }
+        }
+      ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(DeportesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
