@@ -300,9 +300,7 @@ it('should create form data object with correct properties', () => {
     ciudad_nacimiento: 'New York',
     pais_residencia: 'USA',
     ciudad_residencia: 'New York',
-    antiguedad_residencia: '5 años',
-    deportes: ['Natación']
-  });
+    antiguedad_residencia: '5 años'  });
 });
 
 it('should add sport to deportes array', () => {
