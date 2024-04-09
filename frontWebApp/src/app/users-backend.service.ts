@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
@@ -13,8 +13,13 @@ export class UsersBackendService {
 
   constructor(private http: HttpClient) { }
 
+
   register_user(user_data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, user_data);
+    return this.http.post<any>(`${this.apiUrl}/register`, user_data,{
+      headers: new HttpHeaders({
+           'Content-Type':  'application/json',
+         })
+    });
   }
 
 }

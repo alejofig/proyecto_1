@@ -281,7 +281,6 @@ it('should create form data object with correct properties', () => {
   component.pais_residencia = 'USA';
   component.ciudad_residencia = 'New York';
   component.antiguedad_residencia = '5 años';
-  component.deportes = ['Natación'];
 
   const formData = component.create_form_data();
 
