@@ -134,6 +134,12 @@ public async checkIfEmailExists(email: string): Promise<void> {
     console.error('Error al verificar el correo electrónico:', error);
   }
 }
+public registerUser(): void {
+this.backendService.register_user(this.create_form_data()).subscribe((response: any) => {
+  console.log('Response:', response);
+});
+}
+
 public create_form_data(): any {
     return {
       password: this.password,
@@ -152,7 +158,7 @@ public create_form_data(): any {
       pais_residencia: this.pais_residencia,
       ciudad_residencia: this.ciudad_residencia,
       antiguedad_residencia: this.antiguedad_residencia,
-      deportes: this.deportes,
+      // deportes: this.deportes,
     };
   }
 }

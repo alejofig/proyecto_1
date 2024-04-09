@@ -5,8 +5,8 @@
       "image":"${REPOSITORY_URL}",
       "portMappings":[
          {
-            "containerPort":3003,
-            "hostPort":3003,
+            "containerPort":4200,
+            "hostPort":4200,
             "protocol":"tcp"
          }
       ],
