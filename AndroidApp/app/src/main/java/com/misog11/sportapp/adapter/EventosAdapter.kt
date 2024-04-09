@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.misog11.sportapp.models.Evento
-import com.misog11.sportapp.EventosProvider.Companion.EventosList
 import com.misog11.sportapp.R
 
 class EventosAdapter(private val eventosList:List<Evento>): RecyclerView.Adapter<EventosViewHolder>() {
@@ -18,7 +17,7 @@ class EventosAdapter(private val eventosList:List<Evento>): RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: EventosViewHolder, position: Int) {
-        val item = EventosList[position]
+        val item = eventosList[position]
         holder.render(item)
     }
 }
