@@ -1,3 +1,4 @@
+
 package com.misog11.sportapp.Entrenamiento
 
 import android.os.Bundle
@@ -6,6 +7,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 
 class EntrenamientoActivity : AppCompatActivity() {
+/*
     //TODO: Falta mapear data binding
     private lateinit var binding: ActivityMainBinding
     private val handler = Handler(Looper.getMainLooper())
@@ -151,4 +153,6 @@ class EntrenamientoActivity : AppCompatActivity() {
             handler.post(metricsRunnable)
         }
     }
+
+ */
 }
