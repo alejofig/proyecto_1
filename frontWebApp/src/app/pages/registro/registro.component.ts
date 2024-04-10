@@ -43,6 +43,7 @@ export class RegistroComponent {
   public formValid: boolean = false;
   public errorMessage: string = '';
   public nuevoDeporte: string = '';
+  public tipo_plan: string = 'GRATUITO';
   public deportes: string[] = [];
   public emailExistsError: boolean = false;
   constructor(private http: HttpClient,
@@ -102,6 +103,7 @@ export class RegistroComponent {
         return false;
     }
     this.checkIfEmailExists(this.email);
+    console.log(this.create_form_data())
     this.backendService.register_user(this.create_form_data()).subscribe((response: any) => {
       console.log('Response:', response);
     });
@@ -158,7 +160,8 @@ public create_form_data(): any {
       pais_residencia: this.pais_residencia,
       ciudad_residencia: this.ciudad_residencia,
       antiguedad_residencia: this.antiguedad_residencia,
-      // deportes: this.deportes,
+      tipo_plan: this.tipo_plan,
+      deportes: this.deportes,
     };
   }
 }
