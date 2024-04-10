@@ -64,16 +64,16 @@ jobs:
         id: validate
         run: terraform validate
 
-      - name: Terraform destroy
-        id: destroy
-        run: terraform destroy
+      - name: Terraform plan
+        id: plan
+        working-directory: ${{ inputs.terraform_directory }}
+        run: terraform plan
 
-#      - name: Terraform plan
-#        id: plan
-#        working-directory: ${{ inputs.terraform_directory }}
-#        run: terraform plan
-#
-#      - name: Terraform apply
-#        id: apply
-#        working-directory: ${{ inputs.terraform_directory }}
-#        run: terraform apply -auto-approve
+      - name: Terraform apply
+        id: apply
+        working-directory: ${{ inputs.terraform_directory }}
+        run: terraform apply -auto-approve
+
+#      - name: Terraform destroy
+#        id: destroy
+#        run: terraform destroy
