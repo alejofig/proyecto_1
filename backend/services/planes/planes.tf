@@ -76,6 +76,7 @@ resource "aws_security_group" "sg_postgres_planes" {
 }
 
 resource "aws_db_instance" "db_postgres_planes" {
+  identifier             = "planes-db"
   allocated_storage      = 10
   engine                 = "postgres"
   engine_version         = "12.12"
