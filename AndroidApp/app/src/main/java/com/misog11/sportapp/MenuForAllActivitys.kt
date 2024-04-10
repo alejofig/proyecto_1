@@ -18,7 +18,7 @@ open class MenuForAllActivitys : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_home -> print("home")
-            R.id.navigation_training -> navigate(EntrenamientoActivity::class.java)
+            R.id.navigation_training -> navigate(DeporteActivity::class.java)
             R.id.navigation_events -> navigate(EventosActivity::class.java)
 
         }
