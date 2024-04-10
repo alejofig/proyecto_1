@@ -158,3 +158,4 @@ resource "aws_ecs_service" "service" {
     assign_public_ip = true
   }
 }
+#h
