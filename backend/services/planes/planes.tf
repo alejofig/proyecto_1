@@ -93,10 +93,6 @@ resource "aws_ecs_cluster" "cluster_planes" {
   name = "cluster_planes"
 }
 
-resource "aws_ecrpublic_repository" "ecr_repo_planes" {
-  repository_name = "servicio-planes"
-}
-
 resource "aws_ecs_task_definition" "task_definition_planes" {
   family                   = "task_definition_planes"
   network_mode             = "awsvpc"
