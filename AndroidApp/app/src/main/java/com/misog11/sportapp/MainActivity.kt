@@ -14,13 +14,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : MenuForAllActivitys() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val bottom_navigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-
-
-
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> print("home")
+                R.id.navigation_training -> navigate(EntrenamientoActivity::class.java)
+                R.id.navigation_events -> navigate(EventosActivity::class.java)
+            }
+            true
+        }
     }
 
     private fun navigate(viewState:Class<*>){
