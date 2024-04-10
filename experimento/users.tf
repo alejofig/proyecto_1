@@ -1,3 +1,9 @@
+terraform {
+  backend "s3" {
+    region = "us-east-1"
+  }
+}
+
 provider "aws" {
   # shared_credentials_file = "$HOME/.aws/credentials"
   region = "us-east-1"
@@ -19,7 +25,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_support   = true
 
   tags = {
-    Name = "flask-docker-vpc"
+    Name = "flask-docker-vpc-exp"
   }
 }
 
@@ -67,7 +73,6 @@ resource "aws_subnet" "public_subnets" {
     Name = "flask-docker-tf-public-${count.index + 1}"
   }
 }
-
 
 # create <count> number of private subnets in each availability zone
 resource "aws_subnet" "private_subnets" {
@@ -169,13 +174,13 @@ resource "aws_security_group" "rds_sg" {
 
 resource "aws_alb" "alb" {
   load_balancer_type = "application"
-  name               = "application-load-balancer"
+  name               = "application-load-balancer-exp"
   subnets            = aws_subnet.public_subnets.*.id
   security_groups    = [aws_security_group.alb_sg.id]
 }
 
 resource "aws_alb_target_group" "target_group" {
-  name        = "ecs-target-group"
+  name        = "ecs-target-group-exp"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.vpc.id
@@ -191,6 +196,7 @@ resource "aws_alb_listener" "fp-alb-listener" {
     type             = "forward"
   }
 }
+
 resource "aws_ecs_cluster" "fp-ecs-cluster" {
   name = "flask-app"
 
@@ -198,7 +204,6 @@ resource "aws_ecs_cluster" "fp-ecs-cluster" {
     Name = "flask-app"
   }
 }
-
 
 data "template_file" "task_definition_template" {
   template = file("task_definition.json.tpl")
@@ -256,13 +261,12 @@ output "alb-dns-name" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs_log_group" {
-  name              = "/ecs/flask-app" # Nombre del grupo de logs
-  retention_in_days = 7                # Retención de los logs en días (ajusta según tus necesidades)
+  name              = "/ecs/flask-app-exp" # Nombre del grupo de logs
+  retention_in_days = 7                    # Retención de los logs en días (ajusta según tus necesidades)
 }
 
-
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecs-task-execution-role"
+  name = "ecs-task-execution-role-exp"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -278,7 +282,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 }
 
 resource "aws_iam_policy" "ecs_cloudwatch_policy" {
-  name        = "ecs-cloudwatch-policy"
+  name        = "ecs-cloudwatch-policy-exp"
   description = "Policy to allow ECS to write logs to CloudWatch"
 
   policy = jsonencode({
