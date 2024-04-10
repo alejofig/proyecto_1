@@ -1,17 +1,11 @@
-from app.database import create_event, consultar_eventos
-from app.models import Evento
+from app.database import create_plan
+from app.models import Plan
 from fastapi import APIRouter
 
 router = APIRouter()
 
 
-@router.get("/eventos")
-async def consultar_enventos():
-    eventos = consultar_eventos()
-    return eventos
-
-
-@router.post("/eventos")
-async def crear_evento(event_data: Evento):
-    evento = create_event(event_data)
-    return evento
+@router.post("generate/")
+async def generate_plan(plan: Plan):
+    create_plan(plan)
+    return {"message": "Plan generated successfully"}
