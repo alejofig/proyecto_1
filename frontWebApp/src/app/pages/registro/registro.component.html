@@ -112,39 +112,36 @@
       <h5 class="data_group">Tipo de Plan de Suscripción</h5><hr class="m-1 p-1">
 
       <div class ="row">
-          <div class="col-4">
-              <div class="card w-100" style="width: 18rem;">
-                  <img src="../../../assets/img/running.webp" class="card-img-top" alt="...">
-                  <div class="card-body">
-                      <input type="radio" name="plan" value="intermedio">
-                    <h6 class="card-title"><b>Plan Gratuito</b></h6>
-                    <p class="card-text">Recomendacion de eventos y planes de entrenamiento.</p>
-                  </div>
+        <div class="col-4">
+          <div class="card w-100" style="width: 18rem;">
+              <img src="../../../assets/img/running.webp" class="card-img-top" alt="...">
+              <div class="card-body">
+                  <input type="radio" name="plan" value="GRATUITO" [(ngModel)]="tipo_plan" checked>
+                  <h6 class="card-title"><b>Plan Gratuito</b></h6>
+                  <p class="card-text">Recomendacion de eventos y planes de entrenamiento.</p>
               </div>
           </div>
-          <div class="col-4">
-              <div class="card w-100 " style="width: 18rem;">
-                  <img src="../../../assets/img/running1.webp" class="card-img-top" alt="...">
-                  <div class="card-body">
-                  <input type="radio" name="plan" value="intermedio">
-                    <h6 class="card-title">
-                      <b>Plan Intermedio</b></h6>
-                    <p class="card-text">Funcionalidades del plan gratuito + Monitoreo en tiempo real.</p>
-
-                  </div>
+      </div>
+      <div class="col-4">
+          <div class="card w-100 " style="width: 18rem;">
+              <img src="../../../assets/img/running1.webp" class="card-img-top" alt="...">
+              <div class="card-body">
+                  <input type="radio" name="plan" value="INTERMEDIO" [(ngModel)]="tipo_plan">
+                  <h6 class="card-title"><b>Plan Intermedio</b></h6>
+                  <p class="card-text">Funcionalidades del plan gratuito + Monitoreo en tiempo real.</p>
               </div>
           </div>
-          <div class="col-4">
-              <div class="card w-100" style="width: 18rem;">
-                  <img src="../../../assets/img/running2.webp" class="card-img-top" alt="...">
-                  <div class="card-body">
-                   <input type="radio" name="plan" value="intermedio">
-                    <h6 class="card-title"><b>Plan Premium</b></h6>
-                    <p class="card-text">Funcionalidades del plan intermedio + Sesiones con Médico y Entrenador.</p>
-
-                  </div>
+      </div>
+      <div class="col-4">
+          <div class="card w-100" style="width: 18rem;">
+              <img src="../../../assets/img/running2.webp" class="card-img-top" alt="...">
+              <div class="card-body">
+                  <input type="radio" name="plan" value="PREMIUM" [(ngModel)]="tipo_plan">
+                  <h6 class="card-title"><b>Plan Premium</b></h6>
+                  <p class="card-text">Funcionalidades del plan intermedio + Sesiones con Médico y Entrenador.</p>
               </div>
           </div>
+      </div>
 
 
 

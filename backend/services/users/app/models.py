@@ -1,5 +1,5 @@
-from typing import Optional
-from sqlmodel import Field, SQLModel
+from typing import List, Optional
+from sqlmodel import Field, SQLModel, JSON, Column
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -20,5 +20,10 @@ class User(SQLModel, table=True):
     ciudad_residencia: Optional[str] = None
     antiguedad_residencia: Optional[int] = None
     altura: Optional[int] = None
-   # deportes: Optional[list[str]] = None
+    tipo_plan: Optional[str] = None
+    deportes: List[str] = Field(sa_column=Column(JSON))
+
+    # Needed for Column(JSON)
+    class Config:
+        arbitrary_types_allowed = True
 

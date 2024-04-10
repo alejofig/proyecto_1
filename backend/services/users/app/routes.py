@@ -1,4 +1,5 @@
 # app/routes.py
+from app.utils import encrypt_data
 from typing import List
 from fastapi import APIRouter, HTTPException, Depends
 from app.auth import Auth0
@@ -7,6 +8,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 import app.config as config
 from app.database import create_user, get_user_by_email
 from app.models import User
+import boto3
 
 router = APIRouter()
 
@@ -43,9 +45,14 @@ async def callback(code: str):
 @router.post("/register/")  
 async def register_user(user_data: User):
     response = Auth0.register_user(user_data.email, user_data.password)
+    user_data.password = encrypt_data(user_data.password)
     user_data.auth0_id = response["user_id"]
     create_user(user_data)
     return {"message": "User registered successfully"}
+
+router.get("/")
+async def health():
+    return {"status": "ok"}
 
 @router.get("/user/{user_email}")  
 async def get_user(user_email: str):
