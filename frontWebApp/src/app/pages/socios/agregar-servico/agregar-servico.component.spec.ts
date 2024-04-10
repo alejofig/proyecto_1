@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AgregarServicoComponent } from './agregar-servico.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('AgregarServicoComponent', () => {
   let component: AgregarServicoComponent;
@@ -8,10 +9,17 @@ describe('AgregarServicoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AgregarServicoComponent]
+      imports: [AgregarServicoComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+          }
+        }
+      ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(AgregarServicoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

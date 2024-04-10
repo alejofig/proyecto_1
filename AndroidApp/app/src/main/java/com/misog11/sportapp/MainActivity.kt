@@ -9,16 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.utils.ViewState
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : MenuForAllActivitys() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        val btnEventos = findViewById<FrameLayout>(R.id.btn_eventos)
-        btnEventos.setOnClickListener{
-            navigate(EventosActivity::class.java)
-        }
+
+        val bottom_navigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+
 
     }
 

@@ -1,4 +1,4 @@
-from sqlmodel import Session, create_engine, SQLModel
+from sqlmodel import Session, create_engine, SQLModel, select
 from app import config
 from app.models import User
 
@@ -16,4 +16,11 @@ def create_user(user: User):
     session.commit()
     session.refresh(user)
     session.close()
+    return user
+
+def get_user_by_email(email: str):
+    session = create_session()
+    statement = select(User).where(User.email==email)
+    results = session.exec(statement)
+    user = results.first()
     return user
