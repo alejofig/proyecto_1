@@ -1,16 +1,14 @@
-#terraform {
-#  backend "s3" {
-#    region = "us-east-1"
-#  }
-#}
+terraform {
+  backend "s3" {
+    region = "us-east-1"
+  }
+}
 
 provider "aws" {
   region = "us-east-1"
 }
 
 # VPC, Redes y Seguridad
-
-
 resource "aws_vpc" "main" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
@@ -79,7 +77,6 @@ resource "aws_security_group" "postgres_sg" {
 }
 
 # Base de datos
-
 resource "aws_db_instance" "postgres_db_eventos" {
   allocated_storage      = 10
   engine                 = "postgres"
@@ -95,7 +92,6 @@ resource "aws_db_instance" "postgres_db_eventos" {
 }
 
 # Fargate Container
-
 resource "aws_ecs_cluster" "cluster" {
   name = "cluster-servicios-jcr"
 }
@@ -158,4 +154,4 @@ resource "aws_ecs_service" "service" {
     assign_public_ip = true
   }
 }
-#h
+#hello terraform
