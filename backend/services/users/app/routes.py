@@ -19,6 +19,10 @@ router.get("/")
 async def health():
     return {"status": "ok"}
 
+router.get("/")
+async def health():
+    return {"status": "ok"}
+
 @router.get("/user/{user_email}")  
 async def get_user(user_email: str):
     user = get_user_by_email(user_email)
