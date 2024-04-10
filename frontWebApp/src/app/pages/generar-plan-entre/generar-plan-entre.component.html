@@ -9,7 +9,7 @@
     <div class="p-4 mx-5">
       <h3><b>Registrar Plan de Entrenamiento</b></h3>
       <hr>
-      <form class="form">
+      <form class="form" (submit)="generarPlanEntrenamiento()">
         <div class="bg-light p-4 rounded-3">
           <h4>Seleciona el Tipo de Plan de Entrenamiento</h4>
           <div class="form-check">
@@ -58,8 +58,8 @@
           </div>
         </div>
 
-        <a>
-          <button type="submit" class="btn btn-danger" (click)="generarPlanEntrenamiento()">Generar</button>
+        <a >
+          <button type="submit" class="btn btn-danger">Generar</button>
         </a>
 
       </form>
