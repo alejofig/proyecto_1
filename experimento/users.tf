@@ -261,7 +261,7 @@ output "alb-dns-name" {
 
 resource "aws_cloudwatch_log_group" "ecs_log_group" {
   name              = "/ecs/flask-app-exp" # Nombre del grupo de logs
-  retention_in_days = 7                # Retención de los logs en días (ajusta según tus necesidades)
+  retention_in_days = 7                    # Retención de los logs en días (ajusta según tus necesidades)
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {

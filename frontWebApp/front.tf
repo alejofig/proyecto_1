@@ -1,3 +1,9 @@
+terraform {
+  backend "s3" {
+    region = "us-east-1"
+  }
+}
+
 provider "aws" {
   # shared_credentials_file = "$HOME/.aws/credentials"
   region = "us-east-1"
@@ -67,7 +73,6 @@ resource "aws_subnet" "public_subnets" {
     Name = "front-end-docker-tf-public-${count.index + 1}"
   }
 }
-
 
 # create <count> number of private subnets in each availability zone
 resource "aws_subnet" "private_subnets" {
@@ -183,9 +188,6 @@ resource "aws_alb_target_group" "target_group-front" {
   }
 }
 
-
-
-
 data "template_file" "task_definition_template" {
   template = file("task_definition.json.tpl")
   vars = {
@@ -208,7 +210,6 @@ resource "aws_ecs_task_definition" "task_definition" {
   memory                = 512
   execution_role_arn    = aws_iam_role.ecs_task_execution_role-front.arn # Nuevo
   container_definitions = data.template_file.task_definition_template.rendered
-
 }
 
 resource "aws_ecs_service" "front-end-service" {
@@ -240,7 +241,6 @@ resource "aws_cloudwatch_log_group" "ecs_log_group" {
   name              = "/ecs/front-end-app" # Nombre del grupo de logs
   retention_in_days = 7                    # Retención de los logs en días (ajusta según tus necesidades)
 }
-
 
 resource "aws_iam_role" "ecs_task_execution_role-front" {
   name = "ecs-task-execution-role-front"
@@ -291,7 +291,6 @@ resource "aws_iam_role_policy_attachment" "ecs_cloudwatch_attachment-front" {
   policy_arn = aws_iam_policy.ecs_cloudwatch_policy-front.arn
 }
 
-
 output "alb-dns-name" {
   value = aws_alb.alb-front.dns_name
 }
@@ -306,7 +305,6 @@ resource "aws_route53_record" "front_subdomain" {
     evaluate_target_health = true
   }
 }
-
 
 resource "aws_alb_listener" "fp-alb-listener-https" {
   load_balancer_arn = aws_alb.alb-front.arn
@@ -327,6 +325,7 @@ resource "aws_ecs_cluster" "fp-ecs-cluster" {
     Name = "front-end-app"
   }
 }
+
 resource "aws_alb_listener" "fp-alb-listener-http" {
   load_balancer_arn = aws_alb.alb-front.arn
   port              = 80
