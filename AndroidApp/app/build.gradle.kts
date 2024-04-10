@@ -7,6 +7,11 @@ android {
     namespace = "com.misog11.sportapp"
     compileSdk = 34
 
+    buildFeatures{
+        dataBinding = true
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.misog11.sportapp"
         minSdk = 24

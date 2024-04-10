@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VerticalCardImgComponent } from './vertical-card-img.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('VerticalCardImgComponent', () => {
   let component: VerticalCardImgComponent;
@@ -8,10 +9,17 @@ describe('VerticalCardImgComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VerticalCardImgComponent]
+      imports: [VerticalCardImgComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+          }
+        }
+      ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(VerticalCardImgComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

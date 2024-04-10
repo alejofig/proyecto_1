@@ -16,5 +16,9 @@ class User(SQLModel, table=True):
     peso: Optional[int] = None
     pais_nacimiento: Optional[str] = None
     ciudad_nacimiento: Optional[str] = None
+    pais_residencia: Optional[str] = None
+    ciudad_residencia: Optional[str] = None
     antiguedad_residencia: Optional[int] = None
+    altura: Optional[int] = None
+   # deportes: Optional[list[str]] = None
 

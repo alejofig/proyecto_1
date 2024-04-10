@@ -20,6 +20,11 @@ class MainActivity : AppCompatActivity() {
             navigate(EventosActivity::class.java)
         }
 
+        val btnEntrenamiento = findViewById<FrameLayout>(R.id.btn_entrenamiento)
+        btnEventos.setOnClickListener{
+            navigate(DeporteActivity::class.java)
+        }
+
     }
 
     private fun navigate(viewState:Class<*>){
