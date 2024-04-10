@@ -76,7 +76,6 @@ resource "aws_security_group" "sg_postgres_planes" {
 }
 
 resource "aws_db_instance" "db_postgres_planes" {
-  db_instance_identifier = "planes-db"
   identifier             = "planes-db"
   allocated_storage      = 10
   engine                 = "postgres"
@@ -89,6 +88,10 @@ resource "aws_db_instance" "db_postgres_planes" {
   vpc_security_group_ids = [aws_security_group.sg_postgres_planes.id]
   db_subnet_group_name   = aws_db_subnet_group.db_postgres_subnet_group_planes.name
   skip_final_snapshot    = true
+
+  tags = {
+    Name = "planes-db"
+  }
 }
 
 resource "aws_ecs_cluster" "cluster_planes" {
