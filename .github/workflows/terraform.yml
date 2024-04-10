@@ -76,4 +76,5 @@ jobs:
 
       - name: Terraform destroy
         id: destroy
-        run: terraform destroy
+        working-directory: ${{ inputs.terraform_directory }}
+        run: terraform destroy -auto-approve
