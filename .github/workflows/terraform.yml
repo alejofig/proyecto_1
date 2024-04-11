@@ -56,6 +56,7 @@ jobs:
         run: |
           git add backend/services/planes/deploy.sh
           git update-index --chmod=+x backend/services/planes/deploy.sh
+          git ls-files --stage backend/services/planes/deploy.sh
 #          chmod +x backend/services/planes/deploy.sh
 #          backend/services/planes/deploy.sh
 #        shell: bash
