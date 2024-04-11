@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../servicios/auth.service';
-import { UsersBackendService } from '../../users-backend.service';
+import { ApiGatewayBackendService } from '../../apigateway-backend.service';
 
 @Component({
   selector: 'app-registro',
@@ -48,7 +48,7 @@ export class RegistroComponent {
   public emailExistsError: boolean = false;
   constructor(private http: HttpClient,
      private authService: AuthService,
-     private backendService: UsersBackendService) {}
+     private backendService: ApiGatewayBackendService) {}
 
   validarPassword() {
     let errorMessage = '';
@@ -104,7 +104,7 @@ export class RegistroComponent {
     }
     this.checkIfEmailExists(this.email);
     console.log(this.create_form_data())
-    this.backendService.register_user(this.create_form_data()).subscribe((response: any) => {
+    this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
       console.log('Response:', response);
     });
     return true;
@@ -137,7 +137,7 @@ public async checkIfEmailExists(email: string): Promise<void> {
   }
 }
 public registerUser(): void {
-this.backendService.register_user(this.create_form_data()).subscribe((response: any) => {
+this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
   console.log('Response:', response);
 });
 }
@@ -160,7 +160,7 @@ public create_form_data(): any {
       pais_residencia: this.pais_residencia,
       ciudad_residencia: this.ciudad_residencia,
       antiguedad_residencia: this.antiguedad_residencia,
-      tipo_plan: this.tipo_plan,
+      tipo_plan: "GRATUITO",
       deportes: this.deportes,
     };
   }

@@ -3,27 +3,27 @@ import { RegistroComponent } from './registro.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AuthService } from '../servicios/auth.service';
-import { UsersBackendService } from '../../users-backend.service';
+import { ApiGatewayBackendService } from '../../apigateway-backend.service';
 import { of } from 'rxjs';
 
 describe('RegistroComponent', () => {
   let component: RegistroComponent;
   let fixture: ComponentFixture<RegistroComponent>;
   let authService: AuthService;
-  let usersBackendService: UsersBackendService;
+  let apigatewayBackendService: ApiGatewayBackendService;
   let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, HttpClientTestingModule],
-      providers: [AuthService, UsersBackendService],
+      providers: [AuthService, ApiGatewayBackendService],
       declarations: []
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegistroComponent);
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
-    usersBackendService= TestBed.inject(UsersBackendService);
+    apigatewayBackendService= TestBed.inject(ApiGatewayBackendService);
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });
@@ -79,7 +79,7 @@ describe('RegistroComponent', () => {
     component.deportes = ['Natación'];
 
     spyOn(authService, 'checkIfEmailExists').and.returnValue(Promise.resolve(false));
-    spyOn(usersBackendService, 'register_user').and.returnValue(of(false));
+    spyOn(apigatewayBackendService, 'registrar_usuario').and.returnValue(of(false));
     const result = component.validarFormulario();
     expect(result).toBe(true);
   });
@@ -281,7 +281,7 @@ it('should create form data object with correct properties', () => {
   component.pais_residencia = 'USA';
   component.ciudad_residencia = 'New York';
   component.antiguedad_residencia = '5 años';
-
+  component.deportes = [];
   const formData = component.create_form_data();
 
   expect(formData).toEqual({
@@ -300,7 +300,9 @@ it('should create form data object with correct properties', () => {
     ciudad_nacimiento: 'New York',
     pais_residencia: 'USA',
     ciudad_residencia: 'New York',
-    antiguedad_residencia: '5 años'  });
+    antiguedad_residencia: '5 años',
+    deportes: [],
+    tipo_plan:"GRATUITO"});
 });
 
 it('should add sport to deportes array', () => {

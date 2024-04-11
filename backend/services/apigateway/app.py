@@ -11,13 +11,19 @@ from werkzeug.exceptions import HTTPException
 from models import User
 from pydantic import ValidationError
 from utils import protected_route
+from flask_cors import CORS
 
 URL_USERS = os.getenv('USERS_PATH')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
 app = Flask(__name__)
-
+CORS(app)
+cors = CORS(app, resource={
+    r"/*":{
+        "origins":"*"
+    }
+})
 if __name__ == '__main__':
     app.run(debug=True)
 
@@ -28,7 +34,7 @@ def health_check():
     return jsonify({'status': 'OK'}), 200
 
 
-@app.route('/registrar-usuario', methods=['POST'])
+@app.route('/registrar_usuario', methods=['POST'])
 def registrar_usuario():
     json_entrada = request.get_json()
     try:
