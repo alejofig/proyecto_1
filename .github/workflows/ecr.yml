@@ -61,10 +61,13 @@ jobs:
           ECR_REPOSITORY: ${{ inputs.repo_name }}
           IMAGE_TAG: latest
         run: |
+          docker build -t servicio-planes .
+          docker tag servicio-planes:latest 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
+          docker push 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
 #          echo ECR_REGISTRY
 #          echo ECR_REPOSITORY
 #          ${{ inputs.build_command }}
 #          ${{ inputs.tag_command }}
 #          ${{ inputs.push_command }}
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
