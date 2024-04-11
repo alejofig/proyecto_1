@@ -156,4 +156,4 @@ resource "aws_ecs_service" "service_planes" {
     assign_public_ip = true
   }
 }
-#test ecraa
+#test ecraaa
