@@ -29,6 +29,17 @@ on:
         description: 'AWS S3 Bucket'
 
 jobs:
+  ecr:
+    name: ecr image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run deploy.sh
+        id: image
+        uses: actions/checkout@v3
+        run: |
+          chmod +x ${{ inputs.terraform_directory }}/deploy.sh
+          ${{ inputs.terraform_directory }}/deploy.sh
+        shell: bash
   terraform:
     name: terraform
     runs-on: ubuntu-latest
