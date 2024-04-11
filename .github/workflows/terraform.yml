@@ -33,9 +33,9 @@ jobs:
     name: ecr image
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Run deploy.sh
         id: image
-        uses: actions/checkout@v3
         run: |
           chmod +x ${{ inputs.terraform_directory }}/deploy.sh
           ${{ inputs.terraform_directory }}/deploy.sh
