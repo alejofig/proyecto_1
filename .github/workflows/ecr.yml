@@ -2,7 +2,23 @@ name: ecr
 on:
   workflow_call:
     inputs:
+      terraform_directory:
+        type: string
+        required: true
+        description: 'Terraform folder'
       repo_name:
+        type: string
+        required: true
+        description: 'ECR Repo name'
+      build_command:
+        type: string
+        required: true
+        description: 'ECR Repo name'
+      tag_command:
+        type: string
+        required: true
+        description: 'ECR Repo name'
+      push_command:
         type: string
         required: true
         description: 'ECR Repo name'
@@ -43,7 +59,12 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ inputs.repo_name }}
-          IMAGE_TAG: latest
+#          IMAGE_TAG: ${{ steps.get-commit-hash.outputs.commit-hash }}-${{ steps.get-timestamp.outputs.timestamp }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo ECR_REGISTRY
+          echo ECR_REPOSITORY
+          ${{ inputs.build_command }}
+          ${{ inputs.tag_command }}
+          ${{ inputs.push_command }}
+#          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

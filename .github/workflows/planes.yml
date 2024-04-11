@@ -139,13 +139,28 @@ jobs:
     uses: ./.github/workflows/terraform.yml
     with:
       terraform_directory: backend/services/planes
-      bucket: 'tfstate-proyecto-final'
-      key: 'planes.terraform.tfstate'
+      repo_name: servicio-planes
+      build_command: docker build -t servicio-planes .
+      tag_command: docker tag servicio-planes:latest 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
+      push_command: docker push 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
     secrets:
       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       aws-region: ${{ secrets.AWS_REGION }}
-      aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
+
+#  terraform:
+#    name: Despliegue Planes
+##    needs: 'automerge-1'
+#    uses: ./.github/workflows/terraform.yml
+#    with:
+#      terraform_directory: backend/services/planes
+#      bucket: 'tfstate-proyecto-final'
+#      key: 'planes.terraform.tfstate'
+#    secrets:
+#      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#      aws-region: ${{ secrets.AWS_REGION }}
+#      aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
 
 #  automerge-2:
 #    name: Merge 'feature -> develop'
