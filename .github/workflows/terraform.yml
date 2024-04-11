@@ -53,10 +53,10 @@ jobs:
 
       - name: Run deploy.sh
         id: image
-        run: sh .backend/services/planes/deploy.sh
+        run: sh backend/services/planes/deploy.sh
 #        run: |
-#          chmod +x .backend/services/planes/deploy.sh
-#          .backend/services/planes/deploy.sh
+#          chmod +x backend/services/planes/deploy.sh
+#          backend/services/planes/deploy.sh
 #        shell: bash
 
       - name: Terraform init
