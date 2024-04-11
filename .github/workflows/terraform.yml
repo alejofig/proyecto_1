@@ -51,17 +51,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
           aws-region: ${{ secrets.aws-region }}
 
-      - name: Run deploy.sh
-        id: image
-        run: |
-          git add backend/services/planes/deploy.sh
-          git update-index --chmod=+x backend/services/planes/deploy.sh
-          git ls-files --stage backend/services/planes/deploy.sh
-          sh backend/services/planes/deploy.sh
-#          chmod +x backend/services/planes/deploy.sh
-#          backend/services/planes/deploy.sh
-#        shell: bash
-
       - name: Terraform init
         id: init
         working-directory: ${{ inputs.terraform_directory }}
