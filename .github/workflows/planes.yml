@@ -105,7 +105,7 @@ jobs:
 
   ecr:
     name: Docker image to ECR
-    uses: ./github/workflows/ecr.yml
+    uses: ./.github/workflows/ecr.yml
     with:
       terraform_directory: backend/services/planes
       repo_name: servicio-planes
