@@ -1,16 +1,22 @@
 {
-  "id": 0,
-  "username": "alejo",
-  "password": "135.Simetrik24",
-  "email": "alejofig@hotmail.com",
-  "nombre": "Alejo",
-  "apellido": "Fig",
-  "tipo_documentacion": "cc",
-  "numero_identificacion": "1032474702",
-  "genero": "M",
-  "edad": 28,
-  "peso": 85,
-  "pais_nacimiento": "Colombia",
-  "ciudad_nacimiento": "Bogota",
-  "antiguedad_residencia": 10
+  "password": "135.Simetrik24#",
+  "nombre": "a",
+  "apellido": "a",
+  "username": "aqea@gg.com",
+  "tipo_documentacion": "PASAPORTE",
+  "numero_identificacion": "1",
+  "email": "aqea@gg.com",
+  "edad": -1,
+  "peso": 1,
+  "altura": 1,
+  "genero": "Masculino",
+  "pais_nacimiento": "c",
+  "ciudad_nacimiento": "c",
+  "pais_residencia": "c",
+  "ciudad_residencia": "c",
+  "antiguedad_residencia": 12,
+  "tipo_plan": "GRATUITO",
+  "deportes": [
+      "Natación"
+  ]
 }
