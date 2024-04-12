@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLinkWithHref } from '@angular/router';
+import { Route, RouterLinkWithHref } from '@angular/router';
 import { HeaderInicioComponent } from '../../shared/components/header-inicio/header-inicio.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../servicios/auth.service';
 import { ApiGatewayBackendService } from '../../apigateway-backend.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
@@ -46,7 +47,10 @@ export class RegistroComponent {
   public tipo_plan: string = 'GRATUITO';
   public deportes: string[] = [];
   public emailExistsError: boolean = false;
-  constructor(private http: HttpClient,
+  registroExitoso: boolean = false;
+  constructor(
+     private router: Router,
+     private http: HttpClient,
      private authService: AuthService,
      private backendService: ApiGatewayBackendService) {}
 
@@ -71,7 +75,6 @@ export class RegistroComponent {
     return errorMessage;
   }
   validarFormulario(): boolean {
-
     if (!this.username) {
       alert('Por favor ingresa tu nombre.');
       return false;
@@ -107,6 +110,10 @@ export class RegistroComponent {
     this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
       console.log('Response:', response);
     });
+    this.registroExitoso = true;
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 2000);
     return true;
   }
 

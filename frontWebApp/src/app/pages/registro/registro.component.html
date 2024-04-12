@@ -148,11 +148,13 @@
       </div>
 
       <div class="form-submit">
-              <button type="submit" class="button">Registrarse</button>
+              <button type="submit" class="button" [disabled]="registroExitoso">Registrarse</button>
+      </div>
+      <div *ngIf="registroExitoso" class="alert alert-success" role="alert">
+        Registro enviado de manera exitosa.
       </div>
   </form>
 </div>
-
 <app-footer></app-footer>
 
 </body>

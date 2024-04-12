@@ -17,8 +17,8 @@
       ],
       "environment":[
          {
-          "name": "DB_HOST",
-          "value": "${rds_endpoint_without_port}"
+          "name": "SQS_URL",
+          "value": "${SQS_URL}"
         },
          {
             "name":"FLASK_APP_PORT",

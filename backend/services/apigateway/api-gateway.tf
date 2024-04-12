@@ -205,6 +205,7 @@ data "template_file" "task_definition_template" {
     AUTH0_CLIENT_SECRET = "SnUDnO1lL3CnvzeCDFFUwwsFABY-Szfr-lRkFyshOf4uSnCiM6EHMgvCDDVQ8v1u"
     AUTH0_CLIENT_ID = "3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT"
     AUTH0_API_IDENTIFIER= "https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/"
+    SQS_URL = "https://sqs.us-east-1.amazonaws.com/344488016360/users-register-sqs"
   }
 }
 resource "aws_ecs_task_definition" "task_definition" {
@@ -217,6 +218,30 @@ resource "aws_ecs_task_definition" "task_definition" {
   memory                = 512
   execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn  
   container_definitions = data.template_file.task_definition_template.rendered
+  task_role_arn         = aws_iam_role.ecs_task_role.arn  
+}
+
+resource "aws_iam_role" "ecs_task_role" {
+  name               = "ecs-task-role-apigateway"
+  assume_role_policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "ecs-tasks.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+
+resource "aws_iam_policy_attachment" "ecs_task_role_sqs_attachment" {
+  name       = "ecs-task-role-sqs-policy-attachment"
+  roles      = [aws_iam_role.ecs_task_role.name]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"  # ARN de la política de acceso completo a SQS
 }
 
 resource "aws_ecs_service" "apigateway-service" {
@@ -290,7 +315,9 @@ policy = jsonencode({
           "ecr:DescribeRepositories",
           "ecr:ListImages",
           "ecr:DescribeImages",
-          "ecr:BatchGetImage"
+          "ecr:BatchGetImage",
+          "sqs:ReceiveMessage",
+          "sqs:*",
         ],
         "Resource": "*"
       }

@@ -1,14 +1,9 @@
 # app/routes.py
-from fastapi import APIRouter
-from app.auth import Auth0
-from fastapi.responses import JSONResponse
-import app.config as config
+from fastapi import APIRouter,JSONResponse
 from app.database import get_user_by_email
-from app.models import User
-import boto3
 
 router = APIRouter()
-router.get("/")
+@router.get("/")
 async def health():
     return {"status": "ok"}
 
@@ -18,4 +13,4 @@ async def get_user(user_email: str):
     if user is None:
         return JSONResponse(status_code=404, content={"detail": "User not found"})
     else:
-        return {"message": user}
+        return {"message": "User already exists"}

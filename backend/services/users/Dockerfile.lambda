@@ -5,7 +5,7 @@ FROM public.ecr.aws/lambda/python:3.9
 COPY . /var/task
 
 # Instala los requisitos de la función Lambda
-RUN pip install -r /var/task/register_lambda/requirements.txt
+RUN pip install -r /var/task/requirements.txt
 
 # Configura el punto de entrada para la función Lambda
-CMD ["register_lambda.main.run"]
+CMD ["main_lambda.run"]

@@ -3,6 +3,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
+
 # random string for users secret-key env variable
 resource "random_string" "users-secret-key" {
   length           = 16
@@ -136,8 +137,8 @@ resource "aws_security_group" "ecs_sg" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
-    from_port       = 3001
-    to_port         = 3001
+    from_port       = 80
+    to_port         = 80
     protocol        = "tcp"
     cidr_blocks     = ["0.0.0.0/0"]
     security_groups = [aws_security_group.alb_sg.id]
@@ -206,17 +207,12 @@ resource "aws_ecs_cluster" "fp-ecs-cluster" {
 data "template_file" "task_definition_template" {
   template = file("task_definition.json.tpl")
   vars = {
-    REPOSITORY_URL        = "344488016360.dkr.ecr.us-west-2.amazonaws.com/users-sportsapp:latest"
-    FLASK_APP_PORT        = "3001"
-    AUTH0_DOMAIN          = "dev-s8qwnnguwcupqg2o.us.auth0.com"
-    AUTH0_CLIENT_SECRET   = "SnUDnO1lL3CnvzeCDFFUwwsFABY-Szfr-lRkFyshOf4uSnCiM6EHMgvCDDVQ8v1u"
-    AUTH0_CLIENT_ID       = "3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT"
-    AUTH0_API_IDENTIFIER = "https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/"
+    REPOSITORY_URL        = "344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-users"
     DB_USER               = "users"
     DB_PASSWORD           = "userspassword"
-    DB_NAME               = "users-db"
+    DB_NAME               = "postgres"
     DB_PORT               = "5432"
-    DB_HOST               = aws_db_instance.users_rds.endpoint
+    DB_HOST               = local.rds_endpoint_without_port
   }
 }
 resource "aws_ecs_task_definition" "task_definition" {
@@ -248,7 +244,7 @@ resource "aws_ecs_service" "users-service" {
 
   load_balancer {
     container_name   = "users-app"
-    container_port   = 3001
+    container_port   = 80
     target_group_arn = aws_alb_target_group.target_group.id
   }
 
@@ -343,16 +339,14 @@ resource "aws_db_instance" "users_rds" {
   allocated_storage    = 20
   storage_type         = "gp2"
   engine               = "postgres"
-  instance_class       = "db.t3.micro"
-  engine_version        = "12.14"
+  engine_version         = "12.14"
+  instance_class         = "db.t3.micro"
   identifier           = "users-db"
   username             = "users"
   password             = "userspassword"
   parameter_group_name = "default.postgres12"
-  vpc_security_group_ids = [
-    aws_security_group.ecs_sg.id ]
+  vpc_security_group_ids = [aws_security_group.ecs_sg.id ]
   publicly_accessible = true
-  db_subnet_group_name = aws_db_subnet_group.my_db_subnet_group.name
 }
 
 resource "aws_db_subnet_group" "my_db_subnet_group" {
@@ -370,3 +364,164 @@ locals {
 output "rds_endpoint_without_port" {
   value = local.rds_endpoint_without_port
 }
+
+
+###### Lambda registro
+
+resource "aws_iam_role" "lambda_exec" {
+  name = "lambda-exec-role-users"
+
+  assume_role_policy = jsonencode({
+    Version   = "2012-10-17",
+    Statement = [{
+      Effect    = "Allow",
+      Principal = {
+        Service = "lambda.amazonaws.com"
+      },
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_policy" "lambda_sqs_policy" {
+  name        = "lambda-sqs-policy"
+  description = "Policy to allow Lambda to receive messages from SQS"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect    = "Allow",
+      Action    = [
+        "sqs:ReceiveMessage",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes"
+      ],
+      Resource  = aws_sqs_queue.users_register_sqs.arn
+    }]
+  })
+}
+
+resource "aws_iam_policy" "lambda_kms_policy" {
+  name        = "lambda-kms-policy"
+  description = "Policy to allow Lambda to use KMS"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect    = "Allow",
+      Action    = [
+        "kms:Encrypt",
+        "kms:Decrypt"
+      ],
+      Resource  = "arn:aws:kms:us-east-1:344488016360:key/4f22f451-61d2-4f5c-bdd8-6e3f4a739632"
+    }]
+  })
+}
+resource "aws_iam_policy" "lambda_cloudwatch_logs_policy" {
+  name        = "lambda-cloudwatch-logs-policy"
+  description = "Policy to allow Lambda to write logs to CloudWatch Logs"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect    = "Allow",
+      Action    = [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      Resource  = "arn:aws:logs:*:*:*"  
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_cloudwatch_logs_attachment" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = aws_iam_policy.lambda_cloudwatch_logs_policy.arn
+}
+resource "aws_iam_role_policy_attachment" "lambda_sqs_attachment" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = aws_iam_policy.lambda_sqs_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_kms_attachment" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = aws_iam_policy.lambda_kms_policy.arn
+}
+
+resource "aws_lambda_function" "users_register" {
+  function_name = "users-register"
+  role          = aws_iam_role.lambda_exec.arn
+  package_type  = "Image"
+  image_uri     = "344488016360.dkr.ecr.us-east-1.amazonaws.com/users-register-lambda:latest"
+
+  environment {
+    variables = {
+          DB_USER               = "users"
+          DB_PASSWORD           = "userspassword"
+          DB_NAME               = "postgres"
+          DB_PORT               = "5432"
+          DB_HOST               = local.rds_endpoint_without_port
+          AUTH0_DOMAIN          ="dev-s8qwnnguwcupqg2o.us.auth0.com"
+          AUTH0_CLIENT_SECRET   ="SnUDnO1lL3CnvzeCDFFUwwsFABY-Szfr-lRkFyshOf4uSnCiM6EHMgvCDDVQ8v1u"
+          AUTH0_CLIENT_ID       ="3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT"
+          AUTH0_API_IDENTIFIER  ="https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/"
+          ALGORITHM             ="RS256"
+          KMS_KEY_ID            ="4f22f451-61d2-4f5c-bdd8-6e3f4a739632"
+    }
+  }
+  timeout = 30
+}
+
+resource "aws_lambda_event_source_mapping" "users-register" {
+  event_source_arn = aws_sqs_queue.users_register_sqs.arn
+  function_name    = aws_lambda_function.users_register.function_name
+  batch_size       = 1
+  depends_on = [
+    aws_sqs_queue.users_register_sqs
+  ]
+  scaling_config {
+      maximum_concurrency = 50
+  }
+}
+
+resource "aws_sqs_queue" "users_register_dlq" {
+  name = "users-register-dlq"
+}
+
+resource "aws_sqs_queue" "users_register_sqs" {
+  name = "users-register-sqs"
+
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.users_register_dlq.arn,
+    maxReceiveCount     = 1
+  })
+}
+
+resource "aws_iam_user" "user" {
+  name = "user"
+}
+
+resource "aws_iam_policy" "sqs_queue_policy" {
+  name        = "sqs-queue-policy"
+  description = "Policy to allow access to the SQS queue"
+  
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "sqs:*",
+        ]
+        Effect   = "Allow"
+        Resource = "arn:aws:sqs:*:*:*"
+      },
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "sqs_queue_policy_user" {
+  user       = aws_iam_user.user.name
+  policy_arn = aws_iam_policy.sqs_queue_policy.arn
+}
+

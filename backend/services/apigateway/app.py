@@ -14,8 +14,6 @@ from utils import protected_route
 from flask_cors import CORS
 
 URL_USERS = os.getenv('USERS_PATH')
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
 app = Flask(__name__)
 CORS(app)
@@ -41,11 +39,10 @@ def registrar_usuario():
         user_data = User(**json_entrada)
         user_data.dict()
         sqs = boto3.client('sqs',
-                           region_name='us-west-2',
-                           aws_access_key_id=AWS_ACCESS_KEY_ID,
-                           aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+                           region_name='us-east-1')
         mensaje = user_data.dict()
-        queue_url = 'https://sqs.us-west-2.amazonaws.com/344488016360/users'
+        queue_url = os.getenv('SQS_URL')
+        #queue_url = 'https://sqs.us-west-2.amazonaws.com/344488016360/users'
         message_url = json.dumps(mensaje)
         response = sqs.send_message(
             QueueUrl=queue_url,
