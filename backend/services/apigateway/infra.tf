@@ -212,6 +212,7 @@ data "template_file" "task_definition_template" {
     DB_NAME        = "prueba"
     FLASK_APP_PORT = "3001"
     API_KEY        = "MIAPIKEY-1234-5678-91011-000000000000"
+    EVENTS_PATH    = "http://52.91.57.227:3001"
   }
 }
 
