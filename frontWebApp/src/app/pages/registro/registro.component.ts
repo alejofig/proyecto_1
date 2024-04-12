@@ -107,17 +107,17 @@ export class RegistroComponent {
     }
     if (await this.checkIfEmailExists(this.email)){
       return false;
+    }else{
+      console.log(this.create_form_data())
+      this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
+        console.log('Response:', response);
+      });
+      this.registroExitoso = true;
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 2000);
+      return true;
     }
-
-    console.log(this.create_form_data())
-    this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
-      console.log('Response:', response);
-    });
-    this.registroExitoso = true;
-    setTimeout(() => {
-      this.router.navigate(['/']);
-    }, 2000);
-    return true;
   }
 
   public agregarDeporte(): void {
@@ -148,6 +148,7 @@ public async checkIfEmailExists(email: string): Promise<boolean> {
     console.error('Error al verificar el correo electrónico:', error);
     return false; // Add this line to return an empty string
   }
+
 }
 public registerUser(): void {
 this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
