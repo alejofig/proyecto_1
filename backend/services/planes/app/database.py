@@ -1,19 +1,20 @@
-from sqlmodel import Session
 from app import config
-from app.models import Evento, create_session
-from sqlmodel import select
+from app.models import Plan
+from sqlmodel import Session, create_engine, SQLModel
+
+SQLALCHEMY_DATABASE_URL = f"postgresql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+SQLModel.metadata.create_all(engine)
 
 
-def create_event(event: Evento):
+def create_session():
+    session = Session(engine)
+    return session
+
+
+def create_plan(plan: Plan):
     session = create_session()
-    session.add(event)
+    session.add(plan)
     session.commit()
     session.close()
-    return event
-
-def consultar_eventos():
-    session = create_session()
-    statement = select(Evento)
-    results = session.exec(statement)
-    eventos = results.all()
-    return eventos
+    return plan

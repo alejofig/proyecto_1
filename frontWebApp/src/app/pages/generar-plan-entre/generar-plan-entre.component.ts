@@ -44,7 +44,7 @@ export class GenerarPlanEntreComponent implements OnInit {
     console.log(this.imprimirDatos())
     let planEntrenamiento = new PlanEntrenamiento(1, this.deporte, this.nombre, this.numeroEntrenamientosSemana, this.objetivoDistanciaEntrenamiento)
     console.log(planEntrenamiento)
-    this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result) => {
+    this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result: any) => {
       console.info("El plan de entrenamiento fue generado", result)
       this.planEntrenamientoForm.reset();
     })
