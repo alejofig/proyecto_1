@@ -15,17 +15,18 @@ class EventosViewHolder(view:View): ViewHolder(view) {
     val lugar = view.findViewById<TextView>(R.id.lugarTV)
 
     fun render(evento: Evento){
-        date_format(evento)
-        val nameValue = "- " + evento.name
-        val lugarValue = "- " + evento.lugar
+        dateFormat(evento)
+        val nameValue = "- " + evento.nombre
+        val lugarValue = "- " + evento.ciudad + ", " + evento.pais
         nombre.text = nameValue
         lugar.text = lugarValue
     }
 
-    fun date_format(evento: Evento) {
+    private fun dateFormat(evento: Evento) {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val outputFormat = SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", Locale("es", "ES"))
         val date = inputFormat.parse(evento.fecha)
-        fecha.text = outputFormat.format(date)
+        val fechaValue = date?.let { outputFormat.format(it) } + ", " + evento.hora
+        fecha.text = fechaValue
     }
 }
