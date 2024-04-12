@@ -103,19 +103,50 @@ jobs:
 #        run: |
 #          coverage report --fail-under=85
 
-  ecr:
-    name: Docker image to ECR
-    uses: ./.github/workflows/ecr.yml
-    with:
-      terraform_directory: backend/services/planes
-      repo_name: servicio-planes
-      build_command: docker build -t servicio-planes .
-      tag_command: docker tag servicio-planes:latest 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
-      push_command: docker push 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
-    secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      aws-region: ${{ secrets.AWS_REGION }}
+  push:
+    name: ecr
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v3
+
+      - name: Setup AWS Credentials
+        id: setup-aws
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: servicio-planes
+          IMAGE_TAG: latest
+        run: |
+          docker build -t servicio-planes ${{ inputs.terraform_directory }}
+          docker tag servicio-planes:latest 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
+          docker push 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
+
+#  ecr:
+#    name: Docker image to ECR
+#    uses: ./.github/workflows/ecr.yml
+#    with:
+#      terraform_directory: backend/services/planes
+#      repo_name: servicio-planes
+#      build_command: docker build -t servicio-planes .
+#      tag_command: docker tag servicio-planes:latest 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
+#      push_command: docker push 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest
+#    secrets:
+#      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#      aws-region: ${{ secrets.AWS_REGION }}
 
 #  terraform:
 #    name: Despliegue Planes
