@@ -10,6 +10,7 @@ def test_consultar_enventos():
 
 
 def test_crear_evento():
+    
     evento = {
         "nombre": "Evento de prueba",
         "fecha": "2021-10-10",
