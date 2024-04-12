@@ -2,23 +2,7 @@ name: ecr
 on:
   workflow_call:
     inputs:
-      terraform_directory:
-        type: string
-        required: true
-        description: 'Terraform folder'
       repo_name:
-        type: string
-        required: true
-        description: 'ECR Repo name'
-      build_command:
-        type: string
-        required: true
-        description: 'ECR Repo name'
-      tag_command:
-        type: string
-        required: true
-        description: 'ECR Repo name'
-      push_command:
         type: string
         required: true
         description: 'ECR Repo name'
