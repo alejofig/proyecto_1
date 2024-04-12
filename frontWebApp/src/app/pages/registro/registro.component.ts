@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLinkWithHref } from '@angular/router';
+import { Route, RouterLinkWithHref } from '@angular/router';
 import { HeaderInicioComponent } from '../../shared/components/header-inicio/header-inicio.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +7,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../servicios/auth.service';
-import { UsersBackendService } from '../../users-backend.service';
+import { ApiGatewayBackendService } from '../../apigateway-backend.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
@@ -43,11 +44,15 @@ export class RegistroComponent {
   public formValid: boolean = false;
   public errorMessage: string = '';
   public nuevoDeporte: string = '';
+  public tipo_plan: string = 'GRATUITO';
   public deportes: string[] = [];
   public emailExistsError: boolean = false;
-  constructor(private http: HttpClient,
+  registroExitoso: boolean = false;
+  constructor(
+     private router: Router,
+     private http: HttpClient,
      private authService: AuthService,
-     private backendService: UsersBackendService) {}
+     private backendService: ApiGatewayBackendService) {}
 
   validarPassword() {
     let errorMessage = '';
@@ -69,8 +74,7 @@ export class RegistroComponent {
 
     return errorMessage;
   }
-  validarFormulario(): boolean {
-
+  async validarFormulario(): Promise<boolean> {
     if (!this.username) {
       alert('Por favor ingresa tu nombre.');
       return false;
@@ -101,11 +105,19 @@ export class RegistroComponent {
         alert(passwordErrorMessage);
         return false;
     }
-    this.checkIfEmailExists(this.email);
-    this.backendService.register_user(this.create_form_data()).subscribe((response: any) => {
-      console.log('Response:', response);
-    });
-    return true;
+    if (await this.checkIfEmailExists(this.email)){
+      return false;
+    }else{
+      console.log(this.create_form_data())
+      this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
+        console.log('Response:', response);
+      });
+      this.registroExitoso = true;
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 2000);
+      return true;
+    }
   }
 
   public agregarDeporte(): void {
@@ -122,20 +134,24 @@ public quitarDeporte(deporte: string): void {
     }
 }
 
-public async checkIfEmailExists(email: string): Promise<void> {
+public async checkIfEmailExists(email: string): Promise<boolean> {
   console.log('Verificando si el correo electrónico ya está registrado.');
   console.log('Email:', this.email);
   try {
     const emailExists = await this.authService.checkIfEmailExists(email);
     if (emailExists) {
       alert('El correo electrónico ya está registrado.');
+      return true;
     }
+    return false; // Add this line to return an empty string
   } catch (error) {
     console.error('Error al verificar el correo electrónico:', error);
+    return false; // Add this line to return an empty string
   }
+
 }
 public registerUser(): void {
-this.backendService.register_user(this.create_form_data()).subscribe((response: any) => {
+this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
   console.log('Response:', response);
 });
 }
@@ -158,7 +174,8 @@ public create_form_data(): any {
       pais_residencia: this.pais_residencia,
       ciudad_residencia: this.ciudad_residencia,
       antiguedad_residencia: this.antiguedad_residencia,
-      // deportes: this.deportes,
+      tipo_plan: "GRATUITO",
+      deportes: this.deportes,
     };
   }
 }
