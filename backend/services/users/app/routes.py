@@ -14,3 +14,4 @@ async def get_user(user_email: str):
         return JSONResponse(status_code=404, content={"detail": "User not found"})
     else:
         return {"message": "User already exists"}
+
