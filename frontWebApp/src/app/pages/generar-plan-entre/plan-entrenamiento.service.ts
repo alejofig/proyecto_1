@@ -9,13 +9,13 @@ import {environment} from "../../../environments/environment";
 })
 export class PlanEntrenamientoService {
 
-  private apiUrl: string = environment.backendUrl;
+  private apiUrl: string = 'http://0.0.0.0:3002' //environment.backendUrl;
 
   constructor(private http: HttpClient) {
   }
 
   generarPlanEntrenamiento(planEntrenamiento: any): Observable<any> {
-    let postPlanEntrenamiento = this.apiUrl + 'generate';
+    let postPlanEntrenamiento = this.apiUrl + '/generate';
     return this.http.post<any>(postPlanEntrenamiento, planEntrenamiento, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

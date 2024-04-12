@@ -24,6 +24,7 @@ export class GenerarPlanEntreComponent implements OnInit {
   public nombre: string = '';
   public numeroEntrenamientosSemana: number = 0;
   public objetivoDistanciaEntrenamiento: number = 0;
+  public fechas: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -37,12 +38,13 @@ export class GenerarPlanEntreComponent implements OnInit {
       nombre: ["", [Validators.required]],
       numeroEntrenamientosSemana: ["", [Validators.required]],
       objetivoDistanciaEntrenamiento: ["", [Validators.required]],
+      fechas: ["", [Validators.required]]
     })
   }
 
   generarPlanEntrenamiento() {
     console.log(this.imprimirDatos())
-    let planEntrenamiento = new PlanEntrenamiento(1, this.deporte, this.nombre, this.numeroEntrenamientosSemana, this.objetivoDistanciaEntrenamiento)
+    let planEntrenamiento = new PlanEntrenamiento(1, this.deporte, this.nombre, this.numeroEntrenamientosSemana, this.objetivoDistanciaEntrenamiento, this.fechas)
     console.log(planEntrenamiento)
     this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result: any) => {
       console.info("El plan de entrenamiento fue generado", result)
@@ -55,7 +57,8 @@ export class GenerarPlanEntreComponent implements OnInit {
       deporte: this.deporte,
       nombre: this.nombre,
       numeroEntrenamientosSemana: this.numeroEntrenamientosSemana,
-      objetivoDistanciaEntrenamiento: this.objetivoDistanciaEntrenamiento
+      objetivoDistanciaEntrenamiento: this.objetivoDistanciaEntrenamiento,
+      fechas: this.fechas
     }
   }
 }
