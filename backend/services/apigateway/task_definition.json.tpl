@@ -1,43 +1,44 @@
 [
    {
       "essential": true,
-      "name":"flask-app",
+      "name":"apigateway-app",
       "image":"${REPOSITORY_URL}",
       "portMappings":[
          {
             "containerPort":3001,
             "hostPort":3001,
             "protocol":"tcp"
-         }
+         },
+        {
+          "containerPort":443,
+          "hostPort":443,
+          "protocol":"tcp"
+        }
       ],
       "environment":[
          {
-            "name":"DB_USER",
-            "value":"${DB_USER}"
-         },
+          "name": "SQS_URL",
+          "value": "${SQS_URL}"
+        },
          {
-            "name":"DB_PASSWORD",
-            "value":"${DB_PASSWORD}"
-         },
-         {
-            "name":"DB_HOST",
-            "value":"${DB_HOST}"
-         },
-         {
-            "name":"DB_NAME",
-            "value":"${DB_NAME}"
-         },
-         {
-            "name":"DB_PORT",
-            "value":"${DB_PORT}"
-         },
-         {
-            "name":"APP_PORT",
+            "name":"FLASK_APP_PORT",
             "value":"${FLASK_APP_PORT}"
          },
          {
-            "name":"API_KEY",
-            "value":"${API_KEY}"
+            "name":"AUTH0_DOMAIN",
+            "value":"${AUTH0_DOMAIN}"
+         },
+         {
+            "name":"AUTH0_CLIENT_SECRET",
+            "value":"${AUTH0_CLIENT_SECRET}"
+         },
+         {
+            "name":"AUTH0_CLIENT_ID",
+            "value":"${AUTH0_CLIENT_ID}"
+         },
+         {
+            "name":"AUTH0_API_IDENTIFIER",
+            "value":"${AUTH0_API_IDENTIFIER}"
          }
       ],
       "logConfiguration": {

@@ -124,3 +124,9 @@ body {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+
+.button[disabled] {
+  background-color: #dddddd;
+  color: #888888;
+  cursor: not-allowed;
+}
