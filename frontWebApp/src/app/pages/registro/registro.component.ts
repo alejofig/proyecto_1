@@ -74,7 +74,7 @@ export class RegistroComponent {
 
     return errorMessage;
   }
-  validarFormulario(): boolean {
+  async validarFormulario(): Promise<boolean> {
     if (!this.username) {
       alert('Por favor ingresa tu nombre.');
       return false;
@@ -105,7 +105,10 @@ export class RegistroComponent {
         alert(passwordErrorMessage);
         return false;
     }
-    this.checkIfEmailExists(this.email);
+    if (await this.checkIfEmailExists(this.email)){
+      return false;
+    }
+
     console.log(this.create_form_data())
     this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
       console.log('Response:', response);
@@ -131,16 +134,19 @@ public quitarDeporte(deporte: string): void {
     }
 }
 
-public async checkIfEmailExists(email: string): Promise<void> {
+public async checkIfEmailExists(email: string): Promise<boolean> {
   console.log('Verificando si el correo electrónico ya está registrado.');
   console.log('Email:', this.email);
   try {
     const emailExists = await this.authService.checkIfEmailExists(email);
     if (emailExists) {
       alert('El correo electrónico ya está registrado.');
+      return true;
     }
+    return false; // Add this line to return an empty string
   } catch (error) {
     console.error('Error al verificar el correo electrónico:', error);
+    return false; // Add this line to return an empty string
   }
 }
 public registerUser(): void {
