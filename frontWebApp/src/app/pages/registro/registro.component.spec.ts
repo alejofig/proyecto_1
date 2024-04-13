@@ -12,6 +12,7 @@ describe('RegistroComponent', () => {
   let authService: AuthService;
   let apigatewayBackendService: ApiGatewayBackendService;
   let httpTestingController: HttpTestingController;
+  let backendService: ApiGatewayBackendService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -25,6 +26,7 @@ describe('RegistroComponent', () => {
     authService = TestBed.inject(AuthService);
     apigatewayBackendService= TestBed.inject(ApiGatewayBackendService);
     httpTestingController = TestBed.inject(HttpTestingController);
+    backendService = TestBed.inject(ApiGatewayBackendService);
     fixture.detectChanges();
   });
 
@@ -321,4 +323,7 @@ it('should remove sport from deportes array', () => {
   expect(component.deportes).toEqual(['Natación', 'Cycling']);
 });
 
+
 });
+
+
