@@ -8,7 +8,7 @@ import {environment} from "../../../environments/environment";
 })
 export class PlanEntrenamientoService {
 
-  private apiUrl: string = environment.entrenamientoUrl;
+  private apiUrl: string = environment.apigateway_url;
 
   constructor(private http: HttpClient) {
   }

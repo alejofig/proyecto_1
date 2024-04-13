@@ -1,5 +1,5 @@
 locals {
-  rds_endpoint_without_port = "${split(":", aws_db_instance.db_postgres_planes.endpoint)[0]}"
+  rds_endpoint_without_port = split(":", aws_db_instance.db_postgres_planes.endpoint)[0]
 }
 
 # --- VPC
@@ -205,7 +205,7 @@ resource "aws_ecs_service" "service_planes" {
 
   load_balancer {
     container_name   = "planes-app"
-    container_port   = 80
+    container_port   = 3002
     target_group_arn = aws_alb_target_group.alb_target_group_planes.id
   }
 
@@ -229,8 +229,8 @@ resource "aws_security_group" "ecs_fargate_sg_planes" {
 
   ingress {
     protocol        = "tcp"
-    from_port       = 5432
-    to_port         = 5432
+    from_port       = 3002
+    to_port         = 3002
     cidr_blocks     = ["0.0.0.0/0"]
     security_groups = [aws_security_group.alb_sg_planes.id]
   }
@@ -243,6 +243,30 @@ resource "aws_security_group" "ecs_fargate_sg_planes" {
   }
 }
 
+locals {
+  container_definitions = [
+    {
+      name      = "planes-app"
+      image     = "344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest"
+      cpu       = 256
+      memory    = 512
+      essential = true
+      portMappings = [
+        {
+          containerPort = 3002
+          hostPort      = 3002
+        }
+      ],
+      environment = [
+        {
+          name  = "DB_HOST"
+          value = aws_db_instance.db_postgres_planes.address
+        }
+      ]
+    }
+  ]
+}
+
 resource "aws_ecs_task_definition" "task_definition_planes" {
   family                   = "task_definition_planes"
   network_mode             = "awsvpc"
@@ -250,12 +274,12 @@ resource "aws_ecs_task_definition" "task_definition_planes" {
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn //"arn:aws:iam::344488016360:role/ecsTaskExecutionRole"
   cpu                      = 256
   memory                   = 512
-  container_definitions    = data.template_file.task_definition_template.rendered //jsonencode(local.container_definitions)
+  container_definitions    = jsonencode(local.container_definitions) //data.template_file.task_definition_template.rendered //
 }
 
 # --- IAM
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ecs-task-execution-role-planes"
+  name = "ecs-task-execution-role-planes"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

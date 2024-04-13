@@ -97,6 +97,7 @@ export class GenerarPlanEntreComponent implements OnInit {
     return {
       deporte: this.deporte,
       nombre: this.nombre,
+      usuario: this.usuario,
       cantidadEntrenamientos: this.cantidadEntrenamientos,
       distanciaPorEntrenamientos: this.distanciaPorEntrenamientos,
       fechas: this.fechas
