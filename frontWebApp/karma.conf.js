@@ -1,6 +1,7 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
+
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -13,6 +14,7 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-threshold-reporter')
     ],
+
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
