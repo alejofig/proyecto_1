@@ -1,3 +1,8 @@
+terraform {
+  backend "s3" {
+    region = "us-east-1"
+  }
+}
 provider "aws" {
   # shared_credentials_file = "$HOME/.aws/credentials"
   region = "us-east-1"
