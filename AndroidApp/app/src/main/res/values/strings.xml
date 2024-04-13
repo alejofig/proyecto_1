@@ -3,4 +3,5 @@
     <string name="com_auth0_domain">dev-z1xog8lzw2netp30.us.auth0.com</string>
     <string name="com_auth0_scheme">demo</string>
     <string name="app_name">SportApp</string>
+    <string name="base_api_url">http://54.198.231.145:3001/</string>
 </resources>

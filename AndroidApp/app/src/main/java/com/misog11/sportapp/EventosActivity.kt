@@ -27,11 +27,15 @@ import java.util.Locale
 
 class EventosActivity : AppCompatActivity() {
     private lateinit var retrofit: Retrofit
+    private lateinit var baseUrl:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_eventos)
+
+        //Definir Url Base
+        baseUrl = getString(R.string.base_api_url)
         retrofit = getRetrofit()
 
         // Navegacion Inferior
@@ -122,7 +126,7 @@ class EventosActivity : AppCompatActivity() {
     private fun getRetrofit():Retrofit{
         return Retrofit
                .Builder()
-               .baseUrl("http://52.91.57.227:3001/")
+               .baseUrl(baseUrl)
                .addConverterFactory(GsonConverterFactory.create())
                .build()
     }

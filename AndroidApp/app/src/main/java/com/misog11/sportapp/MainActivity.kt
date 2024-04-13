@@ -44,10 +44,6 @@ class MainActivity : MenuForAllActivitys() {
 
     }
 
-    //private fun navigate(viewState:Class<*>){
-    //    val intent = Intent(this, viewState)
-    //    startActivity(intent)
-    //}
 
     private fun loginWithBrowser() {
         // Setup the WebAuthProvider, using the custom scheme and scope.
