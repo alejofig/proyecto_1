@@ -10,6 +10,7 @@ import java.util.Timer
 import java.util.TimerTask
 import android.util.Log
 import android.widget.ImageView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class EntrenamientoActivity : AppCompatActivity() {
 
@@ -43,6 +44,15 @@ class EntrenamientoActivity : AppCompatActivity() {
         val backBtn = findViewById<ImageView>(R.id.ivBackArrow)
         backBtn.setOnClickListener{
             navigate(DeporteActivity::class.java)
+        }
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> print("home")
+                R.id.navigation_training -> navigate(DeporteActivity::class.java)
+                R.id.navigation_events -> navigate(EventosActivity::class.java)
+            }
+            true
         }
 
     }
