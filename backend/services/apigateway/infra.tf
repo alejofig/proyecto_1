@@ -1,3 +1,9 @@
+terraform {
+  backend "s3" {
+    region = "us-east-1"
+  }
+}
+
 provider "aws" {
   # shared_credentials_file = "$HOME/.aws/credentials"
   region = "us-east-1"
@@ -10,7 +16,7 @@ resource "random_string" "flask-secret-key" {
   override_special = "/@\" "
 }
 
-data "aws_availability_zones" "azs" { }
+data "aws_availability_zones" "azs" {}
 
 # create a VPC (Virtual Private Cloud)
 resource "aws_vpc" "vpc" {
@@ -25,7 +31,7 @@ resource "aws_vpc" "vpc" {
 
 resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.vpc.id
-  tags   = {
+  tags = {
     Name = "flask-docker-igw"
   }
 }
@@ -106,18 +112,18 @@ resource "aws_security_group" "alb_sg" {
   vpc_id      = aws_vpc.vpc.id
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    from_port = 80
+    to_port   = 80
+    protocol  = "tcp"
     cidr_blocks = [
       "0.0.0.0/0"
     ]
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
     cidr_blocks = [
       "0.0.0.0/0"
     ]
@@ -203,7 +209,7 @@ resource "aws_ecs_cluster" "fp-ecs-cluster" {
 
 data "template_file" "task_definition_template" {
   template = file("task_definition.json.tpl")
-  vars     = {
+  vars = {
     REPOSITORY_URL = "sebasarangom/apigateway:latest"
     DB_USER        = "prueba"
     DB_PASSWORD    = "awsprueba"
@@ -212,18 +218,19 @@ data "template_file" "task_definition_template" {
     DB_NAME        = "prueba"
     FLASK_APP_PORT = "3001"
     API_KEY        = "MIAPIKEY-1234-5678-91011-000000000000"
+    EVENTS_PATH    = "http://52.91.57.227:3001"
   }
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "flask-app"
+  family = "flask-app"
   requires_compatibilities = [
     "FARGATE"
   ]
   network_mode          = "awsvpc"
   cpu                   = 256
   memory                = 512
-  execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn  # Nuevo
+  execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn # Nuevo
   container_definitions = data.template_file.task_definition_template.rendered
 }
 
@@ -258,12 +265,12 @@ output "alb-dns-name" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs_log_group" {
-  name              = "/ecs/flask-app"  # Nombre del grupo de logs
-  retention_in_days = 7  # Retención de los logs en días (ajusta según tus necesidades)
+  name              = "/ecs/flask-app" # Nombre del grupo de logs
+  retention_in_days = 7                # Retención de los logs en días (ajusta según tus necesidades)
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ecs-task-execution-role"
+  name = "ecs-task-execution-role"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

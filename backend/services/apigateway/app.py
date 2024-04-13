@@ -6,6 +6,7 @@ import requests
 from flask import Flask, jsonify, request, json
 
 URL_USERS = os.getenv('USERS_PATH')
+URL_EVENTS = os.getenv('EVENTS_PATH')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
@@ -134,7 +135,12 @@ def crear_usuario():
 
 @app.route('api/eventos', methods=['GET'])
 def consultar_eventos():
-    response = requests.get(f"{URL_USERS}/eventos", headers={})
+    
+
+    obtener_usuario = requests.get(f"{URL_USERS}/usuarios/1", headers={})
+    print(obtener_usuario.json())
+
+    response = requests.get(f"{URL_EVENTS}/eventos", headers={})
     if response.status_code != 200:
         print(response)
         return jsonify('No hay eventos'), 401
