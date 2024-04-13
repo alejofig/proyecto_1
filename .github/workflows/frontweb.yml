@@ -86,20 +86,20 @@ jobs:
         with:
           python-version: '3.9'
       - name: Install Dependencies
-        working-directory: ./backend/services/users
+        working-directory: ./frontWebApp
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Start FastAPI App
-        working-directory: ./backend/services/users
+        working-directory: ./frontWebApp
         run: |
           nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
       - name: Run Tests
-        working-directory: ./backend/services/users
+        working-directory: ./frontWebApp
         run: |
           coverage run -m pytest tests/* -v
       - name: Run cov report
-        working-directory: ./backend/services/users
+        working-directory: ./frontWebApp
         run: |
           coverage report --fail-under=85
 
@@ -129,3 +129,34 @@ jobs:
           source-branch: ${{ github.ref }}
           target-branch: develop
           commit-message: "Integrar rama feature en develop"
+
+  push-image:
+    name: ecr
+    runs-on: ubuntu-latest
+    needs: 'automerge-2'
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup AWS Credentials
+        id: setup-aws
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: front-sportapp
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f frontWebApp/Dockerfile frontWebApp
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
