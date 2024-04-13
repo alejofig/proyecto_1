@@ -69,7 +69,7 @@ export class GenerarPlanEntreComponent implements OnInit {
 
     // const fecha = new Date();
     // let cas = fecha.setDate(fecha.getDate() + 1).toLocaleString();
-    // console.log('cas: ' + cas);
+    // console.log('cam: ' + cam);
 
     // const newDate = this.addDays(fecha, this.cantidadEntrenamientos);
     // console.log('cat: ' + newDate);
