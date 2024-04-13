@@ -7,6 +7,6 @@ class Plan(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     deporte: str
     nombre: str
-    numeroEntrenamientosSemana: str
-    objetivoDistanciaEntrenamiento: str
+    cantidadEntrenamientos: str
+    distanciaPorEntrenamientos: str
     fechas: str
