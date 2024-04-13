@@ -88,10 +88,6 @@ resource "aws_db_instance" "db_postgres_planes" {
   db_subnet_group_name   = aws_db_subnet_group.db_postgres_subnet_group_planes.name
   skip_final_snapshot    = true
   identifier             = "db-planes"
-
-  tags = {
-    Name = "planes-db"
-  }
 }
 
 resource "aws_ecs_cluster" "cluster_planes" {
