@@ -129,4 +129,5 @@ class Auth0:
 
         if response.status_code != 200:
             raise HTTPException(status_code=500, detail="Failed to exchange code for token")
+        print(response.json())
         return response.json().get("access_token")

@@ -11,18 +11,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.applandeo.materialcalendarview.CalendarDay
 import com.applandeo.materialcalendarview.CalendarView
 import com.misog11.sportapp.adapter.EventosAdapter
+import com.misog11.sportapp.adapter.EventosService
 import com.misog11.sportapp.models.Evento
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 
 class EventosActivity : AppCompatActivity() {
+    private lateinit var retrofit: Retrofit
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_eventos)
-
+        retrofit = getRetrofit()
 
         // Navegación a Principal
         val backBtn = findViewById<ImageView>(R.id.backBtn)
@@ -33,9 +40,6 @@ class EventosActivity : AppCompatActivity() {
         // Lista de eventos
         initRecyclerEventos()
 
-        // Configurar Calendario
-        configurateCalendar(EventosProvider.EventosList)
-
     }
 
     private fun navigate(viewState:Class<*>){
@@ -44,10 +48,25 @@ class EventosActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerEventos(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val respuesta = retrofit.create(EventosService::class.java).getEventos()
+            if(respuesta.isSuccessful){
+                val listaEventos = respuesta.body()
+                runOnUiThread {
+                    // Configurar Calendario
+                    if (listaEventos != null) {
+                        configurateCalendar(listaEventos)
+                        RecyclerViewUpdateEventos(listaEventos)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun RecyclerViewUpdateEventos(listaEvento: List<Evento>){
         val recyclerViewEventos = findViewById<RecyclerView>(R.id.recyclerEvents)
         recyclerViewEventos.layoutManager = LinearLayoutManager(this)
-        recyclerViewEventos.adapter = EventosAdapter(EventosProvider.EventosList)
-
+        recyclerViewEventos.adapter = EventosAdapter(listaEvento)
     }
 
     private fun configurateCalendar(eventosList: List<Evento>){
@@ -80,6 +99,13 @@ class EventosActivity : AppCompatActivity() {
 
 
         //calendarView.setCalendarDays(calendarDays)
+    }
 
+    private fun getRetrofit():Retrofit{
+        return Retrofit
+               .Builder()
+               .baseUrl("http://52.91.57.227:3001/")
+               .addConverterFactory(GsonConverterFactory.create())
+               .build()
     }
 }

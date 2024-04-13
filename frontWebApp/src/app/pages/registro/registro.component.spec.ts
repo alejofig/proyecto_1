@@ -3,28 +3,30 @@ import { RegistroComponent } from './registro.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AuthService } from '../servicios/auth.service';
-import { UsersBackendService } from '../../users-backend.service';
+import { ApiGatewayBackendService } from '../../apigateway-backend.service';
 import { of } from 'rxjs';
 
 describe('RegistroComponent', () => {
   let component: RegistroComponent;
   let fixture: ComponentFixture<RegistroComponent>;
   let authService: AuthService;
-  let usersBackendService: UsersBackendService;
+  let apigatewayBackendService: ApiGatewayBackendService;
   let httpTestingController: HttpTestingController;
+  let backendService: ApiGatewayBackendService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, HttpClientTestingModule],
-      providers: [AuthService, UsersBackendService],
+      providers: [AuthService, ApiGatewayBackendService],
       declarations: []
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegistroComponent);
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
-    usersBackendService= TestBed.inject(UsersBackendService);
+    apigatewayBackendService= TestBed.inject(ApiGatewayBackendService);
     httpTestingController = TestBed.inject(HttpTestingController);
+    backendService = TestBed.inject(ApiGatewayBackendService);
     fixture.detectChanges();
   });
 
@@ -60,7 +62,7 @@ describe('RegistroComponent', () => {
   });
 
 
-  it('should validate form correctly', () => {
+  it('should validate form correctly', async () => {
     component.password = 'Password123@';
     component.username = 'John';
     component.lastname = 'Doe';
@@ -79,8 +81,8 @@ describe('RegistroComponent', () => {
     component.deportes = ['Natación'];
 
     spyOn(authService, 'checkIfEmailExists').and.returnValue(Promise.resolve(false));
-    spyOn(usersBackendService, 'register_user').and.returnValue(of(false));
-    const result = component.validarFormulario();
+    spyOn(apigatewayBackendService, 'registrar_usuario').and.returnValue(of(false));
+    const result = await component.validarFormulario();
     expect(result).toBe(true);
   });
 
@@ -96,70 +98,70 @@ describe('RegistroComponent', () => {
     expect(authService.checkIfEmailExists).toHaveBeenCalledWith('john@example.com');
   });
 
-  it('should display alert when username is not provided', () => {
+  it('should display alert when username is not provided', async () => {
     spyOn(window, 'alert');
     component.password = 'Password123@';
     component.username = '';
         component.lastname = 'Doe';
-    const result = component.validarFormulario();
+    const result = await component.validarFormulario();
+
     expect(result).toBe(false);
     expect(window.alert).toHaveBeenCalledWith('Por favor ingresa tu nombre.');
 });
 
-it('should display alert when username is not provided', () => {
+it('should display alert when username is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = '';
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('Por favor ingresa tu apellido.');
 });
 
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
   component.identificacion = '';
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('Por favor selecciona un tipo de identificación.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
   component.tipo_id = 'CEDULA DE CIUDADANIA';
-  const result = component.validarFormulario();
-  expect(result).toBe(false);
+  const result = await component.validarFormulario();
   expect(window.alert).toHaveBeenCalledWith('Por favor ingresa tu número de identificación.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
   component.tipo_id = 'CEDULA DE CIUDADANIA';
   component.identificacion = '1034567890';
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('Por favor ingresa una edad válida.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
   component.tipo_id = 'CEDULA DE CIUDADANIA';
   component.identificacion = '1034567890';
   component.edad = 30;
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('Por favor selecciona un género válido.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
@@ -167,12 +169,12 @@ it('should display alert when identificacion is not provided', () => {
   component.identificacion = '1034567890';
   component.edad = 30;
   component.genero = 'Masculino';
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('Por favor ingresa un peso válido.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
@@ -181,12 +183,12 @@ it('should display alert when identificacion is not provided', () => {
   component.edad = 30;
   component.genero = 'Masculino';
   component.peso = 70;
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('Por favor ingresa una altura válida.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
@@ -196,12 +198,12 @@ it('should display alert when identificacion is not provided', () => {
   component.genero = 'Masculino';
   component.peso = 70;
   component.altura = 180;
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('La contraseña debe tener al menos 8 caracteres.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
@@ -212,12 +214,12 @@ it('should display alert when identificacion is not provided', () => {
   component.peso = 70;
   component.altura = 180;
   component.password = '1234568910';
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('La contraseña debe contener al menos una letra minúscula.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
@@ -228,12 +230,12 @@ it('should display alert when identificacion is not provided', () => {
   component.peso = 70;
   component.altura = 180;
   component.password = 'abnbhsksp';
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('La contraseña debe contener al menos un número.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
@@ -244,12 +246,12 @@ it('should display alert when identificacion is not provided', () => {
   component.peso = 70;
   component.altura = 180;
   component.password = 'a1nbhsksp';
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('La contraseña debe contener al menos una letra mayúscula.');
 });
 
-it('should display alert when identificacion is not provided', () => {
+it('should display alert when identificacion is not provided', async () => {
   spyOn(window, 'alert');
   component.username = 'JOE';
   component.lastname = 'nuevo';
@@ -260,7 +262,7 @@ it('should display alert when identificacion is not provided', () => {
   component.peso = 70;
   component.altura = 180;
   component.password = 'a1nbhsksAp';
-  const result = component.validarFormulario();
+  const result = await component.validarFormulario();
   expect(result).toBe(false);
   expect(window.alert).toHaveBeenCalledWith('La contraseña debe contener al menos un carácter especial.');
 });
@@ -281,7 +283,7 @@ it('should create form data object with correct properties', () => {
   component.pais_residencia = 'USA';
   component.ciudad_residencia = 'New York';
   component.antiguedad_residencia = '5 años';
-
+  component.deportes = [];
   const formData = component.create_form_data();
 
   expect(formData).toEqual({
@@ -300,7 +302,9 @@ it('should create form data object with correct properties', () => {
     ciudad_nacimiento: 'New York',
     pais_residencia: 'USA',
     ciudad_residencia: 'New York',
-    antiguedad_residencia: '5 años'  });
+    antiguedad_residencia: '5 años',
+    deportes: [],
+    tipo_plan:"GRATUITO"});
 });
 
 it('should add sport to deportes array', () => {
@@ -319,4 +323,7 @@ it('should remove sport from deportes array', () => {
   expect(component.deportes).toEqual(['Natación', 'Cycling']);
 });
 
+
 });
+
+
