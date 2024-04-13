@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    android:padding="16dp">
+    android:background="@color/black">
 
     <!-- Icono de flecha hacia atrás -->
     <ImageView
@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_arrow_back_24"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="5dp"/>
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="21dp"/>
 
     <!-- Título de Entrenamiento ajustado -->
     <TextView
@@ -35,8 +35,8 @@
         android:src="@drawable/notifications"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"/>
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="21dp"/>
 
     <!-- Temporizador -->
     <TextView
@@ -50,7 +50,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp" />
 
-    <!-- Container de calorías activas y potencia -->
+    <!-- Container de calorías  -->
     <LinearLayout
         android:id="@+id/containerCalories"
         android:layout_width="match_parent"
@@ -84,41 +84,6 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <!-- Potencia -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvPowerLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Potencia (Kg)"
-                android:textSize="20sp"
-                android:textColor="@color/white"/>
-
-            <TextView
-                android:id="@+id/tvPower"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="32sp"
-                android:textColor="@color/white" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Container de calorías totales y pulsaciones -->
-    <LinearLayout
-        android:id="@+id/containerActiveCaloriesPower"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/containerCalories"
-        android:layout_marginTop="10dp">
-
         <!-- Calorías totales -->
         <LinearLayout
             android:layout_width="0dp"
@@ -143,8 +108,18 @@
                 android:textSize="32sp"
                 android:textColor="@color/white" />
         </LinearLayout>
+    </LinearLayout>
 
-        <!-- Pulsaciones -->
+    <!-- Container de FCM -->
+    <LinearLayout
+        android:id="@+id/containerActiveCaloriesPower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/containerCalories"
+        android:layout_marginTop="10dp">
+
+        <!-- FCM -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -153,12 +128,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvPulsaciones"
+                android:id="@+id/tvFCM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pulsaciones"
-                android:textSize="20sp"
-                android:textColor="@color/white" />
+                android:text="Frecuencia Cardiaca Maxima FCM"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -185,7 +161,6 @@
             </LinearLayout>
         </LinearLayout>
 
-
     </LinearLayout>
 
 
@@ -195,11 +170,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="24dp"
         android:layout_below="@id/containerActiveCaloriesPower"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:padding="16dp">
 
         <Button
             android:id="@+id/btnIniciar"
@@ -221,4 +194,15 @@
             android:backgroundTint="@color/red" />
     </LinearLayout>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
+        app:menu="@menu/bottom_menu" />
+
 </RelativeLayout>
+
