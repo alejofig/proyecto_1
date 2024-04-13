@@ -84,41 +84,6 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <!-- Potencia -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvPowerLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Potencia (Kg)"
-                android:textSize="20sp"
-                android:textColor="@color/white"/>
-
-            <TextView
-                android:id="@+id/tvPower"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="32sp"
-                android:textColor="@color/white" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Container de calorías totales y pulsaciones -->
-    <LinearLayout
-        android:id="@+id/containerActiveCaloriesPower"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/containerCalories"
-        android:layout_marginTop="10dp">
-
         <!-- Calorías totales -->
         <LinearLayout
             android:layout_width="0dp"
@@ -143,6 +108,16 @@
                 android:textSize="32sp"
                 android:textColor="@color/white" />
         </LinearLayout>
+    </LinearLayout>
+
+    <!-- Container de calorías totales y pulsaciones -->
+    <LinearLayout
+        android:id="@+id/containerActiveCaloriesPower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/containerCalories"
+        android:layout_marginTop="10dp">
 
         <!-- Pulsaciones -->
         <LinearLayout
@@ -153,12 +128,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvPulsaciones"
+                android:id="@+id/tvFCM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pulsaciones"
-                android:textSize="20sp"
-                android:textColor="@color/white" />
+                android:text="Frecuencia Cardiaca Maxima FCM"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -184,7 +160,6 @@
                     android:textColor="@color/red" />
             </LinearLayout>
         </LinearLayout>
-
 
     </LinearLayout>
 

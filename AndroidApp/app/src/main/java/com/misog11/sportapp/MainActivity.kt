@@ -23,6 +23,7 @@ class MainActivity : MenuForAllActivitys() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         //val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         //bottomNavigationView.setOnNavigationItemSelectedListener { item ->
         //    when (item.itemId) {
@@ -40,6 +41,7 @@ class MainActivity : MenuForAllActivitys() {
 
         val loginBtn = findViewById<Button>(R.id.loginBtn)
         loginBtn.setOnClickListener { loginWithBrowser() }
+
     }
 
     //private fun navigate(viewState:Class<*>){
