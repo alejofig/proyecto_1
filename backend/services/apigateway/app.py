@@ -1,13 +1,9 @@
 from functools import wraps
 import os
-import random
-import config
-
 import boto3
 import requests
 from flask import Flask, jsonify, request, json, redirect
 from auth import Auth0
-from werkzeug.exceptions import HTTPException
 from models import User
 from pydantic import ValidationError
 from utils import protected_route
@@ -65,32 +61,16 @@ def registrar_usuario():
 def consultar_usuario(user):
     return jsonify(user), 200
 
-# Endpoint para envío de mensajes
-@app.route('/enviar-mensaje/<user_id>', methods=['POST'])
-def enviar_mensaje(user_id):
-    json = request.get_json()
-
-    # Valida los campos
-    if 'mensaje' in json:
-        mensaje = json['mensaje']
-    else:
-        return jsonify('No hay mensaje'), 401
-
-    return jsonify({"Status: ": 201, "SQS Response Id: ": random.randint(0, 500)})
-
-
-
-@app.route('/api/eventos', methods=['GET'])
-def consultar_eventos():
+# @app.route('/api/eventos', methods=['GET'])
+# def consultar_eventos():
     
+#     obtener_usuario = requests.get(f"{URL_USERS}/usuarios/1", headers={})
+#     print(obtener_usuario.json())
 
-    obtener_usuario = requests.get(f"{URL_USERS}/usuarios/1", headers={})
-    print(obtener_usuario.json())
-
-    response = requests.get(f"{URL_EVENTS}/eventos", headers={})
-    if response.status_code != 200:
-        print(response)
-        return jsonify('No hay eventos'), 401
-    data = response.json()
-    print(data)
-    return jsonify(data), 201
+#     response = requests.get(f"{URL_EVENTS}/eventos", headers={})
+#     if response.status_code != 200:
+#         print(response)
+#         return jsonify('No hay eventos'), 401
+#     data = response.json()
+#     print(data)
+#     return jsonify(data), 201

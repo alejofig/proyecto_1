@@ -1,8 +1,10 @@
 # app/routes.py
-from fastapi import APIRouter,JSONResponse
+from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 from app.database import get_user_by_email
 
 router = APIRouter()
+
 @router.get("/")
 async def health():
     return {"status": "ok"}
