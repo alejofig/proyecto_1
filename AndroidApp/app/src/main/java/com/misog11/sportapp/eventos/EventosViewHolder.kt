@@ -1,4 +1,4 @@
-package com.misog11.sportapp.adapter
+package com.misog11.sportapp.eventos
 
 import android.view.View
 import android.widget.TextView
@@ -15,18 +15,11 @@ class EventosViewHolder(view:View): ViewHolder(view) {
     val lugar = view.findViewById<TextView>(R.id.lugarTV)
 
     fun render(evento: Evento){
-        dateFormat(evento)
         val nameValue = "- " + evento.nombre
         val lugarValue = "- " + evento.ciudad + ", " + evento.pais
         nombre.text = nameValue
         lugar.text = lugarValue
+        fecha.text = EventosUtils.getDateFormat(evento)
     }
 
-    private fun dateFormat(evento: Evento) {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", Locale("es", "ES"))
-        val date = inputFormat.parse(evento.fecha)
-        val fechaValue = date?.let { outputFormat.format(it) } + ", " + evento.hora
-        fecha.text = fechaValue
-    }
 }
