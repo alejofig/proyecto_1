@@ -1,13 +1,3 @@
-terraform {
-  backend "s3" {
-    region = "us-east-1"
-  }
-}
-
-provider "aws" {
-  region = "us-east-1"
-}
-
 resource "aws_vpc" "vpc_planes" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_support   = true
@@ -87,10 +77,7 @@ resource "aws_db_instance" "db_postgres_planes" {
   vpc_security_group_ids = [aws_security_group.sg_postgres_planes.id]
   db_subnet_group_name   = aws_db_subnet_group.db_postgres_subnet_group_planes.name
   skip_final_snapshot    = true
-
-  tags = {
-    Name = "planes-db"
-  }
+  identifier             = "db-planes"
 }
 
 resource "aws_ecs_cluster" "cluster_planes" {
@@ -104,22 +91,7 @@ resource "aws_ecs_task_definition" "task_definition_planes" {
   execution_role_arn       = "arn:aws:iam::344488016360:role/ecsTaskExecutionRole"
   cpu                      = "256"
   memory                   = "512"
-
-  container_definitions = jsonencode([
-    {
-      name      = "servicio-planes"
-      image     = "344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest"
-      cpu       = 256
-      memory    = 512
-      essential = true
-      portMappings = [
-        {
-          containerPort = 3002
-          hostPort      = 3002
-        }
-      ]
-    }
-  ])
+  container_definitions    = jsonencode(local.container_definitions)
 }
 
 resource "aws_security_group" "sg_fargate_planes" {

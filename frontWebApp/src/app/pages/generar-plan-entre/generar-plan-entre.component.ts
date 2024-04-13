@@ -22,8 +22,13 @@ export class GenerarPlanEntreComponent implements OnInit {
   planEntrenamientoForm!: FormGroup;
   public deporte: string = '';
   public nombre: string = '';
-  public numeroEntrenamientosSemana: number = 0;
-  public objetivoDistanciaEntrenamiento: number = 0;
+  public usuario: string = '';
+  public cantidadEntrenamientos: number = 0;
+  public distanciaPorEntrenamientos: number = 0;
+  public fechas: string = '';
+  public personalizado: boolean = false;
+  public planSeleccionado: string = '';
+  public planes: any = ['Plan de entrenamiento recomendado - Básico', 'Plan de entrenamiento recomendado - Avanzado', 'Plan de entrenamiento personalizado']
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,31 +36,71 @@ export class GenerarPlanEntreComponent implements OnInit {
   ) {
   }
 
+  radioChangeHandler(event: any) {
+    this.planSeleccionado = event.target.value;
+    this.personalizado = this.planSeleccionado == 'Plan de entrenamiento personalizado';
+  }
+
   ngOnInit() {
     this.planEntrenamientoForm = this.formBuilder.group({
       deporte: ["", [Validators.required]],
       nombre: ["", [Validators.required]],
-      numeroEntrenamientosSemana: ["", [Validators.required]],
-      objetivoDistanciaEntrenamiento: ["", [Validators.required]],
+      cantidadEntrenamientos: ["", [Validators.required]],
+      distanciaPorEntrenamientos: ["", [Validators.required]],
+      fechas: ["", [Validators.required]]
     })
   }
 
   generarPlanEntrenamiento() {
     console.log(this.imprimirDatos())
-    let planEntrenamiento = new PlanEntrenamiento(1, this.deporte, this.nombre, this.numeroEntrenamientosSemana, this.objetivoDistanciaEntrenamiento)
+
+    if (this.planSeleccionado != 'Plan de entrenamiento personalizado' && this.planSeleccionado == 'Plan de entrenamiento recomendado - Básico') {
+      this.cantidadEntrenamientos = 2;
+      this.distanciaPorEntrenamientos = 5;
+      this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
+    } else if (this.planSeleccionado != 'Plan de entrenamiento personalizado' && this.planSeleccionado == 'Plan de entrenamiento recomendado - Avanzado') {
+      this.cantidadEntrenamientos = 5;
+      this.distanciaPorEntrenamientos = 15;
+      this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
+    } else if (this.planSeleccionado == 'Plan de entrenamiento personalizado') {
+      this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
+    }
+
+    this.usuario = 'Pedro'; // OJO: Usuario quemado
+
+    let planEntrenamiento = new PlanEntrenamiento(this.deporte, this.nombre, this.usuario, this.cantidadEntrenamientos, this.distanciaPorEntrenamientos, this.fechas)
     console.log(planEntrenamiento)
+
     this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result: any) => {
-      console.info("El plan de entrenamiento fue generado", result)
+      console.info("El plan de entrenamiento fue generado con éxito", result)
       this.planEntrenamientoForm.reset();
     })
+  }
+
+  sumarDiasAFecha(dias: number): string {
+    const fechaBase = new Date();
+    let fechasString = '';
+    for (let i = 1; i <= dias; i++) {
+      const fechaSumada = new Date(fechaBase);
+      fechaSumada.setDate(fechaSumada.getDate() + i);
+      const anio = fechaSumada.getFullYear();
+      const mes = String(fechaSumada.getMonth() + 1).padStart(2, '0');
+      const dia = String(fechaSumada.getDate()).padStart(2, '0');
+      const fechaString = `${anio}/${mes}/${dia}`;
+      fechasString += "'" + fechaString + "', ";
+    }
+
+    return fechasString.trim().slice(0, -1);
   }
 
   imprimirDatos() {
     return {
       deporte: this.deporte,
       nombre: this.nombre,
-      numeroEntrenamientosSemana: this.numeroEntrenamientosSemana,
-      objetivoDistanciaEntrenamiento: this.objetivoDistanciaEntrenamiento
+      usuario: this.usuario,
+      cantidadEntrenamientos: this.cantidadEntrenamientos,
+      distanciaPorEntrenamientos: this.distanciaPorEntrenamientos,
+      fechas: this.fechas
     }
   }
 }
