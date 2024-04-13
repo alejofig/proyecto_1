@@ -94,11 +94,6 @@ resource "aws_route_table_association" "private-rt-association" {
   subnet_id      = aws_subnet.private_subnets.*.id[count.index]
 }
 
-resource "aws_security_group" "public-sg" {
-  name        = "public-group-default"
-  description = "access to public instances"
-  vpc_id      = aws_vpc.vpc.id
-}
 
 # create security group for ALB
 resource "aws_security_group" "alb_sg" {
@@ -132,7 +127,7 @@ resource "aws_security_group" "alb_sg" {
 
 # create security group to access the ecs cluster (traffic to ecs cluster should only come from the ALB)
 resource "aws_security_group" "ecs_sg" {
-  name        = "ecs-from-alb-group"
+  name        = "ecs-from-alb-group-new"
   description = "control access to the ecs cluster"
   vpc_id      = aws_vpc.vpc.id
 
@@ -159,8 +154,45 @@ resource "aws_security_group" "ecs_sg" {
   }
 }
 
+resource "aws_db_instance" "users_rds" {
+  depends_on = [aws_internet_gateway.internet_gateway]
+  allocated_storage    = 20
+  storage_type         = "gp2"
+  engine               = "postgres"
+  engine_version         = "12.14"
+  instance_class         = "db.t3.micro"
+  identifier           = "users-db-new"
+  username             = "users"
+  password             = "userspassword"
+  parameter_group_name = "default.postgres12"
+  vpc_security_group_ids = [aws_security_group.alb_sg.id ]
+  db_subnet_group_name = aws_db_subnet_group.my_db_subnet_group.name
+  publicly_accessible = true
+  skip_final_snapshot = false
+}
+
+resource "aws_db_subnet_group" "my_db_subnet_group" {
+  name       = "my-db-subnet-group-new"
+  subnet_ids = [for subnet in aws_subnet.private_subnets : subnet.id]
+  }
+
+
+
+output "rds_endpoint" {
+  value = aws_db_instance.users_rds.endpoint
+}
+locals {
+  rds_endpoint_without_port = "${split(":", aws_db_instance.users_rds.endpoint)[0]}"
+}
+
+output "rds_endpoint_without_port" {
+  value = local.rds_endpoint_without_port
+}
+
+
 
 resource "aws_alb" "alb" {
+  depends_on = [aws_internet_gateway.internet_gateway]
   load_balancer_type = "application"
   name               = "application-load-balancer-users"
   subnets            = aws_subnet.public_subnets.*.id
@@ -168,7 +200,7 @@ resource "aws_alb" "alb" {
 }
 
 resource "aws_alb_target_group" "target_group" {
-  name        = "ecs-target-group-users"
+  name        = "ecs-target-group-users-new"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.vpc.id
@@ -228,7 +260,7 @@ resource "aws_ecs_task_definition" "task_definition" {
 }
 
 resource "aws_ecs_service" "users-service" {
-  name            = "users-app-service"
+  name            = " "
   cluster         = aws_ecs_cluster.fp-ecs-cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count   = 1
@@ -258,12 +290,12 @@ output "alb-dns-name" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs_log_group" {
-  name              = "/ecs/users-app"  # Nombre del grupo de logs
-  retention_in_days = 7  # Retención de los logs en días (ajusta según tus necesidades)
+  name              = "/ecs/users-app-new"  
+  retention_in_days = 7  
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ecs-task-execution-role-users"
+  name               = "ecs-task-execution-role-users-new"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -279,7 +311,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 }
 
 resource "aws_iam_policy" "ecs_cloudwatch_policy_users" {
-  name        = "ecs-cloudwatch-policy-users"
+  name        = "ecs-cloudwatch-policy-users-new"
   description = "Policy to allow ECS to write logs to CloudWatch"
 
 policy = jsonencode({
@@ -335,41 +367,12 @@ resource "aws_alb_listener" "fp-alb-listener-https" {
   }
 }
 
-resource "aws_db_instance" "users_rds" {
-  allocated_storage    = 20
-  storage_type         = "gp2"
-  engine               = "postgres"
-  engine_version         = "12.14"
-  instance_class         = "db.t3.micro"
-  identifier           = "users-db"
-  username             = "users"
-  password             = "userspassword"
-  parameter_group_name = "default.postgres12"
-  vpc_security_group_ids = [aws_security_group.ecs_sg.id ]
-  publicly_accessible = true
-}
-
-resource "aws_db_subnet_group" "my_db_subnet_group" {
-  name       = "my-db-subnet-group"
-  subnet_ids = [for subnet in aws_subnet.private_subnets : subnet.id]
-}
-
-output "rds_endpoint" {
-  value = aws_db_instance.users_rds.endpoint
-}
-locals {
-  rds_endpoint_without_port = "${split(":", aws_db_instance.users_rds.endpoint)[0]}"
-}
-
-output "rds_endpoint_without_port" {
-  value = local.rds_endpoint_without_port
-}
 
 
 ###### Lambda registro
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "lambda-exec-role-users"
+  name = "lambda-exec-role-users-new"
 
   assume_role_policy = jsonencode({
     Version   = "2012-10-17",
@@ -384,7 +387,7 @@ resource "aws_iam_role" "lambda_exec" {
 }
 
 resource "aws_iam_policy" "lambda_sqs_policy" {
-  name        = "lambda-sqs-policy"
+  name        = "lambda-sqs-policy-new"
   description = "Policy to allow Lambda to receive messages from SQS"
 
   policy = jsonencode({
@@ -402,7 +405,7 @@ resource "aws_iam_policy" "lambda_sqs_policy" {
 }
 
 resource "aws_iam_policy" "lambda_kms_policy" {
-  name        = "lambda-kms-policy"
+  name        = "lambda-kms-policy-new"
   description = "Policy to allow Lambda to use KMS"
 
   policy = jsonencode({
@@ -418,7 +421,7 @@ resource "aws_iam_policy" "lambda_kms_policy" {
   })
 }
 resource "aws_iam_policy" "lambda_cloudwatch_logs_policy" {
-  name        = "lambda-cloudwatch-logs-policy"
+  name        = "lambda-cloudwatch-logs-policy-new"
   description = "Policy to allow Lambda to write logs to CloudWatch Logs"
 
   policy = jsonencode({
@@ -490,7 +493,7 @@ resource "aws_sqs_queue" "users_register_dlq" {
 }
 
 resource "aws_sqs_queue" "users_register_sqs" {
-  name = "users-register-sqs"
+  name = "users-register-sqs-new"
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.users_register_dlq.arn,
@@ -499,11 +502,11 @@ resource "aws_sqs_queue" "users_register_sqs" {
 }
 
 resource "aws_iam_user" "user" {
-  name = "user"
+  name = "user-new"
 }
 
 resource "aws_iam_policy" "sqs_queue_policy" {
-  name        = "sqs-queue-policy"
+  name        = "sqs-queue-policy-new"
   description = "Policy to allow access to the SQS queue"
   
   policy = jsonencode({

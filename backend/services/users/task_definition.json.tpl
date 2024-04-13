@@ -40,7 +40,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/users-app",
+          "awslogs-group": "/ecs/users-app-new",
           "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
         }
