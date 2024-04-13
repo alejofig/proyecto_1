@@ -60,27 +60,16 @@ export class GenerarPlanEntreComponent implements OnInit {
     if (this.planSeleccionado != 'Plan de entrenamiento personalizado' && this.planSeleccionado == 'Plan de entrenamiento recomendado - Básico') {
       this.cantidadEntrenamientos = 2;
       this.distanciaPorEntrenamientos = 5;
-      this.fechas = '2024-04-15, 2024-04-16';
+      this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
     } else if (this.planSeleccionado != 'Plan de entrenamiento personalizado' && this.planSeleccionado == 'Plan de entrenamiento recomendado - Avanzado') {
       this.cantidadEntrenamientos = 5;
       this.distanciaPorEntrenamientos = 15;
-      this.fechas = '2024-04-15, 2024-04-16, 2024-04-17, 2024-04-18, 2024-04-19';
+      this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
+    } else if (this.planSeleccionado == 'Plan de entrenamiento personalizado') {
+      this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
     }
 
-    // const fecha = new Date();
-    // let cas = fecha.setDate(fecha.getDate() + 1).toLocaleString();
-    // console.log('cam: ' + cam);
-
-    // const newDate = this.addDays(fecha, this.cantidadEntrenamientos);
-    // console.log('cat: ' + newDate);
-
-    // let fechasTemp = fecha.toLocaleDateString('en-US');
-    // for (let i = 1; i < this.cantidadEntrenamientos; i++) {
-    //   fechasTemp = fechasTemp + ', ' + fecha.setDate(fecha.getDate() + i);
-    // }
-    // console.log(fechasTemp);
-
-    let planEntrenamiento = new PlanEntrenamiento(1, this.deporte, this.nombre, this.cantidadEntrenamientos, this.distanciaPorEntrenamientos, this.fechas)
+    let planEntrenamiento = new PlanEntrenamiento(this.deporte, this.nombre, this.cantidadEntrenamientos, this.distanciaPorEntrenamientos, this.fechas)
     console.log(planEntrenamiento)
 
     this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result: any) => {
@@ -89,10 +78,20 @@ export class GenerarPlanEntreComponent implements OnInit {
     })
   }
 
-  addDays(date: Date, days: number): Date {
-    let result = new Date(date);
-    result.setDate(date.getDate() + days);
-    return result;
+  sumarDiasAFecha(dias: number): string {
+    const fechaBase = new Date();
+    let fechasString = '';
+    for (let i = 1; i <= dias; i++) {
+      const fechaSumada = new Date(fechaBase);
+      fechaSumada.setDate(fechaSumada.getDate() + i);
+      const anio = fechaSumada.getFullYear();
+      const mes = String(fechaSumada.getMonth() + 1).padStart(2, '0');
+      const dia = String(fechaSumada.getDate()).padStart(2, '0');
+      const fechaString = `${anio}/${mes}/${dia}`;
+      fechasString += "'" + fechaString + "', ";
+    }
+
+    return fechasString.trim().slice(0, -1);
   }
 
   imprimirDatos() {

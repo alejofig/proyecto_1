@@ -87,6 +87,7 @@ resource "aws_db_instance" "db_postgres_planes" {
   vpc_security_group_ids = [aws_security_group.sg_postgres_planes.id]
   db_subnet_group_name   = aws_db_subnet_group.db_postgres_subnet_group_planes.name
   skip_final_snapshot    = true
+  identifier             = "db-planes"
 
   tags = {
     Name = "planes-db"
@@ -97,15 +98,8 @@ resource "aws_ecs_cluster" "cluster_planes" {
   name = "cluster_planes"
 }
 
-resource "aws_ecs_task_definition" "task_definition_planes" {
-  family                   = "task_definition_planes"
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = "arn:aws:iam::344488016360:role/ecsTaskExecutionRole"
-  cpu                      = "256"
-  memory                   = "512"
-
-  container_definitions = jsonencode([
+locals {
+  container_definitions = [
     {
       name      = "servicio-planes"
       image     = "344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest"
@@ -117,9 +111,25 @@ resource "aws_ecs_task_definition" "task_definition_planes" {
           containerPort = 3002
           hostPort      = 3002
         }
+      ],
+      environment = [
+        {
+          name  = "DB_HOST"
+          value = aws_db_instance.db_postgres_planes.address
+        }
       ]
     }
-  ])
+  ]
+}
+
+resource "aws_ecs_task_definition" "task_definition_planes" {
+  family                   = "task_definition_planes"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  execution_role_arn       = "arn:aws:iam::344488016360:role/ecsTaskExecutionRole"
+  cpu                      = "256"
+  memory                   = "512"
+  container_definitions    = jsonencode(local.container_definitions)
 }
 
 resource "aws_security_group" "sg_fargate_planes" {
