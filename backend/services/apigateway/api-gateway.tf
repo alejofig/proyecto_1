@@ -331,16 +331,7 @@ resource "aws_iam_role_policy_attachment" "ecs_cloudwatch_attachment" {
 }
 
 
-resource "aws_route53_record" "api-gateway_subdomain" {
-  zone_id = "Z0424763335GQXEDQHLWA"
-  name    = "apigateway"
-  type    = "A"
-  alias {
-    name                   = aws_alb.alb.dns_name
-    zone_id                = aws_alb.alb.zone_id
-    evaluate_target_health = true
-  }
-}
+
 
 resource "aws_alb_listener" "fp-alb-listener-https" {
   load_balancer_arn = aws_alb.alb.arn
@@ -366,14 +357,3 @@ resource "aws_route53_record" "api-gateway_subdomain" {
   }
 }
 
-resource "aws_alb_listener" "fp-alb-listener-https" {
-  load_balancer_arn = aws_alb.alb.arn
-  port              = 443
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:us-east-1:344488016360:certificate/2ef926af-6b7c-4a68-ad3d-b6c6e9b59c44"
-  default_action {
-    target_group_arn = aws_alb_target_group.target_group.arn
-    type             = "forward"
-  }
-}
