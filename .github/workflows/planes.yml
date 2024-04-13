@@ -7,25 +7,25 @@ on:
       - 'backend/services/planes/**'
 
 jobs:
-#  automerge-1:
-#    name: Merge 'develop -> feature'
-#    runs-on: ubuntu-latest
-#    if: ${{ contains(github.event.head_commit.message, '(azul)') }}
-#    outputs:
-#      salida: ${{ steps.prepare_release.outputs.respuesta }}
-#    steps:
-#      - name: Integrar develop en feature
-#        uses: tukasz/direct-merge-action@master
-#        with:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          source-branch: develop
-#          target-branch: ${{ github.ref }}
-#          commit-message: "Actualizar rama feature con respecto a develop"
-#      - name: prepare_release
-#        id: prepare_release
-#        run: |
-#          echo "::set-output name=respuesta::$(echo "${{ github.event.head_commit.message }}" | awk '{print $NF}')"
-#
+  automerge-1:
+    name: Merge 'develop -> feature'
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event.head_commit.message, '(azul)') }}
+    outputs:
+      salida: ${{ steps.prepare_release.outputs.respuesta }}
+    steps:
+      - name: Integrar develop en feature
+        uses: tukasz/direct-merge-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          source-branch: develop
+          target-branch: ${{ github.ref }}
+          commit-message: "Actualizar rama feature con respecto a develop"
+      - name: prepare_release
+        id: prepare_release
+        run: |
+          echo "::set-output name=respuesta::$(echo "${{ github.event.head_commit.message }}" | awk '{print $NF}')"
+
 #  run-tests-front:
 #    name: Build and test front-end
 #    runs-on: ubuntu-latest
@@ -57,54 +57,54 @@ jobs:
 #      - name: Ejecutar pruebas de Angular
 #        working-directory: ./frontWebApp/
 #        run: ng test --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI
-#
-#  run-tests-1:
-#    name: Integration tests
-#    runs-on: ubuntu-latest
-#    env:
-#      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
-#      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
-#      AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
-#      AUTH0_API_IDENTIFIER: ${{ secrets.AUTH0_API_IDENTIFIER }}
-#      ALGORITHM: ${{ secrets.ALGORITHM }}
-#    services:
-#      users:
-#        image: postgres
-#        env:
-#          POSTGRES_PASSWORD: prueba
-#          POSTGRES_USER: prueba
-#          POSTGRES_DB: prueba
-#        ports:
-#          - 5432:5432
-#        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-#    needs: 'automerge-1'
-#    steps:
-#      - name: Checkout de repositorio
-#        uses: actions/checkout@v4
-#      - name: Configuracion de entorno de Python
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: '3.9'
-#      - name: Install Dependencies
-#        working-directory: ./backend/services/users
-#        run: |
-#          python -m pip install --upgrade pip
-#          pip install -r requirements.txt
-#      - name: Start FastAPI App
-#        working-directory: ./backend/services/users
-#        run: |
-#          nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
-#      - name: Run Tests
-#        working-directory: ./backend/services/users
-#        run: |
-#          coverage run -m pytest tests/* -v
-#      - name: Run cov report
-#        working-directory: ./backend/services/users
-#        run: |
-#          coverage report --fail-under=85
 
-  push:
-    name: ecr
+  run-tests-1:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    env:
+      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+      AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+      AUTH0_API_IDENTIFIER: ${{ secrets.AUTH0_API_IDENTIFIER }}
+      ALGORITHM: ${{ secrets.ALGORITHM }}
+    services:
+      users:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: prueba
+          POSTGRES_USER: prueba
+          POSTGRES_DB: prueba
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    needs: 'automerge-1'
+    steps:
+      - name: Checkout de repositorio
+        uses: actions/checkout@v4
+      - name: Configuracion de entorno de Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install Dependencies
+        working-directory: ./backend/services/users
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Start FastAPI App
+        working-directory: ./backend/services/users
+        run: |
+          nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
+      - name: Run Tests
+        working-directory: ./backend/services/users
+        run: |
+          coverage run -m pytest tests/* -v
+      - name: Run cov report
+        working-directory: ./backend/services/users
+        run: |
+          coverage report --fail-under=85
+
+  ecr:
+    name: Subir imagen Docker a ECR
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -133,9 +133,14 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f backend/services/planes/Dockerfile backend/services/planes
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
+      - name: Update ECS Service
+        id: update-ecs-service
+        run: |
+          aws ecs update-service --cluster cluster_planes --service service_planes --force-new-deployment --region us-east-1
+
   terraform:
     name: Despliegue Planes
-    # needs: 'automerge-1'
+    needs: 'automerge-1'
     uses: ./.github/workflows/terraform.yml
     with:
       terraform_directory: backend/services/planes
@@ -147,15 +152,15 @@ jobs:
       aws-region: ${{ secrets.AWS_REGION }}
       aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
 
-#  automerge-2:
-#    name: Merge 'feature -> develop'
-#    runs-on: ubuntu-latest
-#    needs: [ 'run-tests-1', 'run-tests-front', 'terraform' ]
-#    steps:
-#      - name: Integrar feature en develop
-#        uses: tukasz/direct-merge-action@master
-#        with:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          source-branch: ${{ github.ref }}
-#          target-branch: develop
-#          commit-message: "Integrar rama feature en develop"
+  automerge-2:
+    name: Merge 'feature -> develop'
+    runs-on: ubuntu-latest
+    needs: [ 'run-tests-1', 'terraform' ]
+    steps:
+      - name: Integrar feature en develop
+        uses: tukasz/direct-merge-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          source-branch: ${{ github.ref }}
+          target-branch: develop
+          commit-message: "Integrar rama feature en develop"
