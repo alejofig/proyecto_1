@@ -119,5 +119,5 @@ jobs:
       - name: Update ECS Service
         id: update-ecs-service
         run: |
-          aws ecs update-service --cluster apigateway-app --service apigateway-app-service --force-new-deployment
+          aws ecs update-service --cluster apigateway-app --service apigateway-app-service --force-new-deployment --region us-east-1
     
