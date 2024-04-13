@@ -19,3 +19,4 @@ async def generate_plan(plan: Plan):
 async def get_plan():
     planes = consultar_planes()
     return planes
+    
