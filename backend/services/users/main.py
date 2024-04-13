@@ -9,4 +9,5 @@ app.add_middleware(
     allow_origins=['*']
 )
 
+
 app.include_router(api_router)
