@@ -11,3 +11,27 @@ data "template_file" "task_definition_template" {
     DB_HOST        = aws_db_instance.db_postgres_planes.address //local.rds_endpoint_without_port
   }
 }
+
+locals {
+  container_definitions = [
+    {
+      name      = "planes-app"
+      image     = "344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest"
+      cpu       = 256
+      memory    = 512
+      essential = true
+      portMappings = [
+        {
+          containerPort = 3002
+          hostPort      = 3002
+        }
+      ],
+      environment = [
+        {
+          name  = "DB_HOST"
+          value = aws_db_instance.db_postgres_planes.address
+        }
+      ]
+    }
+  ]
+}
