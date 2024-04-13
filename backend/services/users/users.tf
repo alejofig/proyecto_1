@@ -120,6 +120,12 @@ resource "aws_security_group" "alb_sg" {
     to_port         = 443
     cidr_blocks     = ["0.0.0.0/0"]
   }
+    ingress {
+    protocol        = "tcp"
+    from_port       = 5432
+    to_port         = 5432
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -132,7 +138,7 @@ resource "aws_security_group" "alb_sg" {
 
 # create security group to access the ecs cluster (traffic to ecs cluster should only come from the ALB)
 resource "aws_security_group" "ecs_sg" {
-  name        = "ecs-from-alb-group-new3"
+  name        = "ecs-from-alb-group-new5"
   description = "control access to the ecs cluster"
   vpc_id      = aws_vpc.vpc.id
 
@@ -166,7 +172,7 @@ resource "aws_db_instance" "users_rds" {
   engine               = "postgres"
   engine_version         = "12.14"
   instance_class         = "db.t3.micro"
-  identifier           = "users-db-new3"
+  identifier           = "users-db-new5"
   username             = "users"
   password             = "userspassword"
   parameter_group_name = "default.postgres12"
@@ -205,7 +211,7 @@ resource "aws_alb" "alb" {
 }
 
 resource "aws_alb_target_group" "target_group" {
-  name        = "ecs-target-group-users-new3"
+  name        = "ecs-target-group-users-new5"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.vpc.id
@@ -265,7 +271,7 @@ resource "aws_ecs_task_definition" "task_definition" {
 }
 
 resource "aws_ecs_service" "users-service" {
-  name            = "users-app-service-new3"
+  name            = "users-app-service-new5"
   cluster         = aws_ecs_cluster.fp-ecs-cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count   = 1
@@ -295,12 +301,12 @@ output "alb-dns-name" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs_log_group" {
-  name              = "/ecs/users-app-new3"  
+  name              = "/ecs/users-app-new5"  
   retention_in_days = 7  
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ecs-task-execution-role-users-new3"
+  name               = "ecs-task-execution-role-users-new5"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -316,7 +322,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 }
 
 resource "aws_iam_policy" "ecs_cloudwatch_policy_users" {
-  name        = "ecs-cloudwatch-policy-users-new3"
+  name        = "ecs-cloudwatch-policy-users-new5"
   description = "Policy to allow ECS to write logs to CloudWatch"
 
 policy = jsonencode({
@@ -377,7 +383,7 @@ resource "aws_alb_listener" "fp-alb-listener-https" {
 ###### Lambda registro
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "lambda-exec-role-users-new3"
+  name = "lambda-exec-role-users-new5"
 
   assume_role_policy = jsonencode({
     Version   = "2012-10-17",
@@ -392,7 +398,7 @@ resource "aws_iam_role" "lambda_exec" {
 }
 
 resource "aws_iam_policy" "lambda_sqs_policy" {
-  name        = "lambda-sqs-policy-new3"
+  name        = "lambda-sqs-policy-new5"
   description = "Policy to allow Lambda to receive messages from SQS"
 
   policy = jsonencode({
@@ -410,7 +416,7 @@ resource "aws_iam_policy" "lambda_sqs_policy" {
 }
 
 resource "aws_iam_policy" "lambda_kms_policy" {
-  name        = "lambda-kms-policy-new3"
+  name        = "lambda-kms-policy-new5"
   description = "Policy to allow Lambda to use KMS"
 
   policy = jsonencode({
@@ -426,7 +432,7 @@ resource "aws_iam_policy" "lambda_kms_policy" {
   })
 }
 resource "aws_iam_policy" "lambda_cloudwatch_logs_policy" {
-  name        = "lambda-cloudwatch-logs-policy-new3"
+  name        = "lambda-cloudwatch-logs-policy-new5"
   description = "Policy to allow Lambda to write logs to CloudWatch Logs"
 
   policy = jsonencode({
@@ -498,7 +504,7 @@ resource "aws_sqs_queue" "users_register_dlq" {
 }
 
 resource "aws_sqs_queue" "users_register_sqs" {
-  name = "users-register-sqs-new3"
+  name = "users-register-sqs-new5"
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.users_register_dlq.arn,
@@ -507,11 +513,11 @@ resource "aws_sqs_queue" "users_register_sqs" {
 }
 
 resource "aws_iam_user" "user" {
-  name = "user-new3"
+  name = "user-new5"
 }
 
 resource "aws_iam_policy" "sqs_queue_policy" {
-  name        = "sqs-queue-policy-new3"
+  name        = "sqs-queue-policy-new5"
   description = "Policy to allow access to the SQS queue"
   
   policy = jsonencode({
