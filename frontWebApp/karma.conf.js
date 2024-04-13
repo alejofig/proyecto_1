@@ -14,6 +14,7 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-threshold-reporter')
     ],
+
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
