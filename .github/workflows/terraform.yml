@@ -69,10 +69,10 @@ jobs:
         working-directory: ${{ inputs.terraform_directory }}
         run: terraform plan
 
-      - name: Terraform apply
-        id: apply
-        working-directory: ${{ inputs.terraform_directory }}
-        run: terraform apply -auto-approve
+      # - name: Terraform apply
+      #   id: apply
+      #   working-directory: ${{ inputs.terraform_directory }}
+      #   run: terraform apply -auto-approve
 
       - name: Terraform destroy
         id: destroy
