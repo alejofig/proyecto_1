@@ -7,5 +7,5 @@ export const environment = {
   auth0ApiIdentifier: 'https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/',
   algorithm: 'RS256',
   apigateway_url: 'https://apigateway.uniandes-sports.com',
-  entrenamientoUrl: 'http://18.232.64.133:3001' //'http://54.147.94.116:3002'
+  entrenamientoUrl: 'http://54.91.105.202:3002'
 };

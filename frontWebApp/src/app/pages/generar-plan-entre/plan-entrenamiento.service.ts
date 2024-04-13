@@ -10,8 +10,6 @@ import { environment } from "../../../environments/environment";
 export class PlanEntrenamientoService {
 
   private apiUrl: string = environment.entrenamientoUrl;
-  //private apiUrl: string = 'http://54.147.94.116:3002' //environment.backendUrl;
-  //private apiUrl: string = 'http://0.0.0.0:3002' //environment.backendUrl;
 
   constructor(private http: HttpClient) {
   }
