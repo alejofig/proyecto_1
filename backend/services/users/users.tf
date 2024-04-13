@@ -260,7 +260,7 @@ resource "aws_ecs_task_definition" "task_definition" {
 }
 
 resource "aws_ecs_service" "users-service" {
-  name            = " "
+  name            = "users-app-service-new"
   cluster         = aws_ecs_cluster.fp-ecs-cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count   = 1
