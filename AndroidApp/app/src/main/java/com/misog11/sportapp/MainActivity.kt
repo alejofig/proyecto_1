@@ -87,7 +87,7 @@ class MainActivity : MenuForAllActivitys() {
     }
 
     private fun navegarPantallaPrincipal(){
-        navigate(this, EntrenamientoActivity::class.java)
+        navigate(this, EventosActivity::class.java)
     }
 
 }

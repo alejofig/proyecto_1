@@ -39,7 +39,7 @@ class EventosActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> print("home")
-                R.id.navigation_training -> navigate(this, EntrenamientoActivity::class.java)
+                R.id.navigation_training -> navigate(this, DeporteActivity::class.java)
                 R.id.navigation_events -> navigate(this, EventosActivity::class.java)
             }
             true
