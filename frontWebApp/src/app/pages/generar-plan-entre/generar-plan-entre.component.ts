@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { HeaderComponent } from '../../shared/components/header/header.component';
-import { CalendarComponent } from '../../shared/components/calendar/calendar.component';
-import { HorizontalCardComponent } from '../../shared/components/cards/horizontal-card/horizontal-card.component';
-import { SidebardComponent } from '../../shared/components/sidebard/sidebard.component';
-import { RouterLinkWithHref } from '@angular/router';
-import { FormBuilder, FormGroup, FormsModule, Validators } from "@angular/forms";
-import { PlanEntrenamiento } from './plan-entrenamiento';
-import { PlanEntrenamientoService } from './plan-entrenamiento.service';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {HeaderComponent} from '../../shared/components/header/header.component';
+import {CalendarComponent} from '../../shared/components/calendar/calendar.component';
+import {HorizontalCardComponent} from '../../shared/components/cards/horizontal-card/horizontal-card.component';
+import {SidebardComponent} from '../../shared/components/sidebard/sidebard.component';
+import {RouterLinkWithHref} from '@angular/router';
+import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
+import {PlanEntrenamiento} from './plan-entrenamiento';
+import {PlanEntrenamientoService} from './plan-entrenamiento.service';
+import {CommonModule} from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
 
 @Component({
   selector: 'app-generar-plan-entre',
@@ -22,6 +22,7 @@ export class GenerarPlanEntreComponent implements OnInit {
   planEntrenamientoForm!: FormGroup;
   public deporte: string = '';
   public nombre: string = '';
+  public usuario: string = '';
   public cantidadEntrenamientos: number = 0;
   public distanciaPorEntrenamientos: number = 0;
   public fechas: string = '';
@@ -37,11 +38,7 @@ export class GenerarPlanEntreComponent implements OnInit {
 
   radioChangeHandler(event: any) {
     this.planSeleccionado = event.target.value;
-    if (this.planSeleccionado == 'Plan de entrenamiento personalizado') {
-      this.personalizado = true;
-    } else {
-      this.personalizado = false;
-    }
+    this.personalizado = this.planSeleccionado == 'Plan de entrenamiento personalizado';
   }
 
   ngOnInit() {
@@ -69,7 +66,9 @@ export class GenerarPlanEntreComponent implements OnInit {
       this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
     }
 
-    let planEntrenamiento = new PlanEntrenamiento(this.deporte, this.nombre, this.cantidadEntrenamientos, this.distanciaPorEntrenamientos, this.fechas)
+    this.usuario = 'Pedro'; // OJO: Usuario quemado
+
+    let planEntrenamiento = new PlanEntrenamiento(this.deporte, this.nombre, this.usuario, this.cantidadEntrenamientos, this.distanciaPorEntrenamientos, this.fechas)
     console.log(planEntrenamiento)
 
     this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result: any) => {

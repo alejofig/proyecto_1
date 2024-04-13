@@ -7,11 +7,12 @@ client = TestClient(routes.router)
 def test_crear_plan():
     plan = {
         "deporte": "Atletismo",
-        "nombre": "Juan Arango",
+        "nombre": "Abdominales",
+        "usuario": "Juan Arango",
         "cantidadEntrenamientos": "4",
         "distanciaPorEntrenamientos": "10"
     }
-    response = client.post("/planes/", json=plan)
+    response = client.post("/plan/", json=plan)
     assert response.status_code == 200
 
 
