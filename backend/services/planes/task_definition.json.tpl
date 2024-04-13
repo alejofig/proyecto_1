@@ -1,7 +1,7 @@
 [
    {
       "essential": true,
-      "name":"planes-app",
+      "name":"servicio-planes",
       "image":"${REPOSITORY_URL}",
       "portMappings":[
          {
