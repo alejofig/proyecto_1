@@ -128,3 +128,9 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f backend/services/users/Dockerfile backend/services/users
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Update ECS Service
+        id: update-ecs-service
+        run: |
+          aws ecs update-service --cluster users-app --service users-app-service-new5 --force-new-deployment --region us-east-1
+      
