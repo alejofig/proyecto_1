@@ -15,7 +15,7 @@ data "template_file" "task_definition_template" {
 locals {
   container_definitions = [
     {
-      name      = "planes-app"
+      name      = "servicio-planes"
       image     = "344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-planes:latest"
       cpu       = 256
       memory    = 512
