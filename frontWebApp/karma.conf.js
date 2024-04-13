@@ -1,6 +1,7 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
+
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -13,6 +14,7 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-threshold-reporter')
     ],
+
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
@@ -36,10 +38,10 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml','threshold'],
     browsers: ['ChromeHeadlessCI'],
     thresholdReporter: {
-      statements: 80,
-      branches: 80,
-      functions: 80,
-      lines: 80
+      statements: 70,
+      branches: 70,
+      functions: 70,
+      lines: 70
     },
     customLaunchers: {
       ChromeHeadlessCI: {

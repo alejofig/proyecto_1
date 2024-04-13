@@ -30,6 +30,15 @@ class DeporteActivity : AppCompatActivity() {
         backBtn.setOnClickListener{
             navigate(MainActivity::class.java)
         }
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> print("home")
+                R.id.navigation_training -> navigate(DeporteActivity::class.java)
+                R.id.navigation_events -> navigate(EventosActivity::class.java)
+            }
+            true
+        }
 
     }
 

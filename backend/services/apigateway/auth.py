@@ -1,14 +1,9 @@
 # app/auth.py
-from app import config
+import config
 import requests
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2AuthorizationCodeBearer
+from flask import request
 from jose import JWTError, jwt
-from fastapi.security import OAuth2PasswordBearer
-
-oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl=f'https://{config.AUTH0_DOMAIN}/oauth/token',
-)
+from werkzeug.exceptions import HTTPException
 
 class Auth0:
 
@@ -29,10 +24,10 @@ class Auth0:
             "grant_type": "client_credentials",
         }
 
-        response = requests.post(url, data)
+        response = requests.post(url, data=data)
 
         if response.status_code != 200:
-            raise HTTPException(status_code=500, detail="Failed to generate management access token")
+            raise HTTPException(response.status_code, "Failed to generate management access token")
         return response.json()
 
     @staticmethod
@@ -45,8 +40,9 @@ class Auth0:
         return headers
 
     @staticmethod
-    def get_current_user(token: str = Depends(oauth2_scheme)):
+    def get_current_user():
         try:
+            token = request.headers.get('Authorization', '').split('Bearer ')[1]
             token_header = jwt.get_unverified_header(token)
             jwks = Auth0.get_jwks()
             rsa_key = {}
@@ -61,7 +57,7 @@ class Auth0:
                     }
                     break
             if not rsa_key:
-                raise HTTPException(status_code=401, detail="No se pudo encontrar la clave de firma RSA")
+                raise HTTPException(401, "No se pudo encontrar la clave de firma RSA")
             
             payload = jwt.decode(
                 token,
@@ -72,14 +68,14 @@ class Auth0:
             )
             username: str = payload.get("sub")
             if username is None:
-                raise HTTPException(status_code=401, detail="Token no contiene un usuario válido")
+                raise HTTPException(401, "Token no contiene un usuario válido")
             return username
         except jwt.JWTError as e:
             print(e)
-            raise HTTPException(status_code=401, detail="Token JWT inválido o expirado")
+            raise HTTPException(401, "Token JWT inválido o expirado")
         except Exception as e:
             print(e)
-            raise HTTPException(status_code=500, detail="Error al decodificar el token JWT")
+            raise HTTPException(500, "Error al decodificar el token JWT")
     
     @staticmethod
     def register_user(email, password):
@@ -101,7 +97,7 @@ class Auth0:
         endpoint = f'https://{config.AUTH0_DOMAIN}/api/v2/users-by-email?email={user_email}'
         response = requests.get(url=endpoint, headers=Auth0.generate_headers())
         user_info_list = response.json()
-        if response.status_code != status.HTTP_200_OK:
+        if response.status_code != 200:
             return {}
         return user_info_list[0] if len(user_info_list) > 0 else {}
     
@@ -109,7 +105,7 @@ class Auth0:
     def get_user_by_id(user_id: str):
         endpoint = f'https://{config.AUTH0_DOMAIN}/api/v2/users/{user_id}'
         response = requests.get(url=endpoint, headers=Auth0.generate_headers())
-        if response.status_code != status.HTTP_200_OK:
+        if response.status_code != 200:
             return {}
         return response.json()
 
@@ -128,6 +124,6 @@ class Auth0:
         response = requests.post(url, data=data)
 
         if response.status_code != 200:
-            raise HTTPException(status_code=500, detail="Failed to exchange code for token")
+            raise HTTPException(500, "Failed to exchange code for token")
         print(response.json())
         return response.json().get("access_token")
