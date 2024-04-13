@@ -7,12 +7,10 @@ data class Entrenamiento (
     val id: Int,
     val user_id: Int,
     val sport_type: String,
-    val start_time: Time,
-    val end_time: Time,
+    val duration_horas: Double,
     val fecha: Date,
     val calories_active: Int,
-    val power: Int,
     val total_calories: Int,
-    val heart_rate: Int,
+    val fcm: Int,
 
 )

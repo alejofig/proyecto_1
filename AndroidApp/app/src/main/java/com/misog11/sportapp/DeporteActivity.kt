@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DeporteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +25,26 @@ class DeporteActivity : AppCompatActivity() {
         ivCiclismo.setOnClickListener {
             abrirEntrenamiento("ciclismo")
         }
+
+        val backBtn = findViewById<ImageView>(R.id.ivBackArrow)
+        backBtn.setOnClickListener{
+            navigate(MainActivity::class.java)
+        }
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> print("home")
+                R.id.navigation_training -> navigate(DeporteActivity::class.java)
+                R.id.navigation_events -> navigate(EventosActivity::class.java)
+            }
+            true
+        }
+
+    }
+
+    private fun navigate(viewState:Class<*>){
+        val intent = Intent(this, viewState)
+        startActivity(intent)
     }
 
     // Función para abrir la actividad de entrenamiento

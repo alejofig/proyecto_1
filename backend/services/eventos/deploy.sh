@@ -9,3 +9,10 @@ docker push 344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-eventos:latest
 
 #terraform apply -auto-approve
 
+#/*
+#terraform {
+#  backend "s3" {
+#    region = "us-east-1"
+#  }
+#}
+#*/

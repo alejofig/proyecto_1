@@ -1,4 +1,4 @@
-package com.misog11.sportapp.adapter
+package com.misog11.sportapp.eventos
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
