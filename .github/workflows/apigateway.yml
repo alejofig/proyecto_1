@@ -115,3 +115,9 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f backend/services/apigateway/Dockerfile backend/services/apigateway
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Update ECS Service
+        id: update-ecs-service
+        run: |
+          aws ecs update-service --cluster apigateway-app --service apigateway-app-service --force-new-deployment
+    
