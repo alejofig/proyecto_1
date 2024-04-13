@@ -60,7 +60,6 @@ def registrar_usuario():
 @protected_route
 def consultar_usuario(user):
     return jsonify(user), 200
-
 # @app.route('/api/eventos', methods=['GET'])
 # def consultar_eventos():
     
