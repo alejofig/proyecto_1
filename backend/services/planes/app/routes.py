@@ -9,6 +9,7 @@ router = APIRouter()
 async def health():
     return {"status": "ok"}
 
+
 @router.post("/plan")
 async def generate_plan(plan: Plan):
     plan = create_plan(plan)
@@ -19,4 +20,3 @@ async def generate_plan(plan: Plan):
 async def get_plan():
     planes = consultar_planes()
     return planes
-    

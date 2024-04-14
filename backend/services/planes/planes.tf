@@ -1,7 +1,3 @@
-locals {
-  rds_endpoint_without_port = split(":", aws_db_instance.db_postgres_planes.endpoint)[0]
-}
-
 # --- VPC
 resource "aws_vpc" "vpc_planes" {
   cidr_block           = "10.0.0.0/16"
@@ -125,17 +121,17 @@ resource "aws_security_group" "alb_sg_planes" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-    ingress {
+  ingress {
     protocol    = "tcp"
-    from_port   = 5432
-    to_port     = 5432
+    from_port   = 443
+    to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     protocol    = "tcp"
-    from_port   = 443
-    to_port     = 443
+    from_port   = 5432
+    to_port     = 5432
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -254,15 +250,15 @@ resource "aws_ecs_task_definition" "task_definition_planes" {
   family                   = "task_definition_planes"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn //"arn:aws:iam::344488016360:role/ecsTaskExecutionRole"
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   cpu                      = 256
   memory                   = 512
-  container_definitions    = data.template_file.task_definition_template.rendered 
+  container_definitions    = data.template_file.task_definition_template.rendered
 }
 
 # --- IAM
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecs-task-execution-role-planes"
+  name               = "ecs-task-execution-role-planes"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
