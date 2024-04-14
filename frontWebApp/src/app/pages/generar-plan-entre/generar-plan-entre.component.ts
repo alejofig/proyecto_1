@@ -28,6 +28,8 @@ export class GenerarPlanEntreComponent implements OnInit {
   public fechas: string = '';
   public personalizado: boolean = false;
   public planSeleccionado: string = '';
+  public mensajeExitoso: string = 'El plan de entrenamiento fue generado con éxito!';
+  public activarMensajeExitoso: boolean = false;
   public planes: any = ['Plan de entrenamiento recomendado - Básico', 'Plan de entrenamiento recomendado - Avanzado', 'Plan de entrenamiento personalizado']
 
   constructor(
@@ -72,8 +74,8 @@ export class GenerarPlanEntreComponent implements OnInit {
     console.log(planEntrenamiento)
 
     this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result: any) => {
-      console.info("El plan de entrenamiento fue generado con éxito", result)
-      this.planEntrenamientoForm.reset();
+      console.info(this.mensajeExitoso, result)
+      this.activarMensajeExitoso = true;
     })
   }
 

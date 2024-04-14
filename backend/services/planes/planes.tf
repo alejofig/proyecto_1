@@ -323,3 +323,4 @@ resource "aws_cloudwatch_log_group" "ecs_log_group_planes" {
   name              = "/ecs/log-group-planes"
   retention_in_days = 7
 }
+#ok
