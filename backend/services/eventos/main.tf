@@ -1,9 +1,3 @@
-terraform {
-  backend "s3" {
-    region = "us-east-1"
-  }
-}
-
 provider "aws" {
   region = "us-east-1"
 }
@@ -52,12 +46,12 @@ resource "aws_subnet" "public2" {
 }
 
 resource "aws_db_subnet_group" "postgres" {
-  name       = "my-postgres-subnet-group"
+  name       = "postgres-subnet-group-eventos"
   subnet_ids = [aws_subnet.public1.id, aws_subnet.public2.id]
 }
 
 resource "aws_security_group" "postgres_sg" {
-  name        = "postgres_sg"
+  name        = "postgres_sg_eventos"
   description = "Allow internet access to postgres"
   vpc_id      = aws_vpc.main.id
 
@@ -89,22 +83,16 @@ resource "aws_db_instance" "postgres_db_eventos" {
   vpc_security_group_ids = [aws_security_group.postgres_sg.id]
   db_subnet_group_name   = aws_db_subnet_group.postgres.name
   skip_final_snapshot    = true
+  identifier             = "db-eventos"
 }
 
 # Fargate Container
 resource "aws_ecs_cluster" "cluster" {
-  name = "cluster-servicios-jcr"
+  name = "eventos-app"
 }
 
-resource "aws_ecs_task_definition" "task" {
-  family                   = "eventos-task"
-  network_mode             = "awsvpc"
-  requires_compatibilities = ["FARGATE"]
-  execution_role_arn       = "arn:aws:iam::344488016360:role/ecsTaskExecutionRole"
-  cpu                      = "256"
-  memory                   = "512"
-
-  container_definitions = jsonencode([
+locals {
+  container_definitions = [
     {
       name      = "servicio-eventos"
       image     = "344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-eventos:latest"
@@ -116,9 +104,26 @@ resource "aws_ecs_task_definition" "task" {
           containerPort = 3001
           hostPort      = 3001
         }
+      ],
+      environment = [
+        {
+          name  = "DB_HOST"
+          value = aws_db_instance.postgres_db_eventos.address
+        }
       ]
+      
     }
-  ])
+  ]
+}
+
+resource "aws_ecs_task_definition" "task" {
+  family                   = "eventos-task"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  execution_role_arn       = "arn:aws:iam::344488016360:role/ecsTaskExecutionRole"
+  cpu                      = "256"
+  memory                   = "512"
+  container_definitions    = jsonencode(local.container_definitions)
 }
 
 resource "aws_security_group" "fargate_sg" {
