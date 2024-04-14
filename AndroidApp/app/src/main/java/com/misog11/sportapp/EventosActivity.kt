@@ -3,6 +3,7 @@ package com.misog11.sportapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -13,21 +14,29 @@ import com.applandeo.materialcalendarview.CalendarView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.misog11.sportapp.eventos.EventosAdapter
 import com.misog11.sportapp.eventos.EventosService
+import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.Evento
+import com.misog11.sportapp.models.Planes
 import com.misog11.sportapp.utils.utils.Companion.navigate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 
 class EventosActivity : AppCompatActivity() {
-    private lateinit var retrofit: Retrofit
-    private lateinit var baseUrl:String
+    private lateinit var retrofitEventos: Retrofit
+    private lateinit var retrofitEntrenamiento: Retrofit
+    private lateinit var eventosUrl:String
+    private lateinit var planesUrl:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +44,11 @@ class EventosActivity : AppCompatActivity() {
         setContentView(R.layout.activity_eventos)
 
         //Definir Url Base
-        baseUrl = getString(R.string.base_api_url)
-        retrofit = getRetrofit()
+        eventosUrl = getString(R.string.eventos_url)
+        planesUrl = getString(R.string.planes_url)
+        retrofitEventos = getRetrofit(eventosUrl)
+        retrofitEntrenamiento = getRetrofit(planesUrl)
+
 
         // Navegacion Inferior
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -60,25 +72,30 @@ class EventosActivity : AppCompatActivity() {
 
     }
 
-   // private fun navigate(viewState:Class<*>){
-   //val intent = Intent(this, viewState)
-   //     startActivity(intent)
-    //     /     }
 
     fun initRecyclerEventos(){
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val respuesta = retrofit.create(EventosService::class.java).getEventos()
-                if (respuesta.isSuccessful) {
-                    val listaEventos = respuesta.body()
-                    runOnUiThread {
-                        // Configurar Calendario
-                        if (listaEventos != null) {
-                            configurateCalendar(listaEventos)
-                            recyclerViewUpdateEventos(listaEventos)
+                val respuestaEventos = retrofitEventos.create(EventosService::class.java).getEventos()
+                if (respuestaEventos.isSuccessful) {
+                    val listaEventos = respuestaEventos.body()
+                    val respuestaPlanes = retrofitEntrenamiento.create(EventosService::class.java).getPlanes()
+                    if (respuestaPlanes.isSuccessful) {
+                        val planes = respuestaPlanes.body()
+                        if(planes != null && listaEventos != null){
+                            val eventosGenerados = planes2Eventos(planes)
+                            val eventosTotal = ordenarEventos(listaEventos + eventosGenerados)
+
+                            runOnUiThread {
+                                configurateCalendar(eventosTotal)
+                                recyclerViewUpdateEventos(eventosTotal)
+                            }
                         }
                     }
-                }
+
+                    }
+
+
             } catch (e: Exception) {
                 println("Se ha producido un error: ${e.message}")
             }
@@ -123,11 +140,45 @@ class EventosActivity : AppCompatActivity() {
         //calendarView.setCalendarDays(calendarDays)
     }
 
-    private fun getRetrofit():Retrofit{
+    private fun getRetrofit(baseUrl:String):Retrofit{
         return Retrofit
                .Builder()
                .baseUrl(baseUrl)
                .addConverterFactory(GsonConverterFactory.create())
                .build()
+    }
+
+    private fun planes2Eventos(planes:List<Planes>):List<Evento>{
+
+        val entrenamientosEvent = mutableListOf<Evento>()
+
+        planes.forEach { plan ->
+            val dateParts = plan.fechas.replace("'", "").split(", ")
+            val formattedDates = dateParts.map { date -> date.replace("/", "-") }
+
+            formattedDates.forEach { date ->
+                val evento = Evento(date, "",
+                    "Ent: ${plan.deporte}, ${plan.nombre}  ",
+                      "Ubicacion Deseada",
+                    "")
+                entrenamientosEvent.add(evento)
+            }
+        }
+
+
+        return entrenamientosEvent
+    }
+
+    private fun ordenarEventos(eventos: List<Evento>): List<Evento> {
+        val dateFormatter = SimpleDateFormat("yyyy-MM-dd")
+        //val hoy = Date()
+        val hoy = Calendar.getInstance()  // Obtiene la instancia actual del calendario
+        hoy.add(Calendar.DATE, -1)
+        val fechaAyer = hoy.time
+
+        val eventosfiltrados = eventos.filter {
+            dateFormatter.parse(it.fecha).after(fechaAyer)  // Verifica si no es antes de hoy (es hoy o después)
+        }
+        return eventosfiltrados.sortedBy { dateFormatter.parse(it.fecha) }
     }
 }
