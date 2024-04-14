@@ -17,3 +17,4 @@ def create_entrenamiento(entrenamiento: Entrenamiento):
     session.refresh(entrenamiento)
     session.close()
     return entrenamiento
+
