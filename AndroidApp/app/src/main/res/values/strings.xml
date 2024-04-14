@@ -4,4 +4,7 @@
     <string name="com_auth0_scheme">demo</string>
     <string name="app_name">SportApp</string>
     <string name="base_api_url">http://54.198.231.145:3001/</string>
+    <string name="eventos_url">http://18.232.89.57:3001/</string>
+    <string name="planes_url">https://planes.uniandes-sports.com/</string>
+
 </resources>
