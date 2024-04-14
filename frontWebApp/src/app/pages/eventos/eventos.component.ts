@@ -8,6 +8,8 @@ import { CalendarApi, CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CommonModule } from '@angular/common';
 import { ListCalendar } from './eventos-interfaces';
+import e from 'cors';
+import { Dictionary } from '@fullcalendar/core/internal';
 
 @Component({
   selector: 'app-eventos',
@@ -23,20 +25,24 @@ export class EventosComponent {
   calendarOptions: CalendarOptions = {
     'initialView': 'dayGridMonth',
     'plugins': [dayGridPlugin],
-    events: [
-      { title: 'Event 1', date: '2024-04-15' },
-    ]
+    events: []
   }
 
-  eventos = {}
-  entrenamientos: ListCalendar[] = []
+  
+  eventos_general: ListCalendar[] = []
 
   ngOnInit(){
     this.eventosService.getEvents().subscribe({
-      next: (eventos) => {
-        this.eventos = eventos
-        console.log(this.eventos)
-
+      next: (eventos) => { 
+        const eventos_data = this.crear_eventos_calendario(eventos)
+        if (Array.isArray(this.calendarOptions.events)) {
+          this.calendarOptions.events = this.calendarOptions.events.concat(eventos_data[0]);
+        } 
+        if (Array.isArray(this.eventos_general)) {
+          const temp_general = this.eventos_general.concat(eventos_data[1])
+          this.eventos_general = this.ordernar_eventos(temp_general);
+        } 
+        
       },
       error: (error) => {
         console.error('Error al obtener los eventos:', error); // Manejo de errores en caso de que falle la solicitud
@@ -48,10 +54,15 @@ export class EventosComponent {
     this.eventosService.getEntrenamientos().subscribe({
       next: (entrenamientos) => {
         const entrenamientos_data = this.crear_entremientos_calendario(entrenamientos)
+        if (Array.isArray(this.calendarOptions.events)) {
+          this.calendarOptions.events = this.calendarOptions.events.concat(entrenamientos_data[0]);
+        } 
 
-        this.calendarOptions.events = entrenamientos_data[0];
-        this.entrenamientos = entrenamientos_data[1];
-        console.log("entrenamientos_eventos",entrenamientos_data[1])
+        if (Array.isArray(this.eventos_general)) {
+          const temp_general = this.eventos_general.concat(entrenamientos_data[1])
+          this.eventos_general = this.ordernar_eventos(temp_general);
+        } 
+
       },
       error: (error) => {
         console.error('Error al obtener los Entrenamientos:', error); // Manejo de errores en caso de que falle la solicitud
@@ -71,7 +82,8 @@ export class EventosComponent {
         let entr =  {
           title: `Ent: ${plan.deporte}, 
                   ${plan.nombre}`,
-          date: date
+          date: date,
+          backgroundColor: "#db2d2a",
          };
          entrenamientosEvent.push(entr);
 
@@ -80,23 +92,44 @@ export class EventosComponent {
               descripcion: `Entrenamiento de ${plan.deporte} del Plan: ${plan.nombre} 
               Con objetivo de distancia ${plan.distanciaPorEntrenamientos} KM `,
               fecha: `Fecha: ${date}, Ubicacion Deseada ` ,
-              fecha_pura: date
+              fecha_pura: date,
          };
          entrenamientosList.push(entr2);
          
       });
     });
-    // Ajustar lista para tener solo fechas mayores a hoy ordenadas por antiguedad
-    // Obtener la fecha de hoy
-    const hoy = new Date();
-    // Filtrar eventos que son futuros y ordenar por fecha descendente
-    const eventosFiltradosYOrdenados = entrenamientosList
-    .filter(evento => new Date(evento.fecha_pura) >= hoy)  // Filtra eventos pasados
-    .sort((a, b) => new Date(a.fecha_pura).getTime() - new Date(b.fecha_pura).getTime());  // Ordena de más reciente a más lejano
-
-    return [entrenamientosEvent, eventosFiltradosYOrdenados]
+    return [entrenamientosEvent, entrenamientosList]
   };
 
+  crear_eventos_calendario(eventos: any): any {
+    const listaEventosCalendar = eventos.map((evento: any) => {
+      return {
+        title: `Evt: ${evento.nombre}`,
+        date: evento.fecha,
+        backgroundColor: "#c9b924",
+      }
+    });
+
+    const listaEventos = eventos.map((evento: any) => {
+      return {
+        titulo: `Evento: ${evento.nombre}`,
+        descripcion: evento.descripcion,
+        fecha: `Fecha: ${evento.fecha}, Hora ${evento.hora} Ubicacion ${evento.ciudad}, ${evento.pais} ` ,
+        fecha_pura: evento.fecha,
+      }
+    });
+
+    return [listaEventosCalendar, listaEventos];
+  };
+
+  ordernar_eventos(eventos:any){
+    const hoy = new Date();
+    const eventosFiltradosYOrdenados = eventos
+    .filter((evento:any) => new Date(evento.fecha_pura) >= hoy)  // Filtra eventos pasados
+    .sort((a:any, b:any) => new Date(a.fecha_pura).getTime() - new Date(b.fecha_pura).getTime());  // Ordena de más reciente a más lejano
+    
+    return eventosFiltradosYOrdenados
+  } 
   }
 
  
