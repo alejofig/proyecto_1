@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import {environment} from "../../../environments/environment";
+import { Observable } from 'rxjs';
+import { PlanEntrenamientoUser } from './eventos-interfaces';
 
 
 @Injectable({
@@ -19,7 +21,7 @@ export class EventosService {
     return this.http.get(this.eventosUrl + '/eventos');
   }
 
-  getEntrenamientos(){
-    return this.http.get(this.entrenamietoUrl + '/planes');
+  getEntrenamientos(): Observable<PlanEntrenamientoUser[]>{
+    return this.http.get<PlanEntrenamientoUser[]>(this.entrenamietoUrl + '/planes');
   }
 }

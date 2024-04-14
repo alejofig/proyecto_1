@@ -10,25 +10,19 @@
         <div class="px-5 py-4">
           <h4><b>Eventos Recomendados</b></h4>
           <hr>
-          <app-horizontal-card 
-          titulo="Carrera en los Serros Orientales" 
-          descripcion= "Carrera en los Serros Orientales: Competencia atlética anual desafiante, explorando la belleza natural de los serros a través de la carrera"
-          fecha="Fecha:2024-07-30 - Hora: 10:00 am - Lugar: Serros Orientales Carrera 34 - 56">
-          </app-horizontal-card>
-          <app-horizontal-card 
-          titulo="Ciclismo por la ciudad" 
-          descripcion="Una experiencia urbana emocionante que promueve la vida activa y la exploración de la urbe en dos ruedas.." 
-          fecha="2024-09-12 - Hora: 03:00 pm - Lugar: Carrera 64 - 56">
-          </app-horizontal-card>
-          <app-horizontal-card 
-          titulo="Desafío de Senderismo" 
-          descripcion=" Una aventura escénica que invita a explorar la belleza natural de la costa mientras se enfrentan desafíos de senderismo.." 
-          fecha="2024-09-12 - Hora: 03:00 pm - Lugar: Carrera 64 - 56">
-          </app-horizontal-card>
+          <div class="eventos-list-holder">
+            <ng-container *ngFor="let evento of entrenamientos">
+                <app-horizontal-card
+                  [titulo]="evento.titulo" 
+                  [descripcion]="evento.descripcion" 
+                  [fecha]="evento.fecha">
+                </app-horizontal-card>
+              </ng-container>
+          </div>
           <br>
           <h4> <b>Calendario de Eventos y Entrenamientos</b></h4>
           <hr>
-          <app-calendar></app-calendar>
+          <app-calendar [calendarOptions]="calendarOptions"></app-calendar>
 
         </div>
 
