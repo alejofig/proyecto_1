@@ -8,4 +8,6 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=['*']
 )
+
+
 app.include_router(api_router)

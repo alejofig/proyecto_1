@@ -7,65 +7,44 @@
       <app-header></app-header>
     </div>
     <div class="p-4 mx-5">
-      <h3><b>Registrar Plan de Entrenamiento</b></h3>
+      <h3><b>Generar Plan de Entrenamiento</b></h3>
       <hr>
-      <form class="form" (submit)="generarPlanEntrenamiento()">
+      <form id="formulario" class="form" (submit)="generarPlanEntrenamiento()">
+        <h5>Selecciona el tipo de plan de entrenamiento:</h5>
         <div class="bg-light p-4 rounded-3">
-          <h4>Seleciona el Tipo de Plan de Entrenamiento</h4>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-            <label class="form-check-label" for="flexRadioDefault1">
-              Plan de Entrenamiento Recomendado Basico
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-              Plan de Entrenamiento Recomendado Avanzado
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-            <label class="form-check-label" for="flexRadioDefault2">
-              Plan de Entrenamiento Personalizado
-            </label>
+          <div class="form-check" *ngFor="let plan of planes">
+            <input class="form-check-input" type="radio" name="plan" id="plan" value="{{plan}}" (change)="radioChangeHandler($event)">
+            <label class="form-check-label">{{plan}}</label>
           </div>
         </div>
         <hr>
-        <br>
-        <h5>Detalles Plan de Entrenamiento</h5>
-
+        <h6>Detalles del plan de entrenamiento:</h6>
         <select class="form-select my-3" id="deporte" name="deporte" [(ngModel)]="deporte" aria-label="Default select example">
-          <option selected>Deporte</option>
+          <option value="" disabled selected>Selecciona el deporte a entrenar...</option>
           <option value="Atletismo">Atletismo</option>
           <option value="Ciclismo">Ciclismo</option>
         </select>
-
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Nombre</span>
-          <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nombre" placeholder="Nombre Deseado" aria-label="Username" aria-describedby="basic-addon1">
+          <span class="input-group-text" id="nombretitulo">Nombre del plan</span>
+          <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nombre" placeholder="Nombre deseado para el plan" aria-label="Username" aria-describedby="basic-addon1">
         </div>
-
-        <div class="row">
-          <div class="input-group mb-3 col">
-            <span class="input-group-text" id="basic-addon1">Entrenamientos por Semana</span>
-            <input type="number" class="form-control" id="numeroEntrenamientosSemana" name="numeroEntrenamientosSemana" [(ngModel)]="numeroEntrenamientosSemana" placeholder="0" aria-label="Username" aria-describedby="basic-addon1">
+        <div class="row" >
+          <div class="input-group mb-3 col" *ngIf="personalizado">
+            <span class="input-group-text" id="cantidad">Cantidad de entrenamientos</span>
+            <input type="number" class="form-control" id="cantidadEntrenamientos" name="cantidadEntrenamientos" [(ngModel)]="cantidadEntrenamientos" placeholder="Cantidad de entrenamientos" aria-label="Username" aria-describedby="basic-addon1">
           </div>
-
-          <div class="input-group mb-3 col">
-            <span class="input-group-text" id="basic-addon1">Objetivo de distancia por Entrenamiento</span>
-            <input type="number" class="form-control" id="objetivoDistanciaEntrenamiento" name="objetivoDistanciaEntrenamiento" [(ngModel)]="objetivoDistanciaEntrenamiento" placeholder="0" aria-label="Username" aria-describedby="basic-addon1">
+          <div class="input-group mb-3 col" *ngIf="personalizado">
+            <span class="input-group-text" id="distancia">Distancia por entrenamiento (kms)</span>
+            <input type="number" class="form-control" id="distanciaPorEntrenamientos" name="distanciaPorEntrenamientos" [(ngModel)]="distanciaPorEntrenamientos" placeholder="Distancia por entrenamiento (kms)" aria-label="Username" aria-describedby="basic-addon1">
           </div>
         </div>
-
+        <br>
         <a >
-          <button type="submit" class="btn btn-danger">Generar</button>
+          <button type="submit" class="btn btn-danger" onclick="resetearFormulario()">Generar plan de entrenamiento</button>
         </a>
-
+        <hr>
+        <h6 *ngIf="activarMensajeExitoso">{{ mensajeExitoso }}</h6>
       </form>
-
     </div>
-
   </div>
-
 </div>

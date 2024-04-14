@@ -1,7 +1,6 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {PlanEntrenamiento} from "./plan-entrenamiento";
 import {environment} from "../../../environments/environment";
 
 @Injectable({
@@ -9,13 +8,13 @@ import {environment} from "../../../environments/environment";
 })
 export class PlanEntrenamientoService {
 
-  private apiUrl: string = environment.backendUrl;
+  private apiUrl: string = environment.entrenamientoUrl;
 
   constructor(private http: HttpClient) {
   }
 
   generarPlanEntrenamiento(planEntrenamiento: any): Observable<any> {
-    let postPlanEntrenamiento = this.apiUrl + 'generate';
+    let postPlanEntrenamiento = this.apiUrl + '/plan';
     return this.http.post<any>(postPlanEntrenamiento, planEntrenamiento, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

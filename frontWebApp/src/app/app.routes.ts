@@ -45,6 +45,4 @@ export const routes: Routes = [
 
     {path: 'admin', component: DeportesComponent},
     {path: 'admin/indicadores', component: IndicadoresComponent},
-
-
 ];

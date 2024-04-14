@@ -6,11 +6,19 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.misog11.sportapp.databinding.ActivityEntrenamientoBinding
+import com.misog11.sportapp.models.Entrenamiento
 import java.util.Timer
 import java.util.TimerTask
 import android.util.Log
 import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.misog11.sportapp.Entrenamiento.EntrenamientoService
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 class EntrenamientoActivity : AppCompatActivity() {
 
@@ -40,7 +48,28 @@ class EntrenamientoActivity : AppCompatActivity() {
 
         binding.btnFinish.setOnClickListener {
             pauseTimer()
+
+            /** retrofit
+            val duration = binding.tvTimer.text.toString()
+            val sportType = intent.getStringExtra("DEPORTE") ?: "ciclismo" // valor por defecto o manejar `null`
+            val currentDate = java.sql.Date(System.currentTimeMillis())
+
+            // Crear el objeto Entrenamiento
+            val entrenamiento = Entrenamiento(
+                id = 0,
+                user_id = 123,  // ID de usuario mockeado
+                sport_type = sportType,
+                duration = duration,
+                fecha = currentDate,
+                calories_active = binding.tvActiveCalories.text.toString().toInt(),
+                total_calories = binding.tvTotalCaloriesLabel.text.toString().toInt(),
+                fcm = binding.tvHeartRate.text.toString().toInt()
+            )
+
+            sendEntrenamientoData(entrenamiento)**/
+
         }
+
         val backBtn = findViewById<ImageView>(R.id.ivBackArrow)
         backBtn.setOnClickListener{
             navigate(DeporteActivity::class.java)
@@ -56,6 +85,30 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
 
     }
+
+    /** retrofit
+    private fun sendEntrenamientoData(entrenamiento: Entrenamiento) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://localhost/entrenamiento") //
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(EntrenamientoService::class.java)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = service.postEntrenamiento(entrenamiento)
+                if (response.isSuccessful) {
+                    Log.d("Upload", "Datos enviados correctamente")
+                } else {
+                    Log.e("UploadError", "Error al enviar datos: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e("UploadException", "Exception: ${e.message}")
+            }
+        }
+    }**/
+
 
     private fun navigate(viewState:Class<*>){
         val intent = Intent(this, viewState)

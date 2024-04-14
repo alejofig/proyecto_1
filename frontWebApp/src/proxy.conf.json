@@ -1,6 +1,9 @@
 {
   "/api": {
-    "target": "http://127.0.0.1:5000",
+    "target": "http://127.0.0.1:3001",
     "secure": false
-  }
+  },
+  "/api_prod":{
+    "target": "https://apigateway.uniandes-sports.com/",
+    "secure": false}
 }
