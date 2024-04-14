@@ -9,7 +9,7 @@
     <div class="p-4 mx-5">
       <h3><b>Generar Plan de Entrenamiento</b></h3>
       <hr>
-      <form class="form" (submit)="generarPlanEntrenamiento()">
+      <form id="formulario" class="form" (submit)="generarPlanEntrenamiento()">
         <h5>Selecciona el tipo de plan de entrenamiento:</h5>
         <div class="bg-light p-4 rounded-3">
           <div class="form-check" *ngFor="let plan of planes">
@@ -40,8 +40,10 @@
         </div>
         <br>
         <a >
-          <button type="submit" class="btn btn-danger">Generar plan de entrenamiento</button>
+          <button type="submit" class="btn btn-danger" onclick="resetearFormulario()">Generar plan de entrenamiento</button>
         </a>
+        <hr>
+        <h6 *ngIf="activarMensajeExitoso">{{ mensajeExitoso }}</h6>
       </form>
     </div>
   </div>
