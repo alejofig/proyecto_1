@@ -72,10 +72,6 @@ class EventosActivity : AppCompatActivity() {
 
     }
 
-   // private fun navigate(viewState:Class<*>){
-   //val intent = Intent(this, viewState)
-   //     startActivity(intent)
-    //     /     }
 
     fun initRecyclerEventos(){
         CoroutineScope(Dispatchers.IO).launch {
