@@ -8,7 +8,7 @@ import {environment} from "../../../environments/environment";
 })
 export class PlanEntrenamientoService {
 
-  private apiUrl: string = environment.entrenamientoUrl;
+  private apiUrl: string = environment.local;
 
   constructor(private http: HttpClient) {
   }
