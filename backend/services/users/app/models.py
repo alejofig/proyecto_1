@@ -1,10 +1,10 @@
-from typing import Optional
-from sqlmodel import Field, SQLModel,create_engine, Session
-import app.config as config
+from typing import List, Optional
+from sqlmodel import Field, SQLModel, JSON, Column
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     username: str
+    password: str
     email: str
     auth0_id: Optional[str] = None
     nombre: Optional[str] = None
@@ -16,13 +16,14 @@ class User(SQLModel, table=True):
     peso: Optional[int] = None
     pais_nacimiento: Optional[str] = None
     ciudad_nacimiento: Optional[str] = None
+    pais_residencia: Optional[str] = None
+    ciudad_residencia: Optional[str] = None
     antiguedad_residencia: Optional[int] = None
+    altura: Optional[int] = None
+    tipo_plan: Optional[str] = None
+    deportes: List[str] = Field(sa_column=Column(JSON))
 
-SQLALCHEMY_DATABASE_URL = f"postgresql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
-SQLModel.metadata.create_all(engine)
-
-def create_session():
-    session = Session(engine)
-    return session
+    # Needed for Column(JSON)
+    class Config:
+        arbitrary_types_allowed = True
 

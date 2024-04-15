@@ -1,0 +1,121 @@
+name: apigateway
+on:
+  push:
+    branches:
+      - 'feature**'
+    paths:
+      - 'backend/services/apigateway/**'
+
+jobs:
+  automerge-1:
+    name: Merge 'develop -> feature'
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event.head_commit.message, '(azul)') }}
+    outputs:
+      salida: ${{ steps.prepare_release.outputs.respuesta }}
+    steps:
+      - name: Integrar develop en feature
+        uses: tukasz/direct-merge-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          source-branch: develop
+          target-branch: ${{ github.ref }}
+          commit-message: "Actualizar rama feature con respecto a develop"
+      - name: prepare_release
+        id: prepare_release
+        run: |
+          echo "::set-output name=respuesta::$(echo "${{ github.event.head_commit.message }}" | awk '{print $NF}')"
+
+  run-tests-1:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    env:
+      AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+      AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+      AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+      AUTH0_API_IDENTIFIER: ${{ secrets.AUTH0_API_IDENTIFIER }}
+      ALGORITHM: ${{ secrets.ALGORITHM }}
+    needs: 'automerge-1'
+    steps:
+      - name: Checkout de repositorio
+        uses: actions/checkout@v4
+      - name: Configuracion de entorno de Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install Dependencies
+        working-directory: ./backend/services/apigateway
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Tests
+        working-directory: ./backend/services/apigateway
+        run: |
+          coverage run -m pytest tests/* -v
+      - name: Run cov report
+        working-directory: ./backend/services/apigateway
+        run: |
+          coverage report --fail-under=85
+
+  terraform:
+    name: Despliegue Apigateway
+    needs: 'automerge-1'
+    uses: ./.github/workflows/terraform.yml
+    with:
+      terraform_directory: backend/services/apigateway
+      bucket: 'tfstate-proyecto-final'
+      key: 'apigateway.terraform.tfstate'
+    secrets:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws-region: ${{ secrets.AWS_REGION }}
+      aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
+
+  automerge-2:
+    name: Merge 'feature -> develop'
+    runs-on: ubuntu-latest
+    needs: [ 'run-tests-1', 'terraform' ]
+    steps:
+      - name: Integrar feature en develop
+        uses: tukasz/direct-merge-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          source-branch: ${{ github.ref }}
+          target-branch: develop
+          commit-message: "Integrar rama feature en develop"
+
+  push-image:
+    name: ecr
+    runs-on: ubuntu-latest
+    needs: 'automerge-2'
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup AWS Credentials
+        id: setup-aws
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-west-2"
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: apigateway-sportsapp
+          IMAGE_TAG: latest
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f backend/services/apigateway/Dockerfile backend/services/apigateway
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Update ECS Service
+        id: update-ecs-service
+        run: |
+          aws ecs update-service --cluster apigateway-app --service apigateway-app-service --force-new-deployment --region us-east-1

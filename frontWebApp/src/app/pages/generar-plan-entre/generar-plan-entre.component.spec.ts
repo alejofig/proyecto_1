@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenerarPlanEntreComponent } from './generar-plan-entre.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('GenerarPlanEntreComponent', () => {
   let component: GenerarPlanEntreComponent;
@@ -8,10 +9,17 @@ describe('GenerarPlanEntreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GenerarPlanEntreComponent]
+      imports: [GenerarPlanEntreComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+          }
+        }
+      ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(GenerarPlanEntreComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

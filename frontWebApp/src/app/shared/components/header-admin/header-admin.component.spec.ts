@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderAdminComponent } from './header-admin.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('HeaderAdminComponent', () => {
   let component: HeaderAdminComponent;
@@ -8,10 +9,17 @@ describe('HeaderAdminComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderAdminComponent]
+      imports: [HeaderAdminComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+          }
+        }
+      ]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(HeaderAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
