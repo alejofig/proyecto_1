@@ -114,7 +114,7 @@ export class EventosComponent {
       return {
         titulo: `Evento: ${evento.nombre}`,
         descripcion: evento.descripcion,
-        fecha: `Fecha: ${evento.fecha}, Hora ${evento.hora} Ubicacion ${evento.ciudad}, ${evento.pais} ` ,
+        fecha: `Fecha: ${evento.fecha}, Hora ${evento.hora} Ubicacion ${evento.ciudad}, ${evento.pais}` ,
         fecha_pura: evento.fecha,
       }
     });
@@ -124,10 +124,12 @@ export class EventosComponent {
 
   ordernar_eventos(eventos:any){
     const hoy = new Date();
+    if (!eventos || !Array.isArray(eventos)) return [];
+
     const eventosFiltradosYOrdenados = eventos
     .filter((evento:any) => new Date(evento.fecha_pura) >= hoy)  // Filtra eventos pasados
     .sort((a:any, b:any) => new Date(a.fecha_pura).getTime() - new Date(b.fecha_pura).getTime());  // Ordena de más reciente a más lejano
-    
+
     return eventosFiltradosYOrdenados
   } 
   }
