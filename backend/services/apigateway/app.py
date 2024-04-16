@@ -67,3 +67,16 @@ def generarPlanEntrenamiento():
     planes_data = Plan(**json_data)
     print(planes_data)
     return jsonify({'mensaje': 'Plan creado'}), 201
+
+# @app.route('/api/eventos', methods=['GET'])
+# def consultar_eventos():
+#     obtener_usuario = requests.get(f"{URL_USERS}/usuarios/1", headers={})
+#     print(obtener_usuario.json())
+#
+#     response = requests.get(f"{URL_EVENTS}/eventos", headers={})
+#     if response.status_code != 200:
+#         print(response)
+#         return jsonify('No hay eventos'), 401
+#     data = response.json()
+#     print(data)
+#     return jsonify(data), 201
