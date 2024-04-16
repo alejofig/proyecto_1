@@ -38,11 +38,6 @@ export class GenerarPlanEntreComponent implements OnInit {
   ) {
   }
 
-  radioChangeHandler(event: any) {
-    this.planSeleccionado = event.target.value;
-    this.personalizado = this.planSeleccionado == 'Plan de entrenamiento personalizado';
-  }
-
   ngOnInit() {
     this.planEntrenamientoForm = this.formBuilder.group({
       deporte: ["", [Validators.required]],
@@ -53,7 +48,28 @@ export class GenerarPlanEntreComponent implements OnInit {
     })
   }
 
-  generarPlanEntrenamiento() {
+  radioChangeHandler(event: any) {
+    this.planSeleccionado = event.target.value;
+    this.personalizado = this.planSeleccionado == 'Plan de entrenamiento personalizado';
+  }
+
+  sumarDiasAFecha(dias: number): string {
+    const fechaBase = new Date();
+    let fechasString = '';
+    for (let i = 1; i <= dias; i++) {
+      const fechaSumada = new Date(fechaBase);
+      fechaSumada.setDate(fechaSumada.getDate() + i);
+      const anio = fechaSumada.getFullYear();
+      const mes = String(fechaSumada.getMonth() + 1).padStart(2, '0');
+      const dia = String(fechaSumada.getDate()).padStart(2, '0');
+      const fechaString = `${anio}/${mes}/${dia}`;
+      fechasString += "'" + fechaString + "', ";
+    }
+
+    return fechasString.trim().slice(0, -1);
+  }
+
+  generarPlanEntrenamiento(): void {
     console.log(this.imprimirDatos())
 
     if (this.planSeleccionado != 'Plan de entrenamiento personalizado' && this.planSeleccionado == 'Plan de entrenamiento recomendado - Básico') {
@@ -79,23 +95,7 @@ export class GenerarPlanEntreComponent implements OnInit {
     })
   }
 
-  sumarDiasAFecha(dias: number): string {
-    const fechaBase = new Date();
-    let fechasString = '';
-    for (let i = 1; i <= dias; i++) {
-      const fechaSumada = new Date(fechaBase);
-      fechaSumada.setDate(fechaSumada.getDate() + i);
-      const anio = fechaSumada.getFullYear();
-      const mes = String(fechaSumada.getMonth() + 1).padStart(2, '0');
-      const dia = String(fechaSumada.getDate()).padStart(2, '0');
-      const fechaString = `${anio}/${mes}/${dia}`;
-      fechasString += "'" + fechaString + "', ";
-    }
-
-    return fechasString.trim().slice(0, -1);
-  }
-
-  imprimirDatos() {
+  imprimirDatos(): any {
     return {
       deporte: this.deporte,
       nombre: this.nombre,
