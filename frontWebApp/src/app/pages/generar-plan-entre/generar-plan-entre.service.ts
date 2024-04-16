@@ -6,9 +6,9 @@ import {environment} from "../../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
-export class PlanEntrenamientoService {
+export class GenerarPlanEntreService {
 
-  private apiUrl: string = environment.local;
+  private apiUrl: string = environment.apigateway_url;
 
   constructor(private http: HttpClient) {
   }
