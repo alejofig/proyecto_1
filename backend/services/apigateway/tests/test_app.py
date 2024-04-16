@@ -27,7 +27,7 @@ def test_consultar_usuario_success(client, mocker):
 
 def test_consultar_usuario_invalid_token(client, mocker):
     # Mock de la función get_current_user para simular un token inválido
-    mocker.patch("app.Auth0.get_current_user", side_effect=Exception("Invalid token"))
+    mocker.patch("auth.Auth0.get_current_user", side_effect=Exception("Invalid token"))
     # Hacer una solicitud GET a /get_current_user/ con un token de autorización inválido
     with client.get('/get_current_user/', headers={"Authorization": "Bearer invalid_token"}) as response:
         assert response.status_code == 401
