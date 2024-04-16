@@ -1,4 +1,4 @@
-from app.database import create_plan, consultar_planes
+from app.database import create_plan, consultar_planes, reset_planes
 from app.models import Plan
 from fastapi import APIRouter
 
@@ -20,3 +20,9 @@ async def generate_plan(plan: Plan):
 async def get_plan():
     planes = consultar_planes()
     return planes
+
+
+@router.post("/reset")
+async def resetPlanes():
+    num_total = reset_planes()
+    return num_total
