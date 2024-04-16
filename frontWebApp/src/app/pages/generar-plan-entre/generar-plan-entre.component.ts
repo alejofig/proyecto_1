@@ -5,8 +5,8 @@ import {HorizontalCardComponent} from '../../shared/components/cards/horizontal-
 import {SidebardComponent} from '../../shared/components/sidebard/sidebard.component';
 import {RouterLinkWithHref} from '@angular/router';
 import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
-import {PlanEntrenamiento} from './plan-entrenamiento';
-import {PlanEntrenamientoService} from './plan-entrenamiento.service';
+import {GenerarPlanEntre} from './generar-plan-entre';
+import {GenerarPlanEntreService} from './generar-plan-entre.service';
 import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -34,7 +34,7 @@ export class GenerarPlanEntreComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private planEntrenamientoService: PlanEntrenamientoService
+    private planEntrenamientoService: GenerarPlanEntreService
   ) {
   }
 
@@ -86,7 +86,7 @@ export class GenerarPlanEntreComponent implements OnInit {
 
     this.usuario = 'Pedro'; // OJO: Usuario quemado
 
-    let planEntrenamiento = new PlanEntrenamiento(this.deporte, this.nombre, this.usuario, this.cantidadEntrenamientos, this.distanciaPorEntrenamientos, this.fechas)
+    let planEntrenamiento = new GenerarPlanEntre(this.deporte, this.nombre, this.usuario, this.cantidadEntrenamientos, this.distanciaPorEntrenamientos, this.fechas)
     console.log(planEntrenamiento)
 
     this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result: any) => {

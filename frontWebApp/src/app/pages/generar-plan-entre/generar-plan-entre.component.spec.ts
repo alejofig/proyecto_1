@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {GenerarPlanEntreComponent} from './generar-plan-entre.component';
 import {FormsModule} from "@angular/forms";
-import {PlanEntrenamientoService} from "./plan-entrenamiento.service";
+import {GenerarPlanEntreService} from "./generar-plan-entre.service";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {of} from 'rxjs';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -10,19 +10,19 @@ import {RouterTestingModule} from '@angular/router/testing';
 describe('GenerarPlanEntreComponent', () => {
   let component: GenerarPlanEntreComponent;
   let fixture: ComponentFixture<GenerarPlanEntreComponent>;
-  let planEntrenamientoService: PlanEntrenamientoService;
+  let planEntrenamientoService: GenerarPlanEntreService;
   let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, HttpClientTestingModule, GenerarPlanEntreComponent, RouterTestingModule],
-      providers: [PlanEntrenamientoService],
+      providers: [GenerarPlanEntreService],
       declarations: []
     }).compileComponents();
 
     fixture = TestBed.createComponent(GenerarPlanEntreComponent);
     component = fixture.componentInstance;
-    planEntrenamientoService = TestBed.inject(PlanEntrenamientoService);
+    planEntrenamientoService = TestBed.inject(GenerarPlanEntreService);
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });
@@ -85,29 +85,26 @@ describe('GenerarPlanEntreComponent', () => {
     expect(resultado).toEqual(''); // Verifica que se devuelva una cadena vacía
   });
 
-  it('should generate a plan correctly', () => {
+  it('should generate a plan correctly', async () => {
     spyOn(component, 'sumarDiasAFecha').and.returnValue('2024/04/15, 2024/04/16'); // Espía en el método sumarDiasAFecha
 
     component.planSeleccionado = 'Plan de entrenamiento recomendado - Básico';
-    component.generarPlanEntrenamiento();
-
-    expect(component.cantidadEntrenamientos).toEqual(2);
-    expect(component.distanciaPorEntrenamientos).toEqual(5);
-    expect(component.fechas).toEqual('2024/04/15, 2024/04/16');
 
     // Simular la respuesta del servicio
     spyOn(planEntrenamientoService, 'generarPlanEntrenamiento').and.returnValue(of('Respuesta del servicio'));
-
+    component.deporte = 'Atletismo';
+    component.nombre = 'Maraton';
+    component.usuario = 'Pedro';
     component.generarPlanEntrenamiento();
 
     // Verificar que se llame al servicio con el objeto correcto
     expect(planEntrenamientoService.generarPlanEntrenamiento).toHaveBeenCalledWith(jasmine.objectContaining({
-      deporte: component.deporte,
-      nombre: component.nombre,
+      deporte: 'Atletismo',
+      nombre: 'Maraton',
       usuario: 'Pedro',
       cantidadEntrenamientos: 2,
       distanciaPorEntrenamientos: 5,
-      fechas: '2024/04/15, 2024/04/16',
+      fechas: '2024/04/15, 2024/04/16'
     }));
   });
 
