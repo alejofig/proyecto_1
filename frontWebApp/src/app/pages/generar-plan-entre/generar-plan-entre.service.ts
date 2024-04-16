@@ -8,7 +8,7 @@ import {environment} from "../../../environments/environment";
 })
 export class GenerarPlanEntreService {
 
-  private apiUrl: string = environment.planesUrl;
+  private apiUrl: string = environment.apigateway_url;
 
   constructor(private http: HttpClient) {
   }
