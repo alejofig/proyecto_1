@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GenerarPlanEntreComponent } from './generar-plan-entre.component';
-import { ActivatedRoute } from '@angular/router';
+import {GenerarPlanEntreComponent} from './generar-plan-entre.component';
+import {ActivatedRoute} from '@angular/router';
 
 describe('GenerarPlanEntreComponent', () => {
   let component: GenerarPlanEntreComponent;
@@ -13,12 +13,11 @@ describe('GenerarPlanEntreComponent', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: {
-          }
+          useValue: {}
         }
       ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(GenerarPlanEntreComponent);
     component = fixture.componentInstance;
