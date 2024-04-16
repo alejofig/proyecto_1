@@ -14,9 +14,10 @@ def test_create_plan():
     except IntegrityError as e:
         assert False, f"Error al crear plan: {e}"
 
-    # assert created_plan.deporte == plan.deporte
-    # assert created_plan.nombre == plan.nombre
-    # assert created_plan.usuario == plan.usuario
-    # assert created_plan.cantidadEntrenamientos == plan.cantidadEntrenamientos
-    # assert created_plan.distanciaPorEntrenamientos == plan.distanciaPorEntrenamientos
-    # assert created_plan.fechas == plan.fechas
+    assert created_plan.id is not None
+    assert created_plan.deporte == plan.deporte
+    assert created_plan.nombre == plan.nombre
+    assert created_plan.usuario == plan.usuario
+    assert created_plan.cantidadEntrenamientos == plan.cantidadEntrenamientos
+    assert created_plan.distanciaPorEntrenamientos == plan.distanciaPorEntrenamientos
+    assert created_plan.fechas == plan.fechas
