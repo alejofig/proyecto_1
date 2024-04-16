@@ -1,7 +1,6 @@
-from sqlite3 import IntegrityError
-
 from app.database import create_plan
 from app.models import Plan
+from sqlalchemy.exc import IntegrityError
 
 from create_plan import generate_random_plan
 

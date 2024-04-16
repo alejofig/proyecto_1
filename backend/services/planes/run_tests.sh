@@ -33,7 +33,7 @@ cleanup() {
 echo "Running tests for plans..."
 create_virtualenv
 pip install -r requirements.txt
-run_database 5435
+run_database 5434
 uvicorn main:app --host 0.0.0.0 --port 8000 &
 uvicorn_pid=$!
 sleep 5
