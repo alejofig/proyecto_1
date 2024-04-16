@@ -61,16 +61,15 @@ def registrar_usuario():
 def consultar_usuario(user):
     return jsonify(user), 200
 
-# @app.route('/api/eventos', methods=['GET'])
-# def consultar_eventos():
-    
-#     obtener_usuario = requests.get(f"{URL_USERS}/usuarios/1", headers={})
-#     print(obtener_usuario.json())
+@app.route('/api/eventos', methods=['GET'])
+def consultar_eventos():   
+     #obtener_usuario = requests.get(f"{URL_USERS}/usuarios/1", headers={})
+     #print(obtener_usuario.json())
 
-#     response = requests.get(f"{URL_EVENTS}/eventos", headers={})
-#     if response.status_code != 200:
-#         print(response)
-#         return jsonify('No hay eventos'), 401
-#     data = response.json()
-#     print(data)
-#     return jsonify(data), 201
+     response = requests.get(f"{URL_EVENTS}/eventos", headers={})
+     if response.status_code != 200:
+         print(response)
+         return jsonify('No hay eventos'), 401
+     data = response.json()
+     print(data)
+     return jsonify(data), 201
