@@ -90,6 +90,7 @@ export class GenerarPlanEntreComponent implements OnInit {
     console.log(planEntrenamiento)
 
     this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result: any) => {
+      console.log('Response: ', result)
       console.info(this.mensajeExitoso, result)
       this.activarMensajeExitoso = true;
     })
