@@ -7,7 +7,6 @@ from pydantic import ValidationError
 
 from models import User, Plan
 from utils import protected_route
-from ..planes.app import database
 
 URL_USERS = os.getenv('USERS_PATH')
 URL_EVENTS = os.getenv('EVENTS_PATH')
@@ -67,27 +66,4 @@ def generarPlanEntrenamiento():
     print(json_data)
     planes_data = Plan(**json_data)
     print(planes_data)
-
-    deporte = json_data.get('deporte')
-    nombre = json_data.get('nombre')
-    usuario = json_data.get('usuario')
-    cantidadEntrenamientos = json_data.get('cantidadEntrenamientos')
-    distanciaPorEntrenamientos = json_data.get('distanciaPorEntrenamientos')
-    fechas = json_data.get('fechas')
-
-    database.create_plan(planes_data)
     return jsonify({'mensaje': 'Plan creado'}), 201
-
-# @app.route('/api/eventos', methods=['GET'])
-# def consultar_eventos():
-
-#     obtener_usuario = requests.get(f"{URL_USERS}/usuarios/1", headers={})
-#     print(obtener_usuario.json())
-
-#     response = requests.get(f"{URL_EVENTS}/eventos", headers={})
-#     if response.status_code != 200:
-#         print(response)
-#         return jsonify('No hay eventos'), 401
-#     data = response.json()
-#     print(data)
-#     return jsonify(data), 201
