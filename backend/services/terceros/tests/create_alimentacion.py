@@ -1,18 +1,16 @@
 def generate_random_alimentacion():
-    deporte = "Atletismo"
-    nombre = "Maraton"
-    usuario = "Juan"
-    cantidadEntrenamientos = 1
-    distanciaPorEntrenamientos = 5
-    fechas = "2024/04/15"
+    tipoAlimentacion = "Proteina"
+    numeroContacto = 3214567890
+    paisActual = "Peru"
+    ciudadActual = "Lima"
+    direccionActual = "Calle Falsa 123"
 
     alimentacion_data = {
-        "deporte": deporte,
-        "nombre": nombre,
-        "usuario": usuario,
-        "cantidadEntrenamientos": cantidadEntrenamientos,
-        "distanciaPorEntrenamientos": distanciaPorEntrenamientos,
-        "fechas": fechas
+        "tipoAlimentacion": tipoAlimentacion,
+        "numeroContacto": numeroContacto,
+        "paisActual": paisActual,
+        "ciudadActual": ciudadActual,
+        "direccionActual": direccionActual
     }
 
     return alimentacion_data
