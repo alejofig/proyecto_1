@@ -1,44 +1,53 @@
 <div class="row">
-    <div class="col-3">
-        <app-sidebard></app-sidebard>
+  <div class="col-3">
+    <app-sidebard></app-sidebard>
+  </div>
+  <div class="content col-9 position-relative px-0">
+    <div class="position-sticky top-0 z-3">
+      <app-header></app-header>
     </div>
-    <div class="content col-9 row">
-        <app-header></app-header>
-        <div class="px-5">
-            <h3><b>Solicitar Alimentación</b></h3>
-            <hr>
-            <form action="submit_session_form" method="post">
-                <label for="alimentacion">Tipo de Alimentación Deportiva:</label>
-                <select id="alimentacion" name="alimentacion" required>
-                    <option value="">Selecciona una opción</option>
-                    <option value="Proteínas">Proteína Pro 1000g</option>
-                    <option value="Carbohidratos">Carbohidratos 1000g</option>
-                    <option value="Grasas saludables">Grasas saludables 1000g</option>
-                    <option value="Suplementos">Suplementos</option>
-                    <option value="Dieta equilibrada">Dieta equilibrada</option>
-
-                </select>
-    
-                <label for="fecha">Numero de Contacto</label>
-                <input type="number" id="fecha" name="fecha" required>
-    
-                <div class="row">
-                    <div class="col-6">            
-                        <label for="fecha">País donde se encuentra:</label>
-                        <input type="text" id="fecha" name="fecha" required>
-                    </div>
-        
-                    <div class="col-6"> 
-                        <label for="hora">Ciudad donde se encuentra:</label>
-                        <input type="text" id="hora" name="hora" required>
-                    </div>
-                </div>
-                    <label for="hora">Dirrección:</label>
-                    <input type="text" id="hora" name="hora" required>
-              
-                <button type="submit">Enviar Solicitud</button>
-            </form>
+    <div class="p-4 mx-5">
+      <h3><b>Servicio de Alimentación</b></h3>
+      <hr>
+      <form id="formAlimentacion" class="form" method="post" (submit)="solicitarAlimentacion()">
+        <h6>Tipo de alimentación deportiva:</h6>
+        <select class="form-select my-3" id="alimentacion" name="alimentacion" [(ngModel)]="tipoAlimentacion" required>
+          <option value="" disabled selected>Selecciona la alimentación requerida...</option>
+          <option value="Proteínas">Proteínas</option>
+          <option value="Carbohidratos">Carbohidratos</option>
+          <option value="Grasas saludables">Grasas saludables</option>
+          <option value="Suplementos">Suplementos deportivos</option>
+          <option value="Dieta equilibrada">Dieta equilibrada</option>
+        </select>
+        <div class="row">
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="numero">Número de contacto</span>
+            <input type="text" class="form-control mt-0" id="numeroContacto" name="numeroContacto" [(ngModel)]="numeroContacto" placeholder="Número de contacto" aria-label="Username"
+                   aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="direccion">Dirección de contacto</span>
+            <input type="text" class="form-control mt-0" id="direccionActual" name="direccionActual" [(ngModel)]="direccionActual" placeholder="Dirección de contacto" aria-label="Username"
+                   aria-describedby="basic-addon1">
+          </div>
         </div>
+        <div class="row">
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="pais">País donde se encuentra</span>
+            <input type="text" class="form-control mt-0" id="paisActual" name="paisActual" [(ngModel)]="paisActual" placeholder="País actual" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="ciudad">Ciudad donde se encuentra</span>
+            <input type="text" class="form-control mt-0" id="ciudadActual" name="ciudadActual" [(ngModel)]="ciudadActual" placeholder="Ciudad actual" aria-label="Username"
+                   aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <a>
+          <button type="submit" class="btn btn-danger">Solicitar plan de alimentación</button>
+        </a>
+        <hr>
+        <h6 *ngIf="activarMensajeExitoso">{{ mensajeExitoso }}</h6>
+      </form>
     </div>
-    
+  </div>
 </div>
