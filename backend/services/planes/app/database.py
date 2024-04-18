@@ -26,16 +26,3 @@ def consultar_planes():
     results = session.exec(statement)
     planes = results.all()
     return planes
-
-
-def reset_planes():
-    session = create_session()
-    try:
-        num_deleted = session.query(Plan).delete()
-        session.commit()
-        return num_deleted
-    except Exception as e:
-        session.rollback()
-        raise e
-    finally:
-        session.close()

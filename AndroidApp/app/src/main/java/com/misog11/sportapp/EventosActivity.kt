@@ -18,7 +18,6 @@ import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.Evento
 import com.misog11.sportapp.models.Planes
 import com.misog11.sportapp.utils.utils.Companion.navigate
-import com.misog11.sportapp.utils.utils.Companion.obtenerToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,16 +37,11 @@ class EventosActivity : AppCompatActivity() {
     private lateinit var retrofitEntrenamiento: Retrofit
     private lateinit var eventosUrl:String
     private lateinit var planesUrl:String
-    private lateinit var tokenAuth:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_eventos)
-
-        // Traer Token Autorizacion
-        tokenAuth =  obtenerToken(this) ?: ""
-
 
         //Definir Url Base
         eventosUrl = getString(R.string.eventos_url)
@@ -82,11 +76,10 @@ class EventosActivity : AppCompatActivity() {
     fun initRecyclerEventos(){
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Log.i("Token Obtenino de Auth0", tokenAuth)
-                val respuestaEventos = retrofitEventos.create(EventosService::class.java).getEventos(tokenAuth)
+                val respuestaEventos = retrofitEventos.create(EventosService::class.java).getEventos()
                 if (respuestaEventos.isSuccessful) {
                     val listaEventos = respuestaEventos.body()
-                    val respuestaPlanes = retrofitEntrenamiento.create(EventosService::class.java).getPlanes(tokenAuth)
+                    val respuestaPlanes = retrofitEntrenamiento.create(EventosService::class.java).getPlanes()
                     if (respuestaPlanes.isSuccessful) {
                         val planes = respuestaPlanes.body()
                         if(planes != null && listaEventos != null){

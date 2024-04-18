@@ -3,12 +3,7 @@
     "target": "http://127.0.0.1:3001",
     "secure": false
   },
-  "/api_prod": {
+  "/api_prod":{
     "target": "https://apigateway.uniandes-sports.com/",
-    "secure": false
-  },
-  "/api_planes": {
-    "target": "https://planes.uniandes-sports.com/",
-    "secure": false
-  }
+    "secure": false}
 }

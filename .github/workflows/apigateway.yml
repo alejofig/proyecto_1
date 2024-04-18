@@ -87,7 +87,7 @@ jobs:
   push-image:
     name: ecr
     runs-on: ubuntu-latest
-    needs: 'terraform'
+    needs: 'automerge-2'
     steps:
       - name: Checkout
         id: checkout

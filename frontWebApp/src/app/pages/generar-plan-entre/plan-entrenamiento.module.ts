@@ -13,5 +13,5 @@ import {RouterModule} from '@angular/router';
   exports: [],
   declarations: []
 })
-export class GenerarPlanEntreModule {
+export class PlanEntrenamientoModule {
 }

@@ -1,7 +1,5 @@
-from typing import List, Optional
-
 from pydantic import BaseModel
-
+from typing import List, Optional
 
 class User(BaseModel):
     username: str
@@ -26,12 +24,3 @@ class User(BaseModel):
     # Needed for Column(JSON)
     class Config:
         arbitrary_types_allowed = True
-
-
-class Plan(BaseModel):
-    deporte: str
-    nombre: str
-    usuario: str
-    cantidadEntrenamientos: str
-    distanciaPorEntrenamientos: str
-    fechas: str
