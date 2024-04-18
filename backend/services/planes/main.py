@@ -5,7 +5,7 @@ from app.routes import router as api_router
 
 origins = [
     "http://localhost:4200",
-    "https://planes.uniandes-sports.com"
+    "https://app.uniandes-sports.com"
 ]
 
 app = FastAPI()
