@@ -6,7 +6,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: prueba
-      POSTGRES_USER: alimentacion
+      POSTGRES_USER: prueba
       POSTGRES_PASSWORD: prueba
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
@@ -17,14 +17,14 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "3007:3007"
     depends_on:
       - db
     environment:
-      DB_HOST: db
+      DB_USER: prueba
+      DB_PASSWORD: prueba
+      DB_HOST: localhost
       DB_NAME: prueba
       DB_PORT: 5432
-      DB_ENTRENAMIENTO: alimentacion
-      DB_PASSWORD: prueba
     volumes:
       - ./app:/code/app

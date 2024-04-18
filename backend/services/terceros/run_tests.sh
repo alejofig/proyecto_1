@@ -13,7 +13,7 @@ create_virtualenv() {
 }
 
 run_database() {
-    docker run --name plan_tests -e POSTGRES_PASSWORD=prueba -e POSTGRES_USER=prueba -e POSTGRES_DB=prueba -p $1:5432 -d postgres
+    docker run --name terceros_tests -e POSTGRES_PASSWORD=prueba -e POSTGRES_USER=prueba -e POSTGRES_DB=prueba -p $1:5432 -d postgres
     sleep 5 # Esperar un poco para que la base de datos se levante completamente
 }
 
@@ -22,8 +22,8 @@ cleanup() {
     echo "Cleaning up..."
     
     # Detener y eliminar el contenedor Docker
-    docker stop plan_tests
-    docker rm plan_tests
+    docker stop terceros_tests
+    docker rm terceros_tests
 
     echo "Cleanup complete"
 }
