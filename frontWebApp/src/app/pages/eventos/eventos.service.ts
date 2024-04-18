@@ -12,7 +12,7 @@ export class EventosService {
 
   private http = inject(HttpClient)
   private eventosUrl: string = environment.eventos_urls;
-  private entrenamietoUrl: String = environment.entrenamientoUrl
+  private entrenamietoUrl: String = environment.planesUrl
 
 
   constructor() { }
