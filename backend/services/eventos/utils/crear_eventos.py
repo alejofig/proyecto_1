@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import random
 
 # URL de la API donde se crearán los eventos
-api_url = "https://eventos.uniandes-sports.com/eventos"
+api_url = "http://54.198.231.145:3001/eventos"
 
 # Datos base para los eventos
 nombres_eventos = ["Maratón", "Carrera", "Triatlón", "Ciclismo", "Rally"]

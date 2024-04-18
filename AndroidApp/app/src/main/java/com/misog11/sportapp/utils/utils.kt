@@ -15,8 +15,6 @@ class utils {
             editor.putString("auth_token", token)
             editor.apply()  // Usa apply() en lugar de commit() para guardar el token de manera asincrónica
         }
-
-
         fun obtenerToken(context: Context): String? {
             val sharedPreferences = context.getSharedPreferences("prefs_auth", Context.MODE_PRIVATE)
             return sharedPreferences.getString("auth_token", null)

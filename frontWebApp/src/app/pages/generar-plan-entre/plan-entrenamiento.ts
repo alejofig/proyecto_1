@@ -1,4 +1,4 @@
-export class GenerarPlanEntre {
+export class PlanEntrenamiento {
   deporte: string;
   nombre: string;
   usuario: string;

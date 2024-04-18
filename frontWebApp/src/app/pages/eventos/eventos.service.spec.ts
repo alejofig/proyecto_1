@@ -10,7 +10,7 @@ describe('EventosService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule], // Asegúrate de importar HttpClientTestingModule
-
+      
     });
     service = TestBed.inject(EventosService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -19,7 +19,7 @@ describe('EventosService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
+  
   it('should retrieve events from the API via GET', () => {
     const dummyEvents = [{ id: 1, name: 'Evento 1' }, { id: 2, name: 'Evento 2' }];
 
@@ -51,7 +51,7 @@ describe('EventosService', () => {
       expect(plans.length).toBe(2);
     });
 
-    const request = httpMock.expectOne(`${environment.planesUrl}/planes`);
+    const request = httpMock.expectOne(`${environment.entrenamientoUrl}/planes`);
     expect(request.request.method).toBe('GET');
     request.flush(dummyPlans);
   });
@@ -63,7 +63,7 @@ describe('EventosService', () => {
       error => expect(error.message).toContain('Error loading')
     );
 
-    const request = httpMock.expectOne(`${environment.planesUrl}/planes`);
+    const request = httpMock.expectOne(`${environment.entrenamientoUrl}/planes`);
     request.flush(null, { status: 500, statusText: error });
   });
 

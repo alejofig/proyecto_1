@@ -17,6 +17,3 @@ AUTH0_API_IDENTIFIER = os.getenv("AUTH0_API_IDENTIFIER")
 KMS_KEY_ID = os.getenv("KMS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-
-def get_postgres_url():
-    return f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"

@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import List, Optional
 from sqlmodel import Field, SQLModel, JSON, Column
 
@@ -23,7 +22,6 @@ class User(SQLModel, table=True):
     altura: Optional[int] = None
     tipo_plan: Optional[str] = None
     deportes: List[str] = Field(sa_column=Column(JSON))
-    created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
 
     # Needed for Column(JSON)
     class Config:
