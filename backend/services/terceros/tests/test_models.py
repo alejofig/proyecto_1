@@ -1,4 +1,4 @@
-from app.models import Alimentacion
+from app.models import Alimentacion, Entrenador
 
 
 def test_alimentacion_model():
@@ -15,3 +15,17 @@ def test_alimentacion_model():
     assert alimentacion.paisActual == "Peru"
     assert alimentacion.ciudadActual == "Lima"
     assert alimentacion.direccionActual == "Calle Falsa 123"
+
+
+def test_sesion_entrenador_model():
+    entrenador = Entrenador(
+        tipoEntrenamiento="Grupal",
+        fechaSesion="2024-04-15",
+        horaSesion="08:30",
+        comentarios="Comentarios"
+    )
+
+    assert entrenador.tipoEntrenamiento == "Grupal"
+    assert entrenador.fechaSesion == "2024-04-15"
+    assert entrenador.horaSesion == "08:30"
+    assert entrenador.comentarios == "Comentarios"

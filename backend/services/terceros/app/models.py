@@ -10,3 +10,11 @@ class Alimentacion(SQLModel, table=True):
     paisActual: str
     ciudadActual: str
     direccionActual: str
+
+
+class Entrenador(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    tipoEntrenamiento: str
+    fechaSesion: str
+    horaSesion: str
+    comentarios: str

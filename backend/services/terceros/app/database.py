@@ -1,5 +1,5 @@
 from app import config
-from app.models import Alimentacion
+from app.models import Alimentacion, Entrenador
 from sqlmodel import Session, create_engine, SQLModel, select
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
@@ -12,6 +12,7 @@ def create_session():
     return session
 
 
+## Servicio de alimentación
 def solicitar_servicio_alimentacion(alimentacion: Alimentacion):
     session = create_session()
     session.add(alimentacion)
@@ -32,6 +33,36 @@ def reset_servicios_alimentacion():
     session = create_session()
     try:
         num_deleted = session.query(Alimentacion).delete()
+        session.commit()
+        return num_deleted
+    except Exception as e:
+        session.rollback()
+        raise e
+    finally:
+        session.close()
+
+
+## Sesión de entrenamiento
+def solicitar_sesion_entrenador(entrenador: Entrenador):
+    session = create_session()
+    session.add(entrenador)
+    session.commit()
+    session.close()
+    return entrenador
+
+
+def consultar_sesion_entrenador():
+    session = create_session()
+    statement = select(Entrenador)
+    results = session.exec(statement)
+    sesion_entrenador = results.all()
+    return sesion_entrenador
+
+
+def reset_sesion_entrenador():
+    session = create_session()
+    try:
+        num_deleted = session.query(Entrenador).delete()
         session.commit()
         return num_deleted
     except Exception as e:
