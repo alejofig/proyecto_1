@@ -80,15 +80,14 @@ export class EventosComponent {
 
       formattedDates.forEach((date: string) => {
         let entr =  {
-          title: `Ent: ${plan.deporte}, 
-                  ${plan.nombre}`,
+          title: `Et: ${plan.nombre}, ${plan.deporte},`,
           date: date,
           backgroundColor: "#db2d2a",
          };
          entrenamientosEvent.push(entr);
 
          let entr2 ={
-              titulo: `Entrenamiento: ${plan.deporte},  ${plan.nombre}`,
+              titulo: `Entrenamiento: ${plan.nombre}, ${plan.deporte}`,
               descripcion: `Entrenamiento de ${plan.deporte} del Plan: ${plan.nombre} 
               Con objetivo de distancia ${plan.distanciaPorEntrenamientos} KM `,
               fecha: `Fecha: ${date}, Ubicacion Deseada ` ,
