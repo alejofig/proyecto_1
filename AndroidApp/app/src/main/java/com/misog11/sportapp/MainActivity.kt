@@ -22,6 +22,8 @@ class MainActivity : MenuForAllActivitys() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -83,7 +85,7 @@ class MainActivity : MenuForAllActivitys() {
     }
 
     private fun navegarPantallaPrincipal(){
-        navigate(this, EventosActivity::class.java)
+        navigate(this, DeporteActivity::class.java)
     }
 
 }
