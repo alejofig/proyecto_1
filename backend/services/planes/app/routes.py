@@ -5,6 +5,11 @@ from fastapi import APIRouter
 router = APIRouter()
 
 
+@router.get("/")
+async def health():
+    return {"status": "ok"}
+
+
 @router.post("/plan")
 async def generate_plan(plan: Plan):
     plan = create_plan(plan)

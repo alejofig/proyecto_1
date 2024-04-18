@@ -1,12 +1,12 @@
 [
    {
       "essential": true,
-      "name":"servicio-planes",
+      "name":"planes-app",
       "image":"${REPOSITORY_URL}",
       "portMappings":[
          {
-            "containerPort":80,
-            "hostPort":80,
+            "containerPort":3002,
+            "hostPort":3002,
             "protocol":"tcp"
          },
         {
