@@ -1,7 +1,7 @@
 import os
 
 import requests
-
+from auth import Auth0
 import boto3
 from flask import Flask, jsonify, request, json
 from flask_cors import CORS
@@ -9,6 +9,7 @@ from pydantic import ValidationError
 
 from models import User, Plan
 from utils import protected_route
+import config
 
 URL_USERS = os.getenv('USERS_PATH')
 URL_EVENTS = os.getenv('EVENTS_PATH')
@@ -31,6 +32,23 @@ if __name__ == '__main__':
 def health_check():
     return jsonify({'status': 'OK'}), 200
 
+@app.route("/login/")
+def login_page():
+    login_url = f'https://{config.AUTH0_DOMAIN}/authorize' \
+                f'?audience=https://{config.AUTH0_DOMAIN}/api/v2/' \
+                '&response_type=code' \
+                f'&client_id={config.AUTH0_CLIENT_ID}' \
+                f'&redirect_uri={config.REDIRECT_URI}'
+    return f'<a href="{login_url}">Log in with Auth0</a>'
+
+@app.route("/callback/")
+def callback():
+    code = request.args.get('code')
+    try:
+        token = Auth0.exchange_code_for_token(code)
+        return {"token": token}
+    except Exception as e:
+        return str(e), 500
 
 @app.route('/registrar_usuario', methods=['POST'])
 def registrar_usuario():

@@ -212,6 +212,7 @@ data "template_file" "task_definition_template" {
     AUTH0_CLIENT_ID = "3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT"
     AUTH0_API_IDENTIFIER= "https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/"
     SQS_URL = "https://sqs.us-east-1.amazonaws.com/344488016360/users-register-sqs-new5"
+    REDIRECT_URI = "https://apigateway.uniandes-sports.com/callback"
   }
 }
 resource "aws_ecs_task_definition" "task_definition" {

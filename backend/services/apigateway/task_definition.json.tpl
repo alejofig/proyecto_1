@@ -39,6 +39,10 @@
          {
             "name":"AUTH0_API_IDENTIFIER",
             "value":"${AUTH0_API_IDENTIFIER}"
+         },
+         {
+            "name":"REDIRECT_URI",
+            "value":"${REDIRECT_URI}"
          }
       ],
       "logConfiguration": {
