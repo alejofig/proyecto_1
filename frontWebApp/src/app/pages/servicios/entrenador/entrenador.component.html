@@ -10,13 +10,26 @@
       <h3><b>Programar Sesión con Entrenador</b></h3>
       <hr>
       <form id="formEntrenador" class="form" method="post" (submit)="solicitarSesionEntrenador()">
-        <h6>Tipo de entrenamiento:</h6>
-        <select class="form-select my-3" id="entrenamiento" name="entrenamiento" [(ngModel)]="tipoEntrenamiento" required>
-          <option value="" disabled selected>Selecciona el programa de entrenamiento requerido...</option>
-          <option value="Personalizado">Personalizado</option>
-          <option value="Grupal">Grupal</option>
-          <option value="Especifico">Específico (Indique en los comentarios)</option>
-        </select>
+        <div class="row">
+          <div class="mb-0 col">
+            <h6>Proveedor:</h6>
+            <select class="form-select my-3" id="proveedor" name="proveedor" [(ngModel)]="proveedor" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="AlejoFit">AlejoFit</option>
+              <option value="BeatrizFit">BeatrizFit</option>
+              <option value="JuanFit">JuanFit</option>
+            </select>
+          </div>
+          <div class="mb-0 col">
+            <h6>Tipo de entrenamiento:</h6>
+            <select class="form-select my-3" id="entrenamiento" name="entrenamiento" [(ngModel)]="tipoEntrenamiento" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Personalizado">Personalizado</option>
+              <option value="Grupal">Grupal</option>
+              <option value="Especifico">Específico (Indique en los comentarios)</option>
+            </select>
+          </div>
+        </div>
         <div class="row">
           <div class="input-group mb-3 col">
             <span class="input-group-text" id="numero">Fecha de la sesión</span>

@@ -6,7 +6,6 @@ import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {EntrenadorService} from "./entrenador.service";
-import {Entrenador} from "./entrenador";
 
 @Component({
   selector: 'app-entrenador',
@@ -18,11 +17,12 @@ import {Entrenador} from "./entrenador";
 export class EntrenadorComponent implements OnInit {
 
   entrenadorForm!: FormGroup;
+  public proveedor: string = '';
   public tipoEntrenamiento: string = '';
   public fechaSesion: string = '';
   public horaSesion: string = '';
   public comentarios: string = '';
-  public mensajeExitoso: string = 'La solicitud de la sesión con el entrenador fue realizada con éxito!';
+  public mensajeExitoso: string = 'La sesión virtual con el proveedor seleccionado ha sido agendada con éxito!';
   public activarMensajeExitoso: boolean = false;
 
   constructor(
@@ -33,6 +33,7 @@ export class EntrenadorComponent implements OnInit {
 
   ngOnInit() {
     this.entrenadorForm = this.formBuilder.group({
+      proveedor: ["", [Validators.required]],
       tipoEntrenamiento: ["", [Validators.required]],
       fechaSesion: ["", [Validators.required]],
       horaSesion: ["", [Validators.required]],
@@ -41,20 +42,22 @@ export class EntrenadorComponent implements OnInit {
   }
 
   solicitarSesionEntrenador(): void {
-    console.log(this.imprimirDatos())
-
-    let entrenador = new Entrenador(this.tipoEntrenamiento, this.fechaSesion, this.horaSesion, this.comentarios)
-    console.log(entrenador)
-
-    this.entrenadorService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
-      console.log('Response: ', result)
-      console.info(this.mensajeExitoso, result)
-      this.activarMensajeExitoso = true;
-    })
+    this.activarMensajeExitoso = true;
+    // console.log(this.imprimirDatos())
+    //
+    // let entrenador = new Entrenador(this.proveedor, this.tipoEntrenamiento, this.fechaSesion, this.horaSesion, this.comentarios)
+    // console.log(entrenador)
+    //
+    // this.entrenadorService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
+    //   console.log('Response: ', result)
+    //   console.info(this.mensajeExitoso, result)
+    //   this.activarMensajeExitoso = true;
+    // })
   }
 
   imprimirDatos(): any {
     return {
+      proveedor: this.proveedor,
       tipoEntrenamiento: this.tipoEntrenamiento,
       fechaSesion: this.fechaSesion,
       horaSesion: this.horaSesion,

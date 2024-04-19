@@ -10,15 +10,46 @@
       <h3><b>Servicio de Alimentación</b></h3>
       <hr>
       <form id="formAlimentacion" class="form" method="post" (submit)="solicitarAlimentacion()">
-        <h6>Tipo de alimentación deportiva:</h6>
-        <select class="form-select my-3" id="alimentacion" name="alimentacion" [(ngModel)]="tipoAlimentacion" required>
-          <option value="" disabled selected>Selecciona la alimentación requerida...</option>
-          <option value="Proteínas">Proteínas</option>
-          <option value="Carbohidratos">Carbohidratos</option>
-          <option value="Grasas saludables">Grasas saludables</option>
-          <option value="Suplementos">Suplementos deportivos</option>
-          <option value="Dieta equilibrada">Dieta equilibrada</option>
-        </select>
+        <div class="row">
+          <div class="mb-0 col">
+            <h6>Proveedor:</h6>
+            <select class="form-select my-3" id="proveedor" name="proveedor" [(ngModel)]="proveedor" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Cocina Fit">Cocina Fit</option>
+              <option value="Mundo Fitness">Mundo Fitness</option>
+              <option value="Comer sin pecar">Comer sin pecar</option>
+            </select>
+          </div>
+          <div class="mb-0 col">
+            <h6>Propósito:</h6>
+            <select class="form-select my-3" id="proposito" name="proposito" [(ngModel)]="proposito" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Complemento plan nutricional">Complemento plan nutricional</option>
+              <option value="Recuperación muscular">Recuperación muscular</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="mb-0 col">
+            <h6>Tipo de alimentación deportiva:</h6>
+            <select class="form-select my-3" id="alimentacion" name="alimentacion" [(ngModel)]="tipoAlimentacion" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Proteínas">Proteínas</option>
+              <option value="Carbohidratos">Carbohidratos</option>
+              <option value="Grasas saludables">Grasas saludables</option>
+              <option value="Suplementos">Suplementos deportivos</option>
+              <option value="Dieta equilibrada">Dieta equilibrada</option>
+            </select>
+          </div>
+          <div class="mb-0 col">
+            <h6>¿Cómo desea recibir el servicio de alimentación?:</h6>
+            <select class="form-select my-3" id="recibir" name="recibir" [(ngModel)]="modoRecibir" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Generación virtual">Generación virtual</option>
+              <option value="Recibirlo a domicilio">Recibirlo a domicilio</option>
+            </select>
+          </div>
+        </div>
         <div class="row">
           <div class="input-group mb-3 col">
             <span class="input-group-text" id="numero">Número de contacto</span>
@@ -43,10 +74,11 @@
           </div>
         </div>
         <a>
-          <button type="submit" class="btn btn-danger">Solicitar plan de alimentación</button>
+          <button type="submit" class="btn btn-danger">Solicitar servicio de alimentación</button>
         </a>
         <hr>
-        <h6 *ngIf="activarMensajeExitoso">{{ mensajeExitoso }}</h6>
+        <h6 *ngIf="activarMensajeExitoso">{{ mensajeVirtual }}</h6>
+        <h6 *ngIf="activarMensajeExitoso">{{ planNutricional }}</h6>
       </form>
     </div>
   </div>

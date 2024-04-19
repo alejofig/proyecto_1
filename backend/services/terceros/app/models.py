@@ -10,6 +10,7 @@ class Alimentacion(SQLModel, table=True):
     paisActual: str
     ciudadActual: str
     direccionActual: str
+    user_Id:str
 
 
 class Entrenador(SQLModel, table=True):
