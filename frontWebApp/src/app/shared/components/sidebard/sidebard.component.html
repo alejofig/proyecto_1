@@ -1,30 +1,28 @@
-<div class = "contenedor">
-    <div class="side_bard">
-        <h2><b>SportApp</b></h2>
-        <div class="userdata">
-            <p class="name"><b>Jhon Terry</b></p>
-            <p>Edad: <b>28</b></p>
-            <p>Estatura: <b>1.8m</b></p>
-            <p>Peso: <b>80kg</b></p>
-            <p>Bogota, Colombia</p>
-            <br>
-            <a routerLink="/dashboard">
-                <button type="button" class="btn btn-light">Gestionar Cuenta</button>  
-            </a>
-            <div class="pt-5">
-                <app-leng-selector></app-leng-selector>
-            </div>
-
+<div class="contenedor">
+  <div class="side_bard">
+      <h2><b>SportApp</b></h2>
+      <div *ngIf="userData" class="userdata">
+        <p class="name"><b>{{ userData.nombre }} {{ userData.apellido }}</b></p>
+        <p>Edad: <b>{{ userData.edad }}</b></p>
+        <p>Estatura: <b>{{ userData.altura }}cm</b></p>
+        <p>Peso: <b>{{ userData.peso }}kg</b></p>
+        <p>{{ userData.ciudad_residencia }}, {{ userData.pais_residencia }}</p>
+        <br>
+        <a routerLink="/dashboard">
+            <button type="button" class="btn btn-light">Gestionar Cuenta</button>
+        </a>
+        <div class="pt-5">
+            <app-leng-selector></app-leng-selector>
         </div>
-    
-        
-        
-        <div class="nav">
-            <p><a href="https://github.com/alejofig/proyecto_1/wiki">Contacto</a> | 
-                <a href="https://github.com/alejofig/proyecto_1/wiki">Sobre Nosotros</a> | 
-                <a href="https://github.com/alejofig/proyecto_1">Repositorio</a></p>
-        </div>
-    
-        
+        <div class="pt-5">
+            <app-logout-button></app-logout-button>
+      </div>
     </div>
+
+      <div class="nav">
+          <p><a href="https://github.com/alejofig/proyecto_1/wiki">Contacto</a> |
+              <a href="https://github.com/alejofig/proyecto_1/wiki">Sobre Nosotros</a> |
+              <a href="https://github.com/alejofig/proyecto_1">Repositorio</a></p>
+      </div>
+  </div>
 </div>

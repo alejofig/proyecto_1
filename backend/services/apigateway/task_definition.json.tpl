@@ -25,6 +25,10 @@
             "value":"${FLASK_APP_PORT}"
          },
          {
+            "name":"USERS_PATH",
+            "value":"${USERS_PATH}"
+         },
+         {
             "name":"AUTH0_DOMAIN",
             "value":"${AUTH0_DOMAIN}"
          },

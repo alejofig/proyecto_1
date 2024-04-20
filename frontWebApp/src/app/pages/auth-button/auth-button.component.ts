@@ -6,7 +6,7 @@ import { AuthService } from '@auth0/auth0-angular';
 @Component({
   selector: 'app-auth-button',
   template: `
-    <button class="button" (click)="auth.loginWithRedirect()">Iniciar Sesión</button>
+    <button class="button" (click)="handleLogin()">Iniciar Sesión</button>
   `,  standalone: true,
   styleUrls: ['./auth-button.component.scss'] // Ruta al archivo CSS
 })
@@ -14,4 +14,11 @@ import { AuthService } from '@auth0/auth0-angular';
 export class AuthButtonComponent {
   // Inject the authentication service into your component through the constructor
   constructor(public auth: AuthService) {}
+  handleLogin(): void {
+    this.auth.loginWithRedirect({
+      appState: {
+        target: '/panel',
+      },
+    });
+  }
 }
