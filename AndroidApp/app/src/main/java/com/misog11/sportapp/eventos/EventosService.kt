@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 
 interface EventosService {
-    @GET("eventos")
+    @GET("api/movil/eventos")
     suspend fun getEventos(@Header("Authorization") authToken: String):retrofit2.Response<List<Evento>>
 
     @GET("planes")
