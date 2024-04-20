@@ -6,11 +6,13 @@ import boto3
 from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 from pydantic import ValidationError
+from urllib.parse import unquote
 
 from models import User, Plan
 from utils import protected_route
 import config
-
+from dotenv import load_dotenv
+load_dotenv()
 URL_USERS = os.getenv('USERS_PATH')
 URL_EVENTS = os.getenv('EVENTS_PATH')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
@@ -78,6 +80,14 @@ def registrar_usuario():
 @protected_route
 def consultar_usuario(user):
     return jsonify(user), 200
+
+
+@app.route('/get_complete_user/', methods=['GET'])
+@protected_route
+def consultar_usuario_completo(user):
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+    return jsonify(usuario_completo.json()), 200
 
 @app.route('/api/eventos', methods=['GET'])
 def consultar_eventos():   

@@ -6,6 +6,7 @@ def protected_route(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         token = request.headers.get('Authorization')
+        print("este es el token",request.args)
         try:
             user_id = Auth0.get_current_user()
             user =Auth0.get_user_by_id(user_id)
