@@ -11,4 +11,5 @@ class Entrenamiento(SQLModel, table=True):
     calories_active: float = 0.0
     total_calories: float = 0.0
     fcm: int = 0
+    height: int = 0
 
