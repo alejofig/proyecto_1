@@ -25,6 +25,10 @@
             "value":"${FLASK_APP_PORT}"
          },
          {
+            "name":"USERS_PATH",
+            "value":"${USERS_PATH}"
+         },
+         {
             "name":"AUTH0_DOMAIN",
             "value":"${AUTH0_DOMAIN}"
          },
@@ -39,6 +43,10 @@
          {
             "name":"AUTH0_API_IDENTIFIER",
             "value":"${AUTH0_API_IDENTIFIER}"
+         },
+         {
+            "name":"REDIRECT_URI",
+            "value":"${REDIRECT_URI}"
          }
       ],
       "logConfiguration": {

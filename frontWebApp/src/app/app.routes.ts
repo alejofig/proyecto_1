@@ -19,6 +19,7 @@ import { PrimerosAuxiliosComponent } from './pages/servicios/primeros-auxilios/p
 import { EntrenadorComponent } from './pages/servicios/entrenador/entrenador.component';
 import {AlimentacionComponent} from './pages/servicios/alimentacion/alimentacion.component'
 import { AuthButtonComponent } from './pages/auth-button/auth-button.component';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 export const routes: Routes = [
     { path: '', component: InicioComponent },
@@ -26,7 +27,7 @@ export const routes: Routes = [
     { path: 'inicio_sesion', component: InicioSesionComponent },
     { path: 'registro', component: RegistroComponent },
 
-    { path: 'panel', component: PanelComponent},
+    { path: 'panel', component: PanelComponent,canActivate: [AuthGuard] },
 
     {path: 'generar_plan_entrenamiento', component: GenerarPlanEntreComponent},
     { path: 'plan_entrenamiento', component: PlanEntrenamientoComponent},
