@@ -14,6 +14,7 @@ from utils import protected_route, protected_route_movil
 
 URL_USERS = os.getenv('USERS_PATH')
 URL_EVENTS = os.getenv('EVENTS_PATH')
+URL_PLANES = os.getenv('PLANES_PATH')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
@@ -104,6 +105,58 @@ def consultar_eventos(user):
              "eventos": data}
 
      return jsonify(data), 201
+
+@app.route('/api/movil/plan', methods=['GET'])
+@protected_route_movil
+def consultar_planes_movil(user): 
+     user_dict = user
+     email = user_dict.get('email', 'No email provided')
+     response = requests.get(f"{URL_PLANES}/planes/{email}", headers={})
+     if response.status_code != 200:
+         print(response)
+         return jsonify('Error Consultando planes'), 401
+     data = response.json()
+
+     return jsonify(data), 201
+
+@app.route('/api/web/plan', methods=['GET'])
+@protected_route
+def consultar_planes(user): 
+     user_dict = user
+     email = user_dict.get('email', 'No email provided')
+     response = requests.get(f"{URL_PLANES}/planes/{email}", headers={})
+     if response.status_code != 200:
+         print(response)
+         return jsonify('Error Consultado planes'), 401
+     data = response.json()
+
+     return jsonify(data), 201
+
+
+@app.route('/api/web/plan', methods=['POST'])
+@protected_route
+def generar_plan_entrenamiento(user): 
+     user_dict = user
+     email = user_dict.get('email', 'No email provided')
+     # Obtener datos del cuerpo de la solicitud
+     body_data = request.json
+
+     plan_data = {
+            "deporte": body_data.get('deporte', ''),
+            "nombre": body_data.get('nombre', ''),
+            "usuario": email,
+            "cantidadEntrenamientos": body_data.get('cantidadEntrenamientos', ''),
+            "distanciaPorEntrenamientos":  body_data.get('distanciaPorEntrenamientos', ''),
+            "fechas": body_data.get('fechas', ''),
+            }
+
+     response = requests.post(f"{URL_PLANES}/plan", headers={}, json=plan_data)
+
+     if response.status_code != 200:
+         print(response)
+         return jsonify('Error Generando Plan'), 401
+
+     return jsonify(response.json()), 201
 
 
 @app.route('/generarPlanEntrenamiento', methods=['POST'])
