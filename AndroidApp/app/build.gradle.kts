@@ -56,6 +56,7 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     testImplementation(libs.junit)
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+    testImplementation("io.mockk:mockk:1.12.0")
     // Necesario para correr pruebas de Android sin un dispositivo
     testImplementation("androidx.test:core:1.4.0")
     testImplementation("org.robolectric:robolectric:4.6.1")

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.misog11.sportapp.utils.Constants
 
 class DeporteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,17 +18,17 @@ class DeporteActivity : AppCompatActivity() {
         // Configura el listener para Atletismo
         val ivAtletismo = findViewById<View>(R.id.ivAtletismo)
         ivAtletismo.setOnClickListener {
-            abrirEntrenamiento("atletismo")
+            abrirEntrenamiento(Constants.atletismo)
         }
 
         // Configura el listener para Ciclismo
         val ivCiclismo = findViewById<View>(R.id.ivCiclismo)
         ivCiclismo.setOnClickListener {
-            abrirEntrenamiento("ciclismo")
+            abrirEntrenamiento(Constants.ciclismo)
         }
 
         val backBtn = findViewById<ImageView>(R.id.ivBackArrow)
-        backBtn.setOnClickListener{
+        backBtn.setOnClickListener {
             navigate(MainActivity::class.java)
         }
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -42,7 +43,7 @@ class DeporteActivity : AppCompatActivity() {
 
     }
 
-    private fun navigate(viewState:Class<*>){
+    private fun navigate(viewState: Class<*>) {
         val intent = Intent(this, viewState)
         startActivity(intent)
     }
@@ -50,7 +51,7 @@ class DeporteActivity : AppCompatActivity() {
     // Función para abrir la actividad de entrenamiento
     private fun abrirEntrenamiento(deporte: String) {
         val intent = Intent(this, EntrenamientoActivity::class.java)
-        intent.putExtra("DEPORTE", deporte) // Agrega el deporte como un extra
+        intent.putExtra(Constants.keyDeporte, deporte) // Agrega el deporte como un extra
         startActivity(intent)
     }
 }
