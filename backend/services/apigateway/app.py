@@ -2,13 +2,15 @@ import os
 
 import requests
 
+import logging
+
 import boto3
 from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 from pydantic import ValidationError
 
 from models import User, Plan
-from utils import protected_route
+from utils import protected_route, protected_route_movil
 
 URL_USERS = os.getenv('USERS_PATH')
 URL_EVENTS = os.getenv('EVENTS_PATH')
@@ -24,6 +26,9 @@ cors = CORS(app, resource={
 })
 if __name__ == '__main__':
     app.run(debug=True)
+
+    # Configuración del logging
+logging.basicConfig(level=logging.DEBUG)
 
 
 # Endpoint para validar la salud del servicio
@@ -61,17 +66,43 @@ def registrar_usuario():
 def consultar_usuario(user):
     return jsonify(user), 200
 
-@app.route('/api/eventos', methods=['GET'])
-def consultar_eventos():   
-     #obtener_usuario = requests.get(f"{URL_USERS}/usuarios/1", headers={})
-     #print(obtener_usuario.json())
+@app.route('/get_current_user_movil/', methods=['GET'])
+@protected_route_movil
+def consultar_usuario_movil(user):
+    return jsonify(user), 200
 
-     response = requests.get(f"{URL_EVENTS}/eventos", headers={})
+@app.route('/api/movil/eventos', methods=['GET'])
+@protected_route_movil
+def consultar_eventos_movil(user): 
+     user_dict = user
+     email = user_dict.get('email', 'No email provided')
+     user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
+     pais = user_data.get('pais_residencia', 'na')
+     cantidad_datos = 100
+     response = requests.get(f"{URL_EVENTS}/eventos/{pais}/{cantidad_datos}", headers={})
      if response.status_code != 200:
          print(response)
          return jsonify('No hay eventos'), 401
      data = response.json()
-     print(data)
+
+     return jsonify(data), 201
+
+@app.route('/api/web/eventos', methods=['GET'])
+@protected_route
+def consultar_eventos(user): 
+     user_dict = user
+     email = user_dict.get('email', 'No email provided')
+     user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
+     pais = user_data.get('pais_residencia', 'na')
+     cantidad_datos = 1000
+     response = requests.get(f"{URL_EVENTS}/eventos/{pais}/{cantidad_datos}", headers={})
+     if response.status_code != 200:
+         print(response)
+         return jsonify('No hay eventos'), 401
+     data = response.json()
+     data = {"user": user_data, 
+             "eventos": data}
+
      return jsonify(data), 201
 
 
