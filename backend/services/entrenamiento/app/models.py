@@ -14,4 +14,5 @@ class Entrenamiento(SQLModel, table=True):
     fcm: int = 0
     distance: int =  Field(default_factory=lambda: round(random.uniform(10, 100)))
 
+    height: int = 0
 
