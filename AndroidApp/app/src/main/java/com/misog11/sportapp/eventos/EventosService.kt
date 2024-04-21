@@ -9,7 +9,7 @@ interface EventosService {
     @GET("api/movil/eventos")
     suspend fun getEventos(@Header("Authorization") authToken: String):retrofit2.Response<List<Evento>>
 
-    @GET("planes")
+    @GET("/api/movil/plan")
     suspend fun getPlanes(@Header("Authorization") authToken: String):retrofit2.Response<List<Planes>>
 
 }
