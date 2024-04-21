@@ -7,7 +7,7 @@ export const environment = {
   auth0ApiIdentifier: 'https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/',
   algorithm: 'RS256',
   apigateway_url: 'http://127.0.0.1:3002',
-  planesUrl: 'https://planes.uniandes-sports.com',
-  eventos_urls: 'https://eventos.uniandes-sports.com',
+  planesUrl: 'https://apigateway.uniandes-sports.com',
+  eventos_urls: 'https://apigateway.uniandes-sports.com',
   local: 'http://3.88.143.81:3002'
 };
