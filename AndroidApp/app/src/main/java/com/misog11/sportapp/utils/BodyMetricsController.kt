@@ -5,8 +5,8 @@ import com.misog11.sportapp.models.UserDTO
 
 class BodyMetricsController(userDTO: UserDTO) {
     private val userDTO = userDTO
-    private var totalCaloriesBurned: Double = 0.0
-    private var totalCalories: Double = 0.0
+    var totalCaloriesBurned: Double = 0.0
+    var totalCalories: Double = 0.0
 
     fun updateFCM(): Int {
         return 220 - userDTO.edadUsuario
