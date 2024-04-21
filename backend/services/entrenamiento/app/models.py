@@ -13,4 +13,6 @@ class Entrenamiento(SQLModel, table=True):
     total_calories: float = 0.0
     fcm: int = 0
     height: int = 0
+    distance: int =  Field(default_factory=lambda: round(random.uniform(10, 100)))
+
 
