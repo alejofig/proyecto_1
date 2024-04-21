@@ -1,3 +1,4 @@
+import random
 from sqlmodel import Field, SQLModel
 from datetime import date
 from typing import Optional

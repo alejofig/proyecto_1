@@ -33,7 +33,7 @@ export const routes: Routes = [
     { path: 'plan_entrenamiento', component: PlanEntrenamientoComponent},
     { path: 'eventos', component: EventosComponent},
     { path: 'servicios_terceros', component: ServiciosTercerosComponent},
-    { path: 'dashboard', component: DashboardComponent},
+    { path: 'dashboard', component: DashboardComponent,canActivate: [AuthGuard]},
 
     {path: 'servicios/mototaller', component: MototallerComponent},
     {path: 'servicios/alimentacion', component: AlimentacionComponent},

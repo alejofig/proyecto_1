@@ -3,14 +3,14 @@ terraform {
     region = "us-east-1"
   }
 }
-
 provider "aws" {
   # shared_credentials_file = "$HOME/.aws/credentials"
   region = "us-east-1"
 }
 
-# random string for apigateway secret-key env variable
-resource "random_string" "apigateway-secret-key" {
+
+# random string for entrenamientos secret-key env variable
+resource "random_string" "entrenamientos-secret-key" {
   length           = 16
   special          = true
   override_special = "/@\" "
@@ -25,14 +25,14 @@ resource "aws_vpc" "vpc" {
   enable_dns_support   = true
 
   tags = {
-    Name = "apigateway-docker-vpc"
+    Name = "entrenamientos-docker-vpc"
   }
 }
 
 resource "aws_internet_gateway" "internet_gateway" {
   vpc_id = aws_vpc.vpc.id
   tags   = {
-    Name = "apigateway-docker-igw"
+    Name = "entrenamientos-docker-igw"
   }
 }
 
@@ -50,7 +50,7 @@ resource "aws_route_table" "rt_public" {
   }
 
   tags = {
-    Name = "apigateway-docker-rt-public"
+    Name = "entrenamientos-docker-rt-public"
   }
 }
 
@@ -58,7 +58,7 @@ resource "aws_default_route_table" "rt_private_default" {
   default_route_table_id = aws_vpc.vpc.default_route_table_id
 
   tags = {
-    Name = "apigateway-docker-rt-private-default"
+    Name = "entrenamientos-docker-rt-private-default"
   }
 }
 
@@ -70,7 +70,7 @@ resource "aws_subnet" "public_subnets" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "apigateway-docker-tf-public-${count.index + 1}"
+    Name = "entrenamientos-docker-tf-public-${count.index + 1}"
   }
 }
 
@@ -82,7 +82,7 @@ resource "aws_subnet" "private_subnets" {
   availability_zone = data.aws_availability_zones.azs.names[count.index]
 
   tags = {
-    Name = "apigateway-docker-tf-private-${count.index + 1}"
+    Name = "entrenamientos-docker-tf-private-${count.index + 1}"
   }
 }
 
@@ -99,11 +99,6 @@ resource "aws_route_table_association" "private-rt-association" {
   subnet_id      = aws_subnet.private_subnets.*.id[count.index]
 }
 
-resource "aws_security_group" "public-sg" {
-  name        = "public-group-default"
-  description = "access to public instances"
-  vpc_id      = aws_vpc.vpc.id
-}
 
 # create security group for ALB
 resource "aws_security_group" "alb_sg" {
@@ -123,6 +118,12 @@ resource "aws_security_group" "alb_sg" {
     protocol        = "tcp"
     from_port       = 443
     to_port         = 443
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+    ingress {
+    protocol        = "tcp"
+    from_port       = 5432
+    to_port         = 5432
     cidr_blocks     = ["0.0.0.0/0"]
   }
   egress {
@@ -148,6 +149,13 @@ resource "aws_security_group" "ecs_sg" {
     cidr_blocks     = ["0.0.0.0/0"]
     security_groups = [aws_security_group.alb_sg.id]
   }
+    ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    cidr_blocks     = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.alb_sg.id]
+  }
 
   egress {
     protocol    = "-1"
@@ -157,16 +165,53 @@ resource "aws_security_group" "ecs_sg" {
   }
 }
 
+resource "aws_db_instance" "entrenamientos_rds" {
+  depends_on = [aws_internet_gateway.internet_gateway]
+  allocated_storage    = 20
+  storage_type         = "gp2"
+  engine               = "postgres"
+  engine_version         = "12.14"
+  instance_class         = "db.t3.micro"
+  identifier           = "entrenamientos-db"
+  username             = "entrenamientos"
+  password             = "entrenamientospassword"
+  parameter_group_name = "default.postgres12"
+  vpc_security_group_ids = [aws_security_group.alb_sg.id ]
+  db_subnet_group_name = aws_db_subnet_group.my_db_subnet_group.name
+  publicly_accessible = true
+  skip_final_snapshot = true
+}
+
+resource "aws_db_subnet_group" "my_db_subnet_group" {
+  name       = "my-db-subnet-group-entrenamientos"
+  subnet_ids = [for subnet in aws_subnet.private_subnets : subnet.id]
+  }
+
+
+
+output "rds_endpoint" {
+  value = aws_db_instance.entrenamientos_rds.endpoint
+}
+locals {
+  rds_endpoint_without_port = "${split(":", aws_db_instance.entrenamientos_rds.endpoint)[0]}"
+}
+
+output "rds_endpoint_without_port" {
+  value = local.rds_endpoint_without_port
+}
+
+
 
 resource "aws_alb" "alb" {
+  depends_on = [aws_internet_gateway.internet_gateway]
   load_balancer_type = "application"
-  name               = "application-load-balancer-api"
+  name               = "alb-entrenamientos"
   subnets            = aws_subnet.public_subnets.*.id
   security_groups    = [aws_security_group.alb_sg.id]
 }
 
 resource "aws_alb_target_group" "target_group" {
-  name        = "ecs-target-group-apigateway"
+  name        = "ecs-target-group-entrenamientos"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.vpc.id
@@ -186,7 +231,7 @@ resource "aws_alb_target_group" "target_group" {
 
 resource "aws_alb_listener" "fp-alb-listener" {
   load_balancer_arn = aws_alb.alb.arn
-  port              = 80
+  port              = 3001
   protocol          = "HTTP"
   default_action {
     target_group_arn = aws_alb_target_group.target_group.arn
@@ -195,31 +240,26 @@ resource "aws_alb_listener" "fp-alb-listener" {
 }
 
 resource "aws_ecs_cluster" "fp-ecs-cluster" {
-  name = "apigateway-app"
+  name = "entrenamientos-app"
 
   tags = {
-    Name = "apigateway-app"
+    Name = "entrenamientos-app"
   }
 }
 
 data "template_file" "task_definition_template" {
   template = file("task_definition.json.tpl")
-  vars     = {
-    REPOSITORY_URL = "344488016360.dkr.ecr.us-west-2.amazonaws.com/apigateway-sportsapp:latest"
-    FLASK_APP_PORT = "3001"
-    USERS_PATH= "https://users.uniandes-sports.com/"
-    AUTH0_DOMAIN   = "dev-s8qwnnguwcupqg2o.us.auth0.com"
-    AUTH0_CLIENT_SECRET = "SnUDnO1lL3CnvzeCDFFUwwsFABY-Szfr-lRkFyshOf4uSnCiM6EHMgvCDDVQ8v1u"
-    AUTH0_CLIENT_ID = "3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT"
-    AUTH0_API_IDENTIFIER= "https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/"
-    SQS_URL = "https://sqs.us-east-1.amazonaws.com/344488016360/users-register-sqs-new5"
-    REDIRECT_URI = "https://apigateway.uniandes-sports.com/callback"
-    USERS_PATH= "https://users.uniandes-sports.com"
-    ENTRENAMIENTOS_PATH = "https://entrenamientos.uniandes-sports.com"
+  vars = {
+    REPOSITORY_URL        = "344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-entrenamientos"
+    DB_USER               = "entrenamientos"
+    DB_PASSWORD           = "entrenamientospassword"
+    DB_NAME               = "postgres"
+    DB_PORT               = "5432"
+    DB_HOST               = local.rds_endpoint_without_port
   }
 }
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "apigateway-app"
+  family                   = "entrenamientos-app"
   requires_compatibilities = [
     "FARGATE"
   ]
@@ -228,34 +268,10 @@ resource "aws_ecs_task_definition" "task_definition" {
   memory                = 512
   execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn  
   container_definitions = data.template_file.task_definition_template.rendered
-  task_role_arn         = aws_iam_role.ecs_task_role.arn  
 }
 
-resource "aws_iam_role" "ecs_task_role" {
-  name               = "ecs-task-role-apigateway"
-  assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Principal": {
-          "Service": "ecs-tasks.amazonaws.com"
-        },
-        "Action": "sts:AssumeRole"
-      }
-    ]
-  })
-}
-
-
-resource "aws_iam_policy_attachment" "ecs_task_role_sqs_attachment" {
-  name       = "ecs-task-role-sqs-policy-attachment"
-  roles      = [aws_iam_role.ecs_task_role.name]
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"  # ARN de la política de acceso completo a SQS
-}
-
-resource "aws_ecs_service" "apigateway-service" {
-  name            = "apigateway-app-service"
+resource "aws_ecs_service" "entrenamientos-app" {
+  name            = "entrenamientos-app"
   cluster         = aws_ecs_cluster.fp-ecs-cluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count   = 1
@@ -270,7 +286,7 @@ resource "aws_ecs_service" "apigateway-service" {
   }
 
   load_balancer {
-    container_name   = "apigateway-app"
+    container_name   = "entrenamientos-app"
     container_port   = 3001
     target_group_arn = aws_alb_target_group.target_group.id
   }
@@ -285,12 +301,12 @@ output "alb-dns-name" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs_log_group" {
-  name              = "/ecs/apigateway-app"  # Nombre del grupo de logs
-  retention_in_days = 7  # Retención de los logs en días (ajusta según tus necesidades)
+  name              = "/ecs/entrenamientos-app"  
+  retention_in_days = 7  
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ecs-task-execution-role-api-gateway"
+  name               = "ecs-task-execution-role-entrenamientos"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -305,8 +321,8 @@ resource "aws_iam_role" "ecs_task_execution_role" {
   })
 }
 
-resource "aws_iam_policy" "ecs_cloudwatch_policy_apigw" {
-  name        = "ecs-cloudwatch-policy-apigw"
+resource "aws_iam_policy" "ecs_cloudwatch_policy_entrenamientos" {
+  name        = "ecs-cloudwatch-policy-entrenamientos"
   description = "Policy to allow ECS to write logs to CloudWatch"
 
 policy = jsonencode({
@@ -325,9 +341,7 @@ policy = jsonencode({
           "ecr:DescribeRepositories",
           "ecr:ListImages",
           "ecr:DescribeImages",
-          "ecr:BatchGetImage",
-          "sqs:ReceiveMessage",
-          "sqs:*",
+          "ecr:BatchGetImage"
         ],
         "Resource": "*"
       }
@@ -337,11 +351,20 @@ policy = jsonencode({
 
 resource "aws_iam_role_policy_attachment" "ecs_cloudwatch_attachment" {
   role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = aws_iam_policy.ecs_cloudwatch_policy_apigw.arn
+  policy_arn = aws_iam_policy.ecs_cloudwatch_policy_entrenamientos.arn
 }
 
 
-
+resource "aws_route53_record" "api-gateway_subdomain" {
+  zone_id = "Z0424763335GQXEDQHLWA"
+  name    = "entrenamientos"
+  type    = "A"
+  alias {
+    name                   = aws_alb.alb.dns_name
+    zone_id                = aws_alb.alb.zone_id
+    evaluate_target_health = true
+  }
+}
 
 resource "aws_alb_listener" "fp-alb-listener-https" {
   load_balancer_arn = aws_alb.alb.arn
@@ -354,16 +377,3 @@ resource "aws_alb_listener" "fp-alb-listener-https" {
     type             = "forward"
   }
 }
-
-
-resource "aws_route53_record" "api-gateway_subdomain" {
-  zone_id = "Z0424763335GQXEDQHLWA"
-  name    = "apigateway"
-  type    = "A"
-  alias {
-    name                   = aws_alb.alb.dns_name
-    zone_id                = aws_alb.alb.zone_id
-    evaluate_target_health = true
-  }
-}
-

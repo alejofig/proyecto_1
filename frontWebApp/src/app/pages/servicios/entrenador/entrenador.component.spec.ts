@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EntrenadorComponent } from './entrenador.component';
 import { ActivatedRoute } from '@angular/router';
+import { AuthModule } from '@auth0/auth0-angular';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('EntrenadorComponent', () => {
   let component: EntrenadorComponent;
@@ -9,7 +11,10 @@ describe('EntrenadorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EntrenadorComponent],
+      imports: [HttpClientTestingModule,EntrenadorComponent,AuthModule.forRoot({
+        domain: 'domain',
+        clientId: 'clientId'
+      })],
       providers: [
         {
           provide: ActivatedRoute,
