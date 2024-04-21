@@ -4,6 +4,7 @@ import { EventosComponent } from './eventos.component';
 import { ActivatedRoute } from '@angular/router';
 import { EventosService } from './eventos.service';
 import { of } from 'rxjs';
+import { AuthModule } from '@auth0/auth0-angular';
 
 describe('EventosComponent', () => {
   let component: EventosComponent;
@@ -17,7 +18,10 @@ describe('EventosComponent', () => {
     eventosServiceMock.getEntrenamientos.and.returnValue(of([])); // Igual para entrenamientos
 
     await TestBed.configureTestingModule({
-      imports: [EventosComponent, HttpClientTestingModule],
+      imports: [EventosComponent, HttpClientTestingModule,AuthModule.forRoot({
+        domain: 'domain',
+        clientId: 'clientId'
+      })],
       providers: [
         { provide: ActivatedRoute, useValue: {} },
         { provide: EventosService, useValue: eventosServiceMock }
@@ -41,7 +45,7 @@ describe('EventosComponent', () => {
       { fecha_pura: '2124-01-01' },
 
     ];
-    
+
     const eventosOrdenados = component.ordernar_eventos(eventosDesordenados);
 
     expect(eventosOrdenados[0].fecha_pura).toBe('2124-01-01');
@@ -52,9 +56,9 @@ describe('EventosComponent', () => {
     const fakeEvents = [{ nombre: 'Evento1', fecha: '2024-01-01' }];
     eventosServiceMock.getEvents.and.returnValue(of(fakeEvents)); // Simula respuesta con eventos
     component.ngOnInit();
-  
+
     fixture.detectChanges(); // Actualiza el componente con los datos simulados
-  
+
     //expect(eventosServiceMock.getEvents).toHaveBeenCalled();
     //expect(component.eventos_general.length).toBeGreaterThan(0);
   });

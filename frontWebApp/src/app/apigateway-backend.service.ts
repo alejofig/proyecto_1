@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable,throwError } from 'rxjs';
 import { environment } from '../environments/environment';
 import { AuthService } from '@auth0/auth0-angular';
+import { switchMap, catchError } from 'rxjs/operators';
 
 interface MessageResponse {
   message: string;
@@ -17,24 +18,27 @@ export class ApiGatewayBackendService {
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
-  callApiAndGetCompleteUser(): Observable<any> {
-    return new Observable(observer => {
-      this.auth.getAccessTokenSilently().subscribe((token) => {
+  private callApiWithToken(url: string): Observable<any> {
+    return this.auth.getAccessTokenSilently().pipe(
+      switchMap(token => {
         const headers = new HttpHeaders({
           'Authorization': `Bearer ${token}`
         });
 
-        this.http
-          .get<MessageResponse>(`${this.apiUrl}/get_complete_user/`, { headers })
-          .subscribe((result) => {
-            console.log("Resultado",result);
-            observer.next(result);
-            observer.complete();
-          }, (error) => {
-            observer.error(error);
-          });
-      });
-    });
+        return this.http.get<any>(url, { headers });
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  callApiAndGetCompleteUser(): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/get_complete_user/`);
+  }
+
+  callApiAndGetStatics(): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/obtener_estadisticas/`);
   }
 
   registrarUsuario(userData: any): Observable<any> {
