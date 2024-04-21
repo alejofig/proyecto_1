@@ -79,6 +79,13 @@ def consultar_eventos():
      data = response.json()
      return jsonify(data), 201
 
+@app.route('/obtener_estadisticas/', methods=['GET'])
+@protected_route
+def consultar_estadisticas(user):
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+    estadisticas = requests.get(f"{URL_ENTRENAMIENTOS}/estadisticas/{usuario_completo.json()['id']}", headers={})
+    return jsonify(estadisticas.json()), 200
 
 @app.route('/generarPlanEntrenamiento', methods=['POST'])
 def generarPlanEntrenamiento():
