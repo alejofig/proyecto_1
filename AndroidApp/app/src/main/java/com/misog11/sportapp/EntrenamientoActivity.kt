@@ -78,7 +78,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         binding.btnFinish.setOnClickListener {
             timerController.cancelTimer()
             consumeIndicadoresApi()
-//            consumeEntrenamientoApi()
+            consumeEntrenamientoApi()
             updateHandler.removeCallbacks(updateRunnable)
             binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
             binding.btnIniciar.text = getString(R.string.iniciar)
@@ -145,6 +145,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val url =
                 getString(R.string.entrenamiento_url_local) + getString(R.string.entrenamiento_endpoint)
+            print(entrenamientoDto)
             try {
                  entrenamientoDto=
                      apiConsumer.consumeApi<Entrenamiento, Entrenamiento>(
