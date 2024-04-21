@@ -1,11 +1,18 @@
 package com.misog11.sportapp.models
 
 class UserDTO(
+    private var _id: Int,
     private var _pesoUsuarioKg: Double,
     private var _edadUsuario: Int,
     private var _generoUsuario: String,
     private var _alturaUsuarioCm: Int
 ) {
+
+    var id: Int
+        get() = _id
+        set(value) {
+            _id = value
+        }
     var pesoUsuarioKg: Double
         get() = _pesoUsuarioKg
         set(value) {

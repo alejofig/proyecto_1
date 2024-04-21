@@ -11,3 +11,6 @@ class Entrenamiento(BaseModel):
     calories_active: float = 0.0
     total_calories: float = 0.0
     fcm: int = 0
+    height: int = 0
+    edad: int = 0
+    genero: str

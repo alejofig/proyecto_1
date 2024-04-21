@@ -179,7 +179,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Iniciar"
+            android:text="@string/iniciar"
             android:textColor="@color/white"
             android:backgroundTint="@color/red"
             android:layout_marginEnd="8dp" />
@@ -206,10 +206,12 @@
 
         <!-- FTP -->
         <LinearLayout
+            android:id="@+id/containerFTP"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:visibility="invisible"
             android:orientation="vertical">
 
             <TextView
@@ -231,10 +233,12 @@
 
         <!-- vo2max -->
         <LinearLayout
+            android:id="@+id/containerVo2max"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:visibility="invisible"
             android:orientation="vertical">
 
             <TextView

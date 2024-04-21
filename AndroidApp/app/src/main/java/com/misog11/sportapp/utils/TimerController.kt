@@ -9,10 +9,14 @@ class TimerController {
 
     private var seconds = 0 // Contador de segundos
     private var timer: Timer? = null
-
+    var isPaused = false // Nuevo estado para verificar si el temporizador está en pausa
     fun startTimer(handler: Handler, updateTimeView: (String) -> Unit, updateCalories: () -> Unit) {
-        timer?.cancel() // Cancela cualquier temporizador existente
-        seconds = 0 // Resetea el contador de segundos cada vez que se inicia
+        if (isPaused) {
+            isPaused = false // Resetea el estado de pausa
+        } else {
+            timer?.cancel() // Cancela cualquier temporizador existente
+            seconds = 0 // Resetea el contador de segundos cada vez que se inicia
+        }
 
         timer = Timer()
         timer?.scheduleAtFixedRate(object : TimerTask() {
@@ -27,7 +31,7 @@ class TimerController {
         }, 0, 1000) // Programa la tarea para ejecutarse cada 1000 ms (1 segundo)
     }
 
-    fun pauseTimer() {
+    fun cancelTimer() {
         timer?.cancel() // Cancela el temporizador para pausarlo
     }
 
@@ -47,5 +51,10 @@ class TimerController {
 
     fun getTimer(): Timer? {
         return timer
+    }
+
+    fun pauseTimer() {
+        isPaused = true // Establece el estado de pausa
+        timer?.cancel() // Cancela el temporizador para pausarlo
     }
 }
