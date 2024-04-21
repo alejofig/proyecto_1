@@ -6,7 +6,7 @@ from typing import Optional
 class Entrenamiento(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: int 
-    sport_type: str  # Tipo de deporte: 'atletismo' o 'ciclismo'
+    sport_type: str  
     duration: int
     fecha: date
     calories_active: float = 0.0
