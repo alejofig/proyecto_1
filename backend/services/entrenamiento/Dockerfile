@@ -17,4 +17,4 @@ EXPOSE 80
 ENV MODULE_NAME=app.main
 
 # Run app.py when the container launches
-CMD ["uvicorn", "--host", "0.0.0.0", "--port", "3005", "main:app"]
+CMD ["uvicorn", "--host", "0.0.0.0", "--port", "3001", "main:app"]
