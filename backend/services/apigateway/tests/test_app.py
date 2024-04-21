@@ -50,3 +50,12 @@ def test_registrar_usuario_validation_error(client, mocker):
 def test_generar_plan_entrenamiento(client, mocker):
     response = client.post('/generarPlanEntrenamiento', json=generate_random_plan())
     assert response.status_code == 500
+
+def test_consultar_usuario_invalid_token(client, mocker):
+    # Mock de la función get_complete_user para simular un token inválido
+    mocker.patch("app.requests.get", side_effect=Exception("Invalid token"))
+
+    # Hacer una solicitud GET a /get_complete_user/ con un token de autorización inválido
+    with client.get('/get_complete_user/', headers={"Authorization": "Bearer invalid_token"}) as response:
+        assert response.status_code == 401
+        assert response.json == {"detail": "No se pudo validar las credenciales"}

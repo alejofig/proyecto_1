@@ -29,6 +29,10 @@
             "value":"${USERS_PATH}"
          },
          {
+            "name":"ENTRENAMIENTOS_PATH",
+            "value":"${ENTRENAMIENTOS_PATH}"
+         },
+         {
             "name":"AUTH0_DOMAIN",
             "value":"${AUTH0_DOMAIN}"
          },
