@@ -24,8 +24,8 @@
             <h6>Propósito:</h6>
             <select class="form-select my-3" id="proposito" name="proposito" [(ngModel)]="proposito" required>
               <option value="" disabled selected>Selecciona una opción...</option>
-              <option value="Complemento plan nutricional">Complemento plan nutricional</option>
-              <option value="Recuperación muscular">Recuperación muscular</option>
+              <option value="nutricion">Complemento plan nutricional</option>
+              <option value="muscular">Recuperación muscular</option>
             </select>
           </div>
         </div>
@@ -45,8 +45,8 @@
             <h6>¿Cómo desea recibir el servicio de alimentación?:</h6>
             <select class="form-select my-3" id="recibir" name="recibir" [(ngModel)]="modoRecibir" required>
               <option value="" disabled selected>Selecciona una opción...</option>
-              <option value="Generación virtual">Generación virtual</option>
-              <option value="Recibirlo a domicilio">Recibirlo a domicilio</option>
+              <option value="virtual">Generación virtual</option>
+              <option value="domicilio">Recibirlo a domicilio</option>
             </select>
           </div>
         </div>
@@ -77,8 +77,61 @@
           <button type="submit" class="btn btn-danger">Solicitar servicio de alimentación</button>
         </a>
         <hr>
-        <h6 *ngIf="activarMensajeExitoso">{{ mensajeVirtual }}</h6>
-        <h6 *ngIf="activarMensajeExitoso">{{ planNutricional }}</h6>
+        <h6 *ngIf="activarMensajeExitoso">{{ mensaje }}</h6>
+        <p *ngIf="mostrarVirtualNutricion">
+          <br>
+          Día 1:<br>
+          Desayuno: Avena cocida con leche (puedes usar leche de vaca, almendras o soya), plátano en rodajas y una cucharada de semillas de chía.<br>
+          Almuerzo: Ensalada de espinacas frescas con tomate cherry, queso feta, nueces y aderezo de aceite de oliva y limón. Acompañar con pechuga de pollo a la plancha.<br>
+          Merienda: Yogur griego natural con arándanos frescos y una cucharada de almendras picadas.<br>
+          Cena: Salmón al horno con espárragos y zanahorias asadas. De postre, una pera.<br>
+          <br>
+          Día 2:<br>
+          Desayuno: Tostadas integrales con aguacate en rebanadas y huevos revueltos.<br>
+          Almuerzo: Lentejas estofadas con verduras (cebolla, zanahoria, pimiento) y una porción de aguacate en cubos.<br>
+          Merienda: Batido de proteínas con leche de almendras, plátano y una cucharada de mantequilla de maní.<br>
+          Cena: Ensalada de garbanzos con pepino, pimiento rojo, cebolla morada, cilantro y aderezo de aceite de oliva y vinagre balsámico. Acompañar con pechuga de pavo a la plancha.<br>
+          <br>
+          Día 3:<br>
+          Desayuno: Batido verde con espinacas, plátano, piña y leche de coco.<br>
+          Almuerzo: Quinoa cocida con vegetales salteados (brócoli, champiñones, cebolla) y filete de salmón a la parrilla.<br>
+          Merienda: Rodajas de manzana con una cucharada de mantequilla de almendras.<br>
+          Cena: Tacos de pollo a la mexicana (pollo desmenuzado, tomate, cebolla, cilantro) en tortillas integrales, acompañados de guacamole y salsa fresca.<br>
+          <br>
+          Día 4:<br>
+          Desayuno: Yogur griego natural con granola casera (avena, nueces, almendras, pasas) y frutas frescas (fresas o arándanos).<br>
+          Almuerzo: Ensalada de quinoa con pepino, aguacate, tomate, aceitunas negras y aderezo de limón y aceite de oliva. Acompañar con filete de pescado a la plancha.<br>
+          Merienda: Palitos de apio con hummus casero.\n' +
+          Cena: Stir-fry de vegetales (brócoli, zanahorias, pimientos) y tofu con salsa de soja y jengibre, servido sobre arroz integral.<br>
+          <br>
+          Día 5:<br>
+          Desayuno: Tostadas de pan integral con crema de cacahuate y rodajas de plátano.<br>
+          Almuerzo: Wrap integral con pollo a la parrilla, hojas verdes, tomate, pepino y aguacate. Acompañar con una ensalada de frutas frescas.<br>
+          Merienda: Batido de proteínas con leche de almendras, espinacas frescas, plátano y una cucharada de semillas de chía.<br>
+          Cena: Pasta integral con salsa de tomate casera (tomate, cebolla, ajo, albahaca), espinacas y camarones salteados en aceite de oliva.<br>
+        </p>
+        <p *ngIf="mostrarVirtualMuscular">
+          <br>
+          Día 1: Recuperación Activa<br>
+          Estiramiento dinámico: Realiza movimientos controlados que abarquen todo el rango de movimiento de tus articulaciones principales.<br>
+          Ejercicios de movilidad: Dedica tiempo a trabajar en la movilidad de tus articulaciones clave, como caderas, hombros y columna vertebral.<br>
+          Yoga o Pilates suaves: Sesión enfocada en estiramientos, fortalecimiento central y relajación.<br>
+          Alimentación post-entrenamiento: Incluye proteínas magras (pollo, pescado, tofu), carbohidratos complejos (quinoa, batata) y grasas saludables (aguacate, frutos secos).<br>
+          <br>
+          Día 2: Recuperación Pasiva<br>
+          Masaje o foam rolling: Dedica tiempo a masajear tus músculos con un rodillo de espuma (foam roller) para liberar tensiones y mejorar la circulación sanguínea.<br>
+          Baño de contraste: Alterna entre agua caliente y fría en la ducha para estimular la circulación y reducir la inflamación muscular.<br>
+          Estiramientos estáticos: Realiza estiramientos mantenidos por 20-30 segundos en cada grupo muscular principal.<br>
+          Alimentación post-entrenamiento: Enfócate en alimentos antiinflamatorios como bayas, vegetales de hoja verde oscuro y grasas saludables como aceite de oliva y pescados grasos.<br>
+          <br>
+          Día 3: Recuperación activa y refuerzo muscular<br>
+          Caminata o bicicleta suave: Realiza una actividad cardiovascular de baja intensidad durante 30-45 minutos para aumentar el flujo sanguíneo y promover la recuperación.<br>
+          Ejercicios de fortalecimiento con peso corporal: Realiza ejercicios como sentadillas, flexiones, dominadas (o sus variantes) enfocándote en la técnica y el control muscular en lugar de la
+          carga.<br>
+          Estiramientos y relajación: Dedica tiempo al final de la sesión para estirar los músculos trabajados y practicar técnicas de relajación como respiración profunda o meditación.<br>
+          Alimentación post-entrenamiento: Combina proteínas de calidad con carbohidratos para promover la recuperación y la reposición de glucógeno muscular. Ejemplos incluyen batidos de proteínas
+          con plátano, yogur griego con frutas y nueces, etc.<br>
+        </p>
       </form>
     </div>
   </div>
