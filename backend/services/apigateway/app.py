@@ -1,3 +1,4 @@
+from http.client import HTTPException
 import os
 
 import requests
@@ -7,9 +8,10 @@ from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 from pydantic import ValidationError
 
-from models import User, Plan
+from models import User, Plan, Entrenamiento
 from utils import protected_route
 import config
+from utils import calcular_ftp, calcular_vo2max
 
 URL_USERS = os.getenv('USERS_PATH')
 URL_EVENTS = os.getenv('EVENTS_PATH')
@@ -100,6 +102,21 @@ def generarPlanEntrenamiento():
     planes_data = Plan(**json_data)
     print(planes_data)
     return jsonify({'mensaje': 'Plan creado'}), 201
+
+
+@app.route('/calcular-indicadores/', methods=['POST'])
+def calcular_indicadores():
+    event_data = request.get_json()
+    medidor_data = Entrenamiento(**event_data)
+    try:
+        print("{{medidor_data}} ", medidor_data)
+        ftp = calcular_ftp(medidor_data)
+        vo2max = calcular_vo2max(medidor_data)
+        print("{{FTP}}{{vo2max}} ", ftp, vo2max)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    return {"ftp": ftp, "vo2Max": vo2max}
 
 # @app.route('/api/eventos', methods=['GET'])
 # def consultar_eventos():

@@ -5,16 +5,27 @@
     <string name="app_name">SportApp</string>
     <string name="base_api_url">http://54.198.231.145:3001/</string>
     <string name="eventos_url">http://18.232.89.57:3001/</string>
-    <string name="indicadores_url_local">http://10.0.2.2:8000/</string>
-    <string name="indicadores_url_prd"></string>
+    <string name="indicadores_url_local">http://10.0.2.2:5000/</string>
+    <string name="indicadores_url_prd">https://apigateway.uniandes-sports.com/</string>
     <string name="indicadores_endpoint">calcular-indicadores/</string>
     <string name="entrenamiento_url_local">http://10.0.2.2:3005/</string>
-    <string name="entrenamiento_url_prd"></string>
+    <string name="entrenamiento_url_prd">https://entrenamientos.uniandes-sports.com/</string>
     <string name="entrenamiento_endpoint">entrenamiento</string>
     <string name="planes_url">https://planes.uniandes-sports.com/</string>
     <string name="pausarTextBtn">Pausar</string>
     <string name="reanudarTextBtn">Reanudar</string>
     <string name="iniciar">Iniciar</string>
+    <string name="entrenamiento">Entranamiento</string>
     <string name="initTimer">00:00:00</string>
+    <string name="calorias_activas">Calorías activas</string>
+    <string name="calorias_totales">Calorías totales</string>
+    <string name="fcm">Frecuencia Cardiaca Maxima FCM</string>
+    <string name="ftp">FTP</string>
+    <string name="vo2max">VO2 max</string>
+    <string name="finalizar">Finalizar</string>
+    <string name="valor_inicial">0</string>
+    <string name="corazon">♥</string>
+    <string name="atletismo">Atletismo</string>
+    <string name="ciclismo">Ciclismo</string>
 
 </resources>

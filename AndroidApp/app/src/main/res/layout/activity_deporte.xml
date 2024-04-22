@@ -20,7 +20,7 @@
         android:id="@+id/tvTrainingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Entrenamiento"
+        android:text="@string/entrenamiento"
         android:textSize="24sp"
         android:textColor="#FFFFFF"
         android:layout_below="@id/ivBackArrow"
@@ -61,7 +61,7 @@
                 android:id="@+id/tvActiveCalories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Atletismo"
+                android:text="@string/atletismo"
                 android:textSize="20sp"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
@@ -88,7 +88,7 @@
                 android:id="@+id/tvPower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ciclismo"
+                android:text="@string/ciclismo"
                 android:textSize="20sp"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
