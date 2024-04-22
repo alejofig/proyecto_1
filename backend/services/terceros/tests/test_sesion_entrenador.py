@@ -6,6 +6,7 @@ client = TestClient(routes.router)
 
 def test_sesion_entrenador():
     entrenador = {
+        "proveedor": "AlejoFit",
         "tipoEntrenamiento": "Grupal",
         "fechaSesion": "2024-04-15",
         "horaSesion": "08:30",

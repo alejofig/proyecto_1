@@ -5,16 +5,21 @@ from sqlmodel import Field, SQLModel
 
 class Alimentacion(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
+    userId: str
+    proveedor: str
+    proposito: str
     tipoAlimentacion: str
+    modoRecibir: str
     numeroContacto: str
-    paisActual: str
-    ciudadActual: str
     direccionActual: str
-    user_Id:str
+    ciudadActual: str
+    paisActual: str
 
 
 class Entrenador(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
+    userId: str
+    proveedor: str
     tipoEntrenamiento: str
     fechaSesion: str
     horaSesion: str

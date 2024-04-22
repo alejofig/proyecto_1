@@ -6,11 +6,14 @@ client = TestClient(routes.router)
 
 def test_solicitar_alimentacion():
     alimentacion = {
+        "proveedor": "Cocina Fit",
+        "proposito": "nutricion",
         "tipoAlimentacion": "Proteina",
+        "modoRecibir": "virtual",
         "numeroContacto": 3214567890,
-        "paisActual": "Peru",
+        "direccionActual": "Calle Falsa 123",
         "ciudadActual": "Lima",
-        "direccionActual": "Calle Falsa 123"
+        "paisActual": "Peru"
     }
     response = client.post("/solicitar_alimentacion/", json=alimentacion)
     assert response.status_code == 200
