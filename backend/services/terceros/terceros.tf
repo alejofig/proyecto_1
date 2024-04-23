@@ -104,7 +104,7 @@ resource "aws_db_subnet_group" "db_postgres_subnet_group_terceros" {
 resource "aws_alb" "alb_terceros" {
   depends_on         = [aws_internet_gateway.igw_terceros]
   load_balancer_type = "application"
-  name               = "application-load-balancer-terceros"
+  name               = "app-load-balancer-terceros"
   subnets            = aws_subnet.public_subnet_terceros.*.id
   security_groups    = [aws_security_group.alb_sg_terceros.id]
 }
@@ -258,7 +258,7 @@ resource "aws_ecs_task_definition" "task_definition_terceros" {
 
 # --- IAM
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ecs-task-execution-role-terceros"
+  name = "ecs-task-execution-role-terceros"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
