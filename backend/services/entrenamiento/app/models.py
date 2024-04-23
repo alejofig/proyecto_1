@@ -1,3 +1,4 @@
+import random
 from sqlmodel import Field, SQLModel
 from datetime import date
 from typing import Optional
@@ -11,4 +12,6 @@ class Entrenamiento(SQLModel, table=True):
     calories_active: float = 0.0
     total_calories: float = 0.0
     fcm: int = 0
+    distance: int =  Field(default_factory=lambda: round(random.uniform(10, 100)))
+
 

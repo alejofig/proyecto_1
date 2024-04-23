@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { ApiGatewayBackendService } from './apigateway-backend.service';
 import { environment } from '../environments/environment';
+import { AuthModule } from '@auth0/auth0-angular';
 
 describe('ApiGatewayBackendService', () => {
   let service: ApiGatewayBackendService;
@@ -10,7 +11,10 @@ describe('ApiGatewayBackendService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule,AuthModule.forRoot({
+        domain: 'domain',
+        clientId: 'clientId'
+      })],
       providers: [ApiGatewayBackendService]
     });
     service = TestBed.inject(ApiGatewayBackendService);
@@ -30,7 +34,7 @@ describe('ApiGatewayBackendService', () => {
     const userData = {
     };
 
-    service.registrar_usuario(userData).subscribe(response => {
+    service.registrarUsuario(userData).subscribe(response => {
     });
     const req = httpTestingController.expectOne(`${environment.apigateway_url}/registrar_usuario`);
     expect(req.request.method).toEqual('POST');
