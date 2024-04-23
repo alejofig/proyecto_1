@@ -99,11 +99,18 @@ def generarPlanEntrenamiento():
 def consultar_estadisticas(user):
     json_data=request.get_json()
     mototaller = Mototaller(**json_data)
+
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+
     headers = {
     'accept': 'application/json',
     'Content-Type': 'application/json'
     }
+    
+    payload = mototaller.dict()
+    payload["userId"] = usuario_completo.json()["id"]
     response = requests.post(f"{URL_SERVICIOS}/solicitar_mototaller/",
-                                json=mototaller.dict(),
+                                json=payload,
                                 headers=headers)
     return jsonify(response), 200

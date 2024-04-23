@@ -37,7 +37,6 @@ class Plan(BaseModel):
     fechas: str
 
 class Mototaller(BaseModel):
-    userId: str
     fechaSesion: str
     horaSesion: str
     comentariosAdicionales: str
