@@ -8,7 +8,7 @@ from flask_cors import CORS
 from pydantic import ValidationError
 from urllib.parse import unquote
 
-from models import User, Plan
+from models import Mototaller, User, Plan
 from utils import protected_route
 import config
 from dotenv import load_dotenv
@@ -18,6 +18,7 @@ URL_EVENTS = os.getenv('EVENTS_PATH')
 URL_ENTRENAMIENTOS = os.getenv('ENTRENAMIENTOS_PATH')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+URL_SERVICIOS = os.getenv('SERVICIOS_PATH')
 
 app = Flask(__name__)
 CORS(app)
@@ -92,3 +93,24 @@ def generarPlanEntrenamiento():
     json_data = request.get_json()
     planes_data = Plan(**json_data)
     return jsonify({'mensaje': 'Plan creado'}), 201
+
+@app.route('/crear_servicio_mototaller/', methods=['POST'])
+@protected_route
+def consultar_estadisticas(user):
+    json_data=request.get_json()
+    mototaller = Mototaller(**json_data)
+
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+
+    headers = {
+    'accept': 'application/json',
+    'Content-Type': 'application/json'
+    }
+    
+    payload = mototaller.dict()
+    payload["userId"] = usuario_completo.json()["id"]
+    response = requests.post(f"{URL_SERVICIOS}/solicitar_mototaller/",
+                                json=payload,
+                                headers=headers)
+    return jsonify(response), 200
