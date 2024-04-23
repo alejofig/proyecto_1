@@ -8,6 +8,6 @@ export const environment = {
   algorithm: 'RS256',
   apigateway_url: 'https://apigateway.uniandes-sports.com',
   planesUrl: 'https://planes.uniandes-sports.com',
-  eventos_urls: 'http://18.232.89.57:3001',
+  eventos_urls: 'https://eventos.uniandes-sports.com',
   local: 'http://3.88.143.81:3002'
 };

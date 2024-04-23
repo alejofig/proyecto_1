@@ -109,7 +109,7 @@ export class RegistroComponent {
       return false;
     }else{
       console.log(this.create_form_data())
-      this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
+      this.backendService.registrarUsuario(this.create_form_data()).subscribe((response: any) => {
         console.log('Response:', response);
       });
       this.registroExitoso = true;
@@ -151,7 +151,7 @@ public async checkIfEmailExists(email: string): Promise<boolean> {
 
 }
 public registerUser(): void {
-this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
+this.backendService.registrarUsuario(this.create_form_data()).subscribe((response: any) => {
   console.log('Response:', response);
 });
 }

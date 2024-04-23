@@ -2,31 +2,37 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegistroComponent } from './registro.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { AuthService } from '../servicios/auth.service';
+import { AuthService as InternalAuthService } from '../servicios/auth.service';
 import { ApiGatewayBackendService } from '../../apigateway-backend.service';
 import { of } from 'rxjs';
+import { AuthModule, AuthService } from '@auth0/auth0-angular';
 
 describe('RegistroComponent', () => {
   let component: RegistroComponent;
   let fixture: ComponentFixture<RegistroComponent>;
-  let authService: AuthService;
+  let internalAuthService: InternalAuthService;
   let apigatewayBackendService: ApiGatewayBackendService;
   let httpTestingController: HttpTestingController;
   let backendService: ApiGatewayBackendService;
+  let authService: AuthService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, HttpClientTestingModule],
-      providers: [AuthService, ApiGatewayBackendService],
+      imports: [FormsModule, HttpClientTestingModule, AuthModule.forRoot({
+        domain: 'domain',
+        clientId: 'clientId'
+      })],
+      providers: [InternalAuthService, ApiGatewayBackendService,AuthService],
       declarations: []
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegistroComponent);
     component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService);
+    internalAuthService = TestBed.inject(InternalAuthService);
     apigatewayBackendService= TestBed.inject(ApiGatewayBackendService);
     httpTestingController = TestBed.inject(HttpTestingController);
     backendService = TestBed.inject(ApiGatewayBackendService);
+    authService = TestBed.inject(AuthService);
     fixture.detectChanges();
   });
 
@@ -80,22 +86,22 @@ describe('RegistroComponent', () => {
     component.antiguedad_residencia = '5 años';
     component.deportes = ['Natación'];
 
-    spyOn(authService, 'checkIfEmailExists').and.returnValue(Promise.resolve(false));
-    spyOn(apigatewayBackendService, 'registrar_usuario').and.returnValue(of(false));
+    spyOn(internalAuthService, 'checkIfEmailExists').and.returnValue(Promise.resolve(false));
+    spyOn(apigatewayBackendService, 'registrarUsuario').and.returnValue(of(false));
     const result = await component.validarFormulario();
     expect(result).toBe(true);
   });
 
   it('should check if email exists', async () => {
-    spyOn(authService, 'checkIfEmailExists').and.returnValue(Promise.resolve(false));
+    spyOn(internalAuthService, 'checkIfEmailExists').and.returnValue(Promise.resolve(false));
     await component.checkIfEmailExists('john@example.com');
-    expect(authService.checkIfEmailExists).toHaveBeenCalledWith('john@example.com');
+    expect(internalAuthService.checkIfEmailExists).toHaveBeenCalledWith('john@example.com');
   });
 
   it('should check if email exists', async () => {
-    spyOn(authService, 'checkIfEmailExists').and.returnValue(Promise.resolve(true));
+    spyOn(internalAuthService, 'checkIfEmailExists').and.returnValue(Promise.resolve(true));
     await component.checkIfEmailExists('john@example.com');
-    expect(authService.checkIfEmailExists).toHaveBeenCalledWith('john@example.com');
+    expect(internalAuthService.checkIfEmailExists).toHaveBeenCalledWith('john@example.com');
   });
 
   it('should display alert when username is not provided', async () => {

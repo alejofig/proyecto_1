@@ -207,11 +207,15 @@ data "template_file" "task_definition_template" {
   vars     = {
     REPOSITORY_URL = "344488016360.dkr.ecr.us-west-2.amazonaws.com/apigateway-sportsapp:latest"
     FLASK_APP_PORT = "3001"
+    USERS_PATH= "https://users.uniandes-sports.com/"
     AUTH0_DOMAIN   = "dev-s8qwnnguwcupqg2o.us.auth0.com"
     AUTH0_CLIENT_SECRET = "SnUDnO1lL3CnvzeCDFFUwwsFABY-Szfr-lRkFyshOf4uSnCiM6EHMgvCDDVQ8v1u"
     AUTH0_CLIENT_ID = "3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT"
     AUTH0_API_IDENTIFIER= "https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/"
     SQS_URL = "https://sqs.us-east-1.amazonaws.com/344488016360/users-register-sqs-new5"
+    REDIRECT_URI = "https://apigateway.uniandes-sports.com/callback"
+    USERS_PATH= "https://users.uniandes-sports.com"
+    ENTRENAMIENTOS_PATH = "https://entrenamientos.uniandes-sports.com"
   }
 }
 resource "aws_ecs_task_definition" "task_definition" {

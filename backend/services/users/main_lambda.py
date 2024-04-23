@@ -31,7 +31,7 @@ if __name__ == "__main__":
     sqs_event = {
         "Records": [
             {
-                "body": "{\"password\":\"135.Simetrik24@\",\"nombre\":\"a\",\"apellido\":\"a\",\"username\":\"ayay@yahoo.com\",\"tipo_documentacion\":\"PASAPORTE\",\"numero_identificacion\":\"1\",\"email\":\"ayay@yahoo.com\",\"edad\":1,\"peso\":1,\"altura\":1,\"genero\":\"Masculino\",\"pais_nacimiento\":\"a\",\"ciudad_nacimiento\":\"g\",\"pais_residencia\":\"f\",\"ciudad_residencia\":\"f\",\"antiguedad_residencia\":1,\"tipo_plan\":\"GRATUITO\",\"deportes\":[\"Natación\",\"Running\",\"Cycling\"]}"
+                "body": "{\"password\":\"135.Simetrik24@\",\"nombre\":\"a\",\"apellido\":\"a\",\"username\":\"ggg@yahoo.com\",\"tipo_documentacion\":\"PASAPORTE\",\"numero_identificacion\":\"1\",\"email\":\"ggg@yahoo.com\",\"edad\":1,\"peso\":1,\"altura\":1,\"genero\":\"Masculino\",\"pais_nacimiento\":\"a\",\"ciudad_nacimiento\":\"g\",\"pais_residencia\":\"f\",\"ciudad_residencia\":\"f\",\"antiguedad_residencia\":1,\"tipo_plan\":\"GRATUITO\",\"deportes\":[\"Natación\",\"Running\",\"Cycling\"]}"
             }
         ]
     }

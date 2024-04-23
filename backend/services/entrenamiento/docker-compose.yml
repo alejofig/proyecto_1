@@ -2,22 +2,20 @@ version: '3.8'
 services:
   db:
     image: postgres:latest
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: prueba
       POSTGRES_USER: entrenamiento
       POSTGRES_PASSWORD: prueba
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "5432:5432"
+      - "5435:5432"
 
   app:
     build:
       context: .  
       dockerfile: Dockerfile  
     ports:
-      - "8000:8000"
+      - "3005:3005"
     depends_on:
       - db
     environment:
@@ -28,6 +26,3 @@ services:
       DB_PASSWORD: prueba
     volumes:
       - ./app:/code/app  
-
-volumes:
-  postgres_data:

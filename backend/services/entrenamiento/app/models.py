@@ -1,14 +1,17 @@
+import random
 from sqlmodel import Field, SQLModel
-from datetime import datetime, date
+from datetime import date
 from typing import Optional
 
 class Entrenamiento(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: int 
     sport_type: str  # Tipo de deporte: 'atletismo' o 'ciclismo'
-    duration_horas: datetime
+    duration: str
     fecha: date
-    calories_active: int = 0
-    total_calories: int = 0
+    calories_active: float = 0.0
+    total_calories: float = 0.0
     fcm: int = 0
+    distance: int =  Field(default_factory=lambda: round(random.uniform(10, 100)))
+
 

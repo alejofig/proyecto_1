@@ -1,4 +1,5 @@
 # app/routes.py
+from app.auth import Auth0
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from app.database import get_user_by_email
@@ -15,5 +16,4 @@ async def get_user(user_email: str):
     if user is None:
         return JSONResponse(status_code=404, content={"detail": "User not found"})
     else:
-        return {"message": "User already exists"}
-
+        return user.dict()

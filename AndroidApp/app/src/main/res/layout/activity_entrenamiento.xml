@@ -170,7 +170,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/containerActiveCaloriesPower"
+        android:layout_below="@id/containerIndicators"
         android:layout_marginTop="10dp"
         android:padding="16dp">
 
@@ -179,7 +179,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Iniciar"
+            android:text="@string/iniciar"
             android:textColor="@color/white"
             android:backgroundTint="@color/red"
             android:layout_marginEnd="8dp" />
@@ -192,6 +192,71 @@
             android:text="Finalizar"
             android:textColor="@color/white"
             android:backgroundTint="@color/red" />
+    </LinearLayout>
+
+
+    <!-- Container ftp vo2max  -->
+    <LinearLayout
+        android:id="@+id/containerIndicators"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/containerActiveCaloriesPower"
+        android:layout_marginTop="10dp">
+
+        <!-- FTP -->
+        <LinearLayout
+            android:id="@+id/containerFTP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvFTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FTP"
+                android:textSize="20sp"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvValueFTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- vo2max -->
+        <LinearLayout
+            android:id="@+id/containerVo2max"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvVo2max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VO2 max"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueVo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
