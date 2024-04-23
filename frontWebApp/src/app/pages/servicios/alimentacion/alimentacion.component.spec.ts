@@ -44,19 +44,25 @@ describe('AlimentacionComponent', () => {
   });
 
   it('should create form data object with correct properties', () => {
+    component.proveedor = 'Cocina Fit';
+    component.proposito = 'nutricion'
     component.tipoAlimentacion = 'Proteina';
+    component.modoRecibir = 'virtual';
     component.numeroContacto = 3124567890;
-    component.paisActual = 'Peru';
-    component.ciudadActual = 'Lima';
     component.direccionActual = 'Calle Falsa 123';
+    component.ciudadActual = 'Lima';
+    component.paisActual = 'Peru';
     const formData = component.imprimirDatos();
 
     expect(formData).toEqual({
+      proveedor: 'Cocina Fit',
+      proposito: 'nutricion',
       tipoAlimentacion: 'Proteina',
+      modoRecibir: 'virtual',
       numeroContacto: 3124567890,
-      paisActual: 'Peru',
+      direccionActual: 'Calle Falsa 123',
       ciudadActual: 'Lima',
-      direccionActual: 'Calle Falsa 123'
+      paisActual: 'Peru'
     })
   })
 });

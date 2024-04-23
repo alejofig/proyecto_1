@@ -6,7 +6,7 @@ import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {AlimentacionService} from "./alimentacion.service";
-
+import {Alimentacion} from "./alimentacion";
 
 @Component({
   selector: 'app-alimentacion',
@@ -70,16 +70,16 @@ export class AlimentacionComponent implements OnInit {
       this.activarMensajeExitoso = true;
       this.mensaje = this.mensajeDomicilio;
     }
-    // console.log(this.imprimirDatos())
-    //
-    // let alimentacion = new Alimentacion(this.proveedor, this.proposito, this.tipoAlimentacion, this.modoRecibir, this.numeroContacto, this.direccionActual, this.ciudadActual, this.paisActual)
-    // console.log(alimentacion)
-    //
-    // this.alimentacionService.solicitarAlimentacion(alimentacion).subscribe((result: any) => {
-    //   console.log('Response: ', result)
-    //   console.info(this.mensajeDomicilio, result)
-    //   this.activarMensajeExitoso = true;
-    // })
+    console.log(this.imprimirDatos())
+
+    let alimentacion = new Alimentacion(this.proveedor, this.proposito, this.tipoAlimentacion, this.modoRecibir, this.numeroContacto, this.direccionActual, this.ciudadActual, this.paisActual)
+    console.log(alimentacion)
+
+    this.alimentacionService.solicitarAlimentacion(alimentacion).subscribe((result: any) => {
+      console.log('Response: ', result)
+      console.info(this.mensajeDomicilio, result)
+      this.activarMensajeExitoso = true;
+    })
   }
 
   imprimirDatos(): any {

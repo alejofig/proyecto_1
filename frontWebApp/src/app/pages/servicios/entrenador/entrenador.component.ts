@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {EntrenadorService} from "./entrenador.service";
+import {Entrenador} from "./entrenador";
 
 @Component({
   selector: 'app-entrenador',
@@ -43,16 +44,16 @@ export class EntrenadorComponent implements OnInit {
 
   solicitarSesionEntrenador(): void {
     this.activarMensajeExitoso = true;
-    // console.log(this.imprimirDatos())
-    //
-    // let entrenador = new Entrenador(this.proveedor, this.tipoEntrenamiento, this.fechaSesion, this.horaSesion, this.comentarios)
-    // console.log(entrenador)
-    //
-    // this.entrenadorService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
-    //   console.log('Response: ', result)
-    //   console.info(this.mensajeExitoso, result)
-    //   this.activarMensajeExitoso = true;
-    // })
+    console.log(this.imprimirDatos())
+
+    let entrenador = new Entrenador(this.proveedor, this.tipoEntrenamiento, this.fechaSesion, this.horaSesion, this.comentarios)
+    console.log(entrenador)
+
+    this.entrenadorService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
+      console.log('Response: ', result)
+      console.info(this.mensajeExitoso, result)
+      this.activarMensajeExitoso = true;
+    })
   }
 
   imprimirDatos(): any {

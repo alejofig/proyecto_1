@@ -44,6 +44,7 @@ describe('EntrenadorComponent', () => {
   });
 
   it('should create form data object with correct properties', () => {
+    component.proveedor = 'AlejoFit';
     component.tipoEntrenamiento = 'Grupal';
     component.fechaSesion = '2024-04-15';
     component.horaSesion = '08:30';
@@ -51,6 +52,7 @@ describe('EntrenadorComponent', () => {
     const formData = component.imprimirDatos();
 
     expect(formData).toEqual({
+      proveedor: 'AlejoFit',
       tipoEntrenamiento: 'Grupal',
       fechaSesion: '2024-04-15',
       horaSesion: '08:30',
