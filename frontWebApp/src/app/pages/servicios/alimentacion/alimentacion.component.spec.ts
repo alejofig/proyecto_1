@@ -6,6 +6,7 @@ import {HttpClientTestingModule, HttpTestingController} from "@angular/common/ht
 import {FormsModule} from "@angular/forms";
 import {of} from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
+import {AuthModule} from "@auth0/auth0-angular";
 
 describe('AlimentacionComponent', () => {
   let component: AlimentacionComponent;
@@ -15,7 +16,10 @@ describe('AlimentacionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AlimentacionComponent, FormsModule, HttpClientTestingModule, RouterTestingModule],
+      imports: [AuthModule.forRoot({
+        domain: 'domain',
+        clientId: 'clientId'
+      }), AlimentacionComponent, FormsModule, HttpClientTestingModule, RouterTestingModule],
       providers: [AlimentacionComponent],
       declarations: []
     }).compileComponents();
@@ -25,6 +29,10 @@ describe('AlimentacionComponent', () => {
     alimentacionService = TestBed.inject(AlimentacionService);
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
   });
 
   it('should create', () => {

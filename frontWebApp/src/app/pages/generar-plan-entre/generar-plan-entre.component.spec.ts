@@ -6,7 +6,7 @@ import {GenerarPlanEntreService} from "./generar-plan-entre.service";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {of} from 'rxjs';
 import {RouterTestingModule} from '@angular/router/testing';
-import { AuthModule } from '@auth0/auth0-angular';
+import {AuthModule} from '@auth0/auth0-angular';
 
 describe('GenerarPlanEntreComponent', () => {
   let component: GenerarPlanEntreComponent;
@@ -19,7 +19,7 @@ describe('GenerarPlanEntreComponent', () => {
       imports: [AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      }),HttpClientTestingModule,FormsModule, HttpClientTestingModule, GenerarPlanEntreComponent, RouterTestingModule],
+      }), HttpClientTestingModule, FormsModule, HttpClientTestingModule, GenerarPlanEntreComponent, RouterTestingModule],
       providers: [GenerarPlanEntreService],
       declarations: []
     }).compileComponents();
