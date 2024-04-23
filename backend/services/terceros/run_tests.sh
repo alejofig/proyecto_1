@@ -30,10 +30,10 @@ cleanup() {
 
 
 # Ejecutar el flujo de trabajo para pruebas de usuarios
-echo "Running tests for plans..."
+echo "Running tests for terceros..."
 create_virtualenv
 pip install -r requirements.txt
-run_database 5434
+run_database 5436
 uvicorn main:app --host 0.0.0.0 --port 8000 &
 uvicorn_pid=$!
 sleep 5

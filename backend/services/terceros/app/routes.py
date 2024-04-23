@@ -1,6 +1,6 @@
-from app.database import (solicitar_servicio_alimentacion, consultar_servicios_alimentacion, reset_servicios_alimentacion,
+from app.database import (solicitar_servicio_alimentacion, consultar_servicios_alimentacion, reset_servicios_alimentacion, solicitar_servicio_mototaller,
                           solicitar_sesion_entrenador, consultar_sesion_entrenador, reset_sesion_entrenador)
-from app.models import Alimentacion, Entrenador
+from app.models import Alimentacion, Entrenador, Mototaller
 from fastapi import APIRouter
 
 router = APIRouter()
@@ -23,6 +23,10 @@ async def obtener_alimentacion():
     servicios_alimentacion = consultar_servicios_alimentacion()
     return servicios_alimentacion
 
+@router.post("/solicitar_mototaller")
+async def solicitar_mototaller(mototaller: Mototaller):
+    mototaller = solicitar_servicio_mototaller(mototaller)
+    return {"message": "Servicio de mototaller generado con éxito"}
 
 @router.post("/reset_alimentacion")
 async def reset_alimentacion():
