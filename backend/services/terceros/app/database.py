@@ -12,13 +12,21 @@ def create_session():
     return session
 
 
-## Servicio de alimentación
-def solicitar_servicio_alimentacion(alimentacion: Alimentacion):
+def solicitar_alimentacion(alimentacion: Alimentacion):
     session = create_session()
     session.add(alimentacion)
     session.commit()
     session.close()
     return alimentacion
+
+
+def solicitar_sesion_entrenador(entrenador: Entrenador):
+    session = create_session()
+    session.add(entrenador)
+    session.commit()
+    session.close()
+    return entrenador
+
 
 def solicitar_servicio_mototaller(mototaller: Mototaller):
     session = create_session()
@@ -27,12 +35,21 @@ def solicitar_servicio_mototaller(mototaller: Mototaller):
     session.close()
     return mototaller
 
+
 def consultar_servicios_alimentacion():
     session = create_session()
     statement = select(Alimentacion)
     results = session.exec(statement)
     servicios_alimentacion = results.all()
     return servicios_alimentacion
+
+
+def consultar_sesion_entrenador():
+    session = create_session()
+    statement = select(Entrenador)
+    results = session.exec(statement)
+    sesion_entrenador = results.all()
+    return sesion_entrenador
 
 
 def reset_servicios_alimentacion():
@@ -46,23 +63,6 @@ def reset_servicios_alimentacion():
         raise e
     finally:
         session.close()
-
-
-## Sesión de entrenamiento
-def solicitar_sesion_entrenador(entrenador: Entrenador):
-    session = create_session()
-    session.add(entrenador)
-    session.commit()
-    session.close()
-    return entrenador
-
-
-def consultar_sesion_entrenador():
-    session = create_session()
-    statement = select(Entrenador)
-    results = session.exec(statement)
-    sesion_entrenador = results.all()
-    return sesion_entrenador
 
 
 def reset_sesion_entrenador():
