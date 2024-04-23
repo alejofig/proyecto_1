@@ -20,8 +20,7 @@ android {
         versionName = "1.0"
         manifestPlaceholders["auth0Domain"] = "@string/com_auth0_domain"
         manifestPlaceholders["auth0Scheme"] = "@string/com_auth0_scheme"
-
-
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -67,6 +66,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation ("org.mockito:mockito-android:3.3.3")
+    androidTestImplementation ("org.mockito.kotlin:mockito-kotlin:4.0.0")
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("androidx.test:rules:1.4.0")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.0.0")
+    androidTestImplementation("io.mockk:mockk:1.12.2")
+
 }
