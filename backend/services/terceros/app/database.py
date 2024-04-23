@@ -1,5 +1,5 @@
 from app import config
-from app.models import Alimentacion, Entrenador
+from app.models import Alimentacion, Entrenador, Mototaller
 from sqlmodel import Session, create_engine, SQLModel, select
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
@@ -20,6 +20,12 @@ def solicitar_servicio_alimentacion(alimentacion: Alimentacion):
     session.close()
     return alimentacion
 
+def solicitar_servicio_mototaller(mototaller: Mototaller):
+    session = create_session()
+    session.add(mototaller)
+    session.commit()
+    session.close()
+    return mototaller
 
 def consultar_servicios_alimentacion():
     session = create_session()

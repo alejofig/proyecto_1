@@ -1,12 +1,27 @@
-version: "3"
+version: '3.8'
 services:
-  apigateway:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3007:3007"
+  db:
+    image: postgres:latest
     environment:
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      USERS_PATH: ${USERS_PATH}
+      POSTGRES_DB: prueba
+      POSTGRES_USER: prueba
+      POSTGRES_PASSWORD: prueba
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5435:5432"
+#   app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3007:3007"
+#     depends_on:
+#       - db
+#     environment:
+#       DB_USER: prueba
+#       DB_PASSWORD: prueba
+#       DB_HOST: db
+#       DB_NAME: prueba
+#       DB_PORT: 5432
+#     volumes:
+#       - ./app:/code/app

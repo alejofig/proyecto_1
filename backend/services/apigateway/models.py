@@ -35,3 +35,8 @@ class Plan(BaseModel):
     cantidadEntrenamientos: str
     distanciaPorEntrenamientos: str
     fechas: str
+
+class Mototaller(BaseModel):
+    fechaSesion: str
+    horaSesion: str
+    comentariosAdicionales: str
