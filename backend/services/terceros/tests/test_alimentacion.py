@@ -6,6 +6,7 @@ client = TestClient(routes.router)
 
 def test_solicitar_alimentacion():
     alimentacion = {
+        "userId": "1234",
         "proveedor": "Cocina Fit",
         "proposito": "nutricion",
         "tipoAlimentacion": "Proteina",

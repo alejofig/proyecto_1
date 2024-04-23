@@ -3,6 +3,7 @@ from app.models import Alimentacion, Entrenador
 
 def test_alimentacion_model():
     alimentacion = Alimentacion(
+        userId="1234",
         proveedor="Cocina Fit",
         proposito="nutricion",
         tipoAlimentacion="Proteina",
@@ -13,6 +14,7 @@ def test_alimentacion_model():
         paisActual="Peru"
     )
 
+    assert alimentacion.userId == "1234"
     assert alimentacion.proveedor == "Cocina Fit"
     assert alimentacion.proposito == "nutricion"
     assert alimentacion.tipoAlimentacion == "Proteina"
@@ -25,6 +27,7 @@ def test_alimentacion_model():
 
 def test_sesion_entrenador_model():
     entrenador = Entrenador(
+        userId="1234",
         proveedor="AlejoFit",
         tipoEntrenamiento="Grupal",
         fechaSesion="2024-04-15",
@@ -32,6 +35,7 @@ def test_sesion_entrenador_model():
         comentarios="Comentarios"
     )
 
+    assert entrenador.userId == "1234"
     assert entrenador.proveedor == "AlejoFit"
     assert entrenador.tipoEntrenamiento == "Grupal"
     assert entrenador.fechaSesion == "2024-04-15"

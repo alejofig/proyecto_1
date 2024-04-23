@@ -1,5 +1,6 @@
-from app.database import (solicitar_servicio_alimentacion, consultar_servicios_alimentacion, reset_servicios_alimentacion, solicitar_servicio_mototaller,
-                          solicitar_sesion_entrenador, consultar_sesion_entrenador, reset_sesion_entrenador)
+from app.database import (solicitar_alimentacion, solicitar_sesion_entrenador, solicitar_servicio_mototaller,
+                          consultar_servicios_alimentacion, consultar_sesion_entrenador,
+                          reset_servicios_alimentacion, reset_sesion_entrenador)
 from app.models import Alimentacion, Entrenador, Mototaller
 from fastapi import APIRouter
 

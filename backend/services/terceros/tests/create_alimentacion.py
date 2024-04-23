@@ -1,4 +1,5 @@
 def generate_random_alimentacion():
+    userId = "1234",
     proveedor = "Cocina Fit"
     proposito = "nutricion"
     tipoAlimentacion = "Proteina"
@@ -9,6 +10,7 @@ def generate_random_alimentacion():
     paisActual = "Peru"
 
     alimentacion_data = {
+        "userId": userId,
         "proveedor": proveedor,
         "proposito": proposito,
         "tipoAlimentacion": tipoAlimentacion,
