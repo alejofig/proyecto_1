@@ -5,18 +5,19 @@ import { AuthService } from '@auth0/auth0-angular';
 import { ApiGatewayBackendService } from '../../../apigateway-backend.service';
 import { CommonModule } from '@angular/common';
 import { LogoutButtonComponent } from '../logout-button/logout-button.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidebard',
   standalone: true,
-  imports: [RouterLinkWithHref, LengSelectorComponent,CommonModule,LogoutButtonComponent],
+  imports: [RouterLinkWithHref, LengSelectorComponent,CommonModule,LogoutButtonComponent, TranslateModule],
   templateUrl: './sidebard.component.html',
   styleUrl: './sidebard.component.scss'
 })
 export class SidebardComponent implements OnInit {
   userData: any;
 
-  constructor(public auth: AuthService, private apiService: ApiGatewayBackendService) { }
+  constructor(public auth: AuthService, private apiService: ApiGatewayBackendService, private translate: TranslateService) { }
 
   ngOnInit(): void {
     this.getUserData();

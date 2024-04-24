@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../servicios/auth.service';
 import { ApiGatewayBackendService } from '../../apigateway-backend.service';
 import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registro',
@@ -20,6 +21,7 @@ import { Router } from '@angular/router';
     FormsModule,
     CommonModule,
     HttpClientModule,
+    TranslateModule
 
   ],
   templateUrl: './registro.component.html',
@@ -52,7 +54,8 @@ export class RegistroComponent {
      private router: Router,
      private http: HttpClient,
      private authService: AuthService,
-     private backendService: ApiGatewayBackendService) {}
+     private backendService: ApiGatewayBackendService,
+     private translate: TranslateService) {}
 
   validarPassword() {
     let errorMessage = '';

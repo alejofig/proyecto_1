@@ -6,61 +6,61 @@
 <div class="register-form pt-4">
   <h2>Registro</h2>
   <form class="form" (submit)="validarFormulario()">
-      <h5 class="data_group">Datos Personales</h5><hr class="m-1 p-1">
+      <h5 class="data_group">{{'DATOS_PERSONALES' | translate}} </h5><hr class="m-1 p-1">
       <div class="row">
           <div class="form-group pe-3 col-12 col-lg">
-              <label for="name">Nombre:</label>
+              <label for="name">{{'NOMBRE' | translate}}:</label>
               <input type="text" id="username" name="username" [(ngModel)]="username">
           </div>
           <div class="form-group col-12 col-lg">
-              <label for="lastname">Apellido:</label>
+              <label for="lastname">{{'APELLIDO' | translate}}:</label>
               <input type="text" id="lastname" name="lastname" [(ngModel)]="lastname">
           </div>
       </div>
       <div class="row">
         <div class="form-group pe-3 col-12 col-lg">
-          <label for="tipo_id">Tipo Identificación:</label>
+          <label for="tipo_id">{{'TIPO_IDENTIFICACION' | translate}}:</label>
           <select id="tipo_id" name="tipo_id" [(ngModel)]="tipo_id">
             <option value="PASAPORTE">PASAPORTE</option>
             <option value="CEDULA DE CIUDADANIA">CÉDULA DE CIUDADANÍA</option>
           </select>
         </div>
         <div class="form-group col-12 col-lg">
-          <label for="identificacion">Número Identificación:</label>
+          <label for="identificacion">{{'NUMERO_IDENTIFICACION' | translate}}:</label>
           <input type="text" id="identificacion" name="identificacion" [(ngModel)]="identificacion">
         </div>
       </div>
       <div class="form-group">
-          <label for="email">Correo Electrónico:</label>
+          <label for="email">{{'CORREO_ELECTRONICO' | translate}}</label>
           <input type="email" id="email" name="email" [(ngModel)]="email">
       </div>
 
 
       <div class="form-group">
-        <label for="password">Contraseña:</label>
+        <label for="password">{{'CONTRASENA' | translate}}:</label>
         <input type="password" id="password" name="password" [(ngModel)]="password">
         <div *ngIf="!formValid" class="invalid-feedback">
           {{ errorMessage }}
       </div>
         <div class="password-requirements">
-          <p>La contraseña debe cumplir los siguientes requisitos:</p>
+          <p>{{'REQUISITOS_CONTRASENA' | translate}}:</p>
           <ul>
-            <li>Al menos 8 caracteres de longitud.</li>
-            <li>Al menos un número (0-9).</li>
-            <li>Al menos una letra minúscula (a-z).</li>
-            <li>Al menos una letra mayúscula (A-Z).</li>
-            <li>Al menos un carácter especial.</li>
+            <li>{{'REQUISITOS_LISTA.LONGITUD' | translate}}</li>
+            <li>{{'REQUISITOS_LISTA.NUMERO' | translate}}</li>
+            <li>{{'REQUISITOS_LISTA.MINUSCULA' | translate}}</li>
+            <li>{{'REQUISITOS_LISTA.MAYUSCULA' | translate}}</li>
+            <li>{{'REQUISITOS_LISTA.CARACTER_ESPECIAL' | translate}}</li>
           </ul>
         </div>
     </div>
       <br/>
-      <h5 class="data_group">Datos Demográficos</h5><hr class="m-1 p-1">
+      <h5 class="data_group">{{'DATOS_DEMOGRAFICOS' | translate}}</h5><hr class="m-1 p-1">
       <div class="form-group  ">
-          <label for="edad">Edad:</label>
+          <label for="edad">{{'EDAD' | translate}}:</label>
           <input type="number" id="edad" name="edad" [(ngModel)]="edad">
       </div>
       <div class="form-group ">
-        <label for="genero">Género:</label>
+        <label for="genero">{{'GENERO' | translate}}:</label>
         <select id="genero" name="genero" [(ngModel)]="genero">
             <option value="Masculino">Masculino</option>
             <option value="Femenino">Femenino</option>
@@ -68,38 +68,38 @@
         </select>
     </div>
       <div class="form-group ">
-          <label for="peso">Peso (kg):</label>
+          <label for="peso">{{'PESO' | translate}} (kg):</label>
           <input type="number" id="peso" name="peso" [(ngModel)]="peso">
       </div>
       <div class="form-group ">
-          <label for="altura">Altura (cm):</label>
+          <label for="altura">{{'ALTURA' | translate}} (cm):</label>
           <input type="number" id="altura" name="altura" [(ngModel)]="altura">
       </div>
       <div class="row">
 
           <div class="form-group col-12 col-lg-6">
-              <label for="pais_nacimiento">País de Nacimiento:</label>
+              <label for="pais_nacimiento">{{'PAIS_NACIMIENTO' | translate}}:</label>
               <input type="text" id="pais_nacimiento" name="pais_nacimiento" [(ngModel)]="pais_nacimiento">
           </div>
           <div class="form-group col-12 col-lg-6">
-              <label for="ciudad_nacimiento">Ciudad de Nacimiento:</label>
+              <label for="ciudad_nacimiento">{{'CIUDAD_NACIMIENTO' | translate}}:</label>
               <input type="text" id="ciudad_nacimiento" name="ciudad_nacimiento" [(ngModel)]="ciudad_nacimiento">
           </div>
           <div class="form-group col-12 col-lg-6">
-              <label for="pais_residencia">País de Residencia:</label>
+              <label for="pais_residencia">{{'PAIS_RESIDENCIA' | translate}}:</label>
               <input type="text" id="pais_residencia" name="pais_residencia" [(ngModel)]="pais_residencia">
           </div>
           <div class="form-group col-12 col-lg-6" >
-              <label for="ciudad_residencia">Ciudad de Residencia:</label>
+              <label for="ciudad_residencia">{{'CIUDAD_RESIDENCIA' | translate}}:</label>
               <input type="text" id="ciudad_residencia" name="ciudad_residencia" [(ngModel)]="ciudad_residencia">
           </div>
       </div>
       <div class="form-group ">
-        <label for="antiguedad_residencia">Años de antiguedad en tu lugar de residencia:</label>
+        <label for="antiguedad_residencia">{{'ANTIGUEDAD_RESIDENCIA' | translate}}:</label>
         <input type="number" id="antiguedad_residencia" name="antiguedad_residencia" [(ngModel)]="antiguedad_residencia">
     </div>
       <div class="form-group">
-        <label for="deportes">Deportes que practica o desea Practicar:</label>
+        <label for="deportes">{{'DEPORTES' | translate}}:</label>
         <select id="deportes" name="deportes" [(ngModel)]="deportes" multiple>
             <option value="Natación">Natación</option>
             <option value="Running">Running</option>
@@ -109,7 +109,7 @@
     </div>
 
 
-      <h5 class="data_group">Tipo de Plan de Suscripción</h5><hr class="m-1 p-1">
+      <h5 class="data_group">{{'TIPO_PLAN' | translate}}</h5><hr class="m-1 p-1">
 
       <div class ="row">
         <div class="col-4">
@@ -117,8 +117,8 @@
               <img src="../../../assets/img/running.webp" class="card-img-top" alt="...">
               <div class="card-body">
                   <input type="radio" name="plan" value="GRATUITO" [(ngModel)]="tipo_plan" checked>
-                  <h6 class="card-title"><b>Plan Gratuito</b></h6>
-                  <p class="card-text">Recomendacion de eventos y planes de entrenamiento.</p>
+                  <h6 class="card-title"><b>{{'PLAN_GRATUITO.TITULO' | translate}}</b></h6>
+                  <p class="card-text">{{'PLAN_GRATUITO.DESCRIPCION'}}</p>
               </div>
           </div>
       </div>
@@ -127,8 +127,8 @@
               <img src="../../../assets/img/running1.webp" class="card-img-top" alt="...">
               <div class="card-body">
                   <input type="radio" name="plan" value="INTERMEDIO" [(ngModel)]="tipo_plan">
-                  <h6 class="card-title"><b>Plan Intermedio</b></h6>
-                  <p class="card-text">Funcionalidades del plan gratuito + Monitoreo en tiempo real.</p>
+                  <h6 class="card-title"><b>{{'PLAN_INTERMEDIO.TITULO' | translate}}</b></h6>
+                  <p class="card-text">{{'PLAN_INTERMEDIO.DESCRIPCION' | translate}}</p>
               </div>
           </div>
       </div>
@@ -137,8 +137,8 @@
               <img src="../../../assets/img/running2.webp" class="card-img-top" alt="...">
               <div class="card-body">
                   <input type="radio" name="plan" value="PREMIUM" [(ngModel)]="tipo_plan">
-                  <h6 class="card-title"><b>Plan Premium</b></h6>
-                  <p class="card-text">Funcionalidades del plan intermedio + Sesiones con Médico y Entrenador.</p>
+                  <h6 class="card-title"><b>{{'PLAN_PREMIUM.TITULO' | translate}}</b></h6>
+                  <p class="card-text">{{'PLAN_PREMIUM.DESCRIPCION' | translate}}</p>
               </div>
           </div>
       </div>
@@ -148,10 +148,10 @@
       </div>
 
       <div class="form-submit">
-              <button type="submit" class="button" [disabled]="registroExitoso">Registrarse</button>
+              <button type="submit" class="button" [disabled]="registroExitoso">{{'REGISTRARSE' | translate}}</button>
       </div>
       <div *ngIf="registroExitoso" class="alert alert-success" role="alert">
-        Registro enviado de manera exitosa.
+        {{'REGISTRO_EXITOSO' | translate}
       </div>
   </form>
 </div>
