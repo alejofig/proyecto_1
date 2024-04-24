@@ -27,6 +27,7 @@ export class AlimentacionComponent implements OnInit {
   public ciudadActual: string = '';
   public paisActual: string = '';
   public mensaje: string = '';
+  public mensajeError: string = 'Todos los campos son obligatorios, por favor ingrese los campos faltantes.'
   public mensajeVirtual: string = 'El servicio se ha generado con éxito y se muestra a continuación:';
   public mensajeDomicilio: string = 'Su orden ha sido recibida con éxito, en breve el proveedor lo contactará para ultimar detalles del domicilio!'
   public mostrarVirtualNutricion: boolean = false;
@@ -52,7 +53,19 @@ export class AlimentacionComponent implements OnInit {
     })
   }
 
+  validarFormulario() {
+    if (!this.proveedor || !this.proposito || !this.tipoAlimentacion || !this.modoRecibir || !this.numeroContacto || !this.direccionActual || !this.ciudadActual || !this.paisActual) {
+      this.activarMensajeExitoso = true;
+      this.mensaje = this.mensajeError;
+      return false;
+    }
+
+    this.solicitarAlimentacion();
+    return true;
+  }
+
   solicitarAlimentacion(): void {
+    this.mensaje = '';
     if (this.modoRecibir == 'virtual') {
       this.activarMensajeExitoso = true;
       if (this.proposito == 'nutricion') {

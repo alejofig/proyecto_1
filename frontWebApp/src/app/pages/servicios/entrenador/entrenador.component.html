@@ -9,7 +9,7 @@
     <div class="p-4 mx-5">
       <h3><b>Programar Sesión con Entrenador</b></h3>
       <hr>
-      <form id="formEntrenador" class="form" method="post" (submit)="solicitarSesionEntrenador()">
+      <form id="formEntrenador" class="form" method="post" (submit)="validarFormulario()">
         <div class="row">
           <div class="mb-0 col">
             <h6>Proveedor:</h6>
@@ -49,7 +49,7 @@
           <button type="submit" class="btn btn-danger">Solicitar sesión con entrenador</button>
         </a>
         <hr>
-        <h6 *ngIf="activarMensajeExitoso">{{ mensajeExitoso }}</h6>
+        <h6 *ngIf="activarMensajeExitoso">{{ mensaje }}</h6>
       </form>
     </div>
   </div>

@@ -23,6 +23,8 @@ export class EntrenadorComponent implements OnInit {
   public fechaSesion: string = '';
   public horaSesion: string = '';
   public comentarios: string = '';
+  public mensaje: string = '';
+  public mensajeError: string = 'Todos los campos son obligatorios, por favor ingrese los campos faltantes.'
   public mensajeExitoso: string = 'La sesión virtual con el proveedor seleccionado ha sido agendada con éxito!';
   public activarMensajeExitoso: boolean = false;
 
@@ -42,8 +44,20 @@ export class EntrenadorComponent implements OnInit {
     })
   }
 
+  validarFormulario() {
+    if (!this.proveedor || !this.tipoEntrenamiento || !this.fechaSesion || !this.horaSesion || !this.comentarios) {
+      this.activarMensajeExitoso = true;
+      this.mensaje = this.mensajeError;
+      return false;
+    }
+
+    this.solicitarSesionEntrenador();
+    return true;
+  }
+
   solicitarSesionEntrenador(): void {
     this.activarMensajeExitoso = true;
+    this.mensaje = this.mensajeExitoso;
     console.log(this.imprimirDatos())
 
     let entrenador = new Entrenador(this.proveedor, this.tipoEntrenamiento, this.fechaSesion, this.horaSesion, this.comentarios)
