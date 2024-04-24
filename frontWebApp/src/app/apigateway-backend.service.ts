@@ -48,4 +48,11 @@ export class ApiGatewayBackendService {
       })
     });
   }
+  registrarMototaller(motoTallerData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/crear_servicio_mototaller/`, motoTallerData, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    });
+  }
 }
