@@ -6,6 +6,7 @@ import {HttpClientTestingModule, HttpTestingController} from "@angular/common/ht
 import {FormsModule} from "@angular/forms";
 import {of} from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
+import { AuthModule } from '@auth0/auth0-angular';
 
 describe('EntrenadorComponent', () => {
   let component: EntrenadorComponent;
@@ -15,7 +16,10 @@ describe('EntrenadorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EntrenadorComponent, FormsModule, HttpClientTestingModule, RouterTestingModule],
+      imports: [EntrenadorComponent, FormsModule, HttpClientTestingModule, RouterTestingModule,AuthModule.forRoot({
+        domain: 'domain',
+        clientId: 'clientId'
+      })],
       providers: [EntrenadorComponent],
       declarations: []
     }).compileComponents();
