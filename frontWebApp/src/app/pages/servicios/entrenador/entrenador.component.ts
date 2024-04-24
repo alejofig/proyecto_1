@@ -5,8 +5,8 @@ import {RouterLinkWithHref} from "@angular/router";
 import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
-import {EntrenadorService} from "./entrenador.service";
 import {Entrenador} from "./entrenador";
+import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
 
 @Component({
   selector: 'app-entrenador',
@@ -30,7 +30,7 @@ export class EntrenadorComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private entrenadorService: EntrenadorService
+    private apiGatewayBackendService: ApiGatewayBackendService
   ) {
   }
 
@@ -63,7 +63,7 @@ export class EntrenadorComponent implements OnInit {
     let entrenador = new Entrenador(this.proveedor, this.tipoEntrenamiento, this.fechaSesion, this.horaSesion, this.comentarios)
     console.log(entrenador)
 
-    this.entrenadorService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
+    this.apiGatewayBackendService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
       console.log('Response: ', result)
       console.info(this.mensajeExitoso, result)
       this.activarMensajeExitoso = true;

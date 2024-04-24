@@ -5,11 +5,12 @@ import { ApiGatewayBackendService } from '../../apigateway-backend.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { CommonModule } from '@angular/common';
 import { UserStatics } from './UserStatics';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [SidebardComponent, HeaderComponent,CommonModule],
+  imports: [SidebardComponent, HeaderComponent,CommonModule, TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

@@ -34,11 +34,9 @@ import java.util.Locale
 
 
 class EventosActivity : AppCompatActivity() {
-    private lateinit var retrofitEventos: Retrofit
-    private lateinit var retrofitEntrenamiento: Retrofit
-    private lateinit var eventosUrl:String
-    private lateinit var planesUrl:String
+    private lateinit var retrofitApi: Retrofit
     private lateinit var tokenAuth:String
+    private lateinit var apigatewayUrl:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,11 +48,8 @@ class EventosActivity : AppCompatActivity() {
 
 
         //Definir Url Base
-        eventosUrl = getString(R.string.eventos_url)
-        planesUrl = getString(R.string.planes_url)
-        retrofitEventos = getRetrofit(eventosUrl)
-        retrofitEntrenamiento = getRetrofit(planesUrl)
-
+        apigatewayUrl = getString(R.string.base_api_url)
+        retrofitApi = getRetrofit(apigatewayUrl)
 
         // Navegacion Inferior
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -78,15 +73,16 @@ class EventosActivity : AppCompatActivity() {
 
     }
 
-
     fun initRecyclerEventos(){
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 Log.i("Token Obtenino de Auth0", tokenAuth)
-                val respuestaEventos = retrofitEventos.create(EventosService::class.java).getEventos(tokenAuth)
+                val respuestaEventos = retrofitApi.create(EventosService::class.java)
+                                                  .getEventos("Bearer $tokenAuth")
                 if (respuestaEventos.isSuccessful) {
                     val listaEventos = respuestaEventos.body()
-                    val respuestaPlanes = retrofitEntrenamiento.create(EventosService::class.java).getPlanes(tokenAuth)
+                    val respuestaPlanes = retrofitApi.create(EventosService::class.java)
+                                                     .getPlanes("Bearer $tokenAuth")
                     if (respuestaPlanes.isSuccessful) {
                         val planes = respuestaPlanes.body()
                         if(planes != null && listaEventos != null){
@@ -160,7 +156,10 @@ class EventosActivity : AppCompatActivity() {
         val entrenamientosEvent = mutableListOf<Evento>()
 
         planes.forEach { plan ->
-            val dateParts = plan.fechas.replace("'", "").split(", ")
+            val maxLength = 14*99 + 12
+            val fechasString = plan.fechas
+            val processedFechas = if (fechasString.length > maxLength) fechasString.substring(0, maxLength) else fechasString
+            val dateParts = processedFechas.replace("'", "").split(", ")
             val formattedDates = dateParts.map { date -> date.replace("/", "-") }
 
             formattedDates.forEach { date ->

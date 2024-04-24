@@ -8,11 +8,14 @@ import {CalendarOptions} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {CommonModule} from '@angular/common';
 import {ListCalendar} from './eventos-interfaces';
+import e from 'cors';
+import { Dictionary } from '@fullcalendar/core/internal';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-eventos',
   standalone: true,
-  imports: [HeaderComponent, SidebardComponent, HorizontalCardComponent, CalendarComponent, CommonModule],
+  imports: [HeaderComponent, SidebardComponent, HorizontalCardComponent, CalendarComponent, CommonModule, TranslateModule],
   templateUrl: './eventos.component.html',
   styleUrl: './eventos.component.scss'
 })
