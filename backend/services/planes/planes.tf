@@ -83,7 +83,7 @@ resource "aws_db_instance" "db_postgres_planes" {
   identifier             = "db-planes"
   allocated_storage      = 10
   engine                 = "postgres"
-  engine_version         = "12.12"
+  engine_version         = "12.17"
   instance_class         = "db.t3.micro"
   db_name                = "db_planes"
   username               = "postgres"
