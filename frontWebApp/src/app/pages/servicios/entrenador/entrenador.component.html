@@ -1,39 +1,56 @@
 <div class="row">
-    <div class="col-3">
-        <app-sidebard></app-sidebard>
+  <div class="col-3">
+    <app-sidebard></app-sidebard>
+  </div>
+  <div class="content col-9 position-relative px-0">
+    <div class="position-sticky top-0 z-3">
+      <app-header></app-header>
     </div>
-    <div class="content col-9 row px-0 ">
-        <app-header></app-header>
-        <div class="px-5">
-            <h3><b>Programar Sesión con Entrenador</b></h3>
-            <hr>
-            <form action="submit_session_form" method="post">
-                <label for="entrenamiento">Tipo de Entrenamiento:</label>
-                <select id="entrenamiento" name="entrenamiento" required>
-                    <option value="">Seleccione una opción</option>
-                    <option value="personalizado">Personalizado</option>
-                    <option value="grupal">Grupal</option>
-                    <option value="especifico">Específico (Indique en comentarios)</option>
-                </select>
-    
-                <div class="row">
-                    <div class="col-6">            
-                        <label for="fecha">Fecha de la Sesión:</label>
-                        <input type="date" id="fecha" name="fecha" required>
-                    </div>
-        
-                    <div class="col-6"> 
-                        <label for="hora">Hora de la Sesión:</label>
-                        <input type="time" id="hora" name="hora" required>
-                    </div>
-                </div>
-                
-                <label for="comentarios">Comentarios Adicionales:</label>
-                <textarea id="comentarios" name="comentarios" rows="4"></textarea>
-        
-                <button type="submit">Enviar Solicitud</button>
-            </form>
+    <div class="p-4 mx-5">
+      <h3><b>Programar Sesión con Entrenador</b></h3>
+      <hr>
+      <form id="formEntrenador" class="form" method="post" (submit)="solicitarSesionEntrenador()">
+        <div class="row">
+          <div class="mb-0 col">
+            <h6>Proveedor:</h6>
+            <select class="form-select my-3" id="proveedor" name="proveedor" [(ngModel)]="proveedor" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="AlejoFit">AlejoFit</option>
+              <option value="BeatrizFit">BeatrizFit</option>
+              <option value="JuanFit">JuanFit</option>
+            </select>
+          </div>
+          <div class="mb-0 col">
+            <h6>Tipo de entrenamiento:</h6>
+            <select class="form-select my-3" id="entrenamiento" name="entrenamiento" [(ngModel)]="tipoEntrenamiento" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Personalizado">Personalizado</option>
+              <option value="Grupal">Grupal</option>
+              <option value="Especifico">Específico (Indique en los comentarios)</option>
+            </select>
+          </div>
         </div>
-
+        <div class="row">
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="numero">Fecha de la sesión</span>
+            <input type="date" class="form-control mt-0" id="fechaSesion" name="fechaSesion" [(ngModel)]="fechaSesion" placeholder="Fecha de la sesión" aria-label="Username"
+                   aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="direccion">Hora de la sesión</span>
+            <input type="time" class="form-control mt-0" id="horaSesion" name="horaSesion" [(ngModel)]="horaSesion" placeholder="Hora de la sesión" aria-label="Username"
+                   aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <h6>Comentarios adicionales:</h6>
+        <textarea class="form-control mt-0" id="comentarios" name="comentarios" [(ngModel)]="comentarios"
+                  placeholder="Puedes escribir acá los comentarios adicionales relacionados a la sesión solicitada." aria-label="Username" aria-describedby="basic-addon1" rows="4"></textarea>
+        <a>
+          <button type="submit" class="btn btn-danger">Solicitar sesión con entrenador</button>
+        </a>
+        <hr>
+        <h6 *ngIf="activarMensajeExitoso">{{ mensajeExitoso }}</h6>
+      </form>
     </div>
+  </div>
 </div>

@@ -1,17 +1,16 @@
 import os
+from urllib.parse import unquote
 
-import requests
-from auth import Auth0
 import boto3
+import requests
+from dotenv import load_dotenv
 from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 from pydantic import ValidationError
-from urllib.parse import unquote
 
-from models import User, Plan
+from models import Mototaller, User, Plan, Alimentacion, Entrenador
 from utils import protected_route, protected_route_movil
-import config
-from dotenv import load_dotenv
+
 load_dotenv()
 URL_USERS = os.getenv('USERS_PATH')
 URL_EVENTS = os.getenv('EVENTS_PATH')
@@ -19,6 +18,7 @@ URL_PLANES = os.getenv('PLANES_PATH')
 URL_ENTRENAMIENTOS = os.getenv('ENTRENAMIENTOS_PATH')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+URL_SERVICIOS = os.getenv('SERVICIOS_PATH')
 
 app = Flask(__name__)
 CORS(app)
@@ -35,6 +35,7 @@ if __name__ == '__main__':
 @app.route('/', methods=['GET'])
 def health_check():
     return jsonify({'status': 'OK'}), 200
+
 
 @app.route('/registrar_usuario', methods=['POST'])
 def registrar_usuario():
@@ -163,6 +164,8 @@ def generar_plan_entrenamiento(user):
 
      return jsonify(response.json()), 201
 
+
+
 @app.route('/obtener_estadisticas/', methods=['GET'])
 @protected_route
 def consultar_estadisticas(user):
@@ -171,8 +174,75 @@ def consultar_estadisticas(user):
     estadisticas = requests.get(f"{URL_ENTRENAMIENTOS}/estadisticas/{usuario_completo.json()['id']}", headers={})
     return jsonify(estadisticas.json()), 200
 
+
 @app.route('/generarPlanEntrenamiento', methods=['POST'])
 def generarPlanEntrenamiento():
     json_data = request.get_json()
     planes_data = Plan(**json_data)
     return jsonify({'mensaje': 'Plan creado'}), 201
+
+
+@app.route('/crear_servicio_mototaller/', methods=['POST'])
+@protected_route
+def consultar_estadisticas(user):
+    json_data = request.get_json()
+    mototaller = Mototaller(**json_data)
+
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+
+    headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+
+    payload = mototaller.dict()
+    payload["userId"] = usuario_completo.json()["id"]
+    response = requests.post(f"{URL_SERVICIOS}/solicitar_mototaller/",
+                             json=payload,
+                             headers=headers)
+    return jsonify(response), 200
+
+
+@app.route('/solicitar_alimentacion', methods=['POST'])
+@protected_route
+def solicitar_alimentacion(user):
+    json_data = request.get_json()
+    alimentacion = Alimentacion(**json_data)
+
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+
+    headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+
+    payload = alimentacion.dict()
+    payload["userId"] = usuario_completo.json()["id"]
+    response = requests.post(f"{URL_SERVICIOS}/solicitar_alimentacion/",
+                             json=payload,
+                             headers=headers)
+    return jsonify(response), 200
+
+
+@app.route('/solicitar_sesion_entrenador', methods=['POST'])
+@protected_route
+def solicitar_sesion_entrenador(user):
+    json_data = request.get_json()
+    entrenador = Entrenador(**json_data)
+
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+
+    headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+
+    payload = entrenador.dict()
+    payload["userId"] = usuario_completo.json()["id"]
+    response = requests.post(f"{URL_SERVICIOS}/solicitar_sesion_entrenador/",
+                             json=payload,
+                             headers=headers)
+    return jsonify(response), 200
