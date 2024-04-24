@@ -102,7 +102,7 @@ export class EventosComponent {
   };
 
   crear_eventos_calendario(eventos: any): any {
-    const listaEventosCalendar = eventos.map((evento: any) => {
+    const listaEventosCalendar = eventos["eventos"].map((evento: any) => {
       return {
         title: `Evt: ${evento.nombre}`,
         date: evento.fecha,
@@ -110,7 +110,7 @@ export class EventosComponent {
       }
     });
 
-    const listaEventos = eventos.map((evento: any) => {
+    const listaEventos = eventos["eventos"].map((evento: any) => {
       return {
         titulo: `Evento: ${evento.nombre}`,
         descripcion: evento.descripcion,

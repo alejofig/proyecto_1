@@ -30,7 +30,7 @@ export const routes: Routes = [
     { path: 'panel', component: PanelComponent,canActivate: [AuthGuard] },
 
     {path: 'generar_plan_entrenamiento', component: GenerarPlanEntreComponent},
-    { path: 'plan_entrenamiento', component: PlanEntrenamientoComponent},
+    { path: 'plan_entrenamiento', component: GenerarPlanEntreComponent},
     { path: 'eventos', component: EventosComponent},
     { path: 'servicios_terceros', component: ServiciosTercerosComponent},
     { path: 'dashboard', component: DashboardComponent,canActivate: [AuthGuard]},

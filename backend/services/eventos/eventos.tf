@@ -80,7 +80,7 @@ resource "aws_route_table_association" "rt_association_private_eventos" {
 # --- Data Base
 resource "aws_db_instance" "db_postgres_eventos" {
   depends_on             = [aws_internet_gateway.igw_eventos]
-  identifier             = "db-eventos-v2"
+  identifier             = "db-eventos"
   allocated_storage      = 10
   engine                 = "postgres"
   engine_version         = "12.12"
