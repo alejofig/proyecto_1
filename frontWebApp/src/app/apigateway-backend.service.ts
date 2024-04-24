@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable,throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { environment } from '../environments/environment';
 import { AuthService } from '@auth0/auth0-angular';
 import { switchMap, catchError } from 'rxjs/operators';
-
-interface MessageResponse {
-  message: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +11,32 @@ interface MessageResponse {
 export class ApiGatewayBackendService {
 
   private apiUrl = environment.apigateway_url;
-
+  private token ='';
   constructor(private http: HttpClient, private auth: AuthService) { }
 
-  private callApiWithToken(url: string): Observable<any> {
+  private callApiWithToken(url: string, method: string, data?: any): Observable<any> {
     return this.auth.getAccessTokenSilently().pipe(
       switchMap(token => {
+        this.token = token;
         const headers = new HttpHeaders({
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         });
 
-        return this.http.get<any>(url, { headers });
+        let request$: Observable<any>;
+
+        switch (method.toUpperCase()) {
+          case 'GET':
+            request$ = this.http.get<any>(url, { headers });
+            break;
+          case 'POST':
+            request$ = this.http.post<any>(url, data, { headers });
+            break;
+          default:
+            throw new Error('Unsupported HTTP method');
+        }
+
+        return request$;
       }),
       catchError(error => {
         return throwError(error);
@@ -34,11 +45,11 @@ export class ApiGatewayBackendService {
   }
 
   callApiAndGetCompleteUser(): Observable<any> {
-    return this.callApiWithToken(`${this.apiUrl}/get_complete_user/`);
+    return this.callApiWithToken(`${this.apiUrl}/get_complete_user/`, 'GET');
   }
 
   callApiAndGetStatics(): Observable<any> {
-    return this.callApiWithToken(`${this.apiUrl}/obtener_estadisticas/`);
+    return this.callApiWithToken(`${this.apiUrl}/obtener_estadisticas/`, 'GET');
   }
 
   registrarUsuario(userData: any): Observable<any> {
@@ -48,11 +59,8 @@ export class ApiGatewayBackendService {
       })
     });
   }
+
   registrarMototaller(motoTallerData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/crear_servicio_mototaller/`, motoTallerData, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    });
+    return this.callApiWithToken(`${this.apiUrl}/crear_servicio_mototaller/`, 'POST', motoTallerData);
   }
 }

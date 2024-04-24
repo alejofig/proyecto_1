@@ -185,23 +185,29 @@ def generarPlanEntrenamiento():
 @app.route('/crear_servicio_mototaller/', methods=['POST'])
 @protected_route
 def crear_servicio_mototaller(user):
-    json_data = request.get_json()
-    mototaller = Mototaller(**json_data)
+    try:
+        json_data = request.get_json()
+        mototaller = Mototaller(**json_data)
 
-    user_email = unquote(user["email"])
-    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        user_email = unquote(user["email"])
+        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
 
-    headers = {
-        'accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
-
-    payload = mototaller.dict()
-    payload["userId"] = usuario_completo.json()["id"]
-    response = requests.post(f"{URL_SERVICIOS}/solicitar_mototaller/",
-                             json=payload,
-                             headers=headers)
-    return jsonify(response), 200
+        payload = mototaller.dict()
+        
+        payload["userId"] = usuario_completo.json()["id"]
+        response = requests.post(f"{URL_SERVICIOS}/solicitar_mototaller/",
+                                json=payload,
+                                headers=headers)
+        
+        return jsonify({"message":"Servicio creado con éxito"}),201
+    except ValidationError as e:
+        return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
 
 
 @app.route('/solicitar_alimentacion', methods=['POST'])

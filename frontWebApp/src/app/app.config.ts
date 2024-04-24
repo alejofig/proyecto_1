@@ -13,6 +13,7 @@ export const appConfig: ApplicationConfig = {
       clientId: 'cbzY5myYY3OdJpyDGtn9NXhKQXhVDyaJ',
       authorizationParams: {
         redirect_uri: "https://app.uniandes-sports.com/panel",
+        // redirect_uri: "http://localhost:4200/panel",
         audience: 'https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/'
       }
     }),
