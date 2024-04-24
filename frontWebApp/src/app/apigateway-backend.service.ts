@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { environment } from '../environments/environment';
-import { AuthService } from '@auth0/auth0-angular';
-import { switchMap, catchError } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {environment} from '../environments/environment';
+import {AuthService} from '@auth0/auth0-angular';
+import {catchError, switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,10 @@ import { switchMap, catchError } from 'rxjs/operators';
 export class ApiGatewayBackendService {
 
   private apiUrl = environment.apigateway_url;
-  private token ='';
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  private token = '';
+
+  constructor(private http: HttpClient, private auth: AuthService) {
+  }
 
   private callApiWithToken(url: string, method: string, data?: any): Observable<any> {
     return this.auth.getAccessTokenSilently().pipe(
@@ -27,10 +29,10 @@ export class ApiGatewayBackendService {
 
         switch (method.toUpperCase()) {
           case 'GET':
-            request$ = this.http.get<any>(url, { headers });
+            request$ = this.http.get<any>(url, {headers});
             break;
           case 'POST':
-            request$ = this.http.post<any>(url, data, { headers });
+            request$ = this.http.post<any>(url, data, {headers});
             break;
           default:
             throw new Error('Unsupported HTTP method');
@@ -62,5 +64,13 @@ export class ApiGatewayBackendService {
 
   registrarMototaller(motoTallerData: any): Observable<any> {
     return this.callApiWithToken(`${this.apiUrl}/crear_servicio_mototaller/`, 'POST', motoTallerData);
+  }
+
+  solicitarAlimentacion(alimentacionData: any): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/solicitar_alimentacion/`, 'POST', alimentacionData);
+  }
+
+  solicitarSesionEntrenador(entrenadorData: any): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/solicitar_sesion_entrenador/`, 'POST', entrenadorData);
   }
 }

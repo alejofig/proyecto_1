@@ -5,8 +5,8 @@ import {RouterLinkWithHref} from "@angular/router";
 import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
-import {AlimentacionService} from "./alimentacion.service";
 import {Alimentacion} from "./alimentacion";
+import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
 
 @Component({
   selector: 'app-alimentacion',
@@ -36,7 +36,7 @@ export class AlimentacionComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private alimentacionService: AlimentacionService
+    private apiGatewayBackendService: ApiGatewayBackendService
   ) {
   }
 
@@ -88,7 +88,7 @@ export class AlimentacionComponent implements OnInit {
     let alimentacion = new Alimentacion(this.proveedor, this.proposito, this.tipoAlimentacion, this.modoRecibir, this.numeroContacto, this.direccionActual, this.ciudadActual, this.paisActual)
     console.log(alimentacion)
 
-    this.alimentacionService.solicitarAlimentacion(alimentacion).subscribe((result: any) => {
+    this.apiGatewayBackendService.solicitarAlimentacion(alimentacion).subscribe((result: any) => {
       console.log('Response: ', result)
       console.info(this.mensajeDomicilio, result)
       this.activarMensajeExitoso = true;

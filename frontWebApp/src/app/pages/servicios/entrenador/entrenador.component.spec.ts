@@ -1,17 +1,17 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {EntrenadorComponent} from './entrenador.component';
-import {EntrenadorService} from "./entrenador.service";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {FormsModule} from "@angular/forms";
 import {of} from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
 import {AuthModule} from '@auth0/auth0-angular';
+import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
 
 describe('EntrenadorComponent', () => {
   let component: EntrenadorComponent;
   let fixture: ComponentFixture<EntrenadorComponent>;
-  let entrenadorService: EntrenadorService;
+  let apiGatewayBackendService: ApiGatewayBackendService;
   let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
@@ -26,7 +26,7 @@ describe('EntrenadorComponent', () => {
 
     fixture = TestBed.createComponent(EntrenadorComponent);
     component = fixture.componentInstance;
-    entrenadorService = TestBed.inject(EntrenadorService);
+    //apiGatewayBackendService = TestBed.inject(ApiGatewayBackendService);
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });
@@ -41,13 +41,13 @@ describe('EntrenadorComponent', () => {
 
   it('should generate a plan correctly', () => {
     // Mock del servicio para simular la respuesta del método solicitarSesionEntrenador
-    spyOn(entrenadorService, 'solicitarSesionEntrenador').and.returnValue(of({mensaje: 'Sesión de entrenador solicitada'}));
+    spyOn(apiGatewayBackendService, 'solicitarSesionEntrenador').and.returnValue(of({mensaje: 'Sesión de entrenador solicitada'}));
 
     // Llama al método que se va a probar
     component.solicitarSesionEntrenador();
 
     // Verifica que se hayan realizado las acciones esperadas
-    expect(entrenadorService.solicitarSesionEntrenador).toHaveBeenCalled();
+    expect(apiGatewayBackendService.solicitarSesionEntrenador).toHaveBeenCalled();
     expect(component.activarMensajeExitoso).toBeTrue();
   });
 
