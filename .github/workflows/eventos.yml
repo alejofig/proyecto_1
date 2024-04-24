@@ -26,41 +26,10 @@ jobs:
         run: |
           echo "::set-output name=respuesta::$(echo "${{ github.event.head_commit.message }}" | awk '{print $NF}')"
 
-  run-tests-front:
-    name: Build and test front-end
-    runs-on: ubuntu-latest
-    needs: 'automerge-1'
-    steps:
-      - name: Checkout del repositorio
-        uses: actions/checkout@v2
-
-      # Instala Node.js y Angular CLI
-      - name: Configurar Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '21.x'
-
-      # Instala las dependencias de Angular
-      - name: Instalar dependencias de Angular
-        working-directory: ./frontWebApp/
-        run: npm install -g @angular/cli
-      - name: Instalar dependencias
-        working-directory: ./frontWebApp/
-        run: npm install
-
-      # Compila la aplicación Angular
-      - name: Compilar la aplicación Angular
-        working-directory: ./frontWebApp/
-        run: ng build
-
-      # Ejecuta las pruebas de Angular y falla si es menor al 80%
-      - name: Ejecutar pruebas de Angular
-        working-directory: ./frontWebApp/
-        run: ng test --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI
-
   run-tests-1:
     name: Integration tests
     runs-on: ubuntu-latest
+    needs: 'automerge-1'
     env:
       AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
       AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
@@ -68,7 +37,7 @@ jobs:
       AUTH0_API_IDENTIFIER: ${{ secrets.AUTH0_API_IDENTIFIER }}
       ALGORITHM: ${{ secrets.ALGORITHM }}
     services:
-      users:
+      eventos:
         image: postgres
         env:
           POSTGRES_PASSWORD: prueba
@@ -77,7 +46,6 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-    needs: 'automerge-1'
     steps:
       - name: Checkout de repositorio
         uses: actions/checkout@v4
@@ -86,22 +54,49 @@ jobs:
         with:
           python-version: '3.9'
       - name: Install Dependencies
-        working-directory: ./backend/services/users
+        working-directory: ./backend/services/eventos
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Start FastAPI App
-        working-directory: ./backend/services/users
+        working-directory: ./backend/services/eventos
         run: |
           nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
       - name: Run Tests
-        working-directory: ./backend/services/users
+        working-directory: ./backend/services/eventos
         run: |
           coverage run -m pytest tests/* -v
       - name: Run cov report
-        working-directory: ./backend/services/users
+        working-directory: ./backend/services/eventos
         run: |
           coverage report --fail-under=85
+
+  terraform:
+    name: Despliegue Eventos
+    needs: 'automerge-1'
+    uses: ./.github/workflows/terraform.yml
+    with:
+      terraform_directory: backend/services/eventos
+      bucket: 'tfstate-proyecto-final'
+      key: 'eventos.terraform.tfstate'
+    secrets:
+      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws-region: ${{ secrets.AWS_REGION }}
+      aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
+
+  automerge-2:
+    name: Merge 'feature -> develop'
+    runs-on: ubuntu-latest
+    needs: [ 'run-tests-1', 'terraform' ]
+    steps:
+      - name: Integrar feature en develop
+        uses: tukasz/direct-merge-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          source-branch: ${{ github.ref }}
+          target-branch: develop
+          commit-message: "Integrar rama feature en develop"
 
   ecr:
     name: Subir imagen Docker a ECR
@@ -133,29 +128,7 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f backend/services/eventos/Dockerfile backend/services/eventos
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-  terraform:
-    name: Despliegue Eventos
-    needs: 'automerge-1'
-    uses: ./.github/workflows/terraform.yml
-    with:
-      terraform_directory: backend/services/eventos
-      bucket: 'tfstate-proyecto-final'
-      key: 'eventos.terraform.tfstate'
-    secrets:
-      aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      aws-region: ${{ secrets.AWS_REGION }}
-      aws-s3-bucket: ${{ secrets.AWS_S3_BUCKET }}
-
-  automerge-2:
-    name: Merge 'feature -> develop'
-    runs-on: ubuntu-latest
-    needs: [ 'run-tests-1', 'run-tests-front', 'terraform' ]
-    steps:
-      - name: Integrar feature en develop
-        uses: tukasz/direct-merge-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          source-branch: ${{ github.ref }}
-          target-branch: develop
-          commit-message: "Integrar rama feature en develop"
+      - name: Update ECS Service
+        id: update-ecs-service
+        run: |
+          aws ecs update-service --cluster cluster_eventos --service service_eventos --force-new-deployment --region us-east-1
