@@ -42,6 +42,5 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthHttpInterceptor,
       multi: true
     },
-
   ]
 };
