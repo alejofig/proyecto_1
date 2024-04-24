@@ -5,8 +5,8 @@ import {RouterLinkWithHref} from "@angular/router";
 import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
-import {AlimentacionService} from "./alimentacion.service";
 import {Alimentacion} from "./alimentacion";
+import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
 
 @Component({
   selector: 'app-alimentacion',
@@ -27,6 +27,7 @@ export class AlimentacionComponent implements OnInit {
   public ciudadActual: string = '';
   public paisActual: string = '';
   public mensaje: string = '';
+  public mensajeError: string = 'Todos los campos son obligatorios, por favor ingrese los campos faltantes.'
   public mensajeVirtual: string = 'El servicio se ha generado con éxito y se muestra a continuación:';
   public mensajeDomicilio: string = 'Su orden ha sido recibida con éxito, en breve el proveedor lo contactará para ultimar detalles del domicilio!'
   public mostrarVirtualNutricion: boolean = false;
@@ -35,7 +36,7 @@ export class AlimentacionComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private alimentacionService: AlimentacionService
+    private apiGatewayBackendService: ApiGatewayBackendService
   ) {
   }
 
@@ -52,7 +53,19 @@ export class AlimentacionComponent implements OnInit {
     })
   }
 
+  validarFormulario() {
+    if (!this.proveedor || !this.proposito || !this.tipoAlimentacion || !this.modoRecibir || !this.numeroContacto || !this.direccionActual || !this.ciudadActual || !this.paisActual) {
+      this.activarMensajeExitoso = true;
+      this.mensaje = this.mensajeError;
+      return false;
+    }
+
+    this.solicitarAlimentacion();
+    return true;
+  }
+
   solicitarAlimentacion(): void {
+    this.mensaje = '';
     if (this.modoRecibir == 'virtual') {
       this.activarMensajeExitoso = true;
       if (this.proposito == 'nutricion') {
@@ -75,7 +88,7 @@ export class AlimentacionComponent implements OnInit {
     let alimentacion = new Alimentacion(this.proveedor, this.proposito, this.tipoAlimentacion, this.modoRecibir, this.numeroContacto, this.direccionActual, this.ciudadActual, this.paisActual)
     console.log(alimentacion)
 
-    this.alimentacionService.solicitarAlimentacion(alimentacion).subscribe((result: any) => {
+    this.apiGatewayBackendService.solicitarAlimentacion(alimentacion).subscribe((result: any) => {
       console.log('Response: ', result)
       console.info(this.mensajeDomicilio, result)
       this.activarMensajeExitoso = true;

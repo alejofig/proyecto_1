@@ -80,90 +80,92 @@ def consultar_usuario_movil(user):
 
 @app.route('/api/movil/eventos', methods=['GET'])
 @protected_route_movil
-def consultar_eventos_movil(user): 
-     user_dict = user
-     email = user_dict.get('email', 'No email provided')
-     user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
-     pais = user_data.get('pais_residencia', 'na')
-     cantidad_datos = 100
-     response = requests.get(f"{URL_EVENTS}/eventos/{pais}/{cantidad_datos}", headers={})
-     if response.status_code != 200:
-         print(response)
-         return jsonify('No hay eventos'), 401
-     data = response.json()
+def consultar_eventos_movil(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
+    pais = user_data.get('pais_residencia', 'na')
+    cantidad_datos = 100
+    response = requests.get(f"{URL_EVENTS}/eventos/{pais}/{cantidad_datos}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('No hay eventos'), 401
+    data = response.json()
 
-     return jsonify(data), 201
+    return jsonify(data), 201
+
 
 @app.route('/api/web/eventos', methods=['GET'])
 @protected_route
-def consultar_eventos(user): 
-     user_dict = user
-     email = user_dict.get('email', 'No email provided')
-     user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
-     pais = user_data.get('pais_residencia', 'na')
-     cantidad_datos = 1000
-     response = requests.get(f"{URL_EVENTS}/eventos/{pais}/{cantidad_datos}", headers={})
-     if response.status_code != 200:
-         print(response)
-         return jsonify('No hay eventos'), 401
-     data = response.json()
-     data = {"user": user_data, 
-             "eventos": data}
+def consultar_eventos(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
+    pais = user_data.get('pais_residencia', 'na')
+    cantidad_datos = 1000
+    response = requests.get(f"{URL_EVENTS}/eventos/{pais}/{cantidad_datos}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('No hay eventos'), 401
+    data = response.json()
+    data = {"user": user_data,
+            "eventos": data}
 
-     return jsonify(data), 201
+    return jsonify(data), 201
+
 
 @app.route('/api/movil/plan', methods=['GET'])
 @protected_route_movil
-def consultar_planes_movil(user): 
-     user_dict = user
-     email = user_dict.get('email', 'No email provided')
-     response = requests.get(f"{URL_PLANES}/planes/{email}", headers={})
-     if response.status_code != 200:
-         print(response)
-         return jsonify('Error Consultando planes'), 401
-     data = response.json()
+def consultar_planes_movil(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    response = requests.get(f"{URL_PLANES}/planes/{email}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('Error Consultando planes'), 401
+    data = response.json()
 
-     return jsonify(data), 201
+    return jsonify(data), 201
+
 
 @app.route('/api/web/plan', methods=['GET'])
 @protected_route
-def consultar_planes(user): 
-     user_dict = user
-     email = user_dict.get('email', 'No email provided')
-     response = requests.get(f"{URL_PLANES}/planes/{email}", headers={})
-     if response.status_code != 200:
-         print(response)
-         return jsonify('Error Consultado planes'), 401
-     data = response.json()
+def consultar_planes(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    response = requests.get(f"{URL_PLANES}/planes/{email}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('Error Consultado planes'), 401
+    data = response.json()
 
-     return jsonify(data), 201
+    return jsonify(data), 201
 
 
 @app.route('/api/web/plan', methods=['POST'])
 @protected_route
-def generar_plan_entrenamiento(user): 
-     user_dict = user
-     email = user_dict.get('email', 'No email provided')
-     # Obtener datos del cuerpo de la solicitud
-     body_data = request.json
+def generar_plan_entrenamiento(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    # Obtener datos del cuerpo de la solicitud
+    body_data = request.json
 
-     plan_data = {
-            "deporte": body_data.get('deporte', ''),
-            "nombre": body_data.get('nombre', ''),
-            "usuario": email,
-            "cantidadEntrenamientos": body_data.get('cantidadEntrenamientos', ''),
-            "distanciaPorEntrenamientos":  body_data.get('distanciaPorEntrenamientos', ''),
-            "fechas": body_data.get('fechas', ''),
-            }
+    plan_data = {
+        "deporte": body_data.get('deporte', ''),
+        "nombre": body_data.get('nombre', ''),
+        "usuario": email,
+        "cantidadEntrenamientos": body_data.get('cantidadEntrenamientos', ''),
+        "distanciaPorEntrenamientos": body_data.get('distanciaPorEntrenamientos', ''),
+        "fechas": body_data.get('fechas', ''),
+    }
 
-     response = requests.post(f"{URL_PLANES}/plan", headers={}, json=plan_data)
+    response = requests.post(f"{URL_PLANES}/plan", headers={}, json=plan_data)
 
-     if response.status_code != 200:
-         print(response)
-         return jsonify('Error Generando Plan'), 401
+    if response.status_code != 200:
+        print(response)
+        return jsonify('Error Generando Plan'), 401
 
-     return jsonify(response.json()), 201
-
+    return jsonify(response.json()), 201
 
 
 @app.route('/obtener_estadisticas/', methods=['GET'])
@@ -197,58 +199,70 @@ def crear_servicio_mototaller(user):
         }
 
         payload = mototaller.dict()
-        
+
         payload["userId"] = usuario_completo.json()["id"]
         response = requests.post(f"{URL_SERVICIOS}/solicitar_mototaller/",
-                                json=payload,
-                                headers=headers)
-        
-        return jsonify({"message":"Servicio creado con éxito"}),201
+                                 json=payload,
+                                 headers=headers)
+
+        return jsonify({"message": "Servicio creado con éxito"}), 201
     except ValidationError as e:
         return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
     except Exception as e:
         return jsonify('Error interno: ' + str(e)), 500
 
 
-@app.route('/solicitar_alimentacion', methods=['POST'])
+@app.route('/solicitar_alimentacion/', methods=['POST'])
 @protected_route
 def solicitar_alimentacion(user):
-    json_data = request.get_json()
-    alimentacion = Alimentacion(**json_data)
+    try:
+        json_data = request.get_json()
+        alimentacion = Alimentacion(**json_data)
 
-    user_email = unquote(user["email"])
-    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        user_email = unquote(user["email"])
+        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
 
-    headers = {
-        'accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
+        headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
 
-    payload = alimentacion.dict()
-    payload["userId"] = usuario_completo.json()["id"]
-    response = requests.post(f"{URL_SERVICIOS}/solicitar_alimentacion/",
-                             json=payload,
-                             headers=headers)
-    return jsonify(response), 200
+        payload = alimentacion.dict()
+        payload["userId"] = usuario_completo.json()["id"]
+        response = requests.post(f"{URL_SERVICIOS}/solicitar_alimentacion/",
+                                 json=payload,
+                                 headers=headers)
+
+        return jsonify({"message": "Servicio creado con éxito"}), 201
+    except ValidationError as e:
+        return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
 
 
-@app.route('/solicitar_sesion_entrenador', methods=['POST'])
+@app.route('/solicitar_sesion_entrenador/', methods=['POST'])
 @protected_route
 def solicitar_sesion_entrenador(user):
-    json_data = request.get_json()
-    entrenador = Entrenador(**json_data)
+    try:
+        json_data = request.get_json()
+        entrenador = Entrenador(**json_data)
 
-    user_email = unquote(user["email"])
-    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        user_email = unquote(user["email"])
+        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
 
-    headers = {
-        'accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
+        headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
 
-    payload = entrenador.dict()
-    payload["userId"] = usuario_completo.json()["id"]
-    response = requests.post(f"{URL_SERVICIOS}/solicitar_sesion_entrenador/",
-                             json=payload,
-                             headers=headers)
-    return jsonify(response), 200
+        payload = entrenador.dict()
+        payload["userId"] = usuario_completo.json()["id"]
+        response = requests.post(f"{URL_SERVICIOS}/solicitar_sesion_entrenador/",
+                                 json=payload,
+                                 headers=headers)
+
+        return jsonify({"message": "Servicio creado con éxito"}), 201
+    except ValidationError as e:
+        return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500

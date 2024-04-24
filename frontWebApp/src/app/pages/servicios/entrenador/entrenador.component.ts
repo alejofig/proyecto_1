@@ -5,8 +5,8 @@ import {RouterLinkWithHref} from "@angular/router";
 import {FormBuilder, FormGroup, FormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
-import {EntrenadorService} from "./entrenador.service";
 import {Entrenador} from "./entrenador";
+import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
 
 @Component({
   selector: 'app-entrenador',
@@ -23,12 +23,14 @@ export class EntrenadorComponent implements OnInit {
   public fechaSesion: string = '';
   public horaSesion: string = '';
   public comentarios: string = '';
+  public mensaje: string = '';
+  public mensajeError: string = 'Todos los campos son obligatorios, por favor ingrese los campos faltantes.'
   public mensajeExitoso: string = 'La sesión virtual con el proveedor seleccionado ha sido agendada con éxito!';
   public activarMensajeExitoso: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private entrenadorService: EntrenadorService
+    private apiGatewayBackendService: ApiGatewayBackendService
   ) {
   }
 
@@ -42,14 +44,26 @@ export class EntrenadorComponent implements OnInit {
     })
   }
 
+  validarFormulario() {
+    if (!this.proveedor || !this.tipoEntrenamiento || !this.fechaSesion || !this.horaSesion || !this.comentarios) {
+      this.activarMensajeExitoso = true;
+      this.mensaje = this.mensajeError;
+      return false;
+    }
+
+    this.solicitarSesionEntrenador();
+    return true;
+  }
+
   solicitarSesionEntrenador(): void {
     this.activarMensajeExitoso = true;
+    this.mensaje = this.mensajeExitoso;
     console.log(this.imprimirDatos())
 
     let entrenador = new Entrenador(this.proveedor, this.tipoEntrenamiento, this.fechaSesion, this.horaSesion, this.comentarios)
     console.log(entrenador)
 
-    this.entrenadorService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
+    this.apiGatewayBackendService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
       console.log('Response: ', result)
       console.info(this.mensajeExitoso, result)
       this.activarMensajeExitoso = true;

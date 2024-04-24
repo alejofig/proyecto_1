@@ -1,13 +1,14 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlimentacionService {
 
-  private apiUrl: string = 'http://0.0.0.0:3002';
+  private apiUrl: string = environment.tercerosUrl;
 
   constructor(private http: HttpClient) {
   }
