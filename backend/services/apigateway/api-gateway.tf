@@ -215,7 +215,7 @@ data "template_file" "task_definition_template" {
     REDIRECT_URI = "https://apigateway.uniandes-sports.com/callback"
     USERS_PATH= "https://users.uniandes-sports.com"
     ENTRENAMIENTOS_PATH = "https://entrenamientos.uniandes-sports.com"
-    SERVICIOS_PATH= "https://servicios.uniandes-sports.com"
+    SERVICIOS_PATH= "https://terceros.uniandes-sports.com"
     PLANES_PATH= "https://planes.uniandes-sports.com"
     EVENTS_PATH= "https://eventos.uniandes-sports.com"
   }
