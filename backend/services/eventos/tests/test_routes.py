@@ -8,7 +8,6 @@ def test_consultar_enventos():
     response = client.get("/eventos/")
     assert response.status_code == 200
 
-
 # def test_crear_evento():
 #     evento = {
 #         "nombre": "Evento de prueba",
