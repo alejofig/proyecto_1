@@ -30,6 +30,7 @@
     "GENERO": "Género",
     "PESO": "Peso (kg)",
     "ALTURA": "Altura (cm)",
+    "ESTATURA": "Altura",
     "PAIS_NACIMIENTO": "País de Nacimiento",
     "CIUDAD_NACIMIENTO": "Ciudad de Nacimiento",
     "PAIS_RESIDENCIA": "País de Residencia",
@@ -51,6 +52,34 @@
     },
     "REGISTRARSE": "Registrarse",
     "REGISTRO_EXITOSO": "Registro enviado de manera exitosa.",
+
+    "GEN_PLAN": "Generar Plan de Entrenamiento",
+    "SEL_TIPO_PLAN": "Seleccioná el tipo de plan de entrenamiento:",
+    "SEL_DEPORTE": "Seleccioná el deporte a entrenar...",
+    "DETALLES_PLAN": "Detalles del plan de entrenamiento:",
+    "NOMBRE_PLAN": "Nombre del plan",
+    "NOMBRE_DESEADO": "Nombre deseado para el plan",
+    "CANT_ENTRENAMIENTOS": "Cantidad de entrenamientos",
+    "DIST_ENTRENAMIENTO": "Distancia por entrenamiento (kms)",
+    "BTN_GEN_PLAN": "Generar plan de entrenamiento",
+    "PLAN_BASICO": "Plan de entrenamiento recomendado - Básico",
+    "PLAN_AVANZADO": "Plan de entrenamiento recomendado - Avanzado",
+    "PLAN_PERSONALIZADO": "Plan de entrenamiento personalizado",
+    "MENSAJE_EXITOSO": "¡El plan de entrenamiento fue generado con éxito!",
+
+    "EVENTOS_RECOMENDADOS": "Eventos Recomendados",
+    "CALENDARIO_EVENTOS_ENTRENAMIENTOS": "Calendario de Eventos y Entrenamientos",
+
+    "DETALLES_PERFIL_DEPORTIVO": "Detalles del perfil deportivo",
+    "VINCULAR_CUENTA_STRAVA": "Vincular Cuenta con Strava",
+    "ENTRENAMIENTOS_REALIZADOS": "Entrenamientos Realizados",
+    "CALORIAS_QUEMADAS": "Calorías Quemadas",
+    "TOTAL_CALORIAS_MES": "Total de calorías quemadas en el último mes",
+    "DISTANCIA_RECORRIDA": "Distancia Recorrida",
+    "METAS_ALCANZADAS": "Metas Alcanzadas",
+    "ESTADISTICAS_RENDIMIENTO": "Estadísticas de Rendimiento",
+
+
 
     "Contacto": "Contacto",
     "Nosotros": "Nosotros",

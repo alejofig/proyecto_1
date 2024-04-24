@@ -10,15 +10,15 @@
                   <img [src]="profilePictureSrc" class="rounded-circle profile-pic" alt="User">
                   <h3 *ngIf="auth.user$ | async as user">{{ user.email }}</h3>
 
-                  <p>Detalles del perfil deportivo
-                  </p>
+                  <p>{{'DETALLES_PERFIL_DEPORTIVO' | translate}}</p>
+                  
               </div>
               <div class="col-md-4" >
                   <div class="card-counter">
                       <a href="https://www.strava.com/loginhl=es-419">
                           <div class="d-flex justify-content-center align-items-center">
                               <img src="../../../assets/img/strava.png" width="30px" alt="strava logo">
-                              <h6 class="ms-2 py-1 my-1">Vincular Cuenta con Strava</h6>
+                              <h6 class="ms-2 py-1 my-1">{{'VINCULAR_CUENTA_STRAVA' | translate}}</h6>
                           </div>
                       </a>
                   </div>
@@ -28,21 +28,21 @@
           <div class="row dashboard-section">
               <div class="col-md-4">
                   <div class="card-counter">
-                      <h4>Entrenamientos Realizados</h4>
+                      <h4>{{'ENTRENAMIENTOS_REALIZADOS' | translate}}</h4>
                       <h2>{{ userStatics.total_trainnings_month }}</h2>
                       <p class="card-text">Has completado {{ userStatics.total_trainnings_month }} sesiones de entrenamiento este mes</p>
                   </div>
               </div>
               <div class="col-md-4">
                   <div class="card-counter">
-                      <h4>Calorías Quemadas</h4>
+                      <h4>{{'CALORIAS_QUEMADAS' | translate}}</h4>
                       <h2>{{ userStatics.total_calorias_month}}</h2>
                       <p class="card-text">Total de calorías quemadas en el último mes</p>
                   </div>
               </div>
               <div class="col-md-4">
                   <div class="card-counter">
-                      <h4>Distancia Recorrida</h4>
+                      <h4>{{'DISTANCIA_RECORRIDA' | translate}}</h4>
                       <h2>{{ userStatics.total_distancia_month }} Km</h2>
                       <p class="card-text">Has recorrido un total de {{ userStatics.total_distancia_month }} km este mes</p>
                   </div>
@@ -52,7 +52,7 @@
           <div class="row dashboard-section">
               <div class="col-md-6">
                   <div class="card-counter">
-                      <h4>Metas Alcanzadas</h4>
+                      <h4>{{'METAS_ALCANZADAS' | translate}}</h4>
                       <ul class="list-unstyled">
                           <li>Calorías máximas en una sesión en el mes: {{userStatics.max_calories_training_month}} kcal </li>
                           <li>Máxima distancia recorrida en una sesión del mes: {{ userStatics.max_distance_training_month}} km </li>
@@ -62,7 +62,7 @@
               </div>
               <div class="col-md-6">
                   <div class="card-counter">
-                      <h4>Estadísticas de Rendimiento</h4>
+                      <h4>{{'ESTADISTICAS_RENDIMIENTO' | translate}}</h4>
                       <p class="card-text">Tiempo promedio de entrenamiento: {{ userStatics.mean_time_training_month}} min</p>
                   </div>
               </div>

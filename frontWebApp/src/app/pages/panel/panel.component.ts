@@ -6,6 +6,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { SidebardComponent } from '../../shared/components/sidebard/sidebard.component';
 import { RouterLinkWithHref } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 
 interface MessageResponse {
   message: string;
@@ -28,6 +29,7 @@ interface MessageResponse {
 export class PanelComponent {
   public message: string = '';
   constructor(public auth: AuthService, private http: HttpClient, private translate: TranslateService) {
+    translate.setDefaultLang(environment.language);
     // this.callApi();
   }
 
