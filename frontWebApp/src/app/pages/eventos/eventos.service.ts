@@ -3,8 +3,8 @@ import {inject, Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {Observable} from 'rxjs';
 import {PlanEntrenamientoUser, SesionesEntrenador} from './eventos-interfaces';
-import { AuthService } from '@auth0/auth0-angular';
-import { switchMap } from 'rxjs/operators';
+import {AuthService} from '@auth0/auth0-angular';
+import {switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,25 +21,30 @@ export class EventosService {
   constructor() {
   }
 
-  getEvents(): Observable<any>{
+  getEvents(): Observable<any> {
     return this.auth.getAccessTokenSilently().pipe(
       switchMap(token => {
-        const headers = { Authorization: `Bearer ${token}` };
-        return this.http.get(this.eventosUrl + '/api/web/eventos', { headers });
+        const headers = {Authorization: `Bearer ${token}`};
+        return this.http.get(this.eventosUrl + '/api/web/eventos', {headers});
       })
     );
   }
 
-  getEntrenamientos(): Observable<PlanEntrenamientoUser[]>{
+  getEntrenamientos(): Observable<PlanEntrenamientoUser[]> {
     return this.auth.getAccessTokenSilently().pipe(
       switchMap(token => {
-        const headers = { Authorization: `Bearer ${token}` };
-        return this.http.get<PlanEntrenamientoUser[]>(this.entrenamietoUrl + '/api/web/plan', { headers});
+        const headers = {Authorization: `Bearer ${token}`};
+        return this.http.get<PlanEntrenamientoUser[]>(this.entrenamietoUrl + '/api/web/plan', {headers});
       })
     );
   }
 
   getSesionesEntrenador(): Observable<SesionesEntrenador[]> {
-    return this.http.get<SesionesEntrenador[]>(this.entrenadorUrl + '/sesiones_entrenador');
+    return this.auth.getAccessTokenSilently().pipe(
+      switchMap(token => {
+        const headers = {Authorization: `Bearer ${token}`};
+        return this.http.get<SesionesEntrenador[]>(this.entrenadorUrl + '/api/web/sesiones_entrenador', {headers});
+      })
+    );
   }
 }
