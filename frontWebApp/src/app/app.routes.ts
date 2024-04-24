@@ -32,12 +32,12 @@ export const routes: Routes = [
     {path: 'generar_plan_entrenamiento', component: GenerarPlanEntreComponent},
     { path: 'plan_entrenamiento', component: GenerarPlanEntreComponent},
     { path: 'eventos', component: EventosComponent},
-    { path: 'servicios_terceros', component: ServiciosTercerosComponent},
+    { path: 'servicios_terceros', component: ServiciosTercerosComponent,canActivate: [AuthGuard]},
     { path: 'dashboard', component: DashboardComponent,canActivate: [AuthGuard]},
 
-    {path: 'servicios/mototaller', component: MototallerComponent},
-    {path: 'servicios/alimentacion', component: AlimentacionComponent},
-    {path: 'servicios/entrenador', component: EntrenadorComponent},
+    {path: 'servicios/mototaller', component: MototallerComponent,canActivate: [AuthGuard]},
+    {path: 'servicios/alimentacion', component: AlimentacionComponent,canActivate: [AuthGuard]},
+    {path: 'servicios/entrenador', component: EntrenadorComponent,canActivate: [AuthGuard]},
 
     { path: 'socios', component: EstadoCuentaComponent},
     { path: 'socios/agregar_servicios', component: AgregarServicoComponent},
