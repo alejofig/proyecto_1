@@ -9,11 +9,12 @@ import {GenerarPlanEntre} from './generar-plan-entre';
 import {GenerarPlanEntreService} from './generar-plan-entre.service';
 import {CommonModule} from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-generar-plan-entre',
   standalone: true,
-  imports: [SidebardComponent, RouterLinkWithHref, HeaderComponent, CalendarComponent, HorizontalCardComponent, FormsModule, CommonModule, HttpClientModule],
+  imports: [SidebardComponent, RouterLinkWithHref, HeaderComponent, CalendarComponent, HorizontalCardComponent, FormsModule, CommonModule, HttpClientModule, TranslateModule],
   templateUrl: './generar-plan-entre.component.html',
   styleUrl: './generar-plan-entre.component.scss'
 })
@@ -46,6 +47,8 @@ export class GenerarPlanEntreComponent implements OnInit {
       distanciaPorEntrenamientos: ["", [Validators.required]],
       fechas: ["", [Validators.required]]
     })
+
+    
   }
 
   radioChangeHandler(event: any) {

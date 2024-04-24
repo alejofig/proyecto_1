@@ -29,6 +29,22 @@
             "value":"${USERS_PATH}"
          },
          {
+            "name":"EVENTS_PATH",
+            "value":"${EVENTS_PATH}"
+         },
+         {
+            "name":"PLANES_PATH",
+            "value":"${PLANES_PATH}"
+         },
+         {
+            "name":"ENTRENAMIENTOS_PATH",
+            "value":"${ENTRENAMIENTOS_PATH}"
+         },
+         {
+            "name":"SERVICIOS_PATH",
+            "value":"${SERVICIOS_PATH}"
+         },
+         {
             "name":"AUTH0_DOMAIN",
             "value":"${AUTH0_DOMAIN}"
          },

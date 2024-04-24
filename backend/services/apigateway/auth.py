@@ -4,6 +4,7 @@ import requests
 from flask import request
 from jose import JWTError, jwt
 from werkzeug.exceptions import HTTPException
+import logging
 
 class Auth0:
 

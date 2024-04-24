@@ -1,0 +1,97 @@
+{
+    "Bienvenido": "Bem-vindo ao nosso site de Esportes!!",
+    "inv-login": "Por favor, faça o login para acessar o conteúdo",
+    "login": "iniciar sessão",
+    "registrarse": "Registre-se",
+
+    "INICIO" : "Início",
+    "PLAN_ENTRENAMIENTO" : "Plano de Treinamento",
+    "EVENTOS" : "Eventos",
+    "SERVICIOS_TERCEROS" : "Serviços de Terceiros",
+    "DASHBOARD" : "Painel de Controle",
+
+    "REGISTRO": "Registro",
+    "DATOS_PERSONALES": "Dados Pessoais",
+    "NOMBRE": "Nome",
+    "APELLIDO": "Sobrenome",
+    "TIPO_IDENTIFICACION": "Tipo de Identificação",
+    "NUMERO_IDENTIFICACION": "Número de Identificação",
+    "CORREO_ELECTRONICO": "E-mail",
+    "CONTRASENA": "Senha",
+    "REQUISITOS_CONTRASENA": "A senha deve atender aos seguintes requisitos:",
+    "REQUISITOS_LISTA": {
+        "LONGITUD": "Pelo menos 8 caracteres de comprimento.",
+        "NUMERO": "Pelo menos um número (0-9).",
+        "MINUSCULA": "Pelo menos uma letra minúscula (a-z).",
+        "MAYUSCULA": "Pelo menos uma letra maiúscula (A-Z).",
+        "CARACTER_ESPECIAL": "Pelo menos um caractere especial."
+    },
+    "DATOS_DEMOGRAFICOS": "Dados Demográficos",
+    "EDAD": "Idade",
+    "GENERO": "Gênero",
+    "PESO": "Peso (kg)",
+    "ALTURA": "Altura (cm)",
+    "ESTATURA": "Altura",
+    "PAIS_NACIMIENTO": "País de Nascimento",
+    "CIUDAD_NACIMIENTO": "Cidade de Nascimento",
+    "PAIS_RESIDENCIA": "País de Residência",
+    "CIUDAD_RESIDENCIA": "Cidade de Residência",
+    "ANTIGUEDAD_RESIDENCIA": "Anos de residência no seu local de residência",
+    "DEPORTES": "Esportes que pratica ou deseja praticar",
+    "TIPO_PLAN": "Tipo de Plano de Assinatura",
+    "PLAN_GRATUITO": {
+        "TITULO": "Plano Gratuito",
+        "DESCRIPCION": "Recomendação de eventos e planos de treinamento."
+    },
+    "PLAN_INTERMEDIO": {
+        "TITULO": "Plano Intermediário",
+        "DESCRIPCION": "Funcionalidades do plano gratuito + Monitoramento em tempo real."
+    },
+    "PLAN_PREMIUM": {
+        "TITULO": "Plano Premium",
+        "DESCRIPCION": "Funcionalidades do plano intermediário + Sessões com Médico e Treinador."
+    },
+    "REGISTRARSE": "Registrar-se",
+    "REGISTRO_EXITOSO": "Registro enviado com sucesso.",
+
+    "GEN_PLAN": "Gerar Plano de Treinamento",
+    "SEL_TIPO_PLAN": "Selecione o tipo de plano de treinamento:",
+    "SEL_DEPORTE": "Selecione o esporte para treinar...",
+    "DETALLES_PLAN": "Detalhes do plano de treinamento:",
+    "NOMBRE_PLAN": "Nome do plano",
+    "NOMBRE_DESEADO": "Nome desejado para o plano",
+    "CANT_ENTRENAMIENTOS": "Quantidade de treinamentos",
+    "DIST_ENTRENAMIENTO": "Distância por treinamento (kms)",
+    "BTN_GEN_PLAN": "Gerar plano de treinamento",
+    "PLAN_BASICO": "Plan de entrenamiento recomendado - Básico",
+    "PLAN_AVANZADO": "Plan de entrenamiento recomendado - Avanzado",
+    "PLAN_PERSONALIZADO": "Plan de entrenamiento personalizado",
+    "MENSAJE_EXITOSO": "¡El plan de entrenamiento fue generado con éxito!",
+
+    "EVENTOS_RECOMENDADOS": "Eventos Recomendados",
+    "CALENDARIO_EVENTOS_ENTRENAMIENTOS": "Calendário de Eventos e Treinamentos",
+
+    "CONTRATAR_SERVICIOS": "Contratar Serviços",
+    "SERVICIOS_MOTOTALLER": "Serviços de MotoTaller",
+    "DESC_MOTOTALLER": "Serviços especializados em reparação e manutenção de motocicletas. Desde ajustes básicos até reparações complexas, nossa equipe especializada garante qualidade.",
+    "AGENDA_CITA": "Agendar sua consulta",
+    "SERVICIOS_ALIMENTACION": "Contratar Serviços de Alimentação",
+    "DESC_ALIMENTACION": "Serviços de alimentação de qualidade com menus personalizados para atender suas necessidades nutricionais com uma variedade de opções disponíveis para ajudá-lo.",
+    "SOLICITAR": "Solicitar",
+    "PROGRAMAR_ENTRENADOR": "Programar Sessão com Treinador",
+    "DESC_ENTRENADOR": "Programa de treinamento personalizado por especialistas em fitness. Desde perda de peso até fortalecimento muscular, nosso treinador te guia em direção às suas metas.",
+    
+    "DETALLES_PERFIL_DEPORTIVO": "Detalhes do Perfil Esportivo",
+    "VINCULAR_CUENTA_STRAVA": "Vincular Conta com Strava",
+    "ENTRENAMIENTOS_REALIZADOS": "Treinamentos Realizados",
+    "CALORIAS_QUEMADAS": "Calorias Queimadas",
+    "TOTAL_CALORIAS_MES": "Total de calorias queimadas no último mês",
+    "DISTANCIA_RECORRIDA": "Distância Percorrida",
+    "METAS_ALCANZADAS": "Metas Alcançadas",
+    "ESTADISTICAS_RENDIMIENTO": "Estatísticas de Desempenho",
+
+    "Contacto": "Contato",
+    "Nosotros": "Sobre nós",
+    "Repositorio": "Repositório",
+    "Version": "Versão"
+}

@@ -10,11 +10,12 @@ import { CommonModule } from '@angular/common';
 import { ListCalendar } from './eventos-interfaces';
 import e from 'cors';
 import { Dictionary } from '@fullcalendar/core/internal';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-eventos',
   standalone: true,
-  imports: [HeaderComponent, SidebardComponent, HorizontalCardComponent, CalendarComponent, CommonModule],
+  imports: [HeaderComponent, SidebardComponent, HorizontalCardComponent, CalendarComponent, CommonModule, TranslateModule],
   templateUrl: './eventos.component.html',
   styleUrl: './eventos.component.scss'
 })
@@ -102,7 +103,7 @@ export class EventosComponent {
   };
 
   crear_eventos_calendario(eventos: any): any {
-    const listaEventosCalendar = eventos.map((evento: any) => {
+    const listaEventosCalendar = eventos["eventos"].map((evento: any) => {
       return {
         title: `Evt: ${evento.nombre}`,
         date: evento.fecha,
@@ -110,7 +111,7 @@ export class EventosComponent {
       }
     });
 
-    const listaEventos = eventos.map((evento: any) => {
+    const listaEventos = eventos["eventos"].map((evento: any) => {
       return {
         titulo: `Evento: ${evento.nombre}`,
         descripcion: evento.descripcion,

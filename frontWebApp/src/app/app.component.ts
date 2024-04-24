@@ -1,12 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, importProvidersFrom } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+
+
 CommonModule
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,HttpClientModule,],
+  imports: [RouterOutlet,
+            HttpClientModule
+          ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -14,3 +18,4 @@ CommonModule
 export class AppComponent {
   title = 'SportApp';
 }
+

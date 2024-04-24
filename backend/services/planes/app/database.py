@@ -27,6 +27,12 @@ def consultar_planes():
     planes = results.all()
     return planes
 
+def consultar_planes_usuario(email: str):
+    session = create_session()
+    statement = select(Plan).where(Plan.usuario == email)
+    results = session.exec(statement)
+    planes = results.all()
+    return planes
 
 def reset_planes():
     session = create_session()

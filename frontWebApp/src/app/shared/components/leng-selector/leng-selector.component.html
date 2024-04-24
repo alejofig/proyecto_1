@@ -1,10 +1,5 @@
 <div class="dropdown">
-    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Seleccionar País
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#">Colombia</a></li>
-      <li><a class="dropdown-item" href="#">Peru</a></li>
-      <li><a class="dropdown-item" href="#">Argentina</a></li>
-    </ul>
-  </div>
+    <select  (change)="onChange($event)" class="btn btn-dark">
+      <option *ngFor ="let option of options" [value]="option.value" [selected]="option.value === selectedOption">{{option.label}}</option>
+    </select>
+</div>
