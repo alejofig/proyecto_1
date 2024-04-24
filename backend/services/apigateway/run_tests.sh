@@ -19,4 +19,3 @@ pip install -r requirements.txt
 coverage run -m pytest tests/* -v
 coverage report --fail-under=80
 deactivate
-

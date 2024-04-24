@@ -17,7 +17,6 @@ run_database() {
     sleep 5 # Esperar un poco para que la base de datos se levante completamente
 }
 
-
 cleanup() {
     echo "Cleaning up..."
     
@@ -27,7 +26,6 @@ cleanup() {
 
     echo "Cleanup complete"
 }
-
 
 # Ejecutar el flujo de trabajo para pruebas de usuarios
 echo "Running tests for terceros..."
