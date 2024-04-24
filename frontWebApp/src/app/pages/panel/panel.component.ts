@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { SidebardComponent } from '../../shared/components/sidebard/sidebard.component';
 import { RouterLinkWithHref } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 interface MessageResponse {
   message: string;
@@ -13,7 +14,7 @@ interface MessageResponse {
 @Component({
   selector: 'app-panel',
   standalone: true,
-  imports: [CommonModule,SidebardComponent,RouterLinkWithHref],
+  imports: [CommonModule,SidebardComponent,RouterLinkWithHref, TranslateModule],
   templateUrl: './panel.component.html',
   // template: `
   //   <h2>User Profile</h2>
@@ -26,7 +27,7 @@ interface MessageResponse {
 })
 export class PanelComponent {
   public message: string = '';
-  constructor(public auth: AuthService, private http: HttpClient) {
+  constructor(public auth: AuthService, private http: HttpClient, private translate: TranslateService) {
     // this.callApi();
   }
 

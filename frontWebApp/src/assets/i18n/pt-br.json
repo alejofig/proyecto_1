@@ -1,0 +1,60 @@
+{
+    "Bienvenido": "Bem-vindo ao nosso site de Esportes!!",
+    "inv-login": "Por favor, faça o login para acessar o conteúdo",
+    "login": "iniciar sessão",
+    "registrarse": "Registre-se",
+
+    "INICIO" : "Início",
+    "PLAN_ENTRENAMIENTO" : "Plano de Treinamento",
+    "EVENTOS" : "Eventos",
+    "SERVICIOS_TERCEROS" : "Serviços de Terceiros",
+    "DASHBOARD" : "Painel de Controle",
+
+    "REGISTRO": "Registro",
+    "DATOS_PERSONALES": "Dados Pessoais",
+    "NOMBRE": "Nome",
+    "APELLIDO": "Sobrenome",
+    "TIPO_IDENTIFICACION": "Tipo de Identificação",
+    "NUMERO_IDENTIFICACION": "Número de Identificação",
+    "CORREO_ELECTRONICO": "E-mail",
+    "CONTRASENA": "Senha",
+    "REQUISITOS_CONTRASENA": "A senha deve atender aos seguintes requisitos:",
+    "REQUISITOS_LISTA": {
+        "LONGITUD": "Pelo menos 8 caracteres de comprimento.",
+        "NUMERO": "Pelo menos um número (0-9).",
+        "MINUSCULA": "Pelo menos uma letra minúscula (a-z).",
+        "MAYUSCULA": "Pelo menos uma letra maiúscula (A-Z).",
+        "CARACTER_ESPECIAL": "Pelo menos um caractere especial."
+    },
+    "DATOS_DEMOGRAFICOS": "Dados Demográficos",
+    "EDAD": "Idade",
+    "GENERO": "Gênero",
+    "PESO": "Peso (kg)",
+    "ALTURA": "Altura (cm)",
+    "PAIS_NACIMIENTO": "País de Nascimento",
+    "CIUDAD_NACIMIENTO": "Cidade de Nascimento",
+    "PAIS_RESIDENCIA": "País de Residência",
+    "CIUDAD_RESIDENCIA": "Cidade de Residência",
+    "ANTIGUEDAD_RESIDENCIA": "Anos de residência no seu local de residência",
+    "DEPORTES": "Esportes que pratica ou deseja praticar",
+    "TIPO_PLAN": "Tipo de Plano de Assinatura",
+    "PLAN_GRATUITO": {
+        "TITULO": "Plano Gratuito",
+        "DESCRIPCION": "Recomendação de eventos e planos de treinamento."
+    },
+    "PLAN_INTERMEDIO": {
+        "TITULO": "Plano Intermediário",
+        "DESCRIPCION": "Funcionalidades do plano gratuito + Monitoramento em tempo real."
+    },
+    "PLAN_PREMIUM": {
+        "TITULO": "Plano Premium",
+        "DESCRIPCION": "Funcionalidades do plano intermediário + Sessões com Médico e Treinador."
+    },
+    "REGISTRARSE": "Registrar-se",
+    "REGISTRO_EXITOSO": "Registro enviado com sucesso.",
+
+    "Contacto": "Contato",
+    "Nosotros": "Sobre nós",
+    "Repositorio": "Repositório",
+    "Version": "Versão"
+}

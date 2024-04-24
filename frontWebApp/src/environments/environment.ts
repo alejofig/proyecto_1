@@ -9,5 +9,6 @@ export const environment = {
   apigateway_url: 'https://apigateway.uniandes-sports.com',
   planesUrl: 'https://apigateway.uniandes-sports.com',
   eventos_urls: 'https://apigateway.uniandes-sports.com',
-  local: 'http://3.88.143.81:3002'
+  local: 'http://3.88.143.81:3002',
+  language: 'es-co'
 };
