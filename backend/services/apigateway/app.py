@@ -184,7 +184,7 @@ def generarPlanEntrenamiento():
 
 @app.route('/crear_servicio_mototaller/', methods=['POST'])
 @protected_route
-def consultar_estadisticas(user):
+def crear_servicio_mototaller(user):
     json_data = request.get_json()
     mototaller = Mototaller(**json_data)
 
