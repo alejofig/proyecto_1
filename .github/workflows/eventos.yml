@@ -101,6 +101,7 @@ jobs:
   ecr:
     name: Subir imagen Docker a ECR
     runs-on: ubuntu-latest
+    needs: 'terraform'
     steps:
       - name: Checkout
         id: checkout
