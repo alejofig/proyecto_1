@@ -43,7 +43,7 @@ export class EventosService {
     return this.auth.getAccessTokenSilently().pipe(
       switchMap(token => {
         const headers = {Authorization: `Bearer ${token}`};
-        return this.http.get<SesionesEntrenador[]>(this.entrenadorUrl + '/api/web/sesiones_entrenador', {headers});
+        return this.http.get<SesionesEntrenador[]>(this.entrenadorUrl + '/sesiones_entrenador', {headers});
       })
     );
   }
