@@ -9,7 +9,7 @@ from flask_cors import CORS
 from pydantic import ValidationError
 
 from models import Mototaller, User, Plan, Alimentacion, Entrenador
-from utils import protected_route, protected_route_movil
+from utils import protected_route, protected_route_movil,  send_email
 
 load_dotenv()
 URL_USERS = os.getenv('USERS_PATH')
@@ -204,7 +204,10 @@ def crear_servicio_mototaller(user):
         response = requests.post(f"{URL_SERVICIOS}/solicitar_mototaller/",
                                  json=payload,
                                  headers=headers)
-
+        send_email(asunto="Solicitud de servicio de mototaller",
+                   cuerpo="Su solicitud se ha creado con éxito y estaremos procesandola",
+                   remitente="alejofig@hotmail.com",
+                   destinatario=usuario_completo.json()["email"])
         return jsonify({"message": "Servicio creado con éxito"}), 201
     except ValidationError as e:
         return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
