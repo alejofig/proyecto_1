@@ -1,3 +1,5 @@
+Microservicio para el FrontEnd de la aplicación.
+
 # FrontWebbApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
