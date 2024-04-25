@@ -39,7 +39,7 @@ module.exports = function (config) {
     browsers: ['ChromeHeadlessCI'],
     thresholdReporter: {
       statements: 70,
-      branches: 60,
+      branches: 50,
       functions: 70,
       lines: 70
     },

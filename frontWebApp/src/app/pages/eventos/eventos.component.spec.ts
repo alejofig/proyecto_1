@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EventosService } from './eventos.service';
 import { of } from 'rxjs';
 import { AuthModule } from '@auth0/auth0-angular';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('EventosComponent', () => {
   let component: EventosComponent;
@@ -13,18 +14,20 @@ describe('EventosComponent', () => {
 
 
   beforeEach(async () => {
-    eventosServiceMock = jasmine.createSpyObj('EventosService', ['getEvents', 'getEntrenamientos']);
+    eventosServiceMock = jasmine.createSpyObj('EventosService', ['getEvents', 'getEntrenamientos', 'getSesionesEntrenador']);
     eventosServiceMock.getEvents.and.returnValue(of([])); // Retorna un observable vacío inicialmente
     eventosServiceMock.getEntrenamientos.and.returnValue(of([])); // Igual para entrenamientos
+    eventosServiceMock.getSesionesEntrenador.and.returnValue(of([])); 
 
     await TestBed.configureTestingModule({
       imports: [EventosComponent, HttpClientTestingModule,AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      })],
+      }), TranslateModule.forRoot()],
       providers: [
         { provide: ActivatedRoute, useValue: {} },
-        { provide: EventosService, useValue: eventosServiceMock }
+        { provide: EventosService, useValue: eventosServiceMock },
+        TranslateService
       ]
     })
     .compileComponents();

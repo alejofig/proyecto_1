@@ -54,8 +54,7 @@ export class RegistroComponent {
      private router: Router,
      private http: HttpClient,
      private authService: AuthService,
-     private backendService: ApiGatewayBackendService,
-     private translate: TranslateService) {}
+     private backendService: ApiGatewayBackendService) {}
 
   validarPassword() {
     let errorMessage = '';

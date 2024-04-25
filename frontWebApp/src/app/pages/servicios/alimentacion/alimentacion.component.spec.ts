@@ -7,6 +7,7 @@ import {of} from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
 import {AuthModule} from "@auth0/auth0-angular";
 import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AlimentacionComponent', () => {
   let component: AlimentacionComponent;
@@ -19,7 +20,7 @@ describe('AlimentacionComponent', () => {
       imports: [AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      }), AlimentacionComponent, FormsModule, HttpClientTestingModule, RouterTestingModule],
+      }), AlimentacionComponent, FormsModule, HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
       providers: [AlimentacionComponent],
       declarations: []
     }).compileComponents();

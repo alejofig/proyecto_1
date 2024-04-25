@@ -6,6 +6,8 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ApiGatewayBackendService } from '../../../apigateway-backend.service';
 import { of, throwError } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 describe('SidebardComponent', () => {
   let component: SidebardComponent;
@@ -16,13 +18,14 @@ describe('SidebardComponent', () => {
       imports: [HttpClientTestingModule,SidebardComponent,AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      })],
+      }), TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: {
           }
-        }
+        },
+
       ]
     })
     .compileComponents();
