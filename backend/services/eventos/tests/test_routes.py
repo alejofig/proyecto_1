@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 
 client = TestClient(routes.router)
 
-
 def test_consultar_enventos():
     response = client.get("/eventos/")
     assert response.status_code == 200
@@ -19,3 +18,12 @@ def test_crear_evento():
     }
     response = client.post("/eventos/", json=evento)
     assert response.status_code == 200
+
+def test_consultar_enventos_pais():
+    response = client.get("/eventos/colombia")
+    assert response.status_code == 200
+
+def test_consultar_enventos_pais_limit():
+    response = client.get("/eventos/colombia/1")
+    assert response.status_code == 200
+

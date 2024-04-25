@@ -12,3 +12,4 @@ class Evento(SQLModel, table=True):
     ciudad: str
     pais: str
     descripcion: Optional[str] = None
+    
