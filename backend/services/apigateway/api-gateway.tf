@@ -218,6 +218,7 @@ data "template_file" "task_definition_template" {
     SERVICIOS_PATH= "https://terceros.uniandes-sports.com"
     PLANES_PATH= "https://planes.uniandes-sports.com"
     EVENTS_PATH= "https://eventos.uniandes-sports.com"
+    SQS_URL_NOTIFICATIONS="https://sqs.us-east-1.amazonaws.com/344488016360/emails-register-sqs-new5"
   }
 }
 resource "aws_ecs_task_definition" "task_definition" {
