@@ -4,6 +4,7 @@ import { PrimerosAuxiliosComponent } from './primeros-auxilios.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthModule } from '@auth0/auth0-angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('PrimerosAuxiliosComponent', () => {
   let component: PrimerosAuxiliosComponent;
@@ -14,7 +15,7 @@ describe('PrimerosAuxiliosComponent', () => {
       imports: [PrimerosAuxiliosComponent,HttpClientTestingModule, AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      })],
+      }), TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,

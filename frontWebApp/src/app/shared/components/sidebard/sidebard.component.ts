@@ -17,7 +17,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 export class SidebardComponent implements OnInit {
   userData: any;
 
-  constructor(public auth: AuthService, private apiService: ApiGatewayBackendService, private translate: TranslateService) { }
+  constructor(public auth: AuthService, private apiService: ApiGatewayBackendService) { }
 
   ngOnInit(): void {
     this.getUserData();

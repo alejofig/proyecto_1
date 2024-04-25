@@ -7,6 +7,7 @@ import {of} from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
 import {AuthModule} from '@auth0/auth0-angular';
 import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('EntrenadorComponent', () => {
   let component: EntrenadorComponent;
@@ -19,14 +20,14 @@ describe('EntrenadorComponent', () => {
       imports: [AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      }), EntrenadorComponent, FormsModule, HttpClientTestingModule, RouterTestingModule],
-      providers: [EntrenadorComponent],
+      }), EntrenadorComponent, FormsModule, HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()], 
+      providers: [  ],
       declarations: []
     }).compileComponents();
 
     fixture = TestBed.createComponent(EntrenadorComponent);
     component = fixture.componentInstance;
-    //apiGatewayBackendService = TestBed.inject(ApiGatewayBackendService);
+    apiGatewayBackendService = TestBed.inject(ApiGatewayBackendService);
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
   });

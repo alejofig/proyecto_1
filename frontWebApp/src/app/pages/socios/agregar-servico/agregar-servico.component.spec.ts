@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AgregarServicoComponent } from './agregar-servico.component';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AgregarServicoComponent', () => {
   let component: AgregarServicoComponent;
@@ -9,7 +10,7 @@ describe('AgregarServicoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AgregarServicoComponent],
+      imports: [AgregarServicoComponent, TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,

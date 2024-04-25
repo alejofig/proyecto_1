@@ -7,6 +7,7 @@ import {HttpClientTestingModule, HttpTestingController} from "@angular/common/ht
 import {of} from 'rxjs';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AuthModule} from '@auth0/auth0-angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('GenerarPlanEntreComponent', () => {
   let component: GenerarPlanEntreComponent;
@@ -19,7 +20,8 @@ describe('GenerarPlanEntreComponent', () => {
       imports: [AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      }), HttpClientTestingModule, FormsModule, HttpClientTestingModule, GenerarPlanEntreComponent, RouterTestingModule],
+      }), HttpClientTestingModule, FormsModule, HttpClientTestingModule, GenerarPlanEntreComponent, RouterTestingModule,
+      TranslateModule.forRoot()],
       providers: [GenerarPlanEntreService],
       declarations: []
     }).compileComponents();

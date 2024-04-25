@@ -6,6 +6,7 @@ import { AuthService as InternalAuthService } from '../servicios/auth.service';
 import { ApiGatewayBackendService } from '../../apigateway-backend.service';
 import { of } from 'rxjs';
 import { AuthModule, AuthService } from '@auth0/auth0-angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('RegistroComponent', () => {
   let component: RegistroComponent;
@@ -21,7 +22,7 @@ describe('RegistroComponent', () => {
       imports: [FormsModule, HttpClientTestingModule, AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      })],
+      }), TranslateModule.forRoot()],
       providers: [InternalAuthService, ApiGatewayBackendService,AuthService],
       declarations: []
     }).compileComponents();

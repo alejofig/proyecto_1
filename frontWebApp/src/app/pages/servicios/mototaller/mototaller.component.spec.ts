@@ -4,6 +4,7 @@ import { MototallerComponent } from './mototaller.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthModule } from '@auth0/auth0-angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('MototallerComponent', () => {
   let component: MototallerComponent;
@@ -14,7 +15,7 @@ describe('MototallerComponent', () => {
       imports: [HttpClientTestingModule,MototallerComponent,AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      })],
+      }), TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,
