@@ -7,6 +7,7 @@ import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {Entrenador} from "./entrenador";
 import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
+import {EntrenadorService} from "./entrenador.service";
 
 @Component({
   selector: 'app-entrenador',
@@ -30,7 +31,8 @@ export class EntrenadorComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private apiGatewayBackendService: ApiGatewayBackendService
+    private apiGatewayBackendService: ApiGatewayBackendService,
+    private entrenadorService: EntrenadorService
   ) {
   }
 
