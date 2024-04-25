@@ -42,10 +42,10 @@ def protected_route_movil(f):
 def send_email(asunto, cuerpo, remitente, destinatario):
     sqs = boto3.client('sqs', region_name='us-east-1')
     mensaje = {
-        asunto: asunto,
-        cuerpo: cuerpo,
-        remitente: remitente,
-        destinatario: destinatario
+        "asunto": asunto,
+        "cuerpo": cuerpo,
+        "remitente": remitente,
+        "destinatario": destinatario
     }
     queue_url = os.getenv('SQS_URL_NOTIFICATIONS')
     message_url = json.dumps(mensaje)

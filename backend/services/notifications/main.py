@@ -20,6 +20,7 @@ def enviar_correo_ses(asunto, cuerpo, remitente, destinatario):
         raise e
 
 def run(event, context):
+    print(event)
     for record in event['Records']:
         message_body = json.loads(record['body'])
         asunto = message_body.get('asunto', '')
