@@ -65,7 +65,7 @@ export class EntrenadorComponent implements OnInit {
     let entrenador = new Entrenador(this.proveedor, this.tipoEntrenamiento, this.fechaSesion, this.horaSesion, this.comentarios)
     console.log(entrenador)
 
-    this.entrenadorService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
+    this.apiGatewayBackendService.solicitarSesionEntrenador(entrenador).subscribe((result: any) => {
       console.log('Response: ', result)
       console.info(this.mensajeExitoso, result)
       this.activarMensajeExitoso = true;
