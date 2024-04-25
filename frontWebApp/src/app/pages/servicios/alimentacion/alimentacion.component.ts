@@ -7,6 +7,7 @@ import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {Alimentacion} from "./alimentacion";
 import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
+import {AlimentacionService} from "./alimentacion.service";
 
 @Component({
   selector: 'app-alimentacion',
@@ -36,7 +37,8 @@ export class AlimentacionComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private apiGatewayBackendService: ApiGatewayBackendService
+    private apiGatewayBackendService: ApiGatewayBackendService,
+    private alimentacionService: AlimentacionService
   ) {
   }
 
@@ -46,7 +48,7 @@ export class AlimentacionComponent implements OnInit {
       proposito: ["", [Validators.required]],
       tipoAlimentacion: ["", [Validators.required]],
       modoRecibir: ["", [Validators.required]],
-      numeroContacto: [0, [Validators.required]],
+      numeroContacto: ["", [Validators.required]],
       direccionActual: ["", [Validators.required]],
       ciudadActual: ["", [Validators.required]],
       paisActual: ["", [Validators.required]]
@@ -88,7 +90,7 @@ export class AlimentacionComponent implements OnInit {
     let alimentacion = new Alimentacion(this.proveedor, this.proposito, this.tipoAlimentacion, this.modoRecibir, this.numeroContacto, this.direccionActual, this.ciudadActual, this.paisActual)
     console.log(alimentacion)
 
-    this.apiGatewayBackendService.solicitarAlimentacion(alimentacion).subscribe((result: any) => {
+    this.alimentacionService.solicitarAlimentacion(alimentacion).subscribe((result: any) => {
       console.log('Response: ', result)
       console.info(this.mensajeDomicilio, result)
       this.activarMensajeExitoso = true;
