@@ -22,8 +22,8 @@ class Entrenador(SQLModel, table=True):
     userId: str
     proveedor: str
     tipoEntrenamiento: str
-    fechaSesion: str
-    horaSesion: str
+    fechaSesion: date
+    horaSesion: time
     comentarios: str
 
 

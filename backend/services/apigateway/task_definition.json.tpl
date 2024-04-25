@@ -45,6 +45,10 @@
             "value":"${SERVICIOS_PATH}"
          },
          {
+            "name":"SQS_URL_NOTIFICATIONS",
+            "value":"${SQS_URL_NOTIFICATIONS}"
+         },
+         {
             "name":"AUTH0_DOMAIN",
             "value":"${AUTH0_DOMAIN}"
          },

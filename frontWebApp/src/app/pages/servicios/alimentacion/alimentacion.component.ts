@@ -7,6 +7,7 @@ import {CommonModule} from "@angular/common";
 import {HttpClientModule} from "@angular/common/http";
 import {Alimentacion} from "./alimentacion";
 import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
+import {AlimentacionService} from "./alimentacion.service";
 
 @Component({
   selector: 'app-alimentacion',
@@ -36,7 +37,8 @@ export class AlimentacionComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private apiGatewayBackendService: ApiGatewayBackendService
+    private apiGatewayBackendService: ApiGatewayBackendService,
+    private alimentacionService: AlimentacionService
   ) {
   }
 
@@ -46,7 +48,7 @@ export class AlimentacionComponent implements OnInit {
       proposito: ["", [Validators.required]],
       tipoAlimentacion: ["", [Validators.required]],
       modoRecibir: ["", [Validators.required]],
-      numeroContacto: [0, [Validators.required]],
+      numeroContacto: ["", [Validators.required]],
       direccionActual: ["", [Validators.required]],
       ciudadActual: ["", [Validators.required]],
       paisActual: ["", [Validators.required]]
