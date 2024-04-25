@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 
 client = TestClient(routes.router)
 
-
 def test_consultar_enventos():
     response = client.get("/eventos/")
     assert response.status_code == 200
