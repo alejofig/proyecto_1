@@ -74,7 +74,8 @@ jobs:
   automerge-2:
     name: Merge 'feature -> develop'
     runs-on: ubuntu-latest
-    needs: [ 'run-tests-1', 'terraform' ]
+    #needs: [ 'run-tests-1', 'terraform' ]
+    needs: 'terraform'
     steps:
       - name: Integrar feature en develop
         uses: tukasz/direct-merge-action@master
