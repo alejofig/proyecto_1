@@ -1,3 +1,4 @@
+from http.client import HTTPException
 import os
 from urllib.parse import unquote
 
@@ -8,8 +9,8 @@ from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 from pydantic import ValidationError
 
-from models import Mototaller, User, Plan, Alimentacion, Entrenador
-from utils import protected_route, protected_route_movil,  send_email
+from models import Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
+from utils import protected_route, protected_route_movil,  send_email, calcular_ftp, calcular_vo2max
 
 load_dotenv()
 URL_USERS = os.getenv('USERS_PATH')
