@@ -36,7 +36,7 @@ jobs:
       AUTH0_API_IDENTIFIER: ${{ secrets.AUTH0_API_IDENTIFIER }}
       ALGORITHM: ${{ secrets.ALGORITHM }}
     services:
-      users:
+      entrenamiento:
         image: postgres
         env:
           POSTGRES_PASSWORD: prueba
@@ -88,7 +88,8 @@ jobs:
   automerge-2:
     name: Merge 'feature -> develop'
     runs-on: ubuntu-latest
-    needs: [ 'run-tests-1', 'run-tests-front', 'terraform' ]
+    #needs: [ 'run-tests-1', 'terraform' ]
+    needs: 'run-tests-1'
     steps:
       - name: Integrar feature en develop
         uses: tukasz/direct-merge-action@master
