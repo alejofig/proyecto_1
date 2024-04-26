@@ -7,7 +7,7 @@ import {of} from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
 import {AuthModule} from '@auth0/auth0-angular';
 import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('EntrenadorComponent', () => {
   let component: EntrenadorComponent;
@@ -20,8 +20,8 @@ describe('EntrenadorComponent', () => {
       imports: [AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      }), EntrenadorComponent, FormsModule, HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()], 
-      providers: [  ],
+      }), EntrenadorComponent, FormsModule, HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
+      providers: [],
       declarations: []
     }).compileComponents();
 
@@ -42,13 +42,13 @@ describe('EntrenadorComponent', () => {
 
   it('should generate a plan correctly', () => {
     // Mock del servicio para simular la respuesta del método solicitarSesionEntrenador
-    spyOn(apiGatewayBackendService, 'solicitarSesionEntrenador').and.returnValue(of({mensaje: 'Sesión de entrenador solicitada'}));
+    spyOn(apiGatewayBackendService, 'crear_sesion_entrenador').and.returnValue(of({mensaje: 'Sesión de entrenador solicitada'}));
 
     // Llama al método que se va a probar
     component.solicitarSesionEntrenador();
 
     // Verifica que se hayan realizado las acciones esperadas
-    expect(apiGatewayBackendService.solicitarSesionEntrenador).toHaveBeenCalled();
+    expect(apiGatewayBackendService.crear_sesion_entrenador).toHaveBeenCalled();
     expect(component.activarMensajeExitoso).toBeTrue();
   });
 

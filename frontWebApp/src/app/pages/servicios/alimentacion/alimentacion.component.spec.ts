@@ -7,7 +7,7 @@ import {of} from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
 import {AuthModule} from "@auth0/auth0-angular";
 import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('AlimentacionComponent', () => {
   let component: AlimentacionComponent;
@@ -42,13 +42,13 @@ describe('AlimentacionComponent', () => {
 
   it('should generate a plan correctly', () => {
     // Mock del servicio para simular la respuesta del método solicitarAlimentacion
-    spyOn(apiGatewayBackendService, 'solicitarAlimentacion').and.returnValue(of({mensaje: 'Alimentación solicitada'}));
+    spyOn(apiGatewayBackendService, 'crear_servicio_alimentacion').and.returnValue(of({mensaje: 'Alimentación solicitada'}));
 
     // Llama al método que se va a probar
     component.solicitarAlimentacion();
 
     // Verifica que se hayan realizado las acciones esperadas
-    expect(apiGatewayBackendService.solicitarAlimentacion).toHaveBeenCalled();
+    expect(apiGatewayBackendService.crear_servicio_alimentacion).toHaveBeenCalled();
     expect(component.activarMensajeExitoso).toBeTrue(); // Verifica que el mensaje de éxito se haya activado
   });
 
