@@ -4,7 +4,7 @@ def generate_random_alimentacion():
     proposito = "nutricion"
     tipoAlimentacion = "Proteina"
     modoRecibir = "virtual"
-    numeroContacto = 3214567890
+    numeroContacto = 321
     direccionActual = "Calle Falsa 123"
     ciudadActual = "Lima"
     paisActual = "Peru"
