@@ -4,7 +4,7 @@ from fastapi.testclient import TestClient
 client = TestClient(routes.router)
 
 
-def test_crear_sesion_entrenador():
+def test_crear_sesion():
     entrenador = {
         "userId": "1234",
         "proveedor": "AlejoFit",
@@ -17,6 +17,6 @@ def test_crear_sesion_entrenador():
     assert response.status_code == 200
 
 
-def test_consultar_sesion_entrenador():
+def test_consultar_sesion():
     response = client.get("/consultar_sesion_entrenador/")
     assert response.status_code == 200
