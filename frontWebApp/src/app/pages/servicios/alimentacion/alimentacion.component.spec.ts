@@ -60,7 +60,7 @@ describe('AlimentacionComponent', () => {
     component.proposito = 'nutricion'
     component.tipoAlimentacion = 'Proteina';
     component.modoRecibir = 'virtual';
-    component.numeroContacto = 3124567890;
+    component.numeroContacto = 321;
     component.direccionActual = 'Calle Falsa 123';
     component.ciudadActual = 'Lima';
     component.paisActual = 'Peru';
@@ -71,7 +71,7 @@ describe('AlimentacionComponent', () => {
       proposito: 'nutricion',
       tipoAlimentacion: 'Proteina',
       modoRecibir: 'virtual',
-      numeroContacto: 3124567890,
+      numeroContacto: 321,
       direccionActual: 'Calle Falsa 123',
       ciudadActual: 'Lima',
       paisActual: 'Peru'
