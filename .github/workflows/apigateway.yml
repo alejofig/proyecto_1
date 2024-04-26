@@ -56,7 +56,7 @@ jobs:
         working-directory: ./backend/services/apigateway
         run: |
           coverage report --fail-under=55
-          pytest --cov . --cov-report=apigateway-coverage.xml
+          pytest --cov . --cov-report=xml:apigateway_coverage.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         env:
