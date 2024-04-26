@@ -40,12 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class EventosActivityTest {
     @Before
     fun setupSharedPreferences() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        val sharedPreferences = context.getSharedPreferences("prefs_auth", Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()) {
-            putString("auth_token", "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImVGT0wxY0ZTZ1FXNU5kV0EtWGtwUCJ9.eyJpc3MiOiJodHRwczovL2Rldi1zOHF3bm5ndXdjdXBxZzJvLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2NjFiMjdjZmMzMmNhOGQ4NDM0NzQyYWYiLCJhdWQiOlsiaHR0cHM6Ly9zcG9ydGFwcC5jb20iLCJodHRwczovL2Rldi1zOHF3bm5ndXdjdXBxZzJvLnVzLmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE3MTM4NDU0NTIsImV4cCI6MTcxMzkzMTg1Miwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImF6cCI6IlFuM204RnVMSVhLUUExZ0xmTkplUWY2YXpBTVlXS2pBIiwicGVybWlzc2lvbnMiOltdfQ.Tc7bgV3l0wEppmcnXJ_-O9OtcDPGyJp_Z5PXkuayAW1FjY7fSLrvJq_75tEJegZoXgq-AdDGjuwv-VY30OLRIFrPs4FMY7ZX6EJ45w0YbZLvpYvgJ9nf76bZn7j4uOAjFxeB4J5GG72Wtpwcj8h7oEg2moCZiYfJS7oE_Gp8QxaYH0DCdC-TIWq_Bs3EYWxHW6sFpc0Dz8He9Xt5VO_zbiQUrM80YLB4MZ1JrAPqbJ5rwe6c_lhBOi8IzLf_JxAnS1ElbtSWLRXDwpzi0M5fbLBjoU8A1q375_z3bOPuAbHhsPPQWMsqOHgvLLiWx8JJL_D3LLlfLdBMNcJCtQDmTg")
-            commit()
-        }
+
     }
 
     @Test
