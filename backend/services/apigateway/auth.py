@@ -15,6 +15,7 @@ class Auth0:
         jwks = response.json()
         return jwks
     
+    
     @staticmethod
     def generate_management_access_token():
         url = f'https://{config.AUTH0_DOMAIN}/oauth/token'
