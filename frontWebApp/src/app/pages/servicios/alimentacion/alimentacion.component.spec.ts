@@ -45,13 +45,13 @@ describe('AlimentacionComponent', () => {
 
   it('should generate a plan correctly', () => {
     // Mock del servicio para simular la respuesta del método solicitarAlimentacion
-    spyOn(alimentacionService, 'crear_servicio_alimentacion').and.returnValue(of({mensaje: 'Alimentación solicitada'}));
+    spyOn(apiGatewayBackendService, 'solicitarAlimentacion').and.returnValue(of({mensaje: 'Alimentación solicitada'}));
 
     // Llama al método que se va a probar
     component.solicitarAlimentacion();
 
     // Verifica que se hayan realizado las acciones esperadas
-    expect(alimentacionService.crear_servicio_alimentacion).toHaveBeenCalled();
+    expect(apiGatewayBackendService.solicitarAlimentacion).toHaveBeenCalled();
     expect(component.activarMensajeExitoso).toBeTrue(); // Verifica que el mensaje de éxito se haya activado
   });
 
