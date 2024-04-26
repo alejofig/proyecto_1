@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderInicioComponent } from './header-inicio.component';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('HeaderInicioComponent', () => {
   let component: HeaderInicioComponent;
@@ -9,7 +10,7 @@ describe('HeaderInicioComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderInicioComponent],
+      imports: [HeaderInicioComponent, TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,

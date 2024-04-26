@@ -1,7 +1,7 @@
 from app.models import User
 import json
 from app.database import create_user
-from app.utils import encrypt_data
+from app.utils import encrypt_data, notifications_ses
 from app.auth import Auth0
 
 def run(event, context):
@@ -15,6 +15,7 @@ def run(event, context):
             user.password = encrypt_data(user.password)
             user.auth0_id = response["user_id"]         
             create_user(user)
+            notifications_ses(user.email)
             print("Enviando notificación al API Gateway...")
             #requests.post(f"{API_GATEWAY_ENDPOINT}/notifications", headers={"X-API-KEY": "your_api_key"}, json={"username": username})
         except json.JSONDecodeError as e:

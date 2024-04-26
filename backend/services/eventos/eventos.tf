@@ -80,10 +80,10 @@ resource "aws_route_table_association" "rt_association_private_eventos" {
 # --- Data Base
 resource "aws_db_instance" "db_postgres_eventos" {
   depends_on             = [aws_internet_gateway.igw_eventos]
-  identifier             = "db-eventos-v2"
+  identifier             = "db-eventos"
   allocated_storage      = 10
   engine                 = "postgres"
-  engine_version         = "12.12"
+  engine_version         = "12.15"
   instance_class         = "db.t3.micro"
   db_name                = "db_eventos"
   username               = "postgres"
@@ -249,7 +249,7 @@ data "aws_availability_zones" "azs" {}
 
 data "template_file" "task_definition_template" {
   template = file("task_definition.json.tpl")
-  vars     = {
+  vars = {
     REPOSITORY_URL = "344488016360.dkr.ecr.us-east-1.amazonaws.com/servicio-eventos:latest"
     DB_USER        = "postgres"
     DB_PASSWORD    = "postgres"
@@ -270,7 +270,7 @@ resource "aws_ecs_task_definition" "task_definition_eventos" {
 
 # --- IAM
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ecs-task-execution-role-eventos"
+  name = "ecs-task-execution-role-eventos"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [

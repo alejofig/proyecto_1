@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeportesComponent } from './deportes.component';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('DeportesComponent', () => {
   let component: DeportesComponent;
@@ -9,7 +10,7 @@ describe('DeportesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeportesComponent],
+      imports: [DeportesComponent, TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,

@@ -48,3 +48,27 @@ class Entrenamiento(BaseModel):
     height: int = 0
     edad: int = 0
     genero: str
+
+class Mototaller(BaseModel):
+    fechaSesion: str
+    horaSesion: str
+    comentariosAdicionales: str
+
+
+class Alimentacion(BaseModel):
+    proveedor: str
+    proposito: str
+    tipoAlimentacion: str
+    modoRecibir: str
+    numeroContacto: str
+    direccionActual: str
+    ciudadActual: str
+    paisActual: str
+
+
+class Entrenador(BaseModel):
+    proveedor: str
+    tipoEntrenamiento: str
+    fechaSesion: str
+    horaSesion: str
+    comentarios: str

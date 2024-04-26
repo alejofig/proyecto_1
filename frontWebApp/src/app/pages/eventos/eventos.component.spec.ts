@@ -4,6 +4,8 @@ import { EventosComponent } from './eventos.component';
 import { ActivatedRoute } from '@angular/router';
 import { EventosService } from './eventos.service';
 import { of } from 'rxjs';
+import { AuthModule } from '@auth0/auth0-angular';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 describe('EventosComponent', () => {
   let component: EventosComponent;
@@ -12,15 +14,20 @@ describe('EventosComponent', () => {
 
 
   beforeEach(async () => {
-    eventosServiceMock = jasmine.createSpyObj('EventosService', ['getEvents', 'getEntrenamientos']);
+    eventosServiceMock = jasmine.createSpyObj('EventosService', ['getEvents', 'getEntrenamientos', 'getSesionesEntrenador']);
     eventosServiceMock.getEvents.and.returnValue(of([])); // Retorna un observable vacío inicialmente
     eventosServiceMock.getEntrenamientos.and.returnValue(of([])); // Igual para entrenamientos
+    eventosServiceMock.getSesionesEntrenador.and.returnValue(of([])); 
 
     await TestBed.configureTestingModule({
-      imports: [EventosComponent, HttpClientTestingModule],
+      imports: [EventosComponent, HttpClientTestingModule,AuthModule.forRoot({
+        domain: 'domain',
+        clientId: 'clientId'
+      }), TranslateModule.forRoot()],
       providers: [
         { provide: ActivatedRoute, useValue: {} },
-        { provide: EventosService, useValue: eventosServiceMock }
+        { provide: EventosService, useValue: eventosServiceMock },
+        TranslateService
       ]
     })
     .compileComponents();
@@ -41,7 +48,7 @@ describe('EventosComponent', () => {
       { fecha_pura: '2124-01-01' },
 
     ];
-    
+
     const eventosOrdenados = component.ordernar_eventos(eventosDesordenados);
 
     expect(eventosOrdenados[0].fecha_pura).toBe('2124-01-01');
@@ -52,9 +59,9 @@ describe('EventosComponent', () => {
     const fakeEvents = [{ nombre: 'Evento1', fecha: '2024-01-01' }];
     eventosServiceMock.getEvents.and.returnValue(of(fakeEvents)); // Simula respuesta con eventos
     component.ngOnInit();
-  
+
     fixture.detectChanges(); // Actualiza el componente con los datos simulados
-  
+
     //expect(eventosServiceMock.getEvents).toHaveBeenCalled();
     //expect(component.eventos_general.length).toBeGreaterThan(0);
   });

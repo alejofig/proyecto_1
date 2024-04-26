@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderAdminComponent } from './header-admin.component';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('HeaderAdminComponent', () => {
   let component: HeaderAdminComponent;
@@ -9,7 +10,7 @@ describe('HeaderAdminComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderAdminComponent],
+      imports: [HeaderAdminComponent, TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,

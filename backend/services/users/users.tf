@@ -170,7 +170,7 @@ resource "aws_db_instance" "users_rds" {
   allocated_storage    = 20
   storage_type         = "gp2"
   engine               = "postgres"
-  engine_version         = "12.14"
+  engine_version         = "12.17"
   instance_class         = "db.t3.micro"
   identifier           = "users-db-new5"
   username             = "users"
@@ -428,6 +428,10 @@ resource "aws_iam_policy" "lambda_kms_policy" {
         "kms:Decrypt"
       ],
       Resource  = "arn:aws:kms:us-east-1:344488016360:key/4f22f451-61d2-4f5c-bdd8-6e3f4a739632"
+    },{
+      Effect    = "Allow",
+      Action    = ["ses:*"]   
+      Resource  = "*"
     }]
   })
 }
@@ -442,7 +446,8 @@ resource "aws_iam_policy" "lambda_cloudwatch_logs_policy" {
       Action    = [
         "logs:CreateLogGroup",
         "logs:CreateLogStream",
-        "logs:PutLogEvents"
+        "logs:PutLogEvents",
+
       ],
       Resource  = "arn:aws:logs:*:*:*"  
     }]
