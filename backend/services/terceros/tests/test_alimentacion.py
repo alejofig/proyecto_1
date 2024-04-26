@@ -4,7 +4,7 @@ from fastapi.testclient import TestClient
 client = TestClient(routes.router)
 
 
-def test_solicitar_alimentacion():
+def test_crear_servicio_alimentacion():
     alimentacion = {
         "userId": "1234",
         "proveedor": "Cocina Fit",
@@ -16,7 +16,7 @@ def test_solicitar_alimentacion():
         "ciudadActual": "Lima",
         "paisActual": "Peru"
     }
-    response = client.post("/solicitar_alimentacion/", json=alimentacion)
+    response = client.post("/crear_servicio_alimentacion/", json=alimentacion)
     assert response.status_code == 200
 
 

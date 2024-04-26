@@ -53,9 +53,9 @@ describe('ApiGatewayBackendService', () => {
     service.callApiAndGetCompleteUser().subscribe(user => {
       expect(user).toEqual(dummyUser);
     });
-  
+
     const req = httpTestingController.expectOne(`${environment.apigateway_url}/get_complete_user/`);
- 
+
   });
 
   it('should get statistics', () => {
@@ -73,13 +73,13 @@ describe('ApiGatewayBackendService', () => {
 
     // Ensure no outstanding HTTP requests
     httpTestingController.verify();
-  
+
   });
 
   it('should register a mototaller service', () => {
     const motoTallerData = { name: 'Moto Repair', location: 'Downtown' };
     const response = { success: true, id: 123 };
-  
+
     service.registrarMototaller(motoTallerData).subscribe(res => {
       expect(res).toEqual(response);
     });
@@ -94,21 +94,21 @@ describe('ApiGatewayBackendService', () => {
 
       // Ensure there are no outstanding HTTP requests
       httpTestingController.verify();
-  
+
 
   });
 
   it('should request alimentation service', () => {
     const alimentacionData = { meal: 'Vegan', quantity: 100 };
     const response = { confirmed: true, orderId: 456 };
-    
-  
-    service.solicitarAlimentacion(alimentacionData).subscribe(res => {
+
+
+    service.crear_servicio_alimentacion(alimentacionData).subscribe(res => {
       expect(res).toEqual(response);
     });
-  
+
     // Expect a POST request to the correct URL
-    const req = httpTestingController.expectOne('https://apigateway.uniandes-sports.com/solicitar_alimentacion/');
+    const req = httpTestingController.expectOne('https://apigateway.uniandes-sports.com/crear_servicio_alimentacion/');
     expect(req.request.method).toBe('POST'); // Verify that the request is a POST request
     expect(req.request.body).toEqual(alimentacionData); // Verify that the correct data was sent
 

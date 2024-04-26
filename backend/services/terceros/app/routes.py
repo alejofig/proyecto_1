@@ -1,4 +1,4 @@
-from app.database import (solicitar_alimentacion, solicitar_sesion_entrenador, solicitar_servicio_mototaller,
+from app.database import (crear_servicio_alimentacion, solicitar_sesion_entrenador, solicitar_servicio_mototaller,
                           consultar_servicios_alimentacion, consultar_sesion_entrenador,
                           reset_servicios_alimentacion, reset_sesion_entrenador)
 from app.models import Alimentacion, Entrenador, Mototaller
@@ -12,9 +12,9 @@ async def health():
     return {"status": "ok"}
 
 
-@router.post("/solicitar_alimentacion")
-async def solicitar_alimentacion(alimentacion: Alimentacion):
-    alimentacion = solicitar_alimentacion(alimentacion)
+@router.post("/crear_servicio_alimentacion")
+async def crear_servicio_alimentacion(alimentacion: Alimentacion):
+    alimentacion = crear_servicio_alimentacion(alimentacion)
     return {"message": "Servicio de alimentación generado con éxito"}
 
 

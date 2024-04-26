@@ -90,7 +90,7 @@ export class AlimentacionComponent implements OnInit {
     let alimentacion = new Alimentacion(this.proveedor, this.proposito, this.tipoAlimentacion, this.modoRecibir, this.numeroContacto, this.direccionActual, this.ciudadActual, this.paisActual)
     console.log(alimentacion)
 
-    this.apiGatewayBackendService.solicitarAlimentacion(alimentacion).subscribe((result: any) => {
+    this.alimentacionService.crear_servicio_alimentacion(alimentacion).subscribe((result: any) => {
       console.log('Response: ', result)
       console.info(this.mensajeDomicilio, result)
       this.activarMensajeExitoso = true;

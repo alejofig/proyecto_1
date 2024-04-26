@@ -8,13 +8,13 @@ import {environment} from "../../../../environments/environment";
 })
 export class AlimentacionService {
 
-  private apiUrl: string = environment.tercerosUrl;
+  private apiUrl: string = environment.localTerceros;
 
   constructor(private http: HttpClient) {
   }
 
-  solicitarAlimentacion(alimentacion: any): Observable<any> {
-    let postAlimentacion = this.apiUrl + '/solicitar_alimentacion';
+  crear_servicio_alimentacion(alimentacion: any): Observable<any> {
+    let postAlimentacion = this.apiUrl + '/crear_servicio_alimentacion';
     return this.http.post<any>(postAlimentacion, alimentacion, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
