@@ -1,8 +1,8 @@
 import pytest
 from app import app
 
-from create_plan import generate_random_plan
-from create_user import generate_random_user
+from tests.create_plan import generate_random_plan
+from tests.create_user import generate_random_user
 
 
 @pytest.fixture

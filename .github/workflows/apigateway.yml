@@ -56,6 +56,11 @@ jobs:
         working-directory: ./backend/services/apigateway
         run: |
           coverage report --fail-under=55
+          pytest --cov . --cov-report=apigateway-coverage.xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   terraform:
     name: Despliegue Apigateway
