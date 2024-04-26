@@ -12,7 +12,7 @@ def create_session():
     return session
 
 
-def solicitar_alimentacion(alimentacion: Alimentacion):
+def crear_servicio_alimentacion(alimentacion: Alimentacion):
     session = create_session()
     session.add(alimentacion)
     session.commit()

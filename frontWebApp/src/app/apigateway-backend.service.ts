@@ -66,8 +66,8 @@ export class ApiGatewayBackendService {
     return this.callApiWithToken(`${this.apiUrl}/crear_servicio_mototaller/`, 'POST', motoTallerData);
   }
 
-  solicitarAlimentacion(alimentacionData: any): Observable<any> {
-    return this.callApiWithToken(`${this.apiUrl}/solicitar_alimentacion/`, 'POST', alimentacionData);
+  crear_servicio_alimentacion(alimentacionData: any): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/crear_servicio_alimentacion/`, 'POST', alimentacionData);
   }
 
   solicitarSesionEntrenador(entrenadorData: any): Observable<any> {
