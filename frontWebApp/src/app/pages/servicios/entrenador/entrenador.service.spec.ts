@@ -26,11 +26,11 @@ describe('EntrenadorService', () => {
       const entrenadorData = {name: 'John Doe', sessionType: 'yoga'};
       const expectedResponse = {success: true, message: 'Session scheduled successfully'};
 
-      service.crear_sesion_entrenador(entrenadorData).subscribe(response => {
+      service.solicitarSesionEntrenador(entrenadorData).subscribe(response => {
         expect(response).toEqual(expectedResponse);
       });
 
-      const req = httpTestingController.expectOne(`${environment.tercerosUrl}/crear_sesion_entrenador`);
+      const req = httpTestingController.expectOne(`${environment.tercerosUrl}/solicitar_sesion_entrenador`);
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(entrenadorData);
       expect(req.request.headers.get('Content-Type')).toBe('application/json');
@@ -43,12 +43,12 @@ describe('EntrenadorService', () => {
         message: 'Network error occurred'
       });
 
-      service.crear_sesion_entrenador(entrenadorData).subscribe(
+      service.solicitarSesionEntrenador(entrenadorData).subscribe(
         response => fail('Expected an error, not training session'),
         error => expect(error.error.message).toContain('Network error')
       );
 
-      const req = httpTestingController.expectOne(`${environment.tercerosUrl}/crear_sesion_entrenador`);
+      const req = httpTestingController.expectOne(`${environment.tercerosUrl}/solicitar_sesion_entrenador`);
       expect(req.request.method).toBe('POST');
       req.error(mockError);
     });

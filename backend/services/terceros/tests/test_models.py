@@ -8,7 +8,7 @@ def test_alimentacion_model():
         proposito="nutricion",
         tipoAlimentacion="Proteina",
         modoRecibir="virtual",
-        numeroContacto=321,
+        numeroContacto=3214567890,
         direccionActual="Calle Falsa 123",
         ciudadActual="Lima",
         paisActual="Peru"
@@ -19,7 +19,7 @@ def test_alimentacion_model():
     assert alimentacion.proposito == "nutricion"
     assert alimentacion.tipoAlimentacion == "Proteina"
     assert alimentacion.modoRecibir == "virtual"
-    assert alimentacion.numeroContacto == 321
+    assert alimentacion.numeroContacto == 3214567890
     assert alimentacion.direccionActual == "Calle Falsa 123"
     assert alimentacion.ciudadActual == "Lima"
     assert alimentacion.paisActual == "Peru"

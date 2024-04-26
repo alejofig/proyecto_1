@@ -45,13 +45,13 @@ describe('EntrenadorComponent', () => {
 
   it('should generate a plan correctly', () => {
     // Mock del servicio para simular la respuesta del método solicitarSesionEntrenador
-    spyOn(entrenadorService, 'crear_sesion_entrenador').and.returnValue(of({mensaje: 'Sesión de entrenador solicitada'}));
+    spyOn(apiGatewayBackendService, 'solicitarSesionEntrenador').and.returnValue(of({mensaje: 'Sesión de entrenador solicitada'}));
 
     // Llama al método que se va a probar
     component.solicitarSesionEntrenador();
 
     // Verifica que se hayan realizado las acciones esperadas
-    expect(entrenadorService.crear_sesion_entrenador).toHaveBeenCalled();
+    expect(apiGatewayBackendService.solicitarSesionEntrenador).toHaveBeenCalled();
     expect(component.activarMensajeExitoso).toBeTrue();
   });
 
