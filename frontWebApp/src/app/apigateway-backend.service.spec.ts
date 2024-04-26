@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
-import { ApiGatewayBackendService } from './apigateway-backend.service';
-import { environment } from '../environments/environment';
-import { AuthModule, AuthService } from '@auth0/auth0-angular';
-import { of } from 'rxjs';
+import {ApiGatewayBackendService} from './apigateway-backend.service';
+import {environment} from '../environments/environment';
+import {AuthModule, AuthService} from '@auth0/auth0-angular';
+import {of} from 'rxjs';
 
 describe('ApiGatewayBackendService', () => {
   let service: ApiGatewayBackendService;
@@ -17,11 +17,11 @@ describe('ApiGatewayBackendService', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule,AuthModule.forRoot({
+      imports: [HttpClientTestingModule, AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
       })],
-      providers: [ApiGatewayBackendService, { provide: AuthService, useValue: authServiceMock }]
+      providers: [ApiGatewayBackendService, {provide: AuthService, useValue: authServiceMock}]
     });
     service = TestBed.inject(ApiGatewayBackendService);
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -37,34 +37,30 @@ describe('ApiGatewayBackendService', () => {
   });
 
   it('should send a POST request to register a user', () => {
-    const userData = {
-    };
+    const userData = {};
 
     service.registrarUsuario(userData).subscribe(response => {
     });
     const req = httpTestingController.expectOne(`${environment.apigateway_url}/registrar_usuario`);
     expect(req.request.method).toEqual('POST');
     expect(req.request.body).toEqual(userData);
-
   });
 
   it('should get complete user data', () => {
-    const dummyUser = { name: 'John Doe', email: 'john@example.com' };
+    const dummyUser = {name: 'John Doe', email: 'john@example.com'};
     service.callApiAndGetCompleteUser().subscribe(user => {
       expect(user).toEqual(dummyUser);
     });
-
     const req = httpTestingController.expectOne(`${environment.apigateway_url}/get_complete_user/`);
-
   });
 
   it('should get statistics', () => {
-    const dummyStats = { totalUsers: 1000 };
+    const dummyStats = {totalUsers: 1000};
     service.callApiAndGetStatics().subscribe(stats => {
       expect(stats).toEqual(dummyStats);
     });
 
-      // Intercept the HTTP GET request
+    // Intercept the HTTP GET request
     const req = httpTestingController.expectOne('https://apigateway.uniandes-sports.com/obtener_estadisticas/');
     expect(req.request.method).toBe('GET'); // Verify that the method of the request is GET
 
@@ -73,35 +69,31 @@ describe('ApiGatewayBackendService', () => {
 
     // Ensure no outstanding HTTP requests
     httpTestingController.verify();
-
   });
 
   it('should register a mototaller service', () => {
-    const motoTallerData = { name: 'Moto Repair', location: 'Downtown' };
-    const response = { success: true, id: 123 };
+    const motoTallerData = {name: 'Moto Repair', location: 'Downtown'};
+    const response = {success: true, id: 123};
 
     service.registrarMototaller(motoTallerData).subscribe(res => {
       expect(res).toEqual(response);
     });
 
-      // Expect a POST request to the specific URL
-      const req = httpTestingController.expectOne('https://apigateway.uniandes-sports.com/crear_servicio_mototaller/');
-      expect(req.request.method).toBe('POST'); // Check that the request is a POST request
-      expect(req.request.body).toEqual(motoTallerData); // Verify that the correct data was sent
+    // Expect a POST request to the specific URL
+    const req = httpTestingController.expectOne('https://apigateway.uniandes-sports.com/crear_servicio_mototaller/');
+    expect(req.request.method).toBe('POST'); // Check that the request is a POST request
+    expect(req.request.body).toEqual(motoTallerData); // Verify that the correct data was sent
 
-      // Flush the request with the mock response data
-      req.flush(response);
+    // Flush the request with the mock response data
+    req.flush(response);
 
-      // Ensure there are no outstanding HTTP requests
-      httpTestingController.verify();
-
-
+    // Ensure there are no outstanding HTTP requests
+    httpTestingController.verify();
   });
 
   it('should request alimentation service', () => {
-    const alimentacionData = { meal: 'Vegan', quantity: 100 };
-    const response = { confirmed: true, orderId: 456 };
-
+    const alimentacionData = {meal: 'Vegan', quantity: 100};
+    const response = {confirmed: true, orderId: 456};
 
     service.crear_servicio_alimentacion(alimentacionData).subscribe(res => {
       expect(res).toEqual(response);
@@ -117,6 +109,5 @@ describe('ApiGatewayBackendService', () => {
 
     // Ensure there are no outstanding HTTP requests
     httpTestingController.verify();
-
   });
 });

@@ -13,10 +13,10 @@ def test_sesion_entrenador():
         "horaSesion": "08:30",
         "comentarios": "Comentarios"
     }
-    response = client.post("/solicitar_sesion_entrenador/", json=entrenador)
+    response = client.post("/crear_sesion_entrenador/", json=entrenador)
     assert response.status_code == 200
 
 
 def test_obtener_sesion_entrenador():
-    response = client.get("/sesiones_entrenador/")
+    response = client.get("/consultar_sesion_entrenador/")
     assert response.status_code == 200
