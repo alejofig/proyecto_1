@@ -7,11 +7,13 @@ import {of} from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
 import {AuthModule} from '@auth0/auth0-angular';
 import {ApiGatewayBackendService} from "../../../apigateway-backend.service";
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
+import {EntrenadorService} from "./entrenador.service";
 
 describe('EntrenadorComponent', () => {
   let component: EntrenadorComponent;
   let fixture: ComponentFixture<EntrenadorComponent>;
+  let entrenadorService: EntrenadorService;
   let apiGatewayBackendService: ApiGatewayBackendService;
   let httpTestingController: HttpTestingController;
 
@@ -20,13 +22,14 @@ describe('EntrenadorComponent', () => {
       imports: [AuthModule.forRoot({
         domain: 'domain',
         clientId: 'clientId'
-      }), EntrenadorComponent, FormsModule, HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()], 
-      providers: [  ],
+      }), EntrenadorComponent, FormsModule, HttpClientTestingModule, RouterTestingModule, TranslateModule.forRoot()],
+      providers: [],
       declarations: []
     }).compileComponents();
 
     fixture = TestBed.createComponent(EntrenadorComponent);
     component = fixture.componentInstance;
+    entrenadorService = TestBed.inject(EntrenadorService);
     apiGatewayBackendService = TestBed.inject(ApiGatewayBackendService);
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture.detectChanges();
@@ -42,13 +45,13 @@ describe('EntrenadorComponent', () => {
 
   it('should generate a plan correctly', () => {
     // Mock del servicio para simular la respuesta del método solicitarSesionEntrenador
-    spyOn(apiGatewayBackendService, 'solicitarSesionEntrenador').and.returnValue(of({mensaje: 'Sesión de entrenador solicitada'}));
+    spyOn(entrenadorService, 'crear_sesion_entrenador').and.returnValue(of({mensaje: 'Sesión de entrenador solicitada'}));
 
     // Llama al método que se va a probar
     component.solicitarSesionEntrenador();
 
     // Verifica que se hayan realizado las acciones esperadas
-    expect(apiGatewayBackendService.solicitarSesionEntrenador).toHaveBeenCalled();
+    expect(entrenadorService.crear_sesion_entrenador).toHaveBeenCalled();
     expect(component.activarMensajeExitoso).toBeTrue();
   });
 

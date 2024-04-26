@@ -1,4 +1,4 @@
-from app.database import crear_servicio_alimentacion, solicitar_sesion_entrenador
+from app.database import crear_servicio_alimentacion, crear_sesion_entrenador
 from app.models import Alimentacion, Entrenador
 
 from create_alimentacion import generate_random_alimentacion
@@ -10,6 +10,6 @@ def test_crear_servicio_alimentacion():
     created_alimentacion = crear_servicio_alimentacion(alimentacion)
 
 
-def test_create_sesion_entrenador():
+def test_crear_sesion_entrenador():
     entrenador = Entrenador(**generate_random_sesion_entrenador())
-    created_entrenador = solicitar_sesion_entrenador(entrenador)
+    created_entrenador = crear_sesion_entrenador(entrenador)

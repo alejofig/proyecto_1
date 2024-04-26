@@ -20,6 +20,6 @@ def test_crear_servicio_alimentacion():
     assert response.status_code == 200
 
 
-def test_obtener_alimentacion():
-    response = client.get("/servicios_alimentacion/")
+def test_consultar_servicio_alimentacion():
+    response = client.get("/consultar_servicio_alimentacion/")
     assert response.status_code == 200
