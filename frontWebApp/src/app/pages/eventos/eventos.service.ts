@@ -24,6 +24,7 @@ export class EventosService {
   getEvents(): Observable<any> {
     return this.auth.getAccessTokenSilently().pipe(
       switchMap(token => {
+        console.log(token)
         const headers = {Authorization: `Bearer ${token}`};
         return this.http.get(this.eventosUrl + '/api/web/eventos', {headers});
       })
