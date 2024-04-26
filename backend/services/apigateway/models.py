@@ -60,7 +60,7 @@ class Alimentacion(BaseModel):
     proposito: str
     tipoAlimentacion: str
     modoRecibir: str
-    numeroContacto: str
+    numeroContacto: int
     direccionActual: str
     ciudadActual: str
     paisActual: str
