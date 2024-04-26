@@ -3,7 +3,6 @@
     <string name="com_auth0_domain">dev-s8qwnnguwcupqg2o.us.auth0.com</string>
     <string name="com_auth0_scheme">demo</string>
     <string name="app_name">SportApp</string>
-<<<<<<< HEAD
     <string name="base_api_url">http://54.198.231.145:3001/</string>
     <string name="eventos_url">http://18.232.89.57:3001/</string>
     <string name="indicadores_url_local">http://10.0.2.2:5000/</string>
@@ -13,15 +12,6 @@
     <string name="entrenamiento_url_prd">https://entrenamientos.uniandes-sports.com/</string>
     <string name="entrenamiento_endpoint">entrenamiento</string>
     <string name="planes_url">https://planes.uniandes-sports.com/</string>
-=======
-    <string name="base_api_url">https://apigateway.uniandes-sports.com/</string>
-    <string name="eventos_url">https://apigateway.uniandes-sports.com/</string>
-    <string name="planes_url">https://apigateway.uniandes-sports.com/</string>
-    <string name="indicadores_url_local">http://10.0.2.2:8000/</string>
-    <string name="indicadores_endpoint">calcular-indicadores/</string>
-    <string name="entrenamiento_url_local">http://10.0.2.2:8000/</string>
-    <string name="entrenamiento_endpoint">entrenamiento/</string>
->>>>>>> develop
     <string name="pausarTextBtn">Pausar</string>
     <string name="reanudarTextBtn">Reanudar</string>
     <string name="iniciar">Iniciar</string>
