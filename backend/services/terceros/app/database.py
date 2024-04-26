@@ -12,7 +12,7 @@ def create_session():
     return session
 
 
-def solicitar_alimentacion(alimentacion: Alimentacion):
+def solicitar_servicio_alimentacion(alimentacion: Alimentacion):
     session = create_session()
     session.add(alimentacion)
     session.commit()
@@ -20,7 +20,7 @@ def solicitar_alimentacion(alimentacion: Alimentacion):
     return alimentacion
 
 
-def solicitar_sesion_entrenador(entrenador: Entrenador):
+def solicitar_servicio_entrenador(entrenador: Entrenador):
     session = create_session()
     session.add(entrenador)
     session.commit()
@@ -36,7 +36,7 @@ def solicitar_servicio_mototaller(mototaller: Mototaller):
     return mototaller
 
 
-def consultar_servicios_alimentacion():
+def consultar_servicio_alimentacion():
     session = create_session()
     statement = select(Alimentacion)
     results = session.exec(statement)
@@ -44,7 +44,7 @@ def consultar_servicios_alimentacion():
     return servicios_alimentacion
 
 
-def consultar_sesion_entrenador():
+def consultar_servicio_entrenador():
     session = create_session()
     statement = select(Entrenador)
     results = session.exec(statement)
@@ -65,7 +65,7 @@ def reset_servicios_alimentacion():
         session.close()
 
 
-def reset_sesion_entrenador():
+def reset_servicio_entrenador():
     session = create_session()
     try:
         num_deleted = session.query(Entrenador).delete()
