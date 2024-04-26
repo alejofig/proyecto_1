@@ -95,12 +95,12 @@ describe('ApiGatewayBackendService', () => {
     const alimentacionData = {meal: 'Vegan', quantity: 100};
     const response = {confirmed: true, orderId: 456};
 
-    service.crear_servicio_alimentacion(alimentacionData).subscribe(res => {
+    service.solicitarAlimentacion(alimentacionData).subscribe(res => {
       expect(res).toEqual(response);
     });
 
     // Expect a POST request to the correct URL
-    const req = httpTestingController.expectOne('https://apigateway.uniandes-sports.com/crear_servicio_alimentacion/');
+    const req = httpTestingController.expectOne('https://apigateway.uniandes-sports.com/solicitar_alimentacion/');
     expect(req.request.method).toBe('POST'); // Verify that the request is a POST request
     expect(req.request.body).toEqual(alimentacionData); // Verify that the correct data was sent
 

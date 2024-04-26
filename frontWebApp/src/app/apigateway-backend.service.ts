@@ -66,11 +66,11 @@ export class ApiGatewayBackendService {
     return this.callApiWithToken(`${this.apiUrl}/crear_servicio_mototaller/`, 'POST', motoTallerData);
   }
 
-  crear_servicio_alimentacion(alimentacionData: any): Observable<any> {
-    return this.callApiWithToken(`${this.apiUrl}/crear_servicio_alimentacion/`, 'POST', alimentacionData);
+  solicitarAlimentacion(alimentacionData: any): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/solicitar_alimentacion/`, 'POST', alimentacionData);
   }
 
-  crear_sesion_entrenador(entrenadorData: any): Observable<any> {
-    return this.callApiWithToken(`${this.apiUrl}/crear_sesion_entrenador/`, 'POST', entrenadorData);
+  solicitarSesionEntrenador(entrenadorData: any): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/solicitar_sesion_entrenador/`, 'POST', entrenadorData);
   }
 }

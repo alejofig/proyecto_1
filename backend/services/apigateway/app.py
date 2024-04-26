@@ -216,9 +216,9 @@ def crear_servicio_mototaller(user):
         return jsonify('Error interno: ' + str(e)), 500
 
 
-@app.route('/crear_servicio_alimentacion/', methods=['POST'])
+@app.route('/solicitar_alimentacion/', methods=['POST'])
 @protected_route
-def crear_servicio_alimentacion(user):
+def solicitar_alimentacion(user):
     try:
         json_data = request.get_json()
         alimentacion = Alimentacion(**json_data)
@@ -233,7 +233,7 @@ def crear_servicio_alimentacion(user):
 
         payload = alimentacion.dict()
         payload["userId"] = usuario_completo.json()["id"]
-        response = requests.post(f"{URL_SERVICIOS}/crear_servicio_alimentacion/",
+        response = requests.post(f"{URL_SERVICIOS}/solicitar_alimentacion/",
                                  json=payload,
                                  headers=headers)
 
