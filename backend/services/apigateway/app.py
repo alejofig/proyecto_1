@@ -269,3 +269,17 @@ def solicitar_sesion_entrenador(user):
         return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
     except Exception as e:
         return jsonify('Error interno: ' + str(e)), 500
+
+@app.route('/calcular-indicadores/', methods=['POST'])
+def calcular_indicadores():
+    event_data = request.get_json()
+    medidor_data = Entrenamiento(**event_data)
+    try:
+        print("{{medidor_data}} ", medidor_data)
+        ftp = calcular_ftp(medidor_data)
+        vo2max = calcular_vo2max(medidor_data)
+        print("{{FTP}}{{vo2max}} ", ftp, vo2max)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    return {"ftp": ftp, "vo2Max": vo2max}

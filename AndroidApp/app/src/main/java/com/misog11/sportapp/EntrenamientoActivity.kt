@@ -1,12 +1,12 @@
 package com.misog11.sportapp
 
+import com.misog11.sportapp.models.Entrenamiento
 import RestApiConsumer
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.misog11.sportapp.databinding.ActivityEntrenamientoBinding
 import android.widget.ImageView
@@ -14,7 +14,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.UserDTO
 import com.misog11.sportapp.models.calcularIndicadoresResponseDto
 import com.misog11.sportapp.utils.BodyMetricsController
@@ -27,8 +26,7 @@ class EntrenamientoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEntrenamientoBinding
     private val handler = Handler(Looper.getMainLooper())
     private val userDTO: UserDTO = UserDTO(0, 70.0, 28, Constants.generoFemenino, 169)
-    private var entrenamientoDto: Entrenamiento =
-        Entrenamiento(0, 0, "", "", "", 0.0, 0.0, 0, 0, "",0)
+    private var entrenamientoDto: Entrenamiento = Entrenamiento()
     private val apiConsumer = RestApiConsumer()
     private var bodyMetricsController = BodyMetricsController(userDTO);
     private var timerController = TimerController()
@@ -78,7 +76,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         binding.btnFinish.setOnClickListener {
             timerController.cancelTimer()
             consumeIndicadoresApi()
-//            consumeEntrenamientoApi()
+            consumeEntrenamientoApi()
             updateHandler.removeCallbacks(updateRunnable)
             binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
             binding.btnIniciar.text = getString(R.string.iniciar)
@@ -112,10 +110,9 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeIndicadoresApi() {
-        entrenamientoDto.id = userDTO.id
         entrenamientoDto.user_id = userDTO.id
         entrenamientoDto.sport_type = intent.getStringExtra(Constants.keyDeporte).toString()
-        entrenamientoDto.duration = binding.tvTimer.text.toString()
+        convertToIntMinutes()
         entrenamientoDto.fecha = java.time.LocalDate.now().toString()
         entrenamientoDto.calories_active = binding.tvActiveCalories.text.toString().toDouble()
         entrenamientoDto.total_calories = binding.tvTotalCaloriesLabel.text.toString().toDouble()
@@ -126,7 +123,7 @@ class EntrenamientoActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val url =
-                getString(R.string.indicadores_url_local) + getString(R.string.indicadores_endpoint)
+                getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_endpoint)
             try {
                 responsecalcularIndicadoresResponseDto =
                     apiConsumer.consumeApi<Entrenamiento, calcularIndicadoresResponseDto>(
@@ -136,29 +133,50 @@ class EntrenamientoActivity : AppCompatActivity() {
                 binding.tvValueFTP.text = responsecalcularIndicadoresResponseDto?.ftp.toString()
                 binding.tvValueVo2.text = responsecalcularIndicadoresResponseDto?.vo2Max.toString()
             } catch (e: Exception) {
-                showErrorDialog(e.message)
+                showDialog("Error",e.message)
             }
         }
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeEntrenamientoApi() {
+        entrenamientoDto.height = null
+        entrenamientoDto.genero = null
+        entrenamientoDto.edad = null
         lifecycleScope.launch {
             val url =
-                getString(R.string.entrenamiento_url_local) + getString(R.string.entrenamiento_endpoint)
+                getString(R.string.entrenamiento_url_prd) + getString(R.string.entrenamiento_endpoint)
+            print(entrenamientoDto)
             try {
                  entrenamientoDto=
                      apiConsumer.consumeApi<Entrenamiento, Entrenamiento>(
                         entrenamientoDto,
                         url
                     ).await()
+                showDialog("Entrenamiento","Entrenamiento completado"
+                ) { navigate(DeporteActivity::class.java) }
             } catch (e: Exception) {
-                showErrorDialog(e.message)
+                showDialog("Error",e.message)
             }
         }
     }
     private fun navigate(viewState: Class<*>) {
         val intent = Intent(this, viewState)
         startActivity(intent)
+    }
+
+    private fun convertToIntMinutes(){
+        val timeString = binding.tvTimer.text.toString() // "hh:mm:ss"
+        val parts = timeString.split(":")
+
+        if (parts.size == 3) {
+            val hours = parts[0].toInt()
+            val minutes = parts[1].toInt()
+            val totalMinutes = hours * 60 + minutes
+
+            entrenamientoDto.duration = totalMinutes
+        } else {
+            println("Error: El formato de tiempo no es válido")
+        }
     }
 
     private fun updateCalories() {
@@ -180,11 +198,14 @@ class EntrenamientoActivity : AppCompatActivity() {
         timerController.cancelTimer() // Asegura que el temporizador se cancele al salir de la actividad
     }
 
-    private fun showErrorDialog(message: String?) {
+    private fun showDialog(title: String?, message: String?, func: (() -> Unit)? = null) {
         AlertDialog.Builder(this)
-            .setTitle("Error")
+            .setTitle(title)
             .setMessage(message)
-            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                func?.invoke()
+            }
             .show()
     }
 }
