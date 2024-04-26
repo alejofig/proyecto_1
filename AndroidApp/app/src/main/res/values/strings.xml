@@ -27,5 +27,6 @@
     <string name="corazon">♥</string>
     <string name="atletismo">Atletismo</string>
     <string name="ciclismo">Ciclismo</string>
+    <string name="version">v 1.0.0</string>
 
 </resources>

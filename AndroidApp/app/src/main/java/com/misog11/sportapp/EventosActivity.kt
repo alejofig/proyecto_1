@@ -80,12 +80,21 @@ class EventosActivity : AppCompatActivity() {
                 val respuestaEventos = retrofitApi.create(EventosService::class.java)
                                                   .getEventos("Bearer $tokenAuth")
                 if (respuestaEventos.isSuccessful) {
+                    Log.i("Exito trayendo Eventos", "ss")
                     val listaEventos = respuestaEventos.body()
                     val respuestaPlanes = retrofitApi.create(EventosService::class.java)
                                                      .getPlanes("Bearer $tokenAuth")
                     if (respuestaPlanes.isSuccessful) {
+                        Log.i("Exito trayendo Planes", "ss")
                         val planes = respuestaPlanes.body()
-                        if(planes != null && listaEventos != null){
+                        if(planes != null && listaEventos != null ){
+                            if(planes.isEmpty()){
+                                runOnUiThread {
+                                    configurateCalendar(listaEventos)
+                                    recyclerViewUpdateEventos(listaEventos)
+                                }
+                                return@launch
+                            }
                             val eventosGenerados = planes2Eventos(planes)
                             val eventosTotal = ordenarEventos(listaEventos + eventosGenerados)
 
