@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.misog11.sportapp.models.EntrenamientoInd
 import com.misog11.sportapp.models.UserDTO
 import com.misog11.sportapp.models.calcularIndicadoresResponseDto
 import com.misog11.sportapp.utils.BodyMetricsController
@@ -27,6 +28,7 @@ class EntrenamientoActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val userDTO: UserDTO = UserDTO(0, 70.0, 28, Constants.generoFemenino, 169)
     private var entrenamientoDto: Entrenamiento = Entrenamiento()
+    private var entrenamientoIndDto: EntrenamientoInd = EntrenamientoInd()
     private val apiConsumer = RestApiConsumer()
     private var bodyMetricsController = BodyMetricsController(userDTO);
     private var timerController = TimerController()
@@ -110,24 +112,25 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeIndicadoresApi() {
-        entrenamientoDto.user_id = userDTO.id
-        entrenamientoDto.sport_type = intent.getStringExtra(Constants.keyDeporte).toString()
-        convertToIntMinutes()
-        entrenamientoDto.fecha = java.time.LocalDate.now().toString()
-        entrenamientoDto.calories_active = binding.tvActiveCalories.text.toString().toDouble()
-        entrenamientoDto.total_calories = binding.tvTotalCaloriesLabel.text.toString().toDouble()
-        entrenamientoDto.fcm = binding.tvHeartRate.text.toString().toInt()
-        entrenamientoDto.height = userDTO.alturaUsuarioCm
-        entrenamientoDto.genero = userDTO.generoUsuario
-        entrenamientoDto.edad = userDTO.edadUsuario
+        entrenamientoIndDto.user_id = userDTO.id
+        entrenamientoIndDto.sport_type = intent.getStringExtra(Constants.keyDeporte).toString()
+        //convertToIntMinutes()
+        entrenamientoIndDto.duration= binding.tvTimer.text.toString() // "hh:mm:ss"
+        entrenamientoIndDto.fecha = java.time.LocalDate.now().toString()
+        entrenamientoIndDto.calories_active = binding.tvActiveCalories.text.toString().toDouble()
+        entrenamientoIndDto.total_calories = binding.tvTotalCaloriesLabel.text.toString().toDouble()
+        entrenamientoIndDto.fcm = binding.tvHeartRate.text.toString().toInt()
+        entrenamientoIndDto.height = userDTO.alturaUsuarioCm
+        entrenamientoIndDto.genero = userDTO.generoUsuario
+        entrenamientoIndDto.edad = userDTO.edadUsuario
 
         lifecycleScope.launch {
             val url =
                 getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_endpoint)
             try {
                 responsecalcularIndicadoresResponseDto =
-                    apiConsumer.consumeApi<Entrenamiento, calcularIndicadoresResponseDto>(
-                        entrenamientoDto,
+                    apiConsumer.consumeApi<EntrenamientoInd, calcularIndicadoresResponseDto>(
+                        entrenamientoIndDto,
                         url
                     ).await()
                 binding.tvValueFTP.text = responsecalcularIndicadoresResponseDto?.ftp.toString()
@@ -139,9 +142,13 @@ class EntrenamientoActivity : AppCompatActivity() {
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeEntrenamientoApi() {
-        entrenamientoDto.height = null
-        entrenamientoDto.genero = null
-        entrenamientoDto.edad = null
+        entrenamientoDto.user_id = userDTO.id
+        entrenamientoDto.sport_type = intent.getStringExtra(Constants.keyDeporte).toString()
+        convertToIntMinutes() // "hh:mm:ss"
+        entrenamientoDto.fecha = java.time.LocalDate.now().toString()
+        entrenamientoDto.calories_active = binding.tvActiveCalories.text.toString().toDouble()
+        entrenamientoDto.total_calories = binding.tvTotalCaloriesLabel.text.toString().toDouble()
+        entrenamientoDto.fcm = binding.tvHeartRate.text.toString().toInt()
         lifecycleScope.launch {
             val url =
                 getString(R.string.entrenamiento_url_prd) + getString(R.string.entrenamiento_endpoint)
