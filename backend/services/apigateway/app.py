@@ -1,5 +1,5 @@
-from http.client import HTTPException
 import os
+from http.client import HTTPException
 from urllib.parse import unquote
 
 import boto3
@@ -10,7 +10,7 @@ from flask_cors import CORS
 from pydantic import ValidationError
 
 from models import Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
-from utils import protected_route, protected_route_movil,  send_email, calcular_ftp, calcular_vo2max
+from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max
 
 load_dotenv()
 URL_USERS = os.getenv('USERS_PATH')
@@ -270,6 +270,21 @@ def solicitar_sesion_entrenador(user):
         return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
     except Exception as e:
         return jsonify('Error interno: ' + str(e)), 500
+
+
+@app.route('/sesiones_entrenador', methods=['GET'])
+@protected_route
+def consultar_sesiones_entrenador(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    response = requests.get(f"{URL_SERVICIOS}/entrenador/{email}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('Error consultado sesiones con entrenador'), 401
+    data = response.json()
+
+    return jsonify(data), 201
+
 
 @app.route('/calcular-indicadores/', methods=['POST'])
 def calcular_indicadores():
