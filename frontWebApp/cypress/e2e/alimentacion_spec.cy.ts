@@ -1,7 +1,16 @@
 describe('Prueba la página de servicio de alimentación', () => {
   it('Visita la página de servicios de alimentación y muestra el contenido', () => {
+    cy.visit('https://app.uniandes-sports.com');
+    cy.get('app-auth-button').should('be.visible').click();
+    cy.origin('https://dev-s8qwnnguwcupqg2o.us.auth0.com', () => {
+      cy.get('input[name="username"]').type('abc@hotmail.com');
+      cy.get('input[name="password"]').type('Asdf1234*');
+      cy.get('button[type="submit"]').click();
+
+    });
+
+    cy.wait(5000)
     cy.visit('https://app.uniandes-sports.com/servicios/alimentacion')
-    cy.wait(10000)
     cy.contains('Servicio de Alimentación')
     cy.contains('Proveedor:')
     cy.get('#proveedor').select('Cocina Fit', {force: true});

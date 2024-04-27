@@ -1,7 +1,16 @@
 describe('Prueba la página de sesión con entrenador', () => {
   it('Visita la página de sesión con entrenador y muestra el contenido', () => {
+    cy.visit('https://app.uniandes-sports.com');
+    cy.get('app-auth-button').should('be.visible').click();
+    cy.origin('https://dev-s8qwnnguwcupqg2o.us.auth0.com', () => {
+      cy.get('input[name="username"]').type('abc@hotmail.com');
+      cy.get('input[name="password"]').type('Asdf1234*');
+      cy.get('button[type="submit"]').click();
+
+    });
+
+    cy.wait(5000)
     cy.visit('https://app.uniandes-sports.com/servicios/entrenador')
-    cy.wait(10000)
     cy.contains('Programar Sesión con Entrenador')
     cy.contains('Proveedor:')
     cy.get('#proveedor').select('AlejoFit', {force: true});
