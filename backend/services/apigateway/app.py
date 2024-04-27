@@ -1,7 +1,7 @@
 import os
 from http.client import HTTPException
 from urllib.parse import unquote
-
+import logging
 import boto3
 import requests
 from dotenv import load_dotenv
@@ -31,6 +31,7 @@ cors = CORS(app, resource={
 if __name__ == '__main__':
     app.run(debug=True)
 
+logging.basicConfig(level=logging.DEBUG)
 
 # Endpoint para validar la salud del servicio
 @app.route('/', methods=['GET'])
@@ -276,7 +277,10 @@ def solicitar_sesion_entrenador(user):
 @protected_route
 def consultar_sesiones_entrenador(user):
     user_dict = user
-    userid = user_dict.get('userId', 'No userId provided')
+    email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
+    userid = user_data.get('id', 'na')
+
     response = requests.get(f"{URL_SERVICIOS}/sesiones_entrenador/{userid}", headers={})
     if response.status_code != 200:
         print(response)
