@@ -8,6 +8,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
 
 class RestApiConsumer {
 
@@ -15,7 +16,7 @@ class RestApiConsumer {
     val gson = Gson()
     suspend inline fun <reified T, reified R> consumeApi(dto: T, endpointUrl: String): Deferred<R> {
         val json = gson.toJson(dto)
-
+        Log.d(  "JSON",json)
         return withContext(Dispatchers.IO) {
             async {
                 var response: String
