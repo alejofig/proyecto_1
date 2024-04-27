@@ -1,5 +1,5 @@
 from app.database import (solicitar_servicio_alimentacion, solicitar_servicio_entrenador, solicitar_servicio_mototaller,
-                          consultar_servicio_alimentacion, consultar_servicio_entrenador,
+                          consultar_servicio_alimentacion, consultar_servicio_entrenador, consultar_servicio_entrenador_usuario,
                           reset_servicios_alimentacion, reset_servicio_entrenador)
 from app.models import Alimentacion, Entrenador, Mototaller
 from fastapi import APIRouter
@@ -40,6 +40,12 @@ async def obtener_alimentacion():
 async def obtener_sesion_entrenador():
     sesiones_entrenador = consultar_servicio_entrenador()
     return sesiones_entrenador
+
+
+@router.get("/sesiones_entrenador/{userid}")
+async def obtener_sesion_entrenador_user(userid: str):
+    sesiones_entrenador_user = consultar_servicio_entrenador_usuario(userid)
+    return sesiones_entrenador_user
 
 
 @router.post("/reset_alimentacion")

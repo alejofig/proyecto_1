@@ -276,8 +276,8 @@ def solicitar_sesion_entrenador(user):
 @protected_route
 def consultar_sesiones_entrenador(user):
     user_dict = user
-    email = user_dict.get('email', 'No email provided')
-    response = requests.get(f"{URL_SERVICIOS}/entrenador/{email}", headers={})
+    userid = user_dict.get('userId', 'No userId provided')
+    response = requests.get(f"{URL_SERVICIOS}/sesiones_entrenador/{userid}", headers={})
     if response.status_code != 200:
         print(response)
         return jsonify('Error consultado sesiones con entrenador'), 401

@@ -52,6 +52,14 @@ def consultar_servicio_entrenador():
     return sesion_entrenador
 
 
+def consultar_servicio_entrenador_usuario(userid: str):
+    session = create_session()
+    statement = select(Entrenador).where(Entrenador.userId == userid)
+    results = session.exec(statement)
+    sesiones = results.all()
+    return sesiones
+
+
 def reset_servicios_alimentacion():
     session = create_session()
     try:
