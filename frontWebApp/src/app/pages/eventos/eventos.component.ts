@@ -32,6 +32,7 @@ export class EventosComponent {
   ngOnInit() {
     this.eventosService.getEvents().subscribe({
       next: (eventos) => {
+        
         const eventos_data = this.crear_eventos_calendario(eventos)
         if (Array.isArray(this.calendarOptions.events)) {
           this.calendarOptions.events = this.calendarOptions.events.concat(eventos_data[0]);
@@ -75,7 +76,9 @@ export class EventosComponent {
   obtenerSesionesEntrenador() {
     this.eventosService.getSesionesEntrenador().subscribe({
       next: (sesiones) => {
+        
         const sesiones_data = this.crear_sesiones_entrenador_calendario(sesiones)
+        console.log("sesiones_data",sesiones_data)
         if (Array.isArray(this.calendarOptions.events)) {
           this.calendarOptions.events = this.calendarOptions.events.concat(sesiones_data[0]);
         }
@@ -92,6 +95,8 @@ export class EventosComponent {
   }
 
   crear_eventos_calendario(eventos: any): any {
+    if (!eventos || !eventos["eventos"]) return [[], []];
+    eventos = eventos["eventos"];
     const listaEventosCalendar = eventos.map((evento: any) => {
       return {
         title: `Evt: ${evento.nombre}`,
@@ -144,35 +149,29 @@ export class EventosComponent {
   };
 
   crear_sesiones_entrenador_calendario(sesiones: any): any {
-    const sesionesEvent: any[] = []
-    const sesionesList: any[] = []
+    let sesionesEvent: any[] = []
+    let sesionesList: any[] = []
 
-    sesiones.forEach((sesion: any) => {
-      const dateParts = sesion.fechas.replace(/'/g, "").split(', ');
-      const formattedDates = dateParts.map((date: String) => date.replace(/\//g, '-'));
+    if (!sesiones) return [[], []];
 
-      formattedDates.forEach((date: string) => {
-        let entr = {
-          title: `Ent: ${sesion.proveedor},
-                  ${sesion.tipoEntrenamiento}`,
-          date: date,
-          backgroundColor: "#00FFFF",
-        };
-        sesionesEvent.push(entr);
-
-        let entr2 = {
-          titulo: `Sesión: ${sesion.proveedor},  ${sesion.tipoEntrenamiento}`,
-          descripcion: `Sesión con un entrenador de la empresa ${sesion.proveedor}
-              enfocado en el tipo de entrenamiento: ${sesion.tipoEntrenamiento}.
-              Comentarios adicionales: ${sesion.comentarios}`,
-          fecha: `Fecha: ${date}`,
-          fecha_pura: date,
-        };
-        sesionesList.push(entr2);
-      });
+    sesionesList = sesiones.map((session: any) => {
+      return {
+        title: `Se: ${session.tipoEntrenamiento}`,
+        date: session.fechaSesion,
+        backgroundColor: "#5353ec",
+      }
     });
 
-    return [sesionesEvent, sesionesList]
+    sesionesEvent = sesiones.map((session: any) => {
+      return {
+        titulo: `Sesión: ${session.tipoEntrenamiento}`,
+        descripcion: `${session.comentarios}, ${session.proveedor}`,
+        fecha: `Fecha: ${session.fechaSesion}, Hora ${session.horaSesion} Ubicacion: Virtual`,
+        fecha_pura: session.fechaSesion,
+      }
+    });
+
+    return [sesionesList, sesionesEvent ]
   }
 
   ordernar_eventos(eventos: any) {
