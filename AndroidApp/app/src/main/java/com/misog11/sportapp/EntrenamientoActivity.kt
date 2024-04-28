@@ -20,7 +20,9 @@ import com.misog11.sportapp.models.calcularIndicadoresResponseDto
 import com.misog11.sportapp.utils.BodyMetricsController
 import com.misog11.sportapp.utils.Constants
 import com.misog11.sportapp.utils.TimerController
+import com.misog11.sportapp.utils.utils
 import kotlinx.coroutines.launch
+import retrofit2.http.Header
 
 class EntrenamientoActivity : AppCompatActivity() {
 
@@ -34,9 +36,14 @@ class EntrenamientoActivity : AppCompatActivity() {
     private var timerController = TimerController()
     private var isFirstClick: Boolean = true
     private var responsecalcularIndicadoresResponseDto: calcularIndicadoresResponseDto? = null
+    private lateinit var tokenAuth:String
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Traer Token Autorizacion
+        tokenAuth =  utils.obtenerToken(this) ?: ""
+
         binding = ActivityEntrenamientoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -77,6 +84,8 @@ class EntrenamientoActivity : AppCompatActivity() {
 
         binding.btnFinish.setOnClickListener {
             timerController.cancelTimer()
+            //consumeIndicadoresApi("Bearer $tokenAuth")
+            //consumeEntrenamientoApi("Bearer $tokenAuth")
             consumeIndicadoresApi()
             consumeEntrenamientoApi()
             updateHandler.removeCallbacks(updateRunnable)
@@ -105,12 +114,14 @@ class EntrenamientoActivity : AppCompatActivity() {
     private val updateRunnable = object : Runnable {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun run() {
+            //consumeIndicadoresApi("Bearer $tokenAuth")
             consumeIndicadoresApi()
             updateHandler.postDelayed(this, 6000)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    //private fun consumeIndicadoresApi(@Header("Authorization") authToken: String) {
     private fun consumeIndicadoresApi() {
         entrenamientoIndDto.user_id = userDTO.id
         entrenamientoIndDto.sport_type = intent.getStringExtra(Constants.keyDeporte).toString()
@@ -141,6 +152,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
     }
     @RequiresApi(Build.VERSION_CODES.O)
+    //private fun consumeEntrenamientoApi(@Header("Authorization") authToken: String) {
     private fun consumeEntrenamientoApi() {
         entrenamientoDto.user_id = userDTO.id
         entrenamientoDto.sport_type = intent.getStringExtra(Constants.keyDeporte).toString()

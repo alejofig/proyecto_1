@@ -48,6 +48,15 @@ class Entrenamiento(BaseModel):
     height: int = 0
     edad: int = 0
     genero: str
+    
+"""
+class Entrenamiento(BaseModel):
+    duration: str
+    fcm: int = 0
+    height: int = 0
+    edad: int = 0
+    genero: str
+"""
 
 class Mototaller(BaseModel):
     fechaSesion: str
