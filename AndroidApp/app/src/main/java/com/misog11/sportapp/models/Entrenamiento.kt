@@ -14,27 +14,12 @@ class Entrenamiento (
 )
 
 @Serializable
-class EntrenamientoInd (
+class EntrenamientoInd(
    var user_id: Int? = null,
    var sport_type: String? = null,
    var duration: String? = null,
    var fecha: String? = null,
    var calories_active: Double? = null,
    var total_calories: Double? = null,
-   var fcm: Int? = null,
-   var height:Int? = null,
-   var genero:String? = null,
-   var edad:Int? = null
+   var fcm: Int? = null
 )
-
-/**
-@Serializable
-class EntrenamientoInd (
-   var duration: String? = null,
-   var fcm: Int? = null,
-   var height:Int? = null,
-   var edad:Int? = null,
-   var genero:String? = null
-)
-**/
-
