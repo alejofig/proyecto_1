@@ -4,9 +4,19 @@ on:
     branches:
       - 'develop'
 jobs:
-  run-tests-apigateway:
+  run-tests:
     name: Integration tests
     runs-on: ubuntu-latest
+    services:
+      users:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: prueba
+          POSTGRES_USER: prueba
+          POSTGRES_DB: prueba
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
       AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
       AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
@@ -34,8 +44,27 @@ jobs:
         run: |
           coverage report --fail-under=55
           pytest --cov . --cov-report=xml:apigateway_coverage.xml
+      - name: Install Dependencies
+        working-directory: ./backend/services/users
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Start FastAPI App
+        working-directory: ./backend/services/users
+        run: |
+          nohup uvicorn main:app --host 0.0.0.0 --port 8000 &
+      - name: Run Tests
+        working-directory: ./backend/services/users
+        run: |
+          coverage run -m pytest tests/* -v
+      - name: Run cov report
+        working-directory: ./backend/services/users
+        run: |
+          coverage report --fail-under=85     
+          pytest --cov . --cov-report=xml:users.xml
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v4.2.0
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
         
