@@ -3,31 +3,30 @@ package com.misog11.sportapp.utils
 import android.util.Log
 import com.misog11.sportapp.models.UserDTO
 
-class BodyMetricsController(userDTO: UserDTO) {
-    private val userDTO = userDTO
+class BodyMetricsController() {
     var totalCaloriesBurned: Double = 0.0
     var totalCalories: Double = 0.0
 
-    fun updateFCM(): Int {
-        return 220 - userDTO.edadUsuario
+    fun updateFCM(userDTO: UserDTO): Int {
+        return 220 - userDTO.edad
     }
 
-    fun calculateCaloriesInRepose(): Double {
-        val factorGenero = if (Constants.generoFemenino.equals(userDTO.generoUsuario)) -161 else 5
+    fun calculateCaloriesInRepose(userDTO: UserDTO): Double {
+        val factorGenero = if (Constants.generoFemenino.equals(userDTO.genero)) -161 else 5
         val calculo: Double =
-            (10 * userDTO.pesoUsuarioKg) + (6.25 * userDTO.alturaUsuarioCm) - (5 * userDTO.edadUsuario) + factorGenero
+            (10 * userDTO.peso) + (6.25 * userDTO.altura) - (5 * userDTO.edad) + factorGenero
         return calculo
     }
 
-    fun updateCalories(deporte: String) {
+    fun updateCalories(deporte: String,userDTO: UserDTO) {
         val met: Double =
             if (deporte == Constants.ciclismo) Constants.metCiclismo else if (deporte == Constants.atletismo) Constants.metAtletismo else 0.0
 
-        val caloriesPerSecond = (met * userDTO.pesoUsuarioKg * 3.5) / 200 / 3600
+        val caloriesPerSecond = (met * userDTO.peso * 3.5) / 200 / 3600
         if (met != 0.0) {
             totalCaloriesBurned += caloriesPerSecond * 5
             // Calcular calorías en reposo basado en la fórmula de Mifflin-St Jeor
-            val caloriesInRepose = calculateCaloriesInRepose() / (24 * 3600) * 5
+            val caloriesInRepose = calculateCaloriesInRepose(userDTO) / (24 * 3600) * 5
             // Calcular calorías totales (activas + en reposo)
             totalCalories = totalCaloriesBurned + caloriesInRepose
         }

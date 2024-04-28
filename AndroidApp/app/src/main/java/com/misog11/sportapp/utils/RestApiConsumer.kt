@@ -28,9 +28,7 @@ class RestApiConsumer {
                 try {
                     response = client.post(endpointUrl) {
                         contentType(ContentType.Application.Json)
-                        headers {
-                            append("Authorization", tokenBearer)
-                        }
+                        header ("Authorization", tokenBearer)
                         body = json
                     }
                 } catch (e: Exception) {

@@ -30,13 +30,13 @@ class EntrenamientoActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private var userDTO: UserDTO = UserDTO(0, 0.0, 0, "", 0)
+    private var userDTO: UserDTO = UserDTO()
     private var entrenamientoDto: Entrenamiento = Entrenamiento()
     private var entrenamientoIndDto: EntrenamientoInd = EntrenamientoInd()
     private val apiConsumer = RestApiConsumer()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private var bodyMetricsController = BodyMetricsController(userDTO);
+    private var bodyMetricsController = BodyMetricsController();
     private var timerController = TimerController()
     private var isFirstClick: Boolean = true
     private var responsecalcularIndicadoresResponseDto: calcularIndicadoresResponseDto? = null
@@ -48,7 +48,7 @@ class EntrenamientoActivity : AppCompatActivity() {
 
         // Traer Token Autorizacion
         tokenAuth = utils.obtenerToken(this) ?: ""
-        userDTO = consumeDatosUsuario()
+        consumeDatosUsuario()
         binding = ActivityEntrenamientoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -64,7 +64,7 @@ class EntrenamientoActivity : AppCompatActivity() {
                 binding.tvTimer.text = getString(R.string.initTimer)
                 bodyMetricsController.totalCalories = 0.0
                 bodyMetricsController.totalCaloriesBurned = 0.0
-                binding.tvHeartRate.text = bodyMetricsController.updateFCM().toString()
+                binding.tvHeartRate.text = bodyMetricsController.updateFCM(userDTO).toString()
                 if (intent.getStringExtra(Constants.keyDeporte)
                         .toString() == "ciclismo"
                 ) binding.containerFTP.visibility = android.view.View.VISIBLE
@@ -126,21 +126,16 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeIndicadoresApi() {
-
-        Log.i("id=============>", userDTO.id.toString())
-        Log.i("generoUsuario=============>", userDTO.generoUsuario)
-        Log.i("alturaUsuarioCm=============>", userDTO.alturaUsuarioCm.toString())
-        Log.i("pesoUsuarioKg=============>", userDTO.pesoUsuarioKg.toString())
-        Log.i("edadUsuario=============>", userDTO.edadUsuario.toString())
-
-        entrenamientoIndDto.user_id = userDTO.id
-        entrenamientoIndDto.sport_type = intent.getStringExtra(Constants.keyDeporte).toString()
         entrenamientoIndDto.duration = binding.tvTimer.text.toString() // "hh:mm:ss"
-        entrenamientoIndDto.fecha = java.time.LocalDate.now().toString()
-        entrenamientoIndDto.calories_active = binding.tvActiveCalories.text.toString().toDouble()
-        entrenamientoIndDto.total_calories = binding.tvTotalCaloriesLabel.text.toString().toDouble()
         entrenamientoIndDto.fcm = binding.tvHeartRate.text.toString().toInt()
-
+        entrenamientoIndDto.height = userDTO.altura
+        entrenamientoIndDto.edad = userDTO.edad
+        entrenamientoIndDto.genero = userDTO.genero
+        Log.i("duration", entrenamientoIndDto.duration!!)
+        Log.i("fcm", entrenamientoIndDto.fcm!!.toString())
+        Log.i("height", entrenamientoIndDto.height!!.toString())
+        Log.i("edad", entrenamientoIndDto.edad!!.toString())
+        Log.i("genero", entrenamientoIndDto.genero!!)
         lifecycleScope.launch {
             val url =
                 getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_endpoint)
@@ -171,7 +166,6 @@ class EntrenamientoActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val url =
                 getString(R.string.entrenamiento_url_prd) + getString(R.string.entrenamiento_endpoint)
-            print(entrenamientoDto)
             try {
                 entrenamientoDto =
                     apiConsumer.consumeApiPost<Entrenamiento, Entrenamiento>(
@@ -210,7 +204,7 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateCalories() {
-        bodyMetricsController.updateCalories(intent.getStringExtra(Constants.keyDeporte).toString())
+        bodyMetricsController.updateCalories(intent.getStringExtra(Constants.keyDeporte).toString(),userDTO)
         // Actualizar el TextView de calorías activas
         binding.tvActiveCalories.text =
             String.format("%.2f", bodyMetricsController.getCaloriesBurned())
@@ -240,13 +234,12 @@ class EntrenamientoActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun consumeDatosUsuario(): UserDTO {
-        var user: UserDTO = UserDTO(0, 0.0, 0, "", 0)
+    private fun consumeDatosUsuario() {
         lifecycleScope.launch {
             val url =
                 getString(R.string.indicadores_url_prd) + getString(R.string.users_endpoint)
             try {
-                user =
+                userDTO =
                     apiConsumer.consumeApiGet<UserDTO>(
                         url,
                         tokenAuth
@@ -255,11 +248,5 @@ class EntrenamientoActivity : AppCompatActivity() {
                 showDialog("Error", e.message)
             }
         }
-        Log.i("id=============>", user.id.toString())
-        Log.i("generoUsuario=============>", user.generoUsuario)
-        Log.i("alturaUsuarioCm=============>", user.alturaUsuarioCm.toString())
-        Log.i("pesoUsuarioKg=============>", user.pesoUsuarioKg.toString())
-        Log.i("edadUsuario=============>", user.edadUsuario.toString())
-        return user
     }
 }
