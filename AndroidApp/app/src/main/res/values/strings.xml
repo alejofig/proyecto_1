@@ -12,6 +12,7 @@
     <string name="entrenamiento_url_local">http://10.0.2.2:3005/</string>
     <string name="entrenamiento_url_prd">https://entrenamientos.uniandes-sports.com/</string>
     <string name="entrenamiento_endpoint">entrenamiento</string>
+    <string name="users_endpoint">get_current_user_movil/</string>
     <string name="pausarTextBtn">Pausar</string>
     <string name="reanudarTextBtn">Reanudar</string>
     <string name="iniciar">Iniciar</string>
