@@ -291,21 +291,6 @@ def consultar_sesiones_entrenador(user):
 
 
 @app.route('/calcular-indicadores/', methods=['POST'])
-def calcular_indicadores():
-    event_data = request.get_json()
-    medidor_data = Entrenamiento(**event_data)
-    try:
-        print("{{medidor_data}} ", medidor_data)
-        ftp = calcular_ftp(medidor_data)
-        vo2max = calcular_vo2max(medidor_data)
-        print("{{FTP}}{{vo2max}} ", ftp, vo2max)
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-    return {"ftp": ftp, "vo2Max": vo2max}
-
-"""
-@app.route('/calcular-indicadores/', methods=['POST'])
 @protected_route_movil
 def calcular_indicadores(user):
     user_dict = user
@@ -333,6 +318,6 @@ def calcular_indicadores(user):
         return jsonify({"ftp": ftp, "vo2Max": vo2max}), 200
     except Exception as e:
         return jsonify('Error interno: ' + str(e)), 500
-"""
+
 
 
