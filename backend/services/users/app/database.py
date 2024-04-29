@@ -25,4 +25,5 @@ def get_user_by_email(email: str):
     statement = select(User).where(User.email==email)
     results = session.exec(statement)
     user = results.first()
+    session.close()
     return user
