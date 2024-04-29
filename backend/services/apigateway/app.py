@@ -73,6 +73,13 @@ def consultar_usuario_completo(user):
     usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
     return jsonify(usuario_completo.json()), 200
 
+@app.route('/get_complete_user_movil/', methods=['GET'])
+@protected_route_movil
+def consultar_usuario_completo_movil(user):
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+    return jsonify(usuario_completo.json()), 200
+
 
 @app.route('/get_current_user_movil/', methods=['GET'])
 @protected_route_movil
@@ -290,8 +297,40 @@ def consultar_sesiones_entrenador(user):
     return jsonify(data), 201
 
 
+@app.route('/calcular-indicadores2/', methods=['POST'])
+@protected_route_movil
+def calcular_indicadores2(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
+    
+    try:
+        # Extracción de datos necesarios del usuario
+        altura = user_data.get('altura', 0)
+        genero = user_data.get('genero', 'na')
+        edad = user_data.get('edad', 0)
+
+        entrenamiento = Entrenamiento (
+            duration = request.get_json('duration', '00:00:00'),
+            fcm = request.json.get('fcm', 0),
+            height = altura,
+            edad = edad,
+            genero = genero
+        )
+
+        # Cálculo de indicadores
+        ftp = calcular_ftp(entrenamiento)
+        vo2max = calcular_vo2max(entrenamiento)
+
+        return jsonify({"ftp": ftp, "vo2Max": vo2max}), 200
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
+    
+    
 @app.route('/calcular-indicadores/', methods=['POST'])
-def calcular_indicadores():
+@protected_route_movil
+def calcular_indicadores(user):
+
     event_data = request.get_json()
     medidor_data = Entrenamiento(**event_data)
     try:
@@ -303,3 +342,6 @@ def calcular_indicadores():
         raise HTTPException(status_code=400, detail=str(e))
 
     return {"ftp": ftp, "vo2Max": vo2max}
+
+
+

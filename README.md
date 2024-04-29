@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/alejofig/proyecto_1/graph/badge.svg?token=U837L22MQ4)](https://codecov.io/gh/alejofig/proyecto_1)
+[![codecov](https://codecov.io/gh/alejofig/proyecto_1/branch/develop/graph/badge.svg?token=U837L22MQ4)](https://codecov.io/gh/alejofig/proyecto_1)
 [![version](https://img.shields.io/badge/version-v1.0.1-green.svg)]()
 
 # Repositorio de código para Proyecto Final de Maestría

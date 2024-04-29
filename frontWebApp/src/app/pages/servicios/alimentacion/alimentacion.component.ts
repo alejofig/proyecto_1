@@ -30,7 +30,7 @@ export class AlimentacionComponent implements OnInit {
   public mensaje: string = '';
   public mensajeError: string = 'Todos los campos son obligatorios, por favor ingrese los campos faltantes.'
   public mensajeVirtual: string = 'El servicio se ha generado con éxito y se muestra a continuación:';
-  public mensajeDomicilio: string = 'Su orden ha sido recibida con éxito, en breve el proveedor lo contactará para ultimar detalles del domicilio!'
+  public mensajeDomicilio: string = 'Su orden ha sido recibida con éxito, el proveedor lo contactará para ultimar detalles del domicilio.'
   public mostrarVirtualNutricion: boolean = false;
   public mostrarVirtualMuscular: boolean = false;
   public activarMensajeExitoso: boolean = false;
