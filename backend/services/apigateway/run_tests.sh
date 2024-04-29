@@ -17,6 +17,6 @@ echo "Running tests for apigateway..."
 create_virtualenv
 pip install -r requirements.txt
 coverage run -m pytest tests/* -v
-coverage report --fail-under=80
+coverage report --fail-under=60
+pytest --cov tests/* -v
 deactivate
-

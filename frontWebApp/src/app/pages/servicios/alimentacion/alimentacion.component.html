@@ -1,44 +1,157 @@
 <div class="row">
-    <div class="col-3">
-        <app-sidebard></app-sidebard>
+  <div class="col-3">
+    <app-sidebard></app-sidebard>
+  </div>
+  <div class="content col-9 position-relative px-0">
+    <div class="position-sticky top-0 z-3">
+      <app-header></app-header>
     </div>
-    <div class="content col-9 row">
-        <app-header></app-header>
-        <div class="px-5">
-            <h3><b>Solicitar Alimentación</b></h3>
-            <hr>
-            <form action="submit_session_form" method="post">
-                <label for="alimentacion">Tipo de Alimentación Deportiva:</label>
-                <select id="alimentacion" name="alimentacion" required>
-                    <option value="">Selecciona una opción</option>
-                    <option value="Proteínas">Proteína Pro 1000g</option>
-                    <option value="Carbohidratos">Carbohidratos 1000g</option>
-                    <option value="Grasas saludables">Grasas saludables 1000g</option>
-                    <option value="Suplementos">Suplementos</option>
-                    <option value="Dieta equilibrada">Dieta equilibrada</option>
-
-                </select>
-    
-                <label for="fecha">Numero de Contacto</label>
-                <input type="number" id="fecha" name="fecha" required>
-    
-                <div class="row">
-                    <div class="col-6">            
-                        <label for="fecha">País donde se encuentra:</label>
-                        <input type="text" id="fecha" name="fecha" required>
-                    </div>
-        
-                    <div class="col-6"> 
-                        <label for="hora">Ciudad donde se encuentra:</label>
-                        <input type="text" id="hora" name="hora" required>
-                    </div>
-                </div>
-                    <label for="hora">Dirrección:</label>
-                    <input type="text" id="hora" name="hora" required>
-              
-                <button type="submit">Enviar Solicitud</button>
-            </form>
+    <div class="p-4 mx-5">
+      <h3><b>Servicio de Alimentación</b></h3>
+      <hr>
+      <form id="formAlimentacion" class="form" method="post" (submit)="validarFormulario()">
+        <div class="row">
+          <div class="mb-0 col">
+            <h6>Proveedor:</h6>
+            <select class="form-select my-3" id="proveedor" name="proveedor" [(ngModel)]="proveedor" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Cocina Fit">Cocina Fit</option>
+              <option value="Mundo Fitness">Mundo Fitness</option>
+              <option value="Comer sin pecar">Comer sin pecar</option>
+            </select>
+          </div>
+          <div class="mb-0 col">
+            <h6>Propósito:</h6>
+            <select class="form-select my-3" id="proposito" name="proposito" [(ngModel)]="proposito" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="nutricion">Complemento plan nutricional</option>
+              <option value="muscular">Recuperación muscular</option>
+            </select>
+          </div>
         </div>
+        <div class="row">
+          <div class="mb-0 col">
+            <h6>Tipo de alimentación deportiva:</h6>
+            <select class="form-select my-3" id="alimentacion" name="alimentacion" [(ngModel)]="tipoAlimentacion" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="Proteínas">Proteínas</option>
+              <option value="Carbohidratos">Carbohidratos</option>
+              <option value="Grasas saludables">Grasas saludables</option>
+              <option value="Suplementos">Suplementos deportivos</option>
+              <option value="Dieta equilibrada">Dieta equilibrada</option>
+            </select>
+          </div>
+          <div class="mb-0 col">
+            <h6>¿Cómo desea recibir el servicio de alimentación?:</h6>
+            <select class="form-select my-3" id="recibir" name="recibir" [(ngModel)]="modoRecibir" required>
+              <option value="" disabled selected>Selecciona una opción...</option>
+              <option value="virtual">Generación virtual</option>
+              <option value="domicilio">Recibirlo a domicilio</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="numero">Número de contacto</span>
+            <input type="number" class="form-control mt-0" id="numeroContacto" name="numeroContacto" [(ngModel)]="numeroContacto" placeholder="Número de contacto" aria-label="Username"
+                   aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="direccion">Dirección de contacto</span>
+            <input type="text" class="form-control mt-0" id="direccionActual" name="direccionActual" [(ngModel)]="direccionActual" placeholder="Dirección de contacto" aria-label="Username"
+                   aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="pais">País donde se encuentra</span>
+            <input type="text" class="form-control mt-0" id="paisActual" name="paisActual" [(ngModel)]="paisActual" placeholder="País actual" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+          <div class="input-group mb-3 col">
+            <span class="input-group-text" id="ciudad">Ciudad donde se encuentra</span>
+            <input type="text" class="form-control mt-0" id="ciudadActual" name="ciudadActual" [(ngModel)]="ciudadActual" placeholder="Ciudad actual" aria-label="Username"
+                   aria-describedby="basic-addon1">
+          </div>
+        </div>
+        <a>
+          <button type="submit" class="btn btn-danger">Solicitar servicio de alimentación</button>
+        </a>
+        <hr>
+        <h6 *ngIf="activarMensajeExitoso">{{ mensaje }}</h6>
+        <p *ngIf="mostrarVirtualNutricion">
+          <br>
+          Día 1:<br>
+          Desayuno: Avena cocida con leche (puedes usar leche de vaca, almendras o soya), plátano en rodajas y una cucharada de semillas de chía.<br>
+          Almuerzo: Ensalada de espinacas frescas con tomate cherry, queso feta, nueces y aderezo de aceite de oliva y limón. Acompañar con pechuga de pollo a la plancha.<br>
+          Merienda: Yogur griego natural con arándanos frescos y una cucharada de almendras picadas.<br>
+          Cena: Salmón al horno con espárragos y zanahorias asadas. De postre, una pera.<br>
+          <br>
+          Día 2:<br>
+          Desayuno: Tostadas integrales con aguacate en rebanadas y huevos revueltos.<br>
+          Almuerzo: Lentejas estofadas con verduras (cebolla, zanahoria, pimiento) y una porción de aguacate en cubos.<br>
+          Merienda: Batido de proteínas con leche de almendras, plátano y una cucharada de mantequilla de maní.<br>
+          Cena: Ensalada de garbanzos con pepino, pimiento rojo, cebolla morada, cilantro y aderezo de aceite de oliva y vinagre balsámico. Acompañar con pechuga de pavo a la plancha.<br>
+          <br>
+          Día 3:<br>
+          Desayuno: Batido verde con espinacas, plátano, piña y leche de coco.<br>
+          Almuerzo: Quinoa cocida con vegetales salteados (brócoli, champiñones, cebolla) y filete de salmón a la parrilla.<br>
+          Merienda: Rodajas de manzana con una cucharada de mantequilla de almendras.<br>
+          Cena: Tacos de pollo a la mexicana (pollo desmenuzado, tomate, cebolla, cilantro) en tortillas integrales, acompañados de guacamole y salsa fresca.<br>
+          <br>
+          Día 4:<br>
+          Desayuno: Yogur griego natural con granola casera (avena, nueces, almendras, pasas) y frutas frescas (fresas o arándanos).<br>
+          Almuerzo: Ensalada de quinoa con pepino, aguacate, tomate, aceitunas negras y aderezo de limón y aceite de oliva. Acompañar con filete de pescado a la plancha.<br>
+          Merienda: Palitos de apio con hummus casero.\n' +
+          Cena: Stir-fry de vegetales (brócoli, zanahorias, pimientos) y tofu con salsa de soja y jengibre, servido sobre arroz integral.<br>
+          <br>
+          Día 5:<br>
+          Desayuno: Tostadas de pan integral con crema de cacahuate y rodajas de plátano.<br>
+          Almuerzo: Wrap integral con pollo a la parrilla, hojas verdes, tomate, pepino y aguacate. Acompañar con una ensalada de frutas frescas.<br>
+          Merienda: Batido de proteínas con leche de almendras, espinacas frescas, plátano y una cucharada de semillas de chía.<br>
+          Cena: Pasta integral con salsa de tomate casera (tomate, cebolla, ajo, albahaca), espinacas y camarones salteados en aceite de oliva.<br>
+        </p>
+        <p *ngIf="mostrarVirtualMuscular">
+          <br>
+          Día 1: Recuperación activa y nutrición balanceada<br>
+          <br>
+          Alimentación:<br>
+          Desayuno: Batido de proteínas con plátano, espinacas, leche de almendras y proteína en polvo.<br>
+          Media mañana: Yogur griego con nueces y miel.<br>
+          Almuerzo: Ensalada de quinoa con pollo a la parrilla, aguacate, tomate y espinacas.<br>
+          Merienda: Batido de proteínas con leche o yogur.<br>
+          Cena: Salmón a la plancha con espárragos y batata al horno.<br>
+          <br>
+          Recuperación activa:<br>
+          Ejercicio: Sesión de estiramientos suaves o yoga para mejorar la flexibilidad y relajar los músculos.<br>
+          Hidratación: Beber al menos 2 litros de agua a lo largo del día para mantener una hidratación adecuada.<br>
+          <br>
+          Día 2: Enfoque en la nutrición y descanso activo<br>
+          <br>
+          Alimentación:<br>
+          Desayuno: Avena cocida con plátano, almendras y canela.<br>
+          Media mañana: Batido de proteínas con frutas (fresas, arándanos, plátano) y leche.<br>
+          Almuerzo: Pechuga de pollo al horno con quinoa y verduras al vapor.<br>
+          Merienda: Batido de proteínas con leche o yogur.<br>
+          Cena: Ensalada de garbanzos con espinacas, tomate, pepino y aceite de oliva.<br>
+          <br>
+          Descanso activo:<br>
+          Movimiento suave: Caminata ligera de 30 minutos para mejorar la circulación y ayudar en la recuperación muscular.<br>
+          Estiramiento: Sesión de estiramientos enfocados en las áreas trabajadas durante los entrenamientos.<br>
+          <br>
+          Día 3: Refuerzo de nutrientes y relajación<br>
+          <br>
+          Alimentación:<br>
+          Desayuno: Tortilla de claras de huevo con espinacas y champiñones, acompañada de pan integral.<br>
+          Media mañana: Batido de proteínas con plátano, espinacas y leche.<br>
+          Almuerzo: Salmón al horno con quinoa y brócoli al vapor.<br>
+          Merienda: Yogur griego con frutos secos y miel.<br>
+          Cena: Tofu salteado con vegetales (zanahoria, pimientos, cebolla) y arroz integral.<br>
+          <br>
+          Relajación y recuperación:<br>
+          Descanso activo: Sesión de meditación o respiración profunda para reducir el estrés y mejorar la calidad del sueño.<br>
+          Hidratación: Beber infusiones relajantes como manzanilla o té verde antes de dormir.<br>
+        </p>
+      </form>
     </div>
-    
+  </div>
 </div>

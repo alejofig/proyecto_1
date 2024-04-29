@@ -1,8 +1,7 @@
 package com.misog11.sportapp
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationException
@@ -12,7 +11,6 @@ import com.auth0.android.result.Credentials
 import com.auth0.android.callback.Callback
 import com.google.android.material.snackbar.Snackbar
 import com.misog11.sportapp.databinding.ActivityMainBinding
-import com.misog11.sportapp.utils.utils
 import com.misog11.sportapp.utils.utils.Companion.guardarToken
 import com.misog11.sportapp.utils.utils.Companion.navigate
 
@@ -63,6 +61,7 @@ class MainActivity : MenuForAllActivitys() {
                     // Get the access token from the credentials object.
                     // This can be used to call APIs
                     val accessToken = result.accessToken
+                    Log.i("Token En LOG IN", accessToken)
                     procesarToken(accessToken)
                     navegarPantallaPrincipal()
                 }

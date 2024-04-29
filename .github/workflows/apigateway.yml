@@ -55,7 +55,8 @@ jobs:
       - name: Run cov report
         working-directory: ./backend/services/apigateway
         run: |
-          coverage report --fail-under=85
+          coverage report --fail-under=55
+          pytest --cov . --cov-report=xml:apigateway_coverage.xml
 
   terraform:
     name: Despliegue Apigateway

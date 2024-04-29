@@ -7,10 +7,10 @@
       <app-header></app-header>
     </div>
     <div class="p-4 mx-5">
-      <h3><b>Generar Plan de Entrenamiento</b></h3>
+      <h3><b>{{'GEN_PLAN' | translate}}</b></h3>
       <hr>
       <form id="formulario" class="form" (submit)="generarPlanEntrenamiento()">
-        <h5>Selecciona el tipo de plan de entrenamiento:</h5>
+        <h5>{{'SEL_TIPO_PLAN' | translate}}</h5>
         <div class="bg-light p-4 rounded-3">
           <div class="form-check" *ngFor="let plan of planes">
             <input class="form-check-input" type="radio" name="plan" id="plan" value="{{plan}}" (change)="radioChangeHandler($event)">
@@ -18,29 +18,29 @@
           </div>
         </div>
         <hr>
-        <h6>Detalles del plan de entrenamiento:</h6>
+        <h6>{{'DETALLES_PLAN' | translate}}:</h6>
         <select class="form-select my-3" id="deporte" name="deporte" [(ngModel)]="deporte" aria-label="Default select example">
-          <option value="" disabled selected>Selecciona el deporte a entrenar...</option>
+          <option value="" disabled selected>{{'SEL_DEPORTE' | translate}}</option>
           <option value="Atletismo">Atletismo</option>
           <option value="Ciclismo">Ciclismo</option>
         </select>
         <div class="input-group mb-3">
-          <span class="input-group-text" id="nombretitulo">Nombre del plan</span>
-          <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nombre" placeholder="Nombre deseado para el plan" aria-label="Username" aria-describedby="basic-addon1">
+          <span class="input-group-text" id="nombretitulo">{{'NOMBRE_PLAN' | translate}}</span>
+          <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nombre" [attr.placeholder]="'NOMBRE_DESEADO' | translate" aria-label="Username" aria-describedby="basic-addon1">
         </div>
         <div class="row" >
           <div class="input-group mb-3 col" *ngIf="personalizado">
-            <span class="input-group-text" id="cantidad">Cantidad de entrenamientos</span>
+            <span class="input-group-text" id="cantidad">{{'CANT_ENTRENAMIENTOS' | translate}}</span>
             <input type="number" class="form-control" id="cantidadEntrenamientos" name="cantidadEntrenamientos" [(ngModel)]="cantidadEntrenamientos" placeholder="Cantidad de entrenamientos" aria-label="Username" aria-describedby="basic-addon1">
           </div>
           <div class="input-group mb-3 col" *ngIf="personalizado">
-            <span class="input-group-text" id="distancia">Distancia por entrenamiento (kms)</span>
+            <span class="input-group-text" id="distancia">{{'DIST_ENTRENAMIENTO' | translate}}</span>
             <input type="number" class="form-control" id="distanciaPorEntrenamientos" name="distanciaPorEntrenamientos" [(ngModel)]="distanciaPorEntrenamientos" placeholder="Distancia por entrenamiento (kms)" aria-label="Username" aria-describedby="basic-addon1">
           </div>
         </div>
         <br>
         <a >
-          <button type="submit" class="btn btn-danger" onclick="resetearFormulario()">Generar plan de entrenamiento</button>
+          <button type="submit" class="btn btn-danger">{{'BTN_GEN_PLAN' | translate}}</button>
         </a>
         <hr>
         <h6 *ngIf="activarMensajeExitoso">{{ mensajeExitoso }}</h6>

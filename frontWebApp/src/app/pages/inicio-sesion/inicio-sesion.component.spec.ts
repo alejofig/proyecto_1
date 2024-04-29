@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InicioSesionComponent } from './inicio-sesion.component';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('InicioSesionComponent', () => {
   let component: InicioSesionComponent;
@@ -10,7 +11,7 @@ describe('InicioSesionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InicioSesionComponent],
+      imports: [InicioSesionComponent, TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,

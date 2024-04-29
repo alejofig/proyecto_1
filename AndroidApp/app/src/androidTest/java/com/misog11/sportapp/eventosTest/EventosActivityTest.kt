@@ -1,62 +1,65 @@
-package com.misog11.sportapp.eventosTest
-
+import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.misog11.sportapp.EventosActivity
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.auth0.android.Auth0
+import com.auth0.android.result.Credentials
+import com.misog11.sportapp.MainActivity
 import com.misog11.sportapp.R
-import com.misog11.sportapp.eventos.EventosService
-import com.misog11.sportapp.models.Evento
-
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.`when`
+import com.auth0.android.callback.Callback
+import com.auth0.android.provider.WebAuthProvider
+import com.misog11.sportapp.EventosActivity
+import com.misog11.sportapp.eventos.EventosService
+import com.misog11.sportapp.models.Evento
+import com.misog11.sportapp.models.Planes
+import io.mockk.coEvery
+import io.mockk.mockk
+import okhttp3.mockwebserver.Dispatcher
+import org.mockito.ArgumentMatchers.any
+import org.junit.Before
+import org.junit.After
+import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.RecordedRequest
 import retrofit2.Response
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 @RunWith(AndroidJUnit4::class)
 class EventosActivityTest {
+    @Before
+    fun setupSharedPreferences() {
+
+    }
 
     @Test
-    fun testNavigation() {
-        val intent = Intent(ApplicationProvider.getApplicationContext(), EventosActivity::class.java)
-        val scenario = ActivityScenario.launch<EventosActivity>(intent)
+    fun Inicio() {
+        // Lanzar la actividad
+        ActivityScenario.launch(MainActivity::class.java)
 
-        scenario.onActivity { activity ->
-            // Simular clic en el botón de navegación
-            activity.findViewById<BottomNavigationView>(R.id.bottom_navigation).selectedItemId = R.id.navigation_home
-
-            // Verificar si se inició la actividad esperada
-            // Esto requerirá un componente adicional para observar las intenciones lanzadas
-        }
-        // Crear un mock de Retrofit y del servicio de eventos
-        val mockRetrofit = Mockito.mock(Retrofit::class.java)
-        val mockService = Mockito.mock(EventosService::class.java)
-        val mockResponse = Mockito.mock(Response::class.java)
-
-        // Configurar el comportamiento esperado
-        Mockito.`when`(mockRetrofit.create(EventosService::class.java)).thenReturn(mockService)
-        //Mockito.`when`(mockService.getEventos()).thenReturn(mockResponse as Response<List<Evento>>?)
-        Mockito.`when`(mockResponse.isSuccessful).thenReturn(true)
-
-        val mockListOfEvents = null
-        Mockito.`when`(mockResponse.body()).thenReturn(mockListOfEvents) // Supone una lista de eventos
-
-        // Ejecutar la función que inicia el proceso de carga de eventos
-        scenario.onActivity { activity ->
-            activity.initRecyclerEventos()
-            // Verificar que el RecyclerView se actualizó con los eventos
-        }
+        //onView(withId(R.id.loginBtn)).perform(click())
+        onView(withId(R.id.loginBtn)).check(matches(withText("INICIAR SESION")))
     }
+
+    @Test
+    fun FakeEventos(){
+        ActivityScenario.launch(EventosActivity::class.java)
+        Thread.sleep(10000)
+        onView(withId(R.id.recyclerEvents)).check(matches(isDisplayed()))
+        onView(withId(R.id.calendarViewItem)).check(matches(isDisplayed()))
+    }
+
+
 
 }

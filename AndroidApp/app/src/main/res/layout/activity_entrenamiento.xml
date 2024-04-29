@@ -20,7 +20,7 @@
         android:id="@+id/tvTrainingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Entrenamiento"
+        android:text="@string/entrenamiento"
         android:textSize="24sp"
         android:textColor="@color/white"
         android:layout_below="@id/ivBackArrow"
@@ -43,7 +43,7 @@
         android:id="@+id/tvTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00:00"
+        android:text="@string/initTimer"
         android:textSize="70sp"
         android:textColor="@color/yellow"
         android:layout_below="@id/tvTrainingTitle"
@@ -71,7 +71,7 @@
                 android:id="@+id/tvActiveCaloriesLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Calorías activas"
+                android:text="@string/calorias_activas"
                 android:textSize="20sp"
                 android:textColor="@color/white" />
 
@@ -79,7 +79,7 @@
                 android:id="@+id/tvActiveCalories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="@string/valor_inicial"
                 android:textSize="32sp"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -96,7 +96,7 @@
                 android:id="@+id/tvTotalCalories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Calorías totales"
+                android:text="@string/calorias_totales"
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
@@ -104,7 +104,7 @@
                 android:id="@+id/tvTotalCaloriesLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="@string/valor_inicial"
                 android:textSize="32sp"
                 android:textColor="@color/white" />
         </LinearLayout>
@@ -131,7 +131,7 @@
                 android:id="@+id/tvFCM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Frecuencia Cardiaca Maxima FCM"
+                android:text="@string/fcm"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
@@ -146,7 +146,7 @@
                     android:id="@+id/tvHeartRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="@string/valor_inicial"
                     android:textSize="32sp"
                     android:textColor="@color/red"
                     android:layout_marginEnd="4dp" />
@@ -155,7 +155,7 @@
                     android:id="@+id/tvHeartRateLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="♥"
+                    android:text="@string/corazon"
                     android:textSize="32sp"
                     android:textColor="@color/red" />
             </LinearLayout>
@@ -170,7 +170,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/containerActiveCaloriesPower"
+        android:layout_below="@id/containerIndicators"
         android:layout_marginTop="10dp"
         android:padding="16dp">
 
@@ -179,7 +179,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Iniciar"
+            android:text="@string/iniciar"
             android:textColor="@color/white"
             android:backgroundTint="@color/red"
             android:layout_marginEnd="8dp" />
@@ -189,9 +189,74 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Finalizar"
+            android:text="@string/finalizar"
             android:textColor="@color/white"
             android:backgroundTint="@color/red" />
+    </LinearLayout>
+
+
+    <!-- Container ftp vo2max  -->
+    <LinearLayout
+        android:id="@+id/containerIndicators"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/containerActiveCaloriesPower"
+        android:layout_marginTop="10dp">
+
+        <!-- FTP -->
+        <LinearLayout
+            android:id="@+id/containerFTP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvFTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ftp"
+                android:textSize="20sp"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvValueFTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- vo2max -->
+        <LinearLayout
+            android:id="@+id/containerVo2max"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvVo2max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vo2max"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueVo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -1,5 +1,17 @@
 version: "3"
 services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: prueba
+      POSTGRES_USER: prueba
+      POSTGRES_PASSWORD: prueba
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
   apigateway:
     build:
       context: .
@@ -7,6 +19,15 @@ services:
     ports:
       - "3001:3001"
     environment:
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      USERS_PATH: ${USERS_PATH}
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: db
+      DB_NAME: postgres
+      DB_PORT: 5432
+    depends_on:
+      - db
+    command: ["sh", "-c", "sleep 10 && uvicorn --host 0.0.0.0 --port 3001 main:app"]
+
+
+volumes:
+  db-data:

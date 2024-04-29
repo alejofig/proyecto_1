@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GestionContratosComponent } from './gestion-contratos.component';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('GestionContratosComponent', () => {
   let component: GestionContratosComponent;
@@ -9,7 +10,7 @@ describe('GestionContratosComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GestionContratosComponent],
+      imports: [GestionContratosComponent, TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,

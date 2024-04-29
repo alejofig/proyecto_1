@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../servicios/auth.service';
 import { ApiGatewayBackendService } from '../../apigateway-backend.service';
 import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registro',
@@ -20,6 +21,7 @@ import { Router } from '@angular/router';
     FormsModule,
     CommonModule,
     HttpClientModule,
+    TranslateModule
 
   ],
   templateUrl: './registro.component.html',
@@ -109,7 +111,7 @@ export class RegistroComponent {
       return false;
     }else{
       console.log(this.create_form_data())
-      this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
+      this.backendService.registrarUsuario(this.create_form_data()).subscribe((response: any) => {
         console.log('Response:', response);
       });
       this.registroExitoso = true;
@@ -151,7 +153,7 @@ public async checkIfEmailExists(email: string): Promise<boolean> {
 
 }
 public registerUser(): void {
-this.backendService.registrar_usuario(this.create_form_data()).subscribe((response: any) => {
+this.backendService.registrarUsuario(this.create_form_data()).subscribe((response: any) => {
   console.log('Response:', response);
 });
 }

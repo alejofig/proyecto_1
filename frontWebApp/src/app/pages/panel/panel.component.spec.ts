@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PanelComponent } from './panel.component';
 import { ActivatedRoute } from '@angular/router';
+import { AuthModule } from '@auth0/auth0-angular';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('PanelComponent', () => {
   let component: PanelComponent;
@@ -9,7 +12,10 @@ describe('PanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PanelComponent],
+      imports: [HttpClientTestingModule,PanelComponent,AuthModule.forRoot({
+        domain: 'domain',
+        clientId: 'clientId'
+      }), TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,

@@ -25,6 +25,30 @@
             "value":"${FLASK_APP_PORT}"
          },
          {
+            "name":"USERS_PATH",
+            "value":"${USERS_PATH}"
+         },
+         {
+            "name":"EVENTS_PATH",
+            "value":"${EVENTS_PATH}"
+         },
+         {
+            "name":"PLANES_PATH",
+            "value":"${PLANES_PATH}"
+         },
+         {
+            "name":"ENTRENAMIENTOS_PATH",
+            "value":"${ENTRENAMIENTOS_PATH}"
+         },
+         {
+            "name":"SERVICIOS_PATH",
+            "value":"${SERVICIOS_PATH}"
+         },
+         {
+            "name":"SQS_URL_NOTIFICATIONS",
+            "value":"${SQS_URL_NOTIFICATIONS}"
+         },
+         {
             "name":"AUTH0_DOMAIN",
             "value":"${AUTH0_DOMAIN}"
          },
@@ -39,6 +63,10 @@
          {
             "name":"AUTH0_API_IDENTIFIER",
             "value":"${AUTH0_API_IDENTIFIER}"
+         },
+         {
+            "name":"REDIRECT_URI",
+            "value":"${REDIRECT_URI}"
          }
       ],
       "logConfiguration": {

@@ -1,5 +1,7 @@
-from pydantic import BaseModel
 from typing import List, Optional
+
+from pydantic import BaseModel
+from datetime import date
 
 class User(BaseModel):
     username: str
@@ -24,3 +26,44 @@ class User(BaseModel):
     # Needed for Column(JSON)
     class Config:
         arbitrary_types_allowed = True
+
+
+class Plan(BaseModel):
+    deporte: str
+    nombre: str
+    usuario: str
+    cantidadEntrenamientos: str
+    distanciaPorEntrenamientos: str
+    fechas: str
+
+class Entrenamiento(BaseModel):
+    duration: str
+    fcm: int = 0
+    height: int = 0
+    edad: int = 0
+    genero: str
+
+
+class Mototaller(BaseModel):
+    fechaSesion: str
+    horaSesion: str
+    comentariosAdicionales: str
+
+
+class Alimentacion(BaseModel):
+    proveedor: str
+    proposito: str
+    tipoAlimentacion: str
+    modoRecibir: str
+    numeroContacto: int
+    direccionActual: str
+    ciudadActual: str
+    paisActual: str
+
+
+class Entrenador(BaseModel):
+    proveedor: str
+    tipoEntrenamiento: str
+    fechaSesion: str
+    horaSesion: str
+    comentarios: str

@@ -8,7 +8,7 @@
        </div>
         
         <div class="px-5 py-4">
-          <h4><b>Eventos Recomendados</b></h4>
+          <h4><b> {{'EVENTOS_RECOMENDADOS' | translate}}</b></h4>
           <hr>
           <div class="eventos-list-holder">
             <ng-container *ngFor="let evento of eventos_general">
@@ -20,7 +20,7 @@
               </ng-container>
           </div>
           <br>
-          <h4> <b>Calendario de Eventos y Entrenamientos</b></h4>
+          <h4> <b>{{'CALENDARIO_EVENTOS_ENTRENAMIENTOS' | translate}}</b></h4>
           <hr>
           <app-calendar [calendarOptions]="calendarOptions"></app-calendar>
 

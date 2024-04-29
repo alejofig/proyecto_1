@@ -2,6 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ServiciosTercerosComponent } from './servicios-terceros.component';
 import { ActivatedRoute } from '@angular/router';
+import { AuthModule } from '@auth0/auth0-angular';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ServiciosTercerosComponent', () => {
   let component: ServiciosTercerosComponent;
@@ -9,7 +12,10 @@ describe('ServiciosTercerosComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ServiciosTercerosComponent],
+      imports: [HttpClientTestingModule,ServiciosTercerosComponent,AuthModule.forRoot({
+        domain: 'domain',
+        clientId: 'clientId'
+      }), TranslateModule.forRoot()],
       providers: [
         {
           provide: ActivatedRoute,

@@ -1,16 +1,23 @@
 package com.misog11.sportapp.models
 
-import java.sql.Date
-import java.sql.Time
+import kotlinx.serialization.Serializable
 
-data class Entrenamiento (
-    val id: Int,
-    val user_id: Int,
-    val sport_type: String,
-    val duration: String,
-    val fecha: Date,
-    val calories_active: Int,
-    val total_calories: Int,
-    val fcm: Int,
+@Serializable
+class Entrenamiento (
+   var user_id: Int? = null,
+   var sport_type: String? = null,
+   var duration: Int? = null,
+   var fecha: String? = null,
+   var calories_active: Double? = null,
+   var total_calories: Double? = null,
+   var fcm: Int? = null
+)
 
+@Serializable
+class EntrenamientoInd(
+   var duration: String? = null,
+   var fcm: Int? = null,
+   var height: Int? = null,
+   var edad: Int? = null,
+   var genero: String? = null
 )
