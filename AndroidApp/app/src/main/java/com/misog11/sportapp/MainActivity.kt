@@ -22,7 +22,7 @@ class MainActivity : MenuForAllActivitys() {
         setContentView(R.layout.activity_main)
 
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        /*val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> print("home")
@@ -30,7 +30,7 @@ class MainActivity : MenuForAllActivitys() {
                 R.id.navigation_events -> navigate(this, EventosActivity::class.java)
             }
             true
-        }
+        }*/
         //Configurar Opcion de login
         account = Auth0(
             getString(R.string.com_auth0_client_id),
