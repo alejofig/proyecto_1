@@ -356,7 +356,7 @@ def login():
             "client_id": config.STRAVA_CLIENT_ID,
             "response_type": "code",
             "redirect_uri": config.STRAVA_REDIRECT_URI,
-            "scope": "read,activity:write",
+            "scope": "read,activity:write,activity:read_all",
             "approval_prompt": "force",
             "state": session['user_id']
         }
