@@ -24,27 +24,14 @@ export class DashboardComponent {
   finalUser: any;
   constructor(private apiService: ApiGatewayBackendService, public auth: AuthService) { }
   ngOnInit(): void {
-    const cachedUserStatics = sessionStorage.getItem('userStatics');
-    if (cachedUserStatics) {
-      this.userStatics = JSON.parse(cachedUserStatics);
-    } else {
-      this.getUserStatics();
-    }
-    const cachedfinalUser = sessionStorage.getItem('finalUser');
-    if (cachedfinalUser) {
-      this.finalUser = JSON.parse(cachedfinalUser);
-    } else {
-      this.getUser();
-    }
+    this.getUserStatics();
+    this.getUser();
   }
 
   getUser(): void {
     this.apiService.callApiAndGetCompleteUser().subscribe(
       (result) => {
-        console.log('Complete User:', result);
         this.finalUser = result;
-        sessionStorage.setItem('finalUser', JSON.stringify(result)); // Guardamos los datos en el almacenamiento de sesión
-
       },
       (error) => {
         console.error('Error obteniendo datos del usuario:', error);
@@ -55,9 +42,7 @@ export class DashboardComponent {
   getUserStatics(): void {
     this.apiService.callApiAndGetStatics().subscribe(
       (result) => {
-        console.log('User Statics:', result);
         this.userStatics = result;
-        sessionStorage.setItem('userStatics', JSON.stringify(result)); // Guardamos los datos en el almacenamiento de sesión
       },
       (error) => {
         console.error('Error obteniendo datos del usuario:', error);
