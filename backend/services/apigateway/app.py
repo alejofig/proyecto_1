@@ -253,6 +253,37 @@ def solicitar_alimentacion(user):
         return jsonify('Error interno: ' + str(e)), 500
 
 
+@app.route('/crear_entrenamiento/', methods=['POST'])
+@protected_route
+def crear_entreno(user):
+    try:
+        json_data = request.get_json()
+        json_data["user_id"] = 0
+
+        user_email = unquote(user["email"])
+        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+
+        headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+        
+
+        json_data["user_id"] = int(usuario_completo.json()["id"])
+
+        response = requests.post(f"{URL_ENTRENAMIENTOS}/entrenamiento",
+                                 json=(json_data),
+                                 headers=headers)
+        if response.status_code != 200:
+            print(response)
+            return jsonify('Error creando entrenamiento'), 401
+        return jsonify({"message": "Entreno creado con éxito"}), 201
+    except ValidationError as e:
+        return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
+
+
 @app.route('/solicitar_sesion_entrenador/', methods=['POST'])
 @protected_route
 def solicitar_sesion_entrenador(user):

@@ -10,6 +10,7 @@ async def health():
 
 @router.post("/entrenamiento")
 async def crear_entrenamiento(event_data: Entrenamiento ):
+    print(event_data)
     entrenamiento = create_entrenamiento(event_data)
     return entrenamiento
 

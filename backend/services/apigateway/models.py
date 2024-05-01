@@ -1,5 +1,6 @@
+import random
 from typing import List, Optional
-
+from sqlmodel import Field, SQLModel
 from pydantic import BaseModel
 from datetime import date
 
@@ -37,11 +38,16 @@ class Plan(BaseModel):
     fechas: str
 
 class Entrenamiento(BaseModel):
-    duration: str
+    user_id: Optional[int]
+    sport_type: Optional[str]
+    fecha: Optional[date]
+    calories_active: Optional[float]
+    total_calories: Optional[float]
+    distance: int =  Field(default_factory=lambda: round(random.uniform(10, 100)))
     fcm: int = 0
     height: int = 0
     edad: int = 0
-    genero: str
+    
 
 
 class Mototaller(BaseModel):

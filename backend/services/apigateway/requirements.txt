@@ -34,6 +34,8 @@ requests==2.31.0
 rsa==4.9
 s3transfer==0.10.1
 six==1.16.0
+SQLAlchemy==2.0.29
+sqlmodel==0.0.18
 tomli==2.0.1
 typing_extensions==4.10.0
 urllib3==1.26.18
