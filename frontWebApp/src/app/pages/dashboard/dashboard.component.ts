@@ -69,6 +69,7 @@ export class DashboardComponent {
     this.auth.user$.subscribe( user=> {
       if (user?.email !== null && user?.email !== undefined) {
         window.location.href = `${this.apiUrl}/login_strava?email=${encodeURIComponent(user.email)}`;
+        this.getUser();
       }
       else{
         alert('No se puede vincular con Strava porque el usuario no tiene email');
