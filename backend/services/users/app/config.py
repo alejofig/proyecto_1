@@ -18,5 +18,11 @@ KMS_KEY_ID = os.getenv("KMS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 
+STRAVA_CLIENT_ID= os.getenv("STRAVA_CLIENT_ID")
+STRAVA_ACCESS_TOKEN= os.getenv("STRAVA_ACCESS_TOKEN")
+STRAVA_CLIENT_SECRET= os.getenv("STRAVA_CLIENT_SECRET")
+STRAVA_TOKEN_REFRESH=os.getenv("STARVA_TOKEN_REFRESH")
+STRAVA_REDIRECT_URI=os.getenv("STRAVA_REDIRECT_URI","http://localhost:3001/strava_callback")
+
 def get_postgres_url():
     return f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"

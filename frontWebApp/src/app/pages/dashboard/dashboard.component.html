@@ -11,18 +11,22 @@
                   <h3 *ngIf="auth.user$ | async as user">{{ user.email }}</h3>
 
                   <p>{{'DETALLES_PERFIL_DEPORTIVO' | translate}}</p>
-                  
+
               </div>
-              <div class="col-md-4" >
-                  <div class="card-counter">
-                      <a href="https://www.strava.com/loginhl=es-419">
-                          <div class="d-flex justify-content-center align-items-center">
-                              <img src="../../../assets/img/strava.png" width="30px" alt="strava logo">
-                              <h6 class="ms-2 py-1 my-1">{{'VINCULAR_CUENTA_STRAVA' | translate}}</h6>
-                          </div>
-                      </a>
-                  </div>
-              </div>
+              <div class="col-md-4">
+                <div class="card-counter">
+                    <a (click)="vincularConStrava()" class="d-block">
+                        <div class="text-center">
+                            <img src="../../../assets/img/strava.png" width="30px" alt="strava logo">
+                            <h6 class="ms-2 py-1 my-1">{{ 'VINCULAR_CUENTA_STRAVA' | translate }}</h6>
+                        </div>
+                        <div *ngIf="finalUser.strava" class="alert alert-success mt-2" role="alert">
+                            {{ 'Tu cuenta está vinculada.' | translate }}
+                        </div>
+                    </a>
+                </div>
+            </div>
+
           </div>
 
           <div class="row dashboard-section">

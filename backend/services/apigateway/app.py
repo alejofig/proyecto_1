@@ -1,19 +1,19 @@
 import os
 from http.client import HTTPException
-from urllib.parse import unquote
+from urllib.parse import unquote, urlencode
 import logging
 import boto3
 import requests
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request, json
+from flask import Flask, jsonify, request, json,redirect,abort, session,url_for
 from flask_cors import CORS
 from pydantic import ValidationError
-
+import config
 from models import Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
 from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max
 
 load_dotenv()
-URL_USERS = os.getenv('USERS_PATH')
+URL_USERS = os.getenv('USERS_PATH','http://localhost:3001')
 URL_EVENTS = os.getenv('EVENTS_PATH')
 URL_PLANES = os.getenv('PLANES_PATH')
 URL_ENTRENAMIENTOS = os.getenv('ENTRENAMIENTOS_PATH')
@@ -22,6 +22,7 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 URL_SERVICIOS = os.getenv('SERVICIOS_PATH')
 
 app = Flask(__name__)
+app.secret_key = 'super secret'
 CORS(app)
 cors = CORS(app, resource={
     r"/*": {
@@ -345,3 +346,44 @@ def calcular_indicadores(user):
 
 
 
+@app.route("/login_strava")
+def login():
+    user_email = request.args.get('email')
+    try:
+        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        session['user_id'] = usuario_completo.json()["id"]
+        query_params = {
+            "client_id": config.STRAVA_CLIENT_ID,
+            "response_type": "code",
+            "redirect_uri": config.STRAVA_REDIRECT_URI,
+            "scope": "read,activity:write",
+            "approval_prompt": "force",
+            "state": session['user_id']
+        }
+        AUTH_URL = "https://www.strava.com/oauth/authorize"
+        url = f"{AUTH_URL}?{urlencode(query_params)}"
+        return redirect((url))
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
+
+@app.route("/strava_callback")
+def token():
+    code = request.args.get('code')
+    user_id = request.args.get('state')
+    if not code:
+        abort(400, description="No code provided")
+
+    data = {
+        "client_id": config.STRAVA_CLIENT_ID,
+        "client_secret": config.STRAVA_CLIENT_SECRET,
+        "code": code,
+        "grant_type": "authorization_code"
+    }
+    TOKEN_URL = "https://www.strava.com/oauth/token"
+    response = requests.post(TOKEN_URL, data=data)
+    if response.status_code != 200:
+        abort(400, description="Invalid token response")
+    token = response.json()
+    token["user_id"]= user_id
+    response = requests.post(f"{URL_USERS}/token_strava", json=token)
+    return redirect(config.FRONT_URL+"/dashboard" )

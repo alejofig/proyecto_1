@@ -21,6 +21,7 @@ export class ApiGatewayBackendService {
       switchMap(token => {
         this.token = token;
         const headers = new HttpHeaders({
+          "Access-Control-Allow-Origin": "*",
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         });
@@ -60,6 +61,10 @@ export class ApiGatewayBackendService {
         'Content-Type': 'application/json',
       })
     });
+  }
+
+  stravaLogin(): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/login_strava`, 'GET');
   }
 
   registrarMototaller(motoTallerData: any): Observable<any> {
