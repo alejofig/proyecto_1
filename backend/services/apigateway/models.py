@@ -3,6 +3,7 @@ from typing import List, Optional
 from sqlmodel import Field, SQLModel
 from pydantic import BaseModel
 from datetime import date
+from enum import Enum
 
 class User(BaseModel):
     username: str
@@ -37,13 +38,18 @@ class Plan(BaseModel):
     distanciaPorEntrenamientos: str
     fechas: str
 
+class SportType(str, Enum):
+    Run = "Run"
+    Ride = "Ride"
+    Swim = "Swim"
+
 class Entrenamiento(BaseModel):
     user_id: Optional[int]
-    sport_type: Optional[str]
+    sport_type: Optional[SportType]
     fecha: Optional[date]
     calories_active: Optional[float]
     total_calories: Optional[float]
-    distance: int =  Field(default_factory=lambda: round(random.uniform(10, 100)))
+    distance: Optional[int]
     fcm: int = 0
     height: int = 0
     edad: int = 0
