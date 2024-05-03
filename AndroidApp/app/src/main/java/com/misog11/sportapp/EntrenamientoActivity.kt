@@ -138,7 +138,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         Log.i("genero", entrenamientoIndDto.genero!!)
         lifecycleScope.launch {
             val url =
-                getString(R.string.indicadores_url_local) + getString(R.string.indicadores_endpoint)
+                getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_endpoint)
             try {
                 responsecalcularIndicadoresResponseDto =
                     apiConsumer.consumeApiPost<EntrenamientoInd, calcularIndicadoresResponseDto>(
@@ -166,7 +166,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val url =
                 // getString(R.string.entrenamiento_url_prd) + getString(R.string.entrenamiento_endpoint)
-                getString(R.string.api_gateway_local) + getString(R.string.crear_entrenamiento_endpoint)
+                getString(R.string.indicadores_url_prd) + getString(R.string.crear_entrenamiento_endpoint)
             try {
                 entrenamientoDto =
                     apiConsumer.consumeApiPost<Entrenamiento, Entrenamiento>(
