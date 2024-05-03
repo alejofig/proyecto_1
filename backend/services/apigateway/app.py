@@ -337,7 +337,6 @@ def calcular_indicadores2(user):
     user_dict = user
     email = user_dict.get('email', 'No email provided')
     user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
-    
     try:
         # Extracción de datos necesarios del usuario
         altura = user_data.get('altura', 0)
