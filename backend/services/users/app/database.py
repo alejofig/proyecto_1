@@ -37,8 +37,9 @@ def get_user_by_email(email: str):
     statement = select(User).where(User.email==email)
     results = session.exec(statement)
     user = results.first()
-    existing_token = session.query(StravaOAuthToken).filter_by(user_id=user.id).first()
-    user.strava= True if existing_token else False    
+    if user:
+        existing_token = session.query(StravaOAuthToken).filter_by(user_id=user.id).first()
+        user.strava= True if existing_token else False  
     session.close()
     return user
 

@@ -35,6 +35,22 @@
         {
           "name": "DB_PORT",
           "value": "${DB_PORT}"
+         }, 
+        {
+          "name": "STRAVA_CLIENT_ID",
+          "value": "${STRAVA_CLIENT_ID}"
+         }, 
+        {
+          "name": "STRAVA_ACCESS_TOKEN",
+          "value": "${STRAVA_ACCESS_TOKEN}"
+         }, 
+        {
+          "name": "STRAVA_CLIENT_SECRET",
+          "value": "${STRAVA_CLIENT_SECRET}"
+         }, 
+        {
+          "name": "STRAVA_TOKEN_REFRESH",
+          "value": "${STRAVA_TOKEN_REFRESH}"
          }
       ],
       "logConfiguration": {

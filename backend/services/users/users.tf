@@ -256,6 +256,10 @@ data "template_file" "task_definition_template" {
     DB_NAME               = "postgres"
     DB_PORT               = "5432"
     DB_HOST               = local.rds_endpoint_without_port
+    STRAVA_CLIENT_ID      = "125841"
+    STRAVA_ACCESS_TOKEN   = "e535b0ee6be2cf09ac6015efaeb7b6e9d86c2207"
+    STRAVA_CLIENT_SECRET  = "5d2976b1f08f378f086b46e179f5946026bb8d7e"
+    STRAVA_TOKEN_REFRESH  = "278fc804e7ef37104a2fb0d6a02672a6e9c7b962"
   }
 }
 resource "aws_ecs_task_definition" "task_definition" {
@@ -481,12 +485,12 @@ resource "aws_lambda_function" "users_register" {
           DB_NAME               = "postgres"
           DB_PORT               = "5432"
           DB_HOST               = local.rds_endpoint_without_port
-          AUTH0_DOMAIN          ="dev-s8qwnnguwcupqg2o.us.auth0.com"
-          AUTH0_CLIENT_SECRET   ="SnUDnO1lL3CnvzeCDFFUwwsFABY-Szfr-lRkFyshOf4uSnCiM6EHMgvCDDVQ8v1u"
-          AUTH0_CLIENT_ID       ="3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT"
-          AUTH0_API_IDENTIFIER  ="https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/"
-          ALGORITHM             ="RS256"
-          KMS_KEY_ID            ="4f22f451-61d2-4f5c-bdd8-6e3f4a739632"
+          AUTH0_DOMAIN          = "dev-s8qwnnguwcupqg2o.us.auth0.com"
+          AUTH0_CLIENT_SECRET   = "SnUDnO1lL3CnvzeCDFFUwwsFABY-Szfr-lRkFyshOf4uSnCiM6EHMgvCDDVQ8v1u"
+          AUTH0_CLIENT_ID       = "3H1DJStRDxr7jeKsxyvsPEe2Af8BpUcT"
+          AUTH0_API_IDENTIFIER  = "https://dev-s8qwnnguwcupqg2o.us.auth0.com/api/v2/"
+          ALGORITHM             = "RS256"
+          KMS_KEY_ID            = "4f22f451-61d2-4f5c-bdd8-6e3f4a739632"
     }
   }
   timeout = 30
