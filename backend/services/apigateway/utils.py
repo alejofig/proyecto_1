@@ -86,9 +86,9 @@ def send_to_strava(json_data):
             "type": json_data["sport_type"],
             "sport_type": json_data["sport_type"],
             "elapsed_time": json_data["duration"],
-            "start_date_local":  datetime.strptime(json_data["fecha"], '%Y-%m-%d').isoformat(),
+            "start_date_local":  json_data["fecha"],
             "distance": json_data["distance"],
-            "start": datetime.strptime(json_data["fecha"], '%Y-%m-%d').isoformat()
+            "start": json_data["fecha"],
         }
         payload_encoded = urllib.parse.urlencode(payload_dict)
         headers = {

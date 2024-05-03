@@ -1,6 +1,6 @@
 import random
 from sqlmodel import Field, SQLModel
-from datetime import date
+from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
 
@@ -10,7 +10,7 @@ class Entrenamiento(SQLModel, table=True):
     user_id: int 
     sport_type: str  
     duration: int
-    fecha: date
+    fecha: datetime
     calories_active: float = 0.0
     total_calories: float = 0.0
     fcm: int = 0

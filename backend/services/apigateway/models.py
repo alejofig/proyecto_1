@@ -2,7 +2,7 @@ import random
 from typing import List, Optional
 from sqlmodel import Field, SQLModel
 from pydantic import BaseModel
-from datetime import date
+from datetime import datetime
 from enum import Enum
 
 class User(BaseModel):
@@ -46,7 +46,7 @@ class SportType(str, Enum):
 class Entrenamiento(BaseModel):
     user_id: Optional[int] = None
     sport_type: Optional[SportType] = None
-    fecha: Optional[date] = None
+    fecha: Optional[datetime] = None
     calories_active: Optional[float] = 0
     total_calories: Optional[float] = 0
     distance: Optional[int] =  Field(default_factory=lambda: round(random.uniform(10, 100)))
