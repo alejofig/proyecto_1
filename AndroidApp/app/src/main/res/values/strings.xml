@@ -31,5 +31,13 @@
     <string name="atletismo">Atletismo</string>
     <string name="ciclismo">Ciclismo</string>
     <string name="version">v 2.0.0</string>
+    <string name="rutinaAlimenticia">Rutina Alimenticia</string>
+    <string name="carbos">Carbohidratos</string>
+    <string name="prote">Proteínas</string>
+    <string name="grasas">Grasas</string>
+    <string name="tsueno">Tiempo de Sueño</string>
+    <string name="tmedi">Tiempo de Meditación</string>
+    <string name="trela">Tiempo de Relajación</string>
+    <string name="rutinaDescanso">Rutina de Descanso</string>
 
 </resources>
