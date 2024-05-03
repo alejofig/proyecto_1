@@ -82,6 +82,30 @@ def consultar_usuario_completo_movil(user):
     return jsonify(usuario_completo.json()), 200
 
 
+@app.route('/get_rutina_alimentacion_movil/', methods=['POST'])
+@protected_route_movil
+def consultar_rutina_alimentacion_movil(user):
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+    ultimo_entrenamiento = requests.get(f"{URL_ENTRENAMIENTOS}/ultimo_entrenamiento/{usuario_completo.json()['id']}", headers={})
+    
+    rutina_alimentacion = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_alimentacion/", headers={}, json=ultimo_entrenamiento )
+
+    return jsonify(rutina_alimentacion.json()), 200
+
+
+@app.route('/get_rutina_descanso_movil/', methods=['POST'])
+@protected_route_movil
+def consultar_rutina_descanso_movil(user):
+    user_email = unquote(user["email"])
+    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+    ultimo_entrenamiento = requests.get(f"{URL_ENTRENAMIENTOS}/ultimo_entrenamiento/{usuario_completo.json()['id']}", headers={})
+    
+    rutina_descanso = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_descanso/", headers={}, json=ultimo_entrenamiento )
+
+    return jsonify(rutina_descanso.json()), 200
+
+
 @app.route('/get_current_user_movil/', methods=['GET'])
 @protected_route_movil
 def consultar_usuario_movil(user):
