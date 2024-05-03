@@ -166,7 +166,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val url =
                 // getString(R.string.entrenamiento_url_prd) + getString(R.string.entrenamiento_endpoint)
-                getString(R.string.indicadores_url_local) + getString(R.string.crear_entrenamiento_endpoint)
+                getString(R.string.indicadores_url_prd) + getString(R.string.crear_entrenamiento_endpoint)
             try {
                 entrenamientoDto =
                     apiConsumer.consumeApiPost<Entrenamiento, Entrenamiento>(
