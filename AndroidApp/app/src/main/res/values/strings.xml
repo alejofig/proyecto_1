@@ -37,5 +37,6 @@
     <string name="tmedi">Tiempo de Meditación</string>
     <string name="trela">Tiempo de Relajación</string>
     <string name="rutinaDescanso">Rutina de Descanso</string>
+    <string name="recomendaciones">Recomendaciones</string>
 
 </resources>
