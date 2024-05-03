@@ -82,7 +82,7 @@ def consultar_usuario_completo_movil(user):
     return jsonify(usuario_completo.json()), 200
 
 
-@app.route('/get_rutina_alimentacion_movil/', methods=['GET'])
+@app.route('/get_rutina_alimentacion_movil/', methods=['POST'])
 @protected_route_movil
 def consultar_rutina_alimentacion_movil(user):
     user_email = unquote(user["email"])
@@ -94,7 +94,7 @@ def consultar_rutina_alimentacion_movil(user):
     return jsonify(rutina_alimentacion.json()), 200
 
 
-@app.route('/get_rutina_descanso_movil/', methods=['GET'])
+@app.route('/get_rutina_descanso_movil/', methods=['POST'])
 @protected_route_movil
 def consultar_rutina_descanso_movil(user):
     user_email = unquote(user["email"])
