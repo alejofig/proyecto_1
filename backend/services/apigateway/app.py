@@ -9,11 +9,11 @@ from flask import Flask, jsonify, request, json,redirect,abort, session,url_for
 from flask_cors import CORS
 from pydantic import ValidationError
 import config
-from models import Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
-from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max
+from models import EntrenamientoIndicadores, Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
+from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava
 
 load_dotenv()
-URL_USERS = os.getenv('USERS_PATH','http://localhost:3001')
+
 URL_EVENTS = os.getenv('EVENTS_PATH')
 URL_PLANES = os.getenv('PLANES_PATH')
 URL_ENTRENAMIENTOS = os.getenv('ENTRENAMIENTOS_PATH')
@@ -71,14 +71,14 @@ def consultar_usuario(user):
 @protected_route
 def consultar_usuario_completo(user):
     user_email = unquote(user["email"])
-    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+    usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
     return jsonify(usuario_completo.json()), 200
 
 @app.route('/get_complete_user_movil/', methods=['GET'])
 @protected_route_movil
 def consultar_usuario_completo_movil(user):
     user_email = unquote(user["email"])
-    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+    usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
     return jsonify(usuario_completo.json()), 200
 
 
@@ -93,7 +93,7 @@ def consultar_usuario_movil(user):
 def consultar_eventos_movil(user):
     user_dict = user
     email = user_dict.get('email', 'No email provided')
-    user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
     pais = user_data.get('pais_residencia', 'na')
     cantidad_datos = 100
     response = requests.get(f"{URL_EVENTS}/eventos/{pais}/{cantidad_datos}", headers={})
@@ -110,7 +110,7 @@ def consultar_eventos_movil(user):
 def consultar_eventos(user):
     user_dict = user
     email = user_dict.get('email', 'No email provided')
-    user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
     pais = user_data.get('pais_residencia', 'na')
     cantidad_datos = 1000
     response = requests.get(f"{URL_EVENTS}/eventos/{pais}/{cantidad_datos}", headers={})
@@ -182,7 +182,7 @@ def generar_plan_entrenamiento(user):
 @protected_route
 def consultar_estadisticas(user):
     user_email = unquote(user["email"])
-    usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+    usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
     estadisticas = requests.get(f"{URL_ENTRENAMIENTOS}/estadisticas/{usuario_completo.json()['id']}", headers={})
     return jsonify(estadisticas.json()), 200
 
@@ -202,7 +202,7 @@ def crear_servicio_mototaller(user):
         mototaller = Mototaller(**json_data)
 
         user_email = unquote(user["email"])
-        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
         headers = {
             'accept': 'application/json',
             'Content-Type': 'application/json'
@@ -233,7 +233,7 @@ def solicitar_alimentacion(user):
         alimentacion = Alimentacion(**json_data)
 
         user_email = unquote(user["email"])
-        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
 
         headers = {
             'accept': 'application/json',
@@ -254,14 +254,15 @@ def solicitar_alimentacion(user):
 
 
 @app.route('/crear_entrenamiento/', methods=['POST'])
-@protected_route
+@protected_route_movil
 def crear_entreno(user):
+    user_dict = user
     try:
         json_data = request.get_json()
         json_data["user_id"] = 0
-
-        user_email = unquote(user["email"])
-        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        Entrenamiento(**json_data)
+        user_email = user_dict.get('email', 'No email provided')
+        usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
 
         headers = {
             'accept': 'application/json',
@@ -270,13 +271,14 @@ def crear_entreno(user):
         
 
         json_data["user_id"] = int(usuario_completo.json()["id"])
-
+        print(json_data)
         response = requests.post(f"{URL_ENTRENAMIENTOS}/entrenamiento",
                                  json=(json_data),
                                  headers=headers)
         if response.status_code != 200:
-            print(response)
             return jsonify('Error creando entrenamiento'), 401
+        if response.status_code == 200 and usuario_completo.json()["strava"]:
+            send_to_strava(json_data)
         return jsonify({"message": "Entreno creado con éxito"}), 201
     except ValidationError as e:
         return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
@@ -292,7 +294,7 @@ def solicitar_sesion_entrenador(user):
         entrenador = Entrenador(**json_data)
 
         user_email = unquote(user["email"])
-        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
 
         headers = {
             'accept': 'application/json',
@@ -317,7 +319,7 @@ def solicitar_sesion_entrenador(user):
 def consultar_sesiones_entrenador(user):
     user_dict = user
     email = user_dict.get('email', 'No email provided')
-    user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
     userid = user_data.get('id', 'na')
 
     response = requests.get(f"{URL_SERVICIOS}/sesiones_entrenador/{userid}", headers={})
@@ -334,8 +336,7 @@ def consultar_sesiones_entrenador(user):
 def calcular_indicadores2(user):
     user_dict = user
     email = user_dict.get('email', 'No email provided')
-    user_data = requests.get(f"{URL_USERS}/user/{email}", headers={}).json()
-    
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
     try:
         # Extracción de datos necesarios del usuario
         altura = user_data.get('altura', 0)
@@ -364,7 +365,7 @@ def calcular_indicadores2(user):
 def calcular_indicadores(user):
 
     event_data = request.get_json()
-    medidor_data = Entrenamiento(**event_data)
+    medidor_data = EntrenamientoIndicadores(**event_data)
     try:
         print("{{medidor_data}} ", medidor_data)
         ftp = calcular_ftp(medidor_data)
@@ -381,7 +382,7 @@ def calcular_indicadores(user):
 def login():
     user_email = request.args.get('email')
     try:
-        usuario_completo = requests.get(f"{URL_USERS}/user/{str(user_email)}", headers={})
+        usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
         session['user_id'] = usuario_completo.json()["id"]
         query_params = {
             "client_id": config.STRAVA_CLIENT_ID,
@@ -416,5 +417,5 @@ def token():
         abort(400, description="Invalid token response")
     token = response.json()
     token["user_id"]= user_id
-    response = requests.post(f"{URL_USERS}/token_strava", json=token)
+    response = requests.post(f"{config.URL_USERS}/token_strava", json=token)
     return redirect(config.FRONT_URL+"/dashboard" )

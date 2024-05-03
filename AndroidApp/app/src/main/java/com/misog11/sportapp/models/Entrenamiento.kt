@@ -1,6 +1,7 @@
 package com.misog11.sportapp.models
 
 import kotlinx.serialization.Serializable
+import kotlin.random.Random
 
 @Serializable
 class Entrenamiento (
@@ -10,8 +11,15 @@ class Entrenamiento (
    var fecha: String? = null,
    var calories_active: Double? = null,
    var total_calories: Double? = null,
-   var fcm: Int? = null
-)
+   var fcm: Int? = null,
+   var distance: Int? = null
+) {
+   init {
+      if (distance == null) {
+         distance = Random.nextInt(1000, 20000)
+      }
+   }
+}
 
 @Serializable
 class EntrenamientoInd(

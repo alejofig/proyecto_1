@@ -131,7 +131,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         entrenamientoIndDto.height = userDTO.altura
         entrenamientoIndDto.edad = userDTO.edad
         entrenamientoIndDto.genero = userDTO.genero
-        Log.i("duration", entrenamientoIndDto.duration!!)
+        Log.i("time", entrenamientoIndDto.duration!!)
         Log.i("fcm", entrenamientoIndDto.fcm!!.toString())
         Log.i("height", entrenamientoIndDto.height!!.toString())
         Log.i("edad", entrenamientoIndDto.edad!!.toString())
@@ -165,7 +165,8 @@ class EntrenamientoActivity : AppCompatActivity() {
         entrenamientoDto.fcm = binding.tvHeartRate.text.toString().toInt()
         lifecycleScope.launch {
             val url =
-                getString(R.string.entrenamiento_url_prd) + getString(R.string.entrenamiento_endpoint)
+                // getString(R.string.entrenamiento_url_prd) + getString(R.string.entrenamiento_endpoint)
+                getString(R.string.indicadores_url_prd) + getString(R.string.crear_entrenamiento_endpoint)
             try {
                 entrenamientoDto =
                     apiConsumer.consumeApiPost<Entrenamiento, Entrenamiento>(
@@ -173,9 +174,12 @@ class EntrenamientoActivity : AppCompatActivity() {
                         url,
                         tokenAuth
                     ).await()
-                showDialog(
-                    "Entrenamiento", "Entrenamiento completado"
-                ) { navigate(DeporteActivity::class.java) }
+                val message = if (userDTO.strava) {
+                    "Entrenamiento completado con sincronización a Strava"
+                } else {
+                    "Entrenamiento completado"
+                }
+                showDialog("Entrenamiento", message) { navigate(DeporteActivity::class.java) }
             } catch (e: Exception) {
                 showDialog("Error", e.message)
             }
