@@ -9,7 +9,7 @@ from flask import Flask, jsonify, request, json,redirect,abort, session,url_for
 from flask_cors import CORS
 from pydantic import ValidationError
 import config
-from models import Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
+from models import EntrenamientoIndicadores, Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
 from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava
 
 load_dotenv()
@@ -254,13 +254,14 @@ def solicitar_alimentacion(user):
 
 
 @app.route('/crear_entrenamiento/', methods=['POST'])
-@protected_route
+@protected_route_movil
 def crear_entreno(user):
+    user_dict = user
     try:
         json_data = request.get_json()
         json_data["user_id"] = 0
         Entrenamiento(**json_data)
-        user_email = unquote(user["email"])
+        user_email = user_dict.get('email', 'No email provided')
         usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
 
         headers = {
@@ -365,7 +366,7 @@ def calcular_indicadores2(user):
 def calcular_indicadores(user):
 
     event_data = request.get_json()
-    medidor_data = Entrenamiento(**event_data)
+    medidor_data = EntrenamientoIndicadores(**event_data)
     try:
         print("{{medidor_data}} ", medidor_data)
         ftp = calcular_ftp(medidor_data)
