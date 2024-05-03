@@ -355,6 +355,22 @@ def consultar_sesiones_entrenador(user):
     return jsonify(data), 201
 
 
+@app.route('/entrenamientos', methods=['GET'])
+@protected_route
+def consultar_entrenamientos(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+    userid = user_data.get('id', 'na')
+
+    response = requests.get(f"{URL_ENTRENAMIENTOS}/entrenamientos/{userid}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('Error consultado sesiones con entrenador'), 401
+    data = response.json()
+
+    return jsonify(data), 201
+
 @app.route('/calcular-indicadores2/', methods=['POST'])
 @protected_route_movil
 def calcular_indicadores2(user):

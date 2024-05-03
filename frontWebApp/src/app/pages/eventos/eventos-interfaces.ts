@@ -22,3 +22,15 @@ export interface SesionesEntrenador {
   horaSesion: string;
   comentarios: string;
 }
+
+export interface Entrenamiento {
+id: number;
+fecha: string;
+sport_type: string;
+total_calories: number;
+distance: number;
+duration: number;
+user_id: number;
+calories_active: number;
+fcm: number;
+}

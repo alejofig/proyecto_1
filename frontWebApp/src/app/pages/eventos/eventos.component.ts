@@ -32,7 +32,7 @@ export class EventosComponent {
   ngOnInit() {
     this.eventosService.getEvents().subscribe({
       next: (eventos) => {
-        
+
         const eventos_data = this.crear_eventos_calendario(eventos)
         if (Array.isArray(this.calendarOptions.events)) {
           this.calendarOptions.events = this.calendarOptions.events.concat(eventos_data[0]);
@@ -52,6 +52,7 @@ export class EventosComponent {
   ngAfterViewInit() {
     this.obtenerPlanesEntrenamiento();
     this.obtenerSesionesEntrenador();
+    this.obtenerEntrenamientos();
   }
 
   obtenerPlanesEntrenamiento() {
@@ -76,7 +77,7 @@ export class EventosComponent {
   obtenerSesionesEntrenador() {
     this.eventosService.getSesionesEntrenador().subscribe({
       next: (sesiones) => {
-        
+
         const sesiones_data = this.crear_sesiones_entrenador_calendario(sesiones)
         console.log("sesiones_data",sesiones_data)
         if (Array.isArray(this.calendarOptions.events)) {
@@ -90,6 +91,25 @@ export class EventosComponent {
       },
       error: (error) => {
         console.error('Error al obtener las sesiones con entrenador:', error); // Manejo de errores en caso de que falle la solicitud
+      }
+    })
+  }
+
+  obtenerEntrenamientos() {
+    this.eventosService.getEntrenamientosApp().subscribe({
+      next: (entrenamientos) => {
+        const entrenamientos_data = this.crear_entrenamientos_calendario(entrenamientos)
+        if (Array.isArray(this.calendarOptions.events)) {
+          this.calendarOptions.events = this.calendarOptions.events.concat(entrenamientos_data[0]);
+        }
+
+        if (Array.isArray(this.eventos_general)) {
+          const temp_general = this.eventos_general.concat(entrenamientos_data[1])
+          this.eventos_general = this.ordernar_eventos(temp_general);
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener las entrenamientos:', error); // Manejo de errores en caso de que falle la solicitud
       }
     })
   }
@@ -173,6 +193,33 @@ export class EventosComponent {
 
     return [sesionesList, sesionesEvent ]
   }
+
+
+  crear_entrenamientos_calendario(entrenamientos: any): any {
+    let entrenamientosEvent: any[] = []
+    let entrenamientosList: any[] = []
+
+    if (!entrenamientos) return [[], []];
+
+    entrenamientosList = entrenamientos.map((entrenamiento: any) => {
+      return {
+        title: `Entreno: ${entrenamiento.sport_type}`,
+        date: entrenamiento.fecha,
+        backgroundColor: "#009846",
+      }
+    });
+
+    entrenamientosEvent = entrenamientos.map((entrenamiento: any) => {
+      return {
+        titulo: `Entreno: ${entrenamiento.sport_type}`,
+        distancia: `${entrenamiento.distance}`,
+        fecha: `Fecha: ${entrenamiento.fecha}`,
+      }
+    });
+
+    return [entrenamientosList, entrenamientosEvent ]
+  }
+
 
   ordernar_eventos(eventos: any) {
     const hoy = new Date();

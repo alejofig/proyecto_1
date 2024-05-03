@@ -2,7 +2,7 @@ import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {Observable} from 'rxjs';
-import {PlanEntrenamientoUser, SesionesEntrenador} from './eventos-interfaces';
+import {Entrenamiento, PlanEntrenamientoUser, SesionesEntrenador} from './eventos-interfaces';
 import {AuthService} from '@auth0/auth0-angular';
 import {switchMap} from 'rxjs/operators';
 
@@ -48,4 +48,14 @@ export class EventosService {
       })
     );
   }
+
+  getEntrenamientosApp(): Observable<Entrenamiento[]> {
+    return this.auth.getAccessTokenSilently().pipe(
+      switchMap(token => {
+        const headers = {Authorization: `Bearer ${token}`};
+        return this.http.get<Entrenamiento[]>(this.entrenadorUrl + '/entrenamientos', {headers});
+      })
+    );
+  }
+
 }
