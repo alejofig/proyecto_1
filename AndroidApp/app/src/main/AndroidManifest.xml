@@ -31,6 +31,14 @@
             android:exported="false" />
 
         <activity
+            android:name=".RutinaAlimActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".RutinaDescActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>

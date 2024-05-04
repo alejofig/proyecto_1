@@ -179,7 +179,7 @@ class EntrenamientoActivity : AppCompatActivity() {
                 } else {
                     "Entrenamiento completado"
                 }
-                showDialog("Entrenamiento", message) { navigate(DeporteActivity::class.java) }
+                showDialog("Entrenamiento", message) { navigate(RutinasActivity::class.java) }
             } catch (e: Exception) {
                 showDialog("Error", e.message)
             }

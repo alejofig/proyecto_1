@@ -2,14 +2,14 @@ package com.misog11.sportapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class RutinasActivity : AppCompatActivity() {
+class RutinaDescActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rutinas)
+        setContentView(R.layout.activity_rutina_desc)
 
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -22,17 +22,12 @@ class RutinasActivity : AppCompatActivity() {
             true
         }
 
-        // Botón para la rutina de alimentación
-        val btnRutAlim = findViewById<Button>(R.id.btnRutAlim)
-        btnRutAlim.setOnClickListener {
-            navigate(RutinaAlimActivity::class.java)
+        val backBtn = findViewById<ImageView>(R.id.ivBackArrow)
+        backBtn.setOnClickListener {
+            navigate(RutinasActivity::class.java)
         }
 
-        // Botón para la rutina de descanso
-        val btnRutDes = findViewById<Button>(R.id.btnRutDes)
-        btnRutDes.setOnClickListener {
-            navigate(RutinaDescActivity::class.java)
-        }
+
 
 
     }

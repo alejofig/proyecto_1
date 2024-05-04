@@ -40,5 +40,6 @@
     <string name="trela">Tiempo de Relajación</string>
     <string name="rutinaDescanso">Rutina de Descanso</string>
     <string name="recomendaciones">Recomendaciones</string>
+    <string name="ir">Ir</string>
 
 </resources>

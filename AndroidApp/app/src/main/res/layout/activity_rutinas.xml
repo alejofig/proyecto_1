@@ -26,6 +26,65 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="24dp"/>
 
+    <LinearLayout
+        android:id="@+id/containerRut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/tvRecoTitle"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/tvAlimLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rutinaAlimenticia"
+            android:textSize="20sp"
+            android:layout_marginStart="34dp"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnRutAlim"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ir"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="34dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/containerRutDes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/containerRut"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/tvDesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rutinaDescanso"
+            android:textSize="20sp"
+            android:layout_marginStart="34dp"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnRutDes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ir"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="34dp" />
+
+    </LinearLayout>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
