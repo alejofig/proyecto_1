@@ -14,8 +14,14 @@ import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.misog11.sportapp.eventos.EventosAdapter
+import com.misog11.sportapp.eventos.NotificacionesAdapter
 import com.misog11.sportapp.models.EntrenamientoInd
+import com.misog11.sportapp.models.Evento
+import com.misog11.sportapp.models.Notificacion
 import com.misog11.sportapp.models.UserDTO
 import com.misog11.sportapp.models.calcularIndicadoresResponseDto
 import com.misog11.sportapp.utils.BodyMetricsController
@@ -97,6 +103,10 @@ class EntrenamientoActivity : AppCompatActivity() {
             binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
             binding.btnIniciar.text = getString(R.string.iniciar)
             isFirstClick = !isFirstClick
+        }
+
+        binding.ivBell.setOnClickListener{
+            mostrarNotificacines()
         }
 
         val backBtn = findViewById<ImageView>(R.id.ivBackArrow)
@@ -253,4 +263,23 @@ class EntrenamientoActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun mostrarNotificacines() {
+        val builder = AlertDialog.Builder(this@EntrenamientoActivity)
+        val view = layoutInflater.inflate(R.layout.notificaciones_entrenamiento, null)
+
+        builder.setView(view)
+
+        val dialog = builder.create()
+        dialog.show()
+
+        val reciclerNotification = view.findViewById<RecyclerView>(R.id.recyclerNotificaciones)
+        reciclerNotification.layoutManager = LinearLayoutManager(this)
+        val listaNt = listOf(Notificacion("Situacion de Robo al Norte de Bogota"),
+                             Notificacion("Lluvia en Fontibon"),
+                             Notificacion("Rutas cerradas en Chapinero"))
+        reciclerNotification.adapter = NotificacionesAdapter(listaNt)
+
+    }
+
 }

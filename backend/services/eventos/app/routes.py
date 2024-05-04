@@ -1,5 +1,5 @@
-from app.database import create_event, consultar_eventos, consultar_eventos_pais, consultar_eventos_pais_limit
-from app.models import Evento
+from app.database import create_event, consultar_eventos, consultar_eventos_pais, consultar_eventos_pais_limit, consultar_notificaciones_relevantes, create_notificacion
+from app.models import Evento, Notificacion
 from fastapi import APIRouter
 
 router = APIRouter()
@@ -27,3 +27,13 @@ async def consultar_enventos(pais: str):
 async def consultar_enventos(pais: str, rows: int):
     eventos = consultar_eventos_pais_limit(pais, rows)
     return eventos
+
+@router.get("/notificacion/{pais}")
+async def consultar_notificaciones(pais: str):
+    notificaciones = consultar_notificaciones_relevantes(pais)
+    return notificaciones
+
+@router.post("/notificacion")
+async def consultar_notificaciones(noti_data: Notificacion):
+    notificacion = create_notificacion(noti_data)
+    return notificacion
