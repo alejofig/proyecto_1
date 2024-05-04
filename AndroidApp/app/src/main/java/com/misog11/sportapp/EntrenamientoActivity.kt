@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.misog11.sportapp.eventos.EventosAdapter
+import com.misog11.sportapp.eventos.EventosService
 import com.misog11.sportapp.eventos.NotificacionesAdapter
 import com.misog11.sportapp.models.EntrenamientoInd
 import com.misog11.sportapp.models.Evento
@@ -28,9 +29,16 @@ import com.misog11.sportapp.utils.BodyMetricsController
 import com.misog11.sportapp.utils.Constants
 import com.misog11.sportapp.utils.TimerController
 import com.misog11.sportapp.utils.utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class EntrenamientoActivity : AppCompatActivity() {
+
+    private lateinit var retrofitApi: Retrofit
+    private lateinit var apigatewayUrl:String
 
     private lateinit var binding: ActivityEntrenamientoBinding
     private val handler = Handler(Looper.getMainLooper())
@@ -51,6 +59,11 @@ class EntrenamientoActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Configurar RetroFit
+        apigatewayUrl = getString(R.string.base_api_url)
+        retrofitApi = getRetrofit(apigatewayUrl)
+
 
         // Traer Token Autorizacion
         tokenAuth = utils.obtenerToken(this) ?: ""
@@ -273,13 +286,43 @@ class EntrenamientoActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
 
-        val reciclerNotification = view.findViewById<RecyclerView>(R.id.recyclerNotificaciones)
-        reciclerNotification.layoutManager = LinearLayoutManager(this)
         val listaNt = listOf(Notificacion("Situacion de Robo al Norte de Bogota"),
                              Notificacion("Lluvia en Fontibon"),
-                             Notificacion("Rutas cerradas en Chapinero"))
-        reciclerNotification.adapter = NotificacionesAdapter(listaNt)
+                             Notificacion("Rutas cerradas en Chapinero")
+        )
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.i("Token Obtenino de Auth0", tokenAuth)
+                val respuestaNotificaion = retrofitApi.create(EventosService::class.java)
+                    .getNotificaciones("Bearer $tokenAuth")
+                if (respuestaNotificaion.isSuccessful) {
+                    Log.i("Exito trayendo Notificaciones", "ss")
+                    val listaNotificaciones = respuestaNotificaion.body()
+                        if(listaNotificaciones != null){
+                            runOnUiThread {
+                                val reciclerNotification = view.findViewById<RecyclerView>(R.id.recyclerNotificaciones)
+                                reciclerNotification.layoutManager = LinearLayoutManager(this@EntrenamientoActivity)
+                                reciclerNotification.adapter = NotificacionesAdapter(listaNotificaciones)
+                            }
+                        }
+                    }
+            } catch (e: Exception) {
+                println("Se ha producido un error: ${e.message}")
+            }
+        }
+
 
     }
+
+    private fun getRetrofit(baseUrl:String):Retrofit{
+        return Retrofit
+            .Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
 
 }
