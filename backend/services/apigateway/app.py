@@ -147,6 +147,21 @@ def consultar_eventos(user):
 
     return jsonify(data), 201
 
+@app.route('/api/movil/notificaciones', methods=['GET'])
+@protected_route_movil
+def consultar_notificaciones_movil(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+    pais = user_data.get('pais_residencia', 'na')
+    response = requests.get(f"{URL_EVENTS}/notificacion/{pais}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('No hay notificaciones'), 401
+    data = response.json()
+
+    return jsonify(data), 200
+
 
 @app.route('/api/movil/plan', methods=['GET'])
 @protected_route_movil
