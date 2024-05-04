@@ -1,7 +1,7 @@
 # test_routes.py
 from fastapi.testclient import TestClient
 from app import routes
-from create_user import generate_random_user
+from tests.create_user import generate_random_user
 client = TestClient(routes.router)
 
 def test_health_check():
