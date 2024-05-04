@@ -27,7 +27,15 @@
             android:name=".DeporteActivity"
             android:exported="false" />
         <activity
-            android:name=".MenuForAllActivitys"
+            android:name=".RutinasActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".RutinaAlimActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".RutinaDescActivity"
             android:exported="false" />
 
         <activity
