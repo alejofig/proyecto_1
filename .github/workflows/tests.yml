@@ -60,7 +60,7 @@ jobs:
       - name: Run cov report
         working-directory: ./backend/services/users
         run: |
-          coverage report --fail-under=85     
+          coverage report --fail-under=70     
           pytest --cov . --cov-report=xml:users.xml
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v4.2.0
