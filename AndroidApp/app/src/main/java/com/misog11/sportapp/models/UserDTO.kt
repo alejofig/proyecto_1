@@ -25,6 +25,7 @@ class UserDTO(
      var altura: Int = 0,
      var tipoPlan: String? = null,
      var deportes: List<String> = emptyList(),
-     val createdAt: Calendar = Calendar.getInstance()
+     val createdAt: Calendar = Calendar.getInstance(),
+     val strava: Boolean = false
 )
 

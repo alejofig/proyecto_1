@@ -11,6 +11,8 @@ import boto3
 import random
 from models import Entrenamiento
 from datetime import datetime
+import requests
+import urllib.parse
 
 load_dotenv()
 def protected_route(f):
@@ -39,8 +41,8 @@ def protected_route_movil(f):
             return f(user.json(), *args, **kwargs)
         except Exception as e:
             print(e)
-            return jsonify({"detail": "No se pudo validar las credenciales"}), 401
-    
+            return jsonify({"detail": "No se pudo validar las credenciales"}), 401    
+
     return decorated_function
 
 def send_email(asunto, cuerpo, remitente, destinatario):
@@ -74,3 +76,32 @@ def convert_to_minutes(time_str):
     time_obj = datetime.strptime(time_str, '%H:%M:%S')
     minutes = time_obj.hour * 60 + time_obj.minute + time_obj.second / 60
     return minutes
+
+def send_to_strava(json_data):
+    try:
+        response_token = requests.get(f"{config.URL_USERS}/token_strava/{json_data['user_id']}")
+        url = "https://www.strava.com/api/v3/activities"
+        payload_dict = {
+            'name': f'Entreno {json_data["sport_type"]} Sport App',
+            "type": json_data["sport_type"],
+            "sport_type": json_data["sport_type"],
+            "elapsed_time": json_data["duration"],
+            "start_date_local":  json_data["fecha"],
+            "distance": json_data["distance"],
+            "start": json_data["fecha"],
+        }
+        payload_encoded = urllib.parse.urlencode(payload_dict)
+        headers = {
+        'accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': f'Bearer {response_token.json()["token"]["access_token"]}'
+        }
+        response = requests.request("POST", url, headers=headers, data=payload_encoded)
+        print(response.text)
+        if response.status_code == 201:
+            return jsonify({"detail": "Entrenamiento enviado a Strava"}), 201
+        else:
+            return jsonify({"detail": "No se pudo enviar el entrenamiento a Strava"}), 500
+    except Exception as e:
+        print(e)
+        return jsonify({"detail": "No se pudo enviar el entrenamiento a Strava"}), 500

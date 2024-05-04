@@ -6,8 +6,10 @@
     <string name="base_api_url">https://apigateway.uniandes-sports.com/</string>
     <string name="eventos_url">https://apigateway.uniandes-sports.com/</string>
     <string name="planes_url">https://apigateway.uniandes-sports.com/</string>
-    <string name="indicadores_url_local">http://10.0.2.2:5000/</string>
+    <string name="indicadores_url_local">http://10.0.2.2:3002/</string>
     <string name="indicadores_url_prd">https://apigateway.uniandes-sports.com/</string>
+    <string name="api_gateway_url_local">http://10.0.2.2:3002/</string>
+    <string name="crear_entrenamiento_endpoint">crear_entrenamiento/</string>
     <string name="indicadores_endpoint">calcular-indicadores/</string>
     <string name="entrenamiento_url_local">http://10.0.2.2:3005/</string>
     <string name="entrenamiento_url_prd">https://entrenamientos.uniandes-sports.com/</string>

@@ -21,7 +21,7 @@ async def get_user(user_email: str):
     else:
         return user.dict()
     
-@router.post("/token_strava/")
-async def refresh_token(new_token: dict ):    
-    update_token_strava(new_token)
-    return {"status": "ok"}
+@router.get("/token_strava/{user_id}")
+async def refresh_token(user_id: int):    
+    new_token=update_token_strava(user_id)
+    return {"token": new_token}

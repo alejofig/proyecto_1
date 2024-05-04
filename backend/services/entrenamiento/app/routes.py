@@ -1,6 +1,6 @@
 from fastapi import APIRouter,HTTPException
 from app.models import Entrenamiento
-from app.database import create_entrenamiento,obtener_entrenamientos,obtener_estadisticas, obtener_ultimo_entrenamiento
+from app.database import create_entrenamiento,obtener_entrenamientos, obtener_entrenamientos_user,obtener_estadisticas,obtener_ultimo_entrenamiento
 from app.utils import calcular_rutina_alimenticia, calcular_rutina_descanso
 
 router = APIRouter()
@@ -18,6 +18,11 @@ async def crear_entrenamiento(event_data: Entrenamiento ):
 @router.get("/entrenamientos")
 async def obtener_todos():
     entrenamientos = obtener_entrenamientos()
+    return entrenamientos
+
+@router.get("/entrenamientos/{user_id}")
+async def obtener_entrenos(user_id):
+    entrenamientos = obtener_entrenamientos_user(user_id)
     return entrenamientos
 
 @router.get("/estadisticas/{user_id}")
