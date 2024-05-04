@@ -30,6 +30,8 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+
+      #### Api Gateway
       - name: Install Dependencies
         working-directory: ./backend/services/apigateway
         run: |
@@ -44,6 +46,24 @@ jobs:
         run: |
           coverage report --fail-under=55
           pytest --cov . --cov-report=xml:apigateway_coverage.xml
+      
+      #### Entrenamientos
+      - name: Install Dependencies
+        working-directory: ./backend/services/entrenamientos
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Tests
+        working-directory: ./backend/services/entrenamientos
+        run: |
+          coverage run -m pytest tests/* -v
+      - name: Run cov report
+        working-directory: ./backend/services/entrenamientos
+        run: |
+          coverage report --fail-under=70
+          pytest --cov . --cov-report=xml:entrenamientos_coverage.xml
+
+      ### USERS
       - name: Install Dependencies
         working-directory: ./backend/services/users
         run: |
@@ -62,6 +82,8 @@ jobs:
         run: |
           coverage report --fail-under=70     
           pytest --cov . --cov-report=xml:users.xml
+
+      ### Upload coverage reports to Codecov    
       - name: Upload coverage reports to Codecov with GitHub Action
         uses: codecov/codecov-action@v4.2.0
         env:

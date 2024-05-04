@@ -8,9 +8,9 @@ client = TestClient(routes.router)
 def test_crear_entrenamiento():
     
     entrenamiento = {
-        "user_id": "bemejia",
-        "sport_type": "ciclismo",
-        "duration_horas": "3",
+        "user_id": 1335,
+        "sport_type": "Ride",
+        "duration": "3",
         "fecha": "2023-10-10",
         "calories_active": 400,
         "total_calories": 600,
