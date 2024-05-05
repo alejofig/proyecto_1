@@ -45,7 +45,7 @@ async def calcular_rutina_alimentacion(event_data: Entrenamiento):
     }
 
 @router.post("/rutina_descanso/")
-async def calcular_rutina_descanso(event_data: Entrenamiento):
+async def calcular_descanso(event_data: Entrenamiento):
 
     rutina_descanso = calcular_rutina_descanso(event_data.duration)
     return {
