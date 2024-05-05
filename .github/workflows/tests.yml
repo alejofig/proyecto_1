@@ -81,7 +81,7 @@ jobs:
         working-directory: ./backend/services/users
         run: |
           coverage report --fail-under=70     
-          pytest --cov . --cov-report=xml:users.xml
+          pytest --cov . --cov-report=xml:users_coverage.xml
 
       ### eventos
       - name: Install Dependencies eventos
@@ -101,7 +101,7 @@ jobs:
         working-directory: ./backend/services/eventos
         run: |
           coverage report --fail-under=70     
-          pytest --cov . --cov-report=xml:eventos.xml
+          pytest --cov . --cov-report=xml:eventos_coverage.xml
 
       ### planes
       - name: Install Dependencies planes
@@ -121,7 +121,7 @@ jobs:
         working-directory: ./backend/services/planes
         run: |
           coverage report --fail-under=70     
-          pytest --cov . --cov-report=xml:planes.xml
+          pytest --cov . --cov-report=xml:planes_coverage.xml
 
       ### terceros
       - name: Install Dependencies terceros
@@ -141,7 +141,7 @@ jobs:
         working-directory: ./backend/services/terceros
         run: |
           coverage report --fail-under=70     
-          pytest --cov . --cov-report=xml:terceros.xml
+          pytest --cov . --cov-report=xml:terceros_coverage.xml
 
 
       ### Upload coverage reports to Codecov    
