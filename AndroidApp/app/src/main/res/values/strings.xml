@@ -15,6 +15,8 @@
     <string name="entrenamiento_url_prd">https://entrenamientos.uniandes-sports.com/</string>
     <string name="entrenamiento_endpoint">entrenamiento</string>
     <string name="users_endpoint">get_complete_user_movil/</string>
+    <string name="get_rutina_alimentacion_movil">get_rutina_alimentacion_movil/</string>
+    <string name="get_rutina_descanso_movil">get_rutina_descanso_movil/</string>
     <string name="pausarTextBtn">Pausar</string>
     <string name="reanudarTextBtn">Reanudar</string>
     <string name="iniciar">Iniciar</string>

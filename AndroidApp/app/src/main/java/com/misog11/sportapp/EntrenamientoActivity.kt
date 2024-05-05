@@ -65,9 +65,8 @@ class EntrenamientoActivity : AppCompatActivity() {
                 bodyMetricsController.totalCalories = 0.0
                 bodyMetricsController.totalCaloriesBurned = 0.0
                 binding.tvHeartRate.text = bodyMetricsController.updateFCM(userDTO).toString()
-                if (intent.getStringExtra(Constants.keyDeporte)
-                        .toString() == "ciclismo"
-                ) binding.containerFTP.visibility = android.view.View.VISIBLE
+                if (intent.getStringExtra(Constants.keyDeporte).toString() == "Ride")
+                    binding.containerFTP.visibility = android.view.View.VISIBLE
                 binding.containerVo2max.visibility = android.view.View.VISIBLE
                 timerController.startTimer(handler, ::updateTimeView, ::updateCalories)
                 updateHandler.post(updateRunnable)
