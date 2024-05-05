@@ -52,8 +52,7 @@ class RutinaDescActivity : AppCompatActivity() {
                 getString(R.string.indicadores_url_prd) + getString(R.string.get_rutina_descanso_movil)
             try {
                 rutinaDescansoDto =
-                    apiConsumer.consumeApiPost<String, RutinaDescanso>(
-                        "",
+                    apiConsumer.consumeApiGet<RutinaDescanso>(
                         url,
                         tokenAuth
                     ).await()

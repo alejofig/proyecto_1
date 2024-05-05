@@ -52,8 +52,7 @@ class RutinaAlimActivity : AppCompatActivity() {
                 getString(R.string.indicadores_url_prd) + getString(R.string.get_rutina_alimentacion_movil)
             try {
                 rutinaAlimentacionDto =
-                    apiConsumer.consumeApiPost<String, RutinaAlimentacion>(
-                        "",
+                    apiConsumer.consumeApiGet<RutinaAlimentacion>(
                         url,
                         tokenAuth
                     ).await()
