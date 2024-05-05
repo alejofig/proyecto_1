@@ -52,7 +52,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvCarbosTitle"
+                android:id="@+id/tvTiempoSuenoTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tsueno"
@@ -60,7 +60,7 @@
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/tvCarbosLabel"
+                android:id="@+id/tvTiempoSuenoLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/valor_inicial"
@@ -95,7 +95,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvProtesTitle"
+                android:id="@+id/tvTiempoMeditacionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tmedi"
@@ -103,7 +103,7 @@
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/tvProtesLabel"
+                android:id="@+id/tvTiempoMeditacionLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/valor_inicial"
@@ -137,7 +137,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvgrasTitle"
+                android:id="@+id/tvTiempoRelajacionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/trela"
@@ -145,7 +145,7 @@
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/tvgrasLabel"
+                android:id="@+id/tvTiempoRelajacionLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/valor_inicial"
