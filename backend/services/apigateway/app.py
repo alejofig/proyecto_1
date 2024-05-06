@@ -88,8 +88,7 @@ def consultar_rutina_alimentacion_movil(user):
     user_email = unquote(user["email"])
     usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
     ultimo_entrenamiento = requests.get(f"{URL_ENTRENAMIENTOS}/ultimo_entrenamiento/{usuario_completo.json()['id']}", headers={})
-    
-    rutina_alimentacion = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_alimentacion/", headers={}, json=ultimo_entrenamiento )
+    rutina_alimentacion = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_alimentacion/", headers={}, data=ultimo_entrenamiento )
 
     return jsonify(rutina_alimentacion.json()), 200
 
@@ -101,7 +100,7 @@ def consultar_rutina_descanso_movil(user):
     usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
     ultimo_entrenamiento = requests.get(f"{URL_ENTRENAMIENTOS}/ultimo_entrenamiento/{usuario_completo.json()['id']}", headers={})
     
-    rutina_descanso = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_descanso/", headers={}, json=ultimo_entrenamiento )
+    rutina_descanso = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_descanso/", headers={}, data=ultimo_entrenamiento )
 
     return jsonify(rutina_descanso.json()), 200
 
