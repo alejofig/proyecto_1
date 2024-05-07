@@ -9,17 +9,21 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import com.misog11.sportapp.databinding.ActivityEntrenamientoBinding
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.misog11.sportapp.eventos.EventosAdapter
+import com.misog11.sportapp.eventos.EventosService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.misog11.sportapp.databinding.ActivityEntrenamientoBinding
 import com.misog11.sportapp.eventos.NotificacionesAdapter
 import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.EntrenamientoInd
@@ -30,9 +34,16 @@ import com.misog11.sportapp.utils.BodyMetricsController
 import com.misog11.sportapp.utils.Constants
 import com.misog11.sportapp.utils.TimerController
 import com.misog11.sportapp.utils.utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class EntrenamientoActivity : AppCompatActivity() {
+
+    private lateinit var retrofitApi: Retrofit
+    private lateinit var apigatewayUrl:String
 
     private lateinit var binding: ActivityEntrenamientoBinding
     private val handler = Handler(Looper.getMainLooper())
@@ -53,6 +64,11 @@ class EntrenamientoActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Configurar RetroFit
+        apigatewayUrl = getString(R.string.base_api_url)
+        retrofitApi = getRetrofit(apigatewayUrl)
+
 
         // Traer Token Autorizacion
         tokenAuth = utils.obtenerToken(this) ?: ""
@@ -97,13 +113,20 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
 
         binding.btnFinish.setOnClickListener {
-            timerController.cancelTimer()
-            consumeIndicadoresApi()
-            consumeEntrenamientoApi()
-            updateHandler.removeCallbacks(updateRunnable)
-            binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
-            binding.btnIniciar.text = getString(R.string.iniciar)
-            isFirstClick = !isFirstClick
+            if (duracionMayor1min()) {
+                timerController.cancelTimer()
+                consumeIndicadoresApi()
+                consumeEntrenamientoApi()
+                updateHandler.removeCallbacks(updateRunnable)
+                binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
+                binding.btnIniciar.text = getString(R.string.iniciar)
+                isFirstClick = !isFirstClick
+            }
+            else{
+                mostrarMensajeMotivacionla()
+            }
+
+
         }
 
         binding.ivBell.setOnClickListener{
@@ -283,14 +306,29 @@ class EntrenamientoActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
 
-        val reciclerNotification = view.findViewById<RecyclerView>(R.id.recyclerNotificaciones)
-        reciclerNotification.layoutManager = LinearLayoutManager(this)
-        val listaNt = listOf(Notificacion("Situacion de Robo al Norte de Bogota"),
-            Notificacion("Lluvia en Fontibon"),
-            Notificacion("Rutas cerradas en Chapinero"))
-        reciclerNotification.adapter = NotificacionesAdapter(listaNt)
 
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                Log.i("Token Obtenino de Auth0", tokenAuth)
+                val respuestaNotificaion = retrofitApi.create(EventosService::class.java)
+                    .getNotificaciones("Bearer $tokenAuth")
+                if (respuestaNotificaion.isSuccessful) {
+                    Log.i("Exito trayendo Notificaciones", "ss")
+                    val listaNotificaciones = respuestaNotificaion.body()
+                        if(listaNotificaciones != null){
+                            runOnUiThread {
+                                val reciclerNotification = view.findViewById<RecyclerView>(R.id.recyclerNotificaciones)
+                                reciclerNotification.layoutManager = LinearLayoutManager(this@EntrenamientoActivity)
+                                reciclerNotification.adapter = NotificacionesAdapter(listaNotificaciones)
+                            }
+                        }
+                    }
+            } catch (e: Exception) {
+                println("Se ha producido un error: ${e.message}")
+            }
+        }
     }
+
     private fun isConnectedToNetwork(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
@@ -299,6 +337,7 @@ class EntrenamientoActivity : AppCompatActivity() {
     private fun storeEntrenamientoData(entrenamientoDto: Entrenamiento) {
         val sharedPreferences = getSharedPreferences("entrenamiento_data", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
+
 
         val gson = Gson()
         val entrenamientosJson = sharedPreferences.getString("entrenamientos", null)
@@ -372,4 +411,69 @@ class EntrenamientoActivity : AppCompatActivity() {
         editor.putString("entrenamientos", nuevaListaJson)
         editor.apply()
     }
+
+
+    private fun timeStringToSeconds(time: String): Int {
+        val parts = time.split(":")
+        if (parts.size != 3) {
+            throw IllegalArgumentException("The time format should be HH:mm:ss")
+        }
+        val hours = parts[0].toInt()
+        val minutes = parts[1].toInt()
+        val seconds = parts[2].toInt()
+        return hours * 3600 + minutes * 60 + seconds
+    }
+
+    private fun duracionMayor1min(): Boolean{
+        val duration = binding.tvTimer.text.toString()
+        val totalSeconds = timeStringToSeconds(duration)
+        Log.i("Total seconds:", "$totalSeconds")
+
+        return totalSeconds>60
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun mostrarMensajeMotivacionla(){
+        val builder = AlertDialog.Builder(this@EntrenamientoActivity)
+        val view = layoutInflater.inflate(R.layout.mensaje_motivacional, null)
+
+        builder.setView(view)
+
+        val mensaje = utils.obtener_frase_motivacional()
+
+        val dialog = builder.create()
+        dialog.show()
+
+        val textViewMensaje = view.findViewById<TextView>(R.id.mensajeMotivacional)
+        textViewMensaje.text = mensaje
+
+        val botonConti = view.findViewById<Button>(R.id.btnContMoti)
+        botonConti.setOnClickListener {
+            dialog.dismiss()  // Cierra el diálogo
+        }
+
+        val botonFin = view.findViewById<Button>(R.id.btnFinMoti)
+        botonFin.setOnClickListener {
+            dialog.dismiss()  // Cierra el diálogo
+            timerController.cancelTimer()
+            consumeIndicadoresApi()
+            consumeEntrenamientoApi()
+            updateHandler.removeCallbacks(updateRunnable)
+            binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
+            binding.btnIniciar.text = getString(R.string.iniciar)
+            isFirstClick = !isFirstClick
+
+        }
+
+
+    }
+    private fun getRetrofit(baseUrl:String):Retrofit{
+        return Retrofit
+            .Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }
+
