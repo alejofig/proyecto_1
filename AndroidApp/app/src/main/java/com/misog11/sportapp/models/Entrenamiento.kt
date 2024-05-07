@@ -14,6 +14,7 @@ class Entrenamiento (
    var fcm: Int? = null,
    var distance: Int? = null
 ) {
+
    init {
       if (distance == null) {
          distance = Random.nextInt(1000, 20000)

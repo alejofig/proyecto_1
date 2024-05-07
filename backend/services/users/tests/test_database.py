@@ -2,7 +2,7 @@
 from app.database import create_user, create_session
 from app.models import User
 from sqlalchemy.exc import IntegrityError
-from create_user import generate_random_user
+from tests.create_user import generate_random_user
 
 def test_create_user():
     user = User(**generate_random_user())

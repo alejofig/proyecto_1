@@ -1,8 +1,9 @@
 package com.misog11.sportapp
 
-import com.misog11.sportapp.models.Entrenamiento
 import RestApiConsumer
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -21,9 +22,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.misog11.sportapp.eventos.EventosAdapter
 import com.misog11.sportapp.eventos.EventosService
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.misog11.sportapp.eventos.NotificacionesAdapter
+import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.EntrenamientoInd
-import com.misog11.sportapp.models.Evento
 import com.misog11.sportapp.models.Notificacion
 import com.misog11.sportapp.models.UserDTO
 import com.misog11.sportapp.models.calcularIndicadoresResponseDto
@@ -72,7 +75,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         consumeDatosUsuario()
         binding = ActivityEntrenamientoBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        checkAndSendPendingTrainings()
         binding.btnIniciar.setOnClickListener {
             if (isFirstClick) {
                 timerController.cancelTimer()
@@ -86,9 +89,8 @@ class EntrenamientoActivity : AppCompatActivity() {
                 bodyMetricsController.totalCalories = 0.0
                 bodyMetricsController.totalCaloriesBurned = 0.0
                 binding.tvHeartRate.text = bodyMetricsController.updateFCM(userDTO).toString()
-                if (intent.getStringExtra(Constants.keyDeporte)
-                        .toString() == "ciclismo"
-                ) binding.containerFTP.visibility = android.view.View.VISIBLE
+                if (intent.getStringExtra(Constants.keyDeporte).toString() == "Ride")
+                    binding.containerFTP.visibility = android.view.View.VISIBLE
                 binding.containerVo2max.visibility = android.view.View.VISIBLE
                 timerController.startTimer(handler, ::updateTimeView, ::updateCalories)
                 updateHandler.post(updateRunnable)
@@ -188,6 +190,7 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeEntrenamientoApi() {
+        val isConnected = isConnectedToNetwork()
         entrenamientoDto.user_id = userDTO.id
         entrenamientoDto.sport_type = intent.getStringExtra(Constants.keyDeporte).toString()
         entrenamientoDto.duration = convertToIntMinutes() // "hh:mm:ss"
@@ -195,28 +198,36 @@ class EntrenamientoActivity : AppCompatActivity() {
         entrenamientoDto.calories_active = binding.tvActiveCalories.text.toString().toDouble()
         entrenamientoDto.total_calories = binding.tvTotalCaloriesLabel.text.toString().toDouble()
         entrenamientoDto.fcm = binding.tvHeartRate.text.toString().toInt()
-        lifecycleScope.launch {
-            val url =
-                // getString(R.string.entrenamiento_url_prd) + getString(R.string.entrenamiento_endpoint)
-                getString(R.string.indicadores_url_prd) + getString(R.string.crear_entrenamiento_endpoint)
-            try {
-                entrenamientoDto =
-                    apiConsumer.consumeApiPost<Entrenamiento, Entrenamiento>(
-                        entrenamientoDto,
-                        url,
-                        tokenAuth
-                    ).await()
-                val message = if (userDTO.strava) {
-                    "Entrenamiento completado con sincronización a Strava"
-                } else {
-                    "Entrenamiento completado"
+        if (isConnected) {
+            lifecycleScope.launch {
+                val url =
+                    // getString(R.string.entrenamiento_url_prd) + getString(R.string.entrenamiento_endpoint)
+                    getString(R.string.indicadores_url_prd) + getString(R.string.crear_entrenamiento_endpoint)
+                try {
+                    entrenamientoDto =
+                        apiConsumer.consumeApiPost<Entrenamiento, Entrenamiento>(
+                            entrenamientoDto,
+                            url,
+                            tokenAuth
+                        ).await()
+                    val message = if (userDTO.strava) {
+                        "Entrenamiento completado con sincronización a Strava"
+                    } else {
+                        "Entrenamiento completado"
+                    }
+                    showDialog("Entrenamiento", message) { navigate(RutinasActivity::class.java) }
+                } catch (e: Exception) {
+                    showDialog("Error", e.message)
                 }
-                showDialog("Entrenamiento", message) { navigate(RutinasActivity::class.java) }
-            } catch (e: Exception) {
-                showDialog("Error", e.message)
             }
+        } else {
+            storeEntrenamientoData(entrenamientoDto)
+            showDialog("Sin conexión", "El entrenamiento se guardará localmente y se" +
+                    " enviará automáticamente cuando haya conexión.")
+            { navigate(RutinasActivity::class.java) }
         }
     }
+
 
     private fun navigate(viewState: Class<*>) {
         val intent = Intent(this, viewState)
@@ -316,9 +327,91 @@ class EntrenamientoActivity : AppCompatActivity() {
                 println("Se ha producido un error: ${e.message}")
             }
         }
-
-
     }
+
+    private fun isConnectedToNetwork(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
+    }
+    private fun storeEntrenamientoData(entrenamientoDto: Entrenamiento) {
+        val sharedPreferences = getSharedPreferences("entrenamiento_data", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+
+        val gson = Gson()
+        val entrenamientosJson = sharedPreferences.getString("entrenamientos", null)
+        val entrenamientos: MutableList<Entrenamiento> = if (entrenamientosJson != null) {
+            gson.fromJson(entrenamientosJson, object : TypeToken<MutableList<Entrenamiento>>() {}.type)
+        } else {
+            mutableListOf()
+        }
+
+        entrenamientos.add(entrenamientoDto)
+        val nuevaListaJson = gson.toJson(entrenamientos)
+
+        editor.putString("entrenamientos", nuevaListaJson)
+        editor.apply()
+    }
+
+    private fun getStoredEntrenamientoData(): List<Entrenamiento>? {
+        val sharedPreferences = getSharedPreferences("entrenamiento_data", Context.MODE_PRIVATE)
+        val json = sharedPreferences.getString("entrenamientos", null)
+        return if (json != null) {
+            val gson = Gson()
+            gson.fromJson(json, object : TypeToken<List<Entrenamiento>>() {}.type)
+        } else {
+            null
+        }
+    }
+
+
+    private fun checkAndSendPendingTrainings() {
+        val pendingTrainings = getStoredEntrenamientoData()
+        if (pendingTrainings != null && isConnectedToNetwork()) {
+            sendTrainings(pendingTrainings)
+        }
+    }
+
+    private fun sendTrainings(trainings: List<Entrenamiento>?) {
+
+        if (trainings != null) {
+            for (entrenamiento in trainings) {
+                lifecycleScope.launch {
+                    val url = getString(R.string.indicadores_url_prd) + getString(R.string.crear_entrenamiento_endpoint)
+                    try {
+                        apiConsumer.consumeApiPost<Entrenamiento, Any>(
+                            entrenamiento,
+                            url,
+                            tokenAuth
+                        ).await()
+                        // Actualizar la interfaz o mostrar un mensaje al usuario
+                        showDialog("Éxito", "Entrenamiento pendiente enviado correctamente.")
+                        // Remover el entrenamiento enviado de la lista almacenada localmente
+                        removeStoredTraining(entrenamiento)
+                    } catch (e: Exception) {
+                        showDialog("Error al enviar", "No se pudo enviar el entrenamiento: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
+    private fun removeStoredTraining(entrenamiento: Entrenamiento) {
+        val sharedPreferences = getSharedPreferences("entrenamiento_data", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val gson = Gson()
+        val entrenamientosJson = sharedPreferences.getString("entrenamientos", null)
+        val entrenamientos: MutableList<Entrenamiento> = if (entrenamientosJson != null) {
+            gson.fromJson(entrenamientosJson, object : TypeToken<MutableList<Entrenamiento>>() {}.type)
+        } else {
+            mutableListOf()
+        }
+        entrenamientos.remove(entrenamiento)
+        val nuevaListaJson = gson.toJson(entrenamientos)
+        editor.putString("entrenamientos", nuevaListaJson)
+        editor.apply()
+    }
+
 
     private fun timeStringToSeconds(time: String): Int {
         val parts = time.split(":")
@@ -382,7 +475,5 @@ class EntrenamientoActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-
-
 }
+

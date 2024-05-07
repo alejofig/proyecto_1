@@ -35,22 +35,17 @@ async def obtener_ultimo_entrenamiento_por_usuario(user_id: int):
     return entrenamiento
 
 
-@router.post("/rutina_alimentacion")
+@router.post("/rutina_alimentacion/")
 async def calcular_rutina_alimentacion(event_data: Entrenamiento):
 
     rutina_alimenticia = calcular_rutina_alimenticia(event_data.calories_active)
 
-    return {
-        "rutina_alimenticia": rutina_alimenticia
-    }
+    return rutina_alimenticia    
 
-@router.post("/rutina_descanso")
-async def calcular_rutina_descanso(event_data: Entrenamiento):
+@router.post("/rutina_descanso/")
+async def calcular_descanso(event_data: Entrenamiento):
 
     rutina_descanso = calcular_rutina_descanso(event_data.duration)
-    return {
-        "rutina_descanso": rutina_descanso
-    }
-
+    return rutina_descanso
 
 
