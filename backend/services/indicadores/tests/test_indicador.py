@@ -8,6 +8,7 @@ def test_crear_indicador():
     indicador = {
         "userId": "1234",
         "nombreIndicador": "Potencia",
+        "deporte": "Atletismo",
         "sensor": "Optico",
         "unidadMedida": "Watts",
         "calculoRealizar": "EMC",
