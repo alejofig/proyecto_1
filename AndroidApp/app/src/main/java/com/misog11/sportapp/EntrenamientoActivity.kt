@@ -8,9 +8,11 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.misog11.sportapp.databinding.ActivityEntrenamientoBinding
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
@@ -109,13 +111,20 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
 
         binding.btnFinish.setOnClickListener {
-            timerController.cancelTimer()
-            consumeIndicadoresApi()
-            consumeEntrenamientoApi()
-            updateHandler.removeCallbacks(updateRunnable)
-            binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
-            binding.btnIniciar.text = getString(R.string.iniciar)
-            isFirstClick = !isFirstClick
+            if (duracionMayor1min()) {
+                timerController.cancelTimer()
+                consumeIndicadoresApi()
+                consumeEntrenamientoApi()
+                updateHandler.removeCallbacks(updateRunnable)
+                binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
+                binding.btnIniciar.text = getString(R.string.iniciar)
+                isFirstClick = !isFirstClick
+            }
+            else{
+                mostrarMensajeMotivacionla()
+            }
+
+
         }
 
         binding.ivBell.setOnClickListener{
@@ -286,11 +295,6 @@ class EntrenamientoActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
 
-        val listaNt = listOf(Notificacion("Situacion de Robo al Norte de Bogota"),
-                             Notificacion("Lluvia en Fontibon"),
-                             Notificacion("Rutas cerradas en Chapinero")
-        )
-
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -316,6 +320,61 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     }
 
+    private fun timeStringToSeconds(time: String): Int {
+        val parts = time.split(":")
+        if (parts.size != 3) {
+            throw IllegalArgumentException("The time format should be HH:mm:ss")
+        }
+        val hours = parts[0].toInt()
+        val minutes = parts[1].toInt()
+        val seconds = parts[2].toInt()
+        return hours * 3600 + minutes * 60 + seconds
+    }
+
+    private fun duracionMayor1min(): Boolean{
+        val duration = binding.tvTimer.text.toString()
+        val totalSeconds = timeStringToSeconds(duration)
+        Log.i("Total seconds:", "$totalSeconds")
+
+        return totalSeconds>60
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun mostrarMensajeMotivacionla(){
+        val builder = AlertDialog.Builder(this@EntrenamientoActivity)
+        val view = layoutInflater.inflate(R.layout.mensaje_motivacional, null)
+
+        builder.setView(view)
+
+        val mensaje = utils.obtener_frase_motivacional()
+
+        val dialog = builder.create()
+        dialog.show()
+
+        val textViewMensaje = view.findViewById<TextView>(R.id.mensajeMotivacional)
+        textViewMensaje.text = mensaje
+
+        val botonConti = view.findViewById<Button>(R.id.btnContMoti)
+        botonConti.setOnClickListener {
+            dialog.dismiss()  // Cierra el diálogo
+        }
+
+        val botonFin = view.findViewById<Button>(R.id.btnFinMoti)
+        botonFin.setOnClickListener {
+            dialog.dismiss()  // Cierra el diálogo
+            timerController.cancelTimer()
+            consumeIndicadoresApi()
+            consumeEntrenamientoApi()
+            updateHandler.removeCallbacks(updateRunnable)
+            binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
+            binding.btnIniciar.text = getString(R.string.iniciar)
+            isFirstClick = !isFirstClick
+
+        }
+
+
+    }
     private fun getRetrofit(baseUrl:String):Retrofit{
         return Retrofit
             .Builder()
@@ -323,6 +382,7 @@ class EntrenamientoActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
 
 
 }
