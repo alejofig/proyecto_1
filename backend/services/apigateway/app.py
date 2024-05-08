@@ -10,7 +10,7 @@ from flask_cors import CORS
 from pydantic import ValidationError
 import config
 from models import EntrenamientoIndicadores, Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
-from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava
+from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava, calcularFisiologico
 
 load_dotenv()
 
@@ -195,15 +195,31 @@ def consultar_planes(user):
 def generar_plan_entrenamiento(user):
     user_dict = user
     email = user_dict.get('email', 'No email provided')
+    # Obtener datos fisiologicos del usuario
+    edad = user_dict.get('edad', 'No edad provided')
+    altura = user_dict.get('altura', 'No altura provided')
+    peso = user_dict.get('peso', 'No peso provided')
     # Obtener datos del cuerpo de la solicitud
     body_data = request.json
+
+    totalDatosFisiologicos = calcularFisiologico(edad, altura, peso)
+
+    if totalDatosFisiologicos < 6:
+        cantidadMedida = 10
+        distanciaMedida = 20
+    elif 7 < totalDatosFisiologicos < 8:
+        cantidadMedida = 7
+        distanciaMedida = 15
+    else:
+        cantidadMedida = 5
+        distanciaMedida = 10
 
     plan_data = {
         "deporte": body_data.get('deporte', ''),
         "nombre": body_data.get('nombre', ''),
         "usuario": email,
-        "cantidadEntrenamientos": body_data.get('cantidadEntrenamientos', ''),
-        "distanciaPorEntrenamientos": body_data.get('distanciaPorEntrenamientos', ''),
+        "cantidadEntrenamientos": cantidadMedida, #body_data.get('cantidadEntrenamientos', ''),
+        "distanciaPorEntrenamientos": distanciaMedida, #body_data.get('distanciaPorEntrenamientos', ''),
         "fechas": body_data.get('fechas', ''),
     }
 
