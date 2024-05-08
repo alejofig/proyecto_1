@@ -8,7 +8,8 @@ def test_plan_model():
         usuario="Juan",
         cantidadEntrenamientos="1",
         distanciaPorEntrenamientos="5",
-        fechas="2024/04/15"
+        fechas="2024/04/15",
+        tipoPLan="Basico"
     )
 
     assert plan.deporte == "Atletismo"
@@ -17,3 +18,4 @@ def test_plan_model():
     assert plan.cantidadEntrenamientos == "1"
     assert plan.distanciaPorEntrenamientos == "5"
     assert plan.fechas == "2024/04/15"
+    assert plan.tipoPLan == "Basico"

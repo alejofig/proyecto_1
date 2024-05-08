@@ -11,7 +11,8 @@ def test_crear_plan():
         "usuario": "Juan Arango",
         "cantidadEntrenamientos": "4",
         "distanciaPorEntrenamientos": "10",
-        "fechas": "2024/04/15"
+        "fechas": "2024/04/15",
+        "tipoPLan": "Basico"
     }
     response = client.post("/plan/", json=plan)
     assert response.status_code == 200
