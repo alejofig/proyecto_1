@@ -128,6 +128,7 @@ class EntrenamientoActivity : AppCompatActivity() {
             }
             else{
                 mostrarMensajeMotivacionla()
+                estadoMedidaReculo = "Alerta"
             }
 
 
@@ -460,6 +461,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         val botonConti = view.findViewById<Button>(R.id.btnContMoti)
         botonConti.setOnClickListener {
             dialog.dismiss()  // Cierra el diálogo
+            estadoMedidaReculo = "midiendo"
         }
 
         val botonFin = view.findViewById<Button>(R.id.btnFinMoti)
@@ -472,6 +474,7 @@ class EntrenamientoActivity : AppCompatActivity() {
             binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
             binding.btnIniciar.text = getString(R.string.iniciar)
             isFirstClick = !isFirstClick
+            estadoMedidaReculo = "midiendo"
 
         }
 
