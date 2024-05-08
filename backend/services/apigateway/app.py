@@ -195,24 +195,39 @@ def consultar_planes(user):
 def generar_plan_entrenamiento(user):
     user_dict = user
     email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+
     # Obtener datos fisiologicos del usuario
-    edad = user_dict.get('edad', 'No edad provided')
-    altura = user_dict.get('altura', 'No altura provided')
-    peso = user_dict.get('peso', 'No peso provided')
+    edad = user_data.get('edad', 0)
+    altura = user_data.get('altura', 0)
+    peso = user_data.get('peso', 0)
+
     # Obtener datos del cuerpo de la solicitud
     body_data = request.json
 
-    totalDatosFisiologicos = calcularFisiologico(edad, altura, peso)
+    # Obtener el tipo de plan seleccionado
+    tipoPLan = body_data.get('tipoPLan', '')
 
-    if totalDatosFisiologicos < 6:
-        cantidadMedida = 10
-        distanciaMedida = 20
-    elif 7 < totalDatosFisiologicos < 8:
-        cantidadMedida = 7
-        distanciaMedida = 15
-    else:
-        cantidadMedida = 5
-        distanciaMedida = 10
+    # Lógica para determinar los valores segun el tipo de plan
+    try:
+        if tipoPLan == 'Basico' or tipoPLan == 'Avanzado':
+            totalDatosFisiologicos = calcularFisiologico(int(edad), int(altura), int(peso))
+            if totalDatosFisiologicos < 6:
+                cantidadMedida = 10
+                distanciaMedida = 20
+            elif 7 < totalDatosFisiologicos < 8:
+                cantidadMedida = 7
+                distanciaMedida = 15
+            else:
+                cantidadMedida = 5
+                distanciaMedida = 10
+        else:
+            cantidadMedida = body_data.get('cantidadEntrenamientos', '')
+            distanciaMedida = body_data.get('distanciaPorEntrenamientos', '')
+    except ValidationError as e:
+        return jsonify('Error de manejo de datos: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
 
     plan_data = {
         "deporte": body_data.get('deporte', ''),
@@ -221,6 +236,7 @@ def generar_plan_entrenamiento(user):
         "cantidadEntrenamientos": cantidadMedida, #body_data.get('cantidadEntrenamientos', ''),
         "distanciaPorEntrenamientos": distanciaMedida, #body_data.get('distanciaPorEntrenamientos', ''),
         "fechas": body_data.get('fechas', ''),
+        "tipoPLan": body_data.get('tipoPLan', '')
     }
 
     response = requests.post(f"{URL_PLANES}/plan", headers={}, json=plan_data)

@@ -106,7 +106,8 @@ def send_to_strava(json_data):
         print(e)
         return jsonify({"detail": "No se pudo enviar el entrenamiento a Strava"}), 500
 
-def calcularFisiologico(edad, altura, peso):
+
+def calcularFisiologico(edad: int, altura: int, peso: int) -> int:
     # Validar edad
     if edad <= 30:
         e = 1

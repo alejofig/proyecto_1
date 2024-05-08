@@ -27,6 +27,7 @@ export class GenerarPlanEntreComponent implements OnInit {
   public cantidadEntrenamientos: number = 0;
   public distanciaPorEntrenamientos: number = 0;
   public fechas: string = '';
+  public tipoPLan: string = '';
   public personalizado: boolean = false;
   public planSeleccionado: string = '';
   public mensajeExitoso: string = 'El plan de entrenamiento fue generado con éxito!';
@@ -77,17 +78,20 @@ export class GenerarPlanEntreComponent implements OnInit {
       this.cantidadEntrenamientos = 2;
       this.distanciaPorEntrenamientos = 5;
       this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
+      this.tipoPLan = "Basico";
     } else if (this.planSeleccionado != 'Plan de entrenamiento personalizado' && this.planSeleccionado == 'Plan de entrenamiento recomendado - Avanzado') {
       this.cantidadEntrenamientos = 5;
       this.distanciaPorEntrenamientos = 15;
       this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
+      this.tipoPLan = "Avanzado";
     } else if (this.planSeleccionado == 'Plan de entrenamiento personalizado') {
       this.fechas = this.sumarDiasAFecha(this.cantidadEntrenamientos);
+      this.tipoPLan = "Personalizado";
     }
 
     this.usuario = 'Pedro'; // OJO: Usuario quemado
 
-    let planEntrenamiento = new GenerarPlanEntre(this.deporte, this.nombre, this.usuario, this.cantidadEntrenamientos, this.distanciaPorEntrenamientos, this.fechas)
+    let planEntrenamiento = new GenerarPlanEntre(this.deporte, this.nombre, this.usuario, this.cantidadEntrenamientos, this.distanciaPorEntrenamientos, this.fechas, this.tipoPLan)
     console.log(planEntrenamiento)
 
     this.planEntrenamientoService.generarPlanEntrenamiento(planEntrenamiento).subscribe((result: any) => {
@@ -104,7 +108,8 @@ export class GenerarPlanEntreComponent implements OnInit {
       usuario: this.usuario,
       cantidadEntrenamientos: this.cantidadEntrenamientos,
       distanciaPorEntrenamientos: this.distanciaPorEntrenamientos,
-      fechas: this.fechas
+      fechas: this.fechas,
+      tipoPLan: this.tipoPLan
     }
   }
 }
