@@ -39,6 +39,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.math.abs
 
 class EntrenamientoActivity : AppCompatActivity() {
 
@@ -47,6 +48,9 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEntrenamientoBinding
     private val handler = Handler(Looper.getMainLooper())
+    private var estadoMedidaReculo = "primeraVez"
+    private  var ftpInicial: Float = 0.0f
+    private  var Vo2MaxInicial: Float = 0.0f
 
     @RequiresApi(Build.VERSION_CODES.O)
     private var userDTO: UserDTO = UserDTO()
@@ -113,7 +117,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
 
         binding.btnFinish.setOnClickListener {
-            if (duracionMayor1min()) {
+            if (duracionMayor1min() && (estadoMedidaReculo == "midiendo" || estadoMedidaReculo == "primeraVez")) {
                 timerController.cancelTimer()
                 consumeIndicadoresApi()
                 consumeEntrenamientoApi()
@@ -180,8 +184,11 @@ class EntrenamientoActivity : AppCompatActivity() {
                         url,
                         tokenAuth
                     ).await()
-                binding.tvValueFTP.text = responsecalcularIndicadoresResponseDto?.ftp.toString()
-                binding.tvValueVo2.text = responsecalcularIndicadoresResponseDto?.vo2Max.toString()
+                val ftp = responsecalcularIndicadoresResponseDto?.ftp.toString()
+                binding.tvValueFTP.text = ftp
+                val vo2Max = responsecalcularIndicadoresResponseDto?.vo2Max.toString()
+                binding.tvValueVo2.text = vo2Max
+                recalculoObjetivos(ftp, vo2Max)
             } catch (e: Exception) {
                 showDialog("Error", e.message)
             }
@@ -258,10 +265,12 @@ class EntrenamientoActivity : AppCompatActivity() {
         // Actualizar el TextView de calorías totales
         binding.tvTotalCaloriesLabel.text =
             String.format("%.2f", bodyMetricsController.getCalories())
+
     }
 
     private fun updateTimeView(textTime: String) {
         binding.tvTimer.text = textTime
+
     }
 
     override fun onDestroy() {
@@ -315,7 +324,7 @@ class EntrenamientoActivity : AppCompatActivity() {
                 if (respuestaNotificaion.isSuccessful) {
                     Log.i("Exito trayendo Notificaciones", "ss")
                     val listaNotificaciones = respuestaNotificaion.body()
-                        if(listaNotificaciones != null){
+                    if(listaNotificaciones != null){
                             runOnUiThread {
                                 val reciclerNotification = view.findViewById<RecyclerView>(R.id.recyclerNotificaciones)
                                 reciclerNotification.layoutManager = LinearLayoutManager(this@EntrenamientoActivity)
@@ -474,6 +483,79 @@ class EntrenamientoActivity : AppCompatActivity() {
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun mostrarAvisoRecalculo(indicador: String){
+        val builder = AlertDialog.Builder(this@EntrenamientoActivity)
+        val view = layoutInflater.inflate(R.layout.mensaje_motivacional, null)
+
+        builder.setView(view)
+
+        val mensaje = "¡Atención! Hemos detectado que tu indicador de $indicador está fuera de los rangos normales para la actividad que estás realizando."
+
+        val dialog = builder.create()
+        dialog.show()
+
+        val textViewMensaje = view.findViewById<TextView>(R.id.mensajeMotivacional)
+        textViewMensaje.text = mensaje
+
+        val botonConti = view.findViewById<Button>(R.id.btnContMoti)
+        botonConti.setOnClickListener {
+            dialog.dismiss()  // Cierra el diálogo
+            estadoMedidaReculo =  "midiendo"
+        }
+
+        val botonFin = view.findViewById<Button>(R.id.btnFinMoti)
+        botonFin.setOnClickListener {
+            dialog.dismiss()  // Cierra el diálogo
+            timerController.cancelTimer()
+            consumeIndicadoresApi()
+            consumeEntrenamientoApi()
+            updateHandler.removeCallbacks(updateRunnable)
+            binding.btnIniciar.backgroundTintList = resources.getColorStateList(R.color.red, null)
+            binding.btnIniciar.text = getString(R.string.iniciar)
+            isFirstClick = !isFirstClick
+            estadoMedidaReculo =  "midiendo"
+
+        }
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun recalculoObjetivos(ftp:String, vo2Max: String){
+        if (estadoMedidaReculo == "primeraVez"){
+            ftpInicial = ftp.toFloat()
+            Vo2MaxInicial = vo2Max.toFloat()
+            estadoMedidaReculo = "midiendo"
+        }
+        else if(estadoMedidaReculo == "midiendo"){
+            val ftp_recibido = ftp.toFloat()
+            val vo2Max_recibido = vo2Max.toFloat()
+            val delta_ftp = abs(ftpInicial - ftp_recibido)
+            val delta_vo2Max = abs(Vo2MaxInicial - vo2Max_recibido )
+
+            Log.i("Ftp Inicial", "$ftpInicial" )
+            Log.i("Vo2 Inicial", "$Vo2MaxInicial" )
+            Log.i("Ftp", "$ftp_recibido" )
+            Log.i("Vo2", "$vo2Max_recibido" )
+            Log.i("delta_ftp", "$delta_ftp" )
+            Log.i("delta_vo2Max", "$delta_vo2Max" )
+
+            ftpInicial = ftp_recibido
+            Vo2MaxInicial = vo2Max_recibido
+
+            if (delta_ftp> 7  || ftp_recibido > 45){
+                mostrarAvisoRecalculo("FTP")
+                estadoMedidaReculo = "Alerta"
+            }
+
+            if (delta_vo2Max > 1 ||  vo2Max_recibido<90){
+                mostrarAvisoRecalculo("VO2MaX")
+                estadoMedidaReculo = "Alerta"
+            }
+
+        }
+
+
     }
 }
 
