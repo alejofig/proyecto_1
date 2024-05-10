@@ -41,7 +41,6 @@ def cambiar_indicador(nombre_indicador: str, visibilidad: bool, indicador: Indic
     else:
         session.close()
         return None
-    
 
 
 def reset_total_indicadores():
