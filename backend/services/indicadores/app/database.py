@@ -28,6 +28,19 @@ def consultar_indicadores():
     return indicadores
 
 
+def cambiar_indicador(nombre_indicador: str):
+    session = create_session()
+    indicador_existente = select(Indicador).where(Indicador.nombreIndicador == nombre_indicador)
+    if indicador_existente:
+        indicador_existente.visible = Indicador.visible
+        session.commit()
+        session.close()
+        return indicador_existente
+    else:
+        session.close()
+        return None
+
+
 def reset_total_indicadores():
     session = create_session()
     try:

@@ -9,9 +9,7 @@ def test_crear_indicador():
         "userId": "1234",
         "nombreIndicador": "Potencia",
         "deporte": "Atletismo",
-        "sensor": "Optico",
-        "unidadMedida": "Watts",
-        "calculoRealizar": "EMC",
+        "visible": True,
         "detallesAdicionales": "Potencia"
     }
     response = client.post("/crear_indicador/", json=indicador)

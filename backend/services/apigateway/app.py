@@ -10,7 +10,7 @@ from flask_cors import CORS
 from pydantic import ValidationError
 import config
 from models import EntrenamientoIndicadores, Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
-from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava, calcularFisiologico
+from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava
 
 load_dotenv()
 
@@ -210,17 +210,12 @@ def generar_plan_entrenamiento(user):
 
     # Lógica para determinar los valores segun el tipo de plan
     try:
-        if tipoPLan == 'Basico' or tipoPLan == 'Avanzado':
-            totalDatosFisiologicos = calcularFisiologico(int(edad), int(altura), int(peso))
-            if totalDatosFisiologicos < 6:
-                cantidadMedida = 10
-                distanciaMedida = 20
-            elif 7 < totalDatosFisiologicos < 8:
-                cantidadMedida = 7
-                distanciaMedida = 15
-            else:
-                cantidadMedida = 5
-                distanciaMedida = 10
+        if tipoPLan == 'Basico':
+            cantidadMedida = round(min(int(edad) // 10, 5))
+            distanciaMedida = round(min(int(peso) * 0.3, 10))
+        elif tipoPLan == 'Avanzado':
+            cantidadMedida = round(min(int(edad) // 8, 7))
+            distanciaMedida = round(min(int(peso) * 0.5, 15))
         else:
             cantidadMedida = body_data.get('cantidadEntrenamientos', '')
             distanciaMedida = body_data.get('distanciaPorEntrenamientos', '')

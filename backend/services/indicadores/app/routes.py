@@ -1,4 +1,4 @@
-from app.database import (crear_nuevo_indicador, consultar_indicadores, reset_total_indicadores)
+from app.database import (crear_nuevo_indicador, consultar_indicadores, cambiar_indicador, reset_total_indicadores)
 from app.models import Indicador
 from fastapi import APIRouter
 
@@ -20,6 +20,12 @@ async def crear_indicador(indicador: Indicador):
 async def consultar_indicador():
     indicadores = consultar_indicadores()
     return indicadores
+
+
+@router.put("/actualizar_indicador/{nombre_indicador}")
+async def actualizar_indicador(nombre_indicador: str):
+    indicador = cambiar_indicador(nombre_indicador)
+    return indicador
 
 
 @router.post("/reset_indicadores")

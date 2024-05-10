@@ -2,18 +2,14 @@ def generate_random_indicador():
     userId = "1234",
     nombreIndicador = "Potencia",
     deporte = "Atletismo",
-    sensor = "Optico",
-    unidadMedida = "Watts",
-    calculoRealizar = "EMC",
+    visible = True,
     detallesAdicionales = "Potencia"
 
     indicador_data = {
         "userId": userId,
         "nombreIndicador": nombreIndicador,
         "deporte": deporte,
-        "sensor": sensor,
-        "unidadMedida": unidadMedida,
-        "calculoRealizar": calculoRealizar,
+        "visible": visible,
         "detallesAdicionales": detallesAdicionales
     }
 
