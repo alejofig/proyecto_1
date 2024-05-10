@@ -22,10 +22,10 @@ async def consultar_indicador():
     return indicadores
 
 
-@router.put("/actualizar_indicador/{nombre_indicador}")
-async def actualizar_indicador(nombre_indicador: str):
-    indicador = cambiar_indicador(nombre_indicador)
-    return indicador
+@router.put("/actualizar_indicador/{nombre_indicador}/{visibilidad}")
+async def actualizar_indicador(nombre_indicador: str, visibilidad: bool, indicador: Indicador):
+    indicador = cambiar_indicador(nombre_indicador, visibilidad, indicador)
+    return {"message": "Indicador modificado con éxito"}
 
 
 @router.post("/reset_indicadores")
