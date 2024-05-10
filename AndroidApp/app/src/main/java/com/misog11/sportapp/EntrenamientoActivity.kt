@@ -324,8 +324,12 @@ class EntrenamientoActivity : AppCompatActivity() {
                     .getNotificaciones("Bearer $tokenAuth")
                 if (respuestaNotificaion.isSuccessful) {
                     Log.i("Exito trayendo Notificaciones", "ss")
-                    val listaNotificaciones = respuestaNotificaion.body()
+                    var listaNotificaciones = respuestaNotificaion.body()
+
                     if(listaNotificaciones != null){
+                            if(listaNotificaciones.isEmpty()){
+                                listaNotificaciones = listOf(Notificacion("No hay notificaciones ni avisos"))
+                            }
                             runOnUiThread {
                                 val reciclerNotification = view.findViewById<RecyclerView>(R.id.recyclerNotificaciones)
                                 reciclerNotification.layoutManager = LinearLayoutManager(this@EntrenamientoActivity)
