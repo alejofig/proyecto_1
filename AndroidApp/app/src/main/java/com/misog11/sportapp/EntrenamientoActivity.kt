@@ -28,7 +28,9 @@ import com.google.gson.reflect.TypeToken
 import com.misog11.sportapp.eventos.NotificacionesAdapter
 import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.EntrenamientoInd
+import com.misog11.sportapp.models.Indicadores
 import com.misog11.sportapp.models.Notificacion
+import com.misog11.sportapp.models.RutinaAlimentacion
 import com.misog11.sportapp.models.UserDTO
 import com.misog11.sportapp.models.calcularIndicadoresResponseDto
 import com.misog11.sportapp.utils.BodyMetricsController
@@ -58,6 +60,8 @@ class EntrenamientoActivity : AppCompatActivity() {
     private var entrenamientoDto: Entrenamiento = Entrenamiento()
     private var entrenamientoIndDto: EntrenamientoInd = EntrenamientoInd()
     private val apiConsumer = RestApiConsumer()
+    private var indicadoresAtletismoDTO: Indicadores = Indicadores()
+    private var indicadoresCiclismoDTO: Indicadores = Indicadores()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private var bodyMetricsController = BodyMetricsController();
@@ -203,11 +207,27 @@ class EntrenamientoActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun consumeIndicadoresActivosApi() {
+    private fun consumeIndicadoresActivosAtletismoApi() {
         lifecycleScope.launch {
             val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_atletismo_endpoint)
             try {
+                indicadoresAtletismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
+                println(indicadoresAtletismoDTO)
+            } catch (e: Exception) {
+                showDialog("Error", e.message)
+            }
+        }
+    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun consumeIndicadoresActivosCiclismoApi() {
+        lifecycleScope.launch {
+            val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_ciclismo_endpoint)
+            try {
+                indicadoresCiclismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
+                println(indicadoresCiclismoDTO)
+            } catch (e: Exception) {
+                showDialog("Error", e.message)
             }
         }
     }
