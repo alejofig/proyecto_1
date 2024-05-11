@@ -32,7 +32,7 @@ async def main():
 
     async with aiohttp.ClientSession() as session:
         tasks = []
-        for _ in range(100):
+        for _ in range(1):
             email = await generar_email()
             data = {
                 "password": "135.Simetrik24#",
