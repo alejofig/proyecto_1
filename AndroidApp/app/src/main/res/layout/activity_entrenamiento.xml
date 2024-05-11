@@ -198,20 +198,21 @@
 
 
     <!-- Container ftp vo2max  -->
-    <LinearLayout
+    <GridLayout
         android:id="@+id/containerIndicators"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/containerActiveCaloriesPower"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:columnCount="2"
+        android:rowCount="3">
 
         <!-- FTP -->
         <LinearLayout
             android:id="@+id/containerFTP"
-            android:layout_width="0dp"
+            android:layout_width="205dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:visibility="invisible"
             android:orientation="vertical">
@@ -236,9 +237,8 @@
         <!-- vo2max -->
         <LinearLayout
             android:id="@+id/containerVo2max"
-            android:layout_width="0dp"
+            android:layout_width="205dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:visibility="invisible"
             android:orientation="vertical">
@@ -259,7 +259,111 @@
                 android:textSize="32sp"
                 android:textColor="@color/white" />
         </LinearLayout>
-    </LinearLayout>
+
+        <!-- Potencia -->
+        <LinearLayout
+            android:id="@+id/containerPotencia"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPotencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Potencia"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValuePotencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Cadencia -->
+        <LinearLayout
+            android:id="@+id/containerCadencia"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvCadencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cadencia"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueCadencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Ritmo -->
+        <LinearLayout
+            android:id="@+id/containerRitmo"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvRitmo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ritmo"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueRitmo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Stamina -->
+        <LinearLayout
+            android:id="@+id/containerStamina"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvStamina"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stamina"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueStamina"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </GridLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

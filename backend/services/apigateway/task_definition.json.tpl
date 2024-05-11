@@ -45,6 +45,10 @@
             "value":"${SERVICIOS_PATH}"
          },
          {
+            "name":"INDICADORES_PATH",
+            "value":"${INDICADORES_PATH}"
+         },
+         {
             "name":"SQS_URL_NOTIFICATIONS",
             "value":"${SQS_URL_NOTIFICATIONS}"
          },

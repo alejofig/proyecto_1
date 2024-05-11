@@ -20,6 +20,7 @@ URL_ENTRENAMIENTOS = os.getenv('ENTRENAMIENTOS_PATH')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 URL_SERVICIOS = os.getenv('SERVICIOS_PATH')
+URL_INDICADORES = os.getenv('INDICADORES_PATH')
 
 app = Flask(__name__)
 app.secret_key = 'super secret'
@@ -457,6 +458,39 @@ def calcular_indicadores(user):
 
     return {"ftp": ftp, "vo2Max": vo2max}
 
+
+@app.route('/consultar_indicadores_usuario_atletismo/', methods=['GET'])
+@protected_route
+def indicadores_atletismo(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+    userid = user_data.get('id', 'na')
+
+    response = requests.get(f"{URL_INDICADORES}/consultar_indicadores_usuario_atletismo/{userid}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('Error consultado los indicadores'), 401
+    data = response.json()
+
+    return jsonify(data), 201
+
+
+@app.route('/consultar_indicadores_usuario_ciclismo/', methods=['GET'])
+@protected_route
+def indicadores_ciclismo(user):
+    user_dict = user
+    email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+    userid = user_data.get('id', 'na')
+
+    response = requests.get(f"{URL_INDICADORES}/consultar_indicadores_usuario_ciclismo/{userid}", headers={})
+    if response.status_code != 200:
+        print(response)
+        return jsonify('Error consultado los indicadores'), 401
+    data = response.json()
+
+    return jsonify(data), 201
 
 
 @app.route("/login_strava")

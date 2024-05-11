@@ -13,6 +13,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.misog11.sportapp.databinding.ActivityEntrenamientoBinding
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -93,8 +94,13 @@ class EntrenamientoActivity : AppCompatActivity() {
                 bodyMetricsController.totalCalories = 0.0
                 bodyMetricsController.totalCaloriesBurned = 0.0
                 binding.tvHeartRate.text = bodyMetricsController.updateFCM(userDTO).toString()
-                if (intent.getStringExtra(Constants.keyDeporte).toString() == "Ride")
+                if (intent.getStringExtra(Constants.keyDeporte).toString() == "Ride") { //Ride es ciclismo
                     binding.containerFTP.visibility = android.view.View.VISIBLE
+                    binding.containerPotencia.visibility = android.view.View.VISIBLE
+                    binding.containerCadencia.visibility = android.view.View.VISIBLE
+                    binding.containerRitmo.visibility = android.view.View.VISIBLE
+                    binding.containerStamina.visibility = android.view.View.VISIBLE
+                }
                 binding.containerVo2max.visibility = android.view.View.VISIBLE
                 timerController.startTimer(handler, ::updateTimeView, ::updateCalories)
                 updateHandler.post(updateRunnable)
@@ -192,6 +198,16 @@ class EntrenamientoActivity : AppCompatActivity() {
                 recalculoObjetivos(ftp, vo2Max)
             } catch (e: Exception) {
                 showDialog("Error", e.message)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun consumeIndicadoresActivosApi() {
+        lifecycleScope.launch {
+            val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_atletismo_endpoint)
+            try {
+
             }
         }
     }

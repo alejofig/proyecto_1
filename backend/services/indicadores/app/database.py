@@ -1,6 +1,7 @@
 from app import config
 from app.models import Indicador
 from sqlmodel import Session, create_engine, SQLModel, select
+from sqlalchemy import and_
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
@@ -20,7 +21,7 @@ def crear_nuevo_indicador(indicador: Indicador):
     return indicador
 
 
-def consultar_indicadores():
+def consultar_todos_indicadores():
     session = create_session()
     statement = select(Indicador)
     results = session.exec(statement)
@@ -28,13 +29,21 @@ def consultar_indicadores():
     return indicadores
 
 
-def cambiar_indicador(nombre_indicador: str, visibilidad: bool, indicador: Indicador):
+def consultar_indicadores_user(userid: str, deporte: str):
     session = create_session()
-    statement = select(Indicador).where(Indicador.nombreIndicador == nombre_indicador)
+    statement = select(Indicador).where(and_(Indicador.userId == userid, Indicador.deporte == deporte))
+    results = session.exec(statement)
+    indicadores = results.all()
+    return indicadores
+
+
+def cambiar_indicador(indicador: Indicador):
+    session = create_session()
+    statement = select(Indicador).where(and_(Indicador.nombreIndicador == indicador.nombre_indicador, Indicador.userId == indicador.userId))
     results = session.exec(statement)
     indicador_existente = results.all()
     if indicador_existente:
-        indicador_existente[0].visible = visibilidad
+        indicador_existente[0].visible = indicador.visible
         session.commit()
         session.close()
         return indicador_existente
