@@ -43,6 +43,7 @@ export class AlimentacionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.get_run();
     this.alimentacionForm = this.formBuilder.group({
       proveedor: ["", [Validators.required]],
       proposito: ["", [Validators.required]],
@@ -108,5 +109,11 @@ export class AlimentacionComponent implements OnInit {
       ciudadActual: this.ciudadActual,
       paisActual: this.paisActual
     }
+  }
+
+  get_run(): void {
+    this.apiGatewayBackendService.consultar_atletismo().subscribe((result: any) => {
+      console.log(result);
+    })
   }
 }
