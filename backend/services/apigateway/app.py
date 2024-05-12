@@ -10,7 +10,7 @@ from flask_cors import CORS
 from pydantic import ValidationError
 import config
 from models import EntrenamientoIndicadores, Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
-from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava
+from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava, calcular_temperatura, calcular_cadencia, calcular_potencia, calcular_velocidad, calcular_tcs, calcular_lz, calcular_at, calcular_dt
 
 load_dotenv()
 
@@ -436,8 +436,16 @@ def calcular_indicadores2(user):
         # Cálculo de indicadores
         ftp = calcular_ftp(entrenamiento)
         vo2max = calcular_vo2max(entrenamiento)
+        temperatura = calcular_temperatura()
+        cadencia = calcular_cadencia()
+        potencia = calcular_potencia()
+        velocidad = calcular_velocidad()
+        tiempoContactoSuelo = calcular_tcs()
+        longitudZancada = calcular_lz()
+        ascensoTotal = calcular_at()
+        descensoTotal = calcular_dt()
 
-        return jsonify({"ftp": ftp, "vo2Max": vo2max}), 200
+        return jsonify({"ftp": ftp, "vo2Max": vo2max, "temperatura": temperatura, "cadencia": cadencia, "potencia": potencia, "velocidad": velocidad, "tiempoContactoSuelo": tiempoContactoSuelo, "longitudZancada": longitudZancada, "ascensoTotal": ascensoTotal, "descensoTotal": descensoTotal}), 200
     except Exception as e:
         return jsonify('Error interno: ' + str(e)), 500
     
@@ -452,11 +460,19 @@ def calcular_indicadores(user):
         print("{{medidor_data}} ", medidor_data)
         ftp = calcular_ftp(medidor_data)
         vo2max = calcular_vo2max(medidor_data)
+        temperatura = calcular_temperatura()
+        cadencia = calcular_cadencia()
+        potencia = calcular_potencia()
+        velocidad = calcular_velocidad()
+        tiempoContactoSuelo = calcular_tcs()
+        longitudZancada = calcular_lz()
+        ascensoTotal = calcular_at()
+        descensoTotal = calcular_dt()
         print("{{FTP}}{{vo2max}} ", ftp, vo2max)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return {"ftp": ftp, "vo2Max": vo2max}
+    return {"ftp": ftp, "vo2Max": vo2max, "temperatura": temperatura, "cadencia": cadencia, "potencia": potencia, "velocidad": velocidad, "tiempoContactoSuelo": tiempoContactoSuelo, "longitudZancada": longitudZancada, "ascensoTotal": ascensoTotal, "descensoTotal": descensoTotal}
 
 
 @app.route('/consultar_indicadores_usuario_atletismo/', methods=['GET'])

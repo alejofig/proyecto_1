@@ -21,16 +21,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.misog11.sportapp.eventos.EventosAdapter
 import com.misog11.sportapp.eventos.EventosService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.misog11.sportapp.eventos.NotificacionesAdapter
 import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.EntrenamientoInd
-import com.misog11.sportapp.models.Indicadores
+import com.misog11.sportapp.models.IndicadoresDTO
 import com.misog11.sportapp.models.Notificacion
-import com.misog11.sportapp.models.RutinaAlimentacion
 import com.misog11.sportapp.models.UserDTO
 import com.misog11.sportapp.models.calcularIndicadoresResponseDto
 import com.misog11.sportapp.utils.BodyMetricsController
@@ -44,6 +42,7 @@ import org.json.JSONArray
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.math.abs
+import kotlin.random.Random
 
 class EntrenamientoActivity : AppCompatActivity() {
 
@@ -61,8 +60,8 @@ class EntrenamientoActivity : AppCompatActivity() {
     private var entrenamientoDto: Entrenamiento = Entrenamiento()
     private var entrenamientoIndDto: EntrenamientoInd = EntrenamientoInd()
     private val apiConsumer = RestApiConsumer()
-    private var indicadoresAtletismoDTO: Indicadores = Indicadores()
-    private var indicadoresCiclismoDTO: Indicadores = Indicadores()
+    private var indicadoresAtletismoDTO: IndicadoresDTO = IndicadoresDTO()
+    private var indicadoresCiclismoDTO: IndicadoresDTO = IndicadoresDTO()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private var bodyMetricsController = BodyMetricsController();
@@ -212,6 +211,22 @@ class EntrenamientoActivity : AppCompatActivity() {
                 binding.tvValueFTP.text = ftp
                 val vo2Max = responsecalcularIndicadoresResponseDto?.vo2Max.toString()
                 binding.tvValueVo2.text = vo2Max
+                val temperatura = responsecalcularIndicadoresResponseDto?.temperatura.toString()
+                binding.tvValueTemperatura.text = temperatura
+                val cadencia = responsecalcularIndicadoresResponseDto?.cadencia.toString()
+                binding.tvValueCadencia.text = cadencia
+                val potencia = responsecalcularIndicadoresResponseDto?.potencia.toString()
+                binding.tvValuePotencia.text = potencia
+                val velocidad = responsecalcularIndicadoresResponseDto?.velocidad.toString()
+                binding.tvValueVelocidad.text = velocidad
+                val tiempoContactoSuelo = responsecalcularIndicadoresResponseDto?.tiempoContactoSuelo.toString()
+                binding.tvValueTiempoContactoSuelo.text = tiempoContactoSuelo
+                val longitudZancada = responsecalcularIndicadoresResponseDto?.longitudZancada.toString()
+                binding.tvValueLongitudZancada.text = longitudZancada
+                val ascensoTotal = responsecalcularIndicadoresResponseDto?.ascensoTotal.toString()
+                binding.tvValueAscensoTotal.text = ascensoTotal
+                val descensoTotal = responsecalcularIndicadoresResponseDto?.descensoTotal.toString()
+                binding.tvValueDescensoTotal.text = descensoTotal
                 recalculoObjetivos(ftp, vo2Max)
             } catch (e: Exception) {
                 showDialog("Error", e.message)
@@ -235,7 +250,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_atletismo_endpoint)
             try {
-                //indicadoresAtletismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
+                //indicadoresAtletismoDTO = apiConsumer.consumeApiGet<IndicadoresDTO>(url, tokenAuth).await()
                 evaluarVisibilidad(jsonString)
             } catch (e: Exception) {
                 showDialog("Error", e.message)
