@@ -41,6 +41,7 @@ export class GenerarPlanEntreComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.get_run();
     this.planEntrenamientoForm = this.formBuilder.group({
       deporte: ["", [Validators.required]],
       nombre: ["", [Validators.required]],
@@ -111,5 +112,11 @@ export class GenerarPlanEntreComponent implements OnInit {
       fechas: this.fechas,
       tipoPLan: this.tipoPLan
     }
+  }
+
+  get_run(): void {
+    this.planEntrenamientoService.consultar_atletismo().subscribe((result: any) => {
+      console.log(result);
+    })
   }
 }

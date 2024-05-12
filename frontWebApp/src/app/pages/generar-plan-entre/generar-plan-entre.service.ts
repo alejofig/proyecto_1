@@ -24,4 +24,13 @@ export class GenerarPlanEntreService {
       })
     );
   }
+
+  consultar_atletismo(): Observable<any> {
+    return this.auth.getAccessTokenSilently().pipe(
+      switchMap(token => {
+        const headers = {Authorization: `Bearer ${token}`};
+        return this.http.get<any>(this.apiUrl + '/consultar_indicadores_usuario_atletismo', {headers});
+      })
+    )
+  }
 }

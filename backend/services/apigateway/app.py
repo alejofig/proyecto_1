@@ -478,16 +478,21 @@ def calcular_indicadores(user):
 @app.route('/consultar_indicadores_usuario_atletismo/', methods=['GET'])
 @protected_route
 def indicadores_atletismo(user):
-    user_dict = user
-    email = user_dict.get('email', 'No email provided')
-    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
-    userid = user_data.get('id', 'na')
+    try:
+        user_dict = user
+        email = user_dict.get('email', 'No email provided')
+        user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+        userid = user_data.get('id', 'na')
 
-    response = requests.get(f"{URL_INDICADORES}/consultar_indicadores_usuario_atletismo/{userid}", headers={})
-    if response.status_code != 200:
-        print(response)
-        return jsonify('Error consultado los indicadores'), 401
-    data = response.json()
+        response = requests.get(f"{URL_INDICADORES}/consultar_indicadores_usuario_atletismo/{userid}", headers={})
+        if response.status_code != 200:
+            print(response)
+            return jsonify('Error consultado los indicadores'), 401
+        data = response.json()
+    except ValidationError as e:
+        return jsonify('Error de manejo de datos: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
 
     return jsonify(data), 201
 
@@ -495,16 +500,21 @@ def indicadores_atletismo(user):
 @app.route('/consultar_indicadores_usuario_ciclismo/', methods=['GET'])
 @protected_route
 def indicadores_ciclismo(user):
-    user_dict = user
-    email = user_dict.get('email', 'No email provided')
-    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
-    userid = user_data.get('id', 'na')
+    try:
+        user_dict = user
+        email = user_dict.get('email', 'No email provided')
+        user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+        userid = user_data.get('id', 'na')
 
-    response = requests.get(f"{URL_INDICADORES}/consultar_indicadores_usuario_ciclismo/{userid}", headers={})
-    if response.status_code != 200:
-        print(response)
-        return jsonify('Error consultado los indicadores'), 401
-    data = response.json()
+        response = requests.get(f"{URL_INDICADORES}/consultar_indicadores_usuario_ciclismo/{userid}", headers={})
+        if response.status_code != 200:
+            print(response)
+            return jsonify('Error consultado los indicadores'), 401
+        data = response.json()
+    except ValidationError as e:
+        return jsonify('Error de manejo de datos: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
 
     return jsonify(data), 201
 

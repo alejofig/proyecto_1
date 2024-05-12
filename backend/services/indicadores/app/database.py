@@ -1,7 +1,7 @@
 from app import config
 from app.models import Indicador
-from sqlmodel import Session, create_engine, SQLModel, select
 from sqlalchemy import and_
+from sqlmodel import Session, create_engine, SQLModel, select
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
