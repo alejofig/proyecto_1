@@ -243,6 +243,30 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun consumeIndicadoresActivosCiclismoApi() {
+        val jsonString = """
+        [
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "FTP"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "VO2Max"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "Velocidad"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "AscensoTotal"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "DescensoTotal"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "Temperatura"}
+        ]
+        """.trimIndent()
+
+        lifecycleScope.launch {
+            val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_ciclismo_endpoint)
+            try {
+                //indicadoresCiclismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
+                evaluarVisibilidad(jsonString)
+            } catch (e: Exception) {
+                showDialog("Error", e.message)
+            }
+        }
+    }
+
     private fun evaluarVisibilidad(jsonString: String) {
         val jsonArray = JSONArray(jsonString)
 
@@ -329,30 +353,6 @@ class EntrenamientoActivity : AppCompatActivity() {
                 } else {
                     binding.containerDescensoTotal.visibility = LinearLayout.GONE
                 }
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun consumeIndicadoresActivosCiclismoApi() {
-        val jsonString = """
-        [
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "FTP"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "VO2Max"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "Velocidad"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "AscensoTotal"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "DescensoTotal"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "Temperatura"}
-        ]
-        """.trimIndent()
-
-        lifecycleScope.launch {
-            val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_ciclismo_endpoint)
-            try {
-                //indicadoresCiclismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
-                evaluarVisibilidad(jsonString)
-            } catch (e: Exception) {
-                showDialog("Error", e.message)
             }
         }
     }
