@@ -347,9 +347,11 @@ def crear_entreno(user):
                                  headers=headers)
         if response.status_code != 200:
             return jsonify('Error creando entrenamiento'), 401
+        send_to_strava_str = ""
         if response.status_code == 200 and usuario_completo.json()["strava"]:
+            send_to_strava_str = "y enviado a estrava"
             send_to_strava(json_data)
-        return jsonify({"message": "Entreno creado con éxito"}), 201
+        return jsonify({"message": f"Entreno creado con éxito {send_to_strava_str}"}), 201
     except ValidationError as e:
         return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
     except Exception as e:
