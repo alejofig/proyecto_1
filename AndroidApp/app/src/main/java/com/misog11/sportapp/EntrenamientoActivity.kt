@@ -24,6 +24,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.misog11.sportapp.eventos.EventosService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.misog11.sportapp.Entrenamiento.EntrenamientoService
 import com.misog11.sportapp.eventos.NotificacionesAdapter
 import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.EntrenamientoInd
@@ -234,26 +235,43 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun consumeIndicadoresActivosAtletismoApi() {
-        val jsonString = """
-        [
-            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "VO2Max"},
-            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Cadencia"},
-            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Potencia"},
-            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "TiempoContactoSuelo"},
-            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "LongitudZancada"},
-            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Temperatura"}
-        ]
-        """.trimIndent()
+    fun consumeIndicadoresActivosAtletismoApi() {
+//        val jsonString = """
+//        [
+//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "VO2Max"},
+//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Cadencia"},
+//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Potencia"},
+//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "TiempoContactoSuelo"},
+//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "LongitudZancada"},
+//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Temperatura"}
+//        ]
+//        """.trimIndent()
+//
+//        lifecycleScope.launch {
+//            val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_atletismo_endpoint)
+//            try {
+//                indicadoresAtletismoDTO = apiConsumer.consumeApiGet<IndicadoresDTO>(url, tokenAuth).await()
+//                evaluarVisibilidad(jsonString)
+//            } catch (e: Exception) {
+//                showDialog("Error", e.message)
+//            }
+//        }
 
-        lifecycleScope.launch {
-            val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_atletismo_endpoint)
+        CoroutineScope(Dispatchers.IO).launch {
             try {
-                //indicadoresAtletismoDTO = apiConsumer.consumeApiGet<IndicadoresDTO>(url, tokenAuth).await()
-                evaluarVisibilidad(jsonString)
+                Log.i("Token de Auth0: ", tokenAuth)
+                val respuestaAtletismo = retrofitApi.create(EntrenamientoService::class.java).getIndicadoresAtletismo("Bearer $tokenAuth")
+                if (respuestaAtletismo.isSuccessful) {
+                    Log.i("Exito trayecto Atletismo", "Exito")
+                    val listaAtletismo = respuestaAtletismo.body()
+                    if (listaAtletismo != null) {
+                        if (listaAtletismo.isNotEmpty()) {
+                            evaluarVisibilidad(listaAtletismo)
+                        }
+                    }
+                }
             } catch (e: Exception) {
-                showDialog("Error", e.message)
+                println("Se ha producido un error: ${e.message}")
             }
         }
     }
@@ -274,16 +292,16 @@ class EntrenamientoActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_ciclismo_endpoint)
             try {
-                //indicadoresCiclismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
-                evaluarVisibilidad(jsonString)
+                indicadoresCiclismoDTO = apiConsumer.consumeApiGet<IndicadoresDTO>(url, tokenAuth).await()
+                //evaluarVisibilidad(jsonString)
             } catch (e: Exception) {
                 showDialog("Error", e.message)
             }
         }
     }
 
-    private fun evaluarVisibilidad(jsonString: String) {
-        val jsonArray = JSONArray(jsonString)
+    private fun evaluarVisibilidad(listaAtletismo: List<IndicadoresDTO>) {
+        val jsonArray = JSONArray(listaAtletismo)
 
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)

@@ -475,8 +475,8 @@ def calcular_indicadores(user):
     return {"ftp": ftp, "vo2Max": vo2max, "temperatura": temperatura, "cadencia": cadencia, "potencia": potencia, "velocidad": velocidad, "tiempoContactoSuelo": tiempoContactoSuelo, "longitudZancada": longitudZancada, "ascensoTotal": ascensoTotal, "descensoTotal": descensoTotal}
 
 
-@app.route('/consultar_indicadores_usuario_atletismo/', methods=['GET'])
-@protected_route
+@app.route('/consultar_indicadores_usuario_atletismo', methods=['GET'])
+@protected_route_movil
 def indicadores_atletismo(user):
     try:
         user_dict = user
@@ -497,8 +497,8 @@ def indicadores_atletismo(user):
     return jsonify(data), 201
 
 
-@app.route('/consultar_indicadores_usuario_ciclismo/', methods=['GET'])
-@protected_route
+@app.route('/consultar_indicadores_usuario_ciclismo', methods=['GET'])
+@protected_route_movil
 def indicadores_ciclismo(user):
     try:
         user_dict = user
