@@ -74,35 +74,35 @@ def calcular_vo2max(entrenamiento: Entrenamiento) -> float:
 
 def calcular_temperatura() -> float:
     temperatura = random.uniform(27, 31)
-    return temperatura
+    return round(temperatura, 2)
 
 def calcular_cadencia() -> float:
     cadencia = random.uniform(179, 182)
-    return cadencia
+    return round(cadencia, 2)
 
 def calcular_potencia() -> float:
     potencia = random.uniform(250, 351)
-    return potencia
+    return round(potencia, 2)
 
 def calcular_velocidad() -> float:
     velocidad = random.uniform(13, 51)
-    return velocidad
+    return round(velocidad, 2)
 
 def calcular_tcs() -> float:
     tcs = random.uniform(208, 241)
-    return tcs
+    return round(tcs, 2)
 
 def calcular_lz() -> float:
     lz = random.uniform(104, 121)
-    return lz
+    return round(lz, 2)
 
 def calcular_at() -> float:
     at = random.uniform(10, 12)
-    return at
+    return round(at, 2)
 
 def calcular_dt() -> float:
     dt = random.uniform(10, 12)
-    return dt
+    return round(dt, 2)
 
 def convert_to_minutes(time_str):
     time_obj = datetime.strptime(time_str, '%H:%M:%S')
