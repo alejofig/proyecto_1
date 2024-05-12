@@ -208,32 +208,6 @@
         android:columnCount="2"
         android:rowCount="3">
 
-        <!-- FTP -->
-        <LinearLayout
-            android:id="@+id/containerFTP"
-            android:layout_width="205dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:visibility="invisible"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvFTP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ftp"
-                android:textSize="20sp"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tvValueFTP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/valor_inicial"
-                android:textSize="32sp"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
         <!-- vo2max -->
         <LinearLayout
             android:id="@+id/containerVo2max"
@@ -260,9 +234,9 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <!-- Potencia -->
+        <!-- Temperatura -->
         <LinearLayout
-            android:id="@+id/containerPotencia"
+            android:id="@+id/containerTemperatura"
             android:layout_width="205dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -270,15 +244,15 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvPotencia"
+                android:id="@+id/tvTemperatura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Potencia"
+                android:text="@string/temperatura"
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/tvValuePotencia"
+                android:id="@+id/tvValueTemperatura"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/valor_inicial"
@@ -299,7 +273,7 @@
                 android:id="@+id/tvCadencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cadencia"
+                android:text="@string/cadencia"
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
@@ -312,9 +286,9 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <!-- Ritmo -->
+        <!-- Potencia -->
         <LinearLayout
-            android:id="@+id/containerRitmo"
+            android:id="@+id/containerPotencia"
             android:layout_width="205dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -322,15 +296,15 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvRitmo"
+                android:id="@+id/tvPotencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ritmo"
+                android:text="@string/potencia"
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/tvValueRitmo"
+                android:id="@+id/tvValuePotencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/valor_inicial"
@@ -338,9 +312,9 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <!-- Stamina -->
+        <!-- FTP -->
         <LinearLayout
-            android:id="@+id/containerStamina"
+            android:id="@+id/containerFTP"
             android:layout_width="205dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -348,15 +322,145 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvStamina"
+                android:id="@+id/tvFTP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stamina"
+                android:text="@string/ftp"
+                android:textSize="20sp"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tvValueFTP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Velocidad -->
+        <LinearLayout
+            android:id="@+id/containerVelocidad"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvVelocidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/velocidad"
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/tvValueStamina"
+                android:id="@+id/tvValueVelocidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- TiempoContactoSuelo -->
+        <LinearLayout
+            android:id="@+id/containerTiempoContactoSuelo"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTiempoContactoSuelo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tiempoContactoSuelo"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueTiempoContactoSuelo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- LongitudZancada -->
+        <LinearLayout
+            android:id="@+id/containerLongitudZancada"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvLongitudZancada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/longitudZancada"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueLongitudZancada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- AscensoTotal -->
+        <LinearLayout
+            android:id="@+id/containerAscensoTotal"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAscensoTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ascensoTotal"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueAscensoTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- DescensoTotal -->
+        <LinearLayout
+            android:id="@+id/containerDescensoTotal"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDescensoTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/descensoTotal"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueDescensoTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/valor_inicial"

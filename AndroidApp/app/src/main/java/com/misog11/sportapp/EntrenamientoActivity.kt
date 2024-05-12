@@ -40,6 +40,7 @@ import com.misog11.sportapp.utils.utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.math.abs
@@ -85,6 +86,19 @@ class EntrenamientoActivity : AppCompatActivity() {
         binding = ActivityEntrenamientoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         checkAndSendPendingTrainings()
+
+        // Ocultar todos los campos de indicadores hasta que no inicie actividad
+        binding.containerVo2max.visibility = LinearLayout.GONE
+        binding.containerTemperatura.visibility = LinearLayout.GONE
+        binding.containerCadencia.visibility = LinearLayout.GONE
+        binding.containerPotencia.visibility = LinearLayout.GONE
+        binding.containerFTP.visibility = LinearLayout.GONE
+        binding.containerVelocidad.visibility = LinearLayout.GONE
+        binding.containerTiempoContactoSuelo.visibility = LinearLayout.GONE
+        binding.containerLongitudZancada.visibility = LinearLayout.GONE
+        binding.containerAscensoTotal.visibility = LinearLayout.GONE
+        binding.containerDescensoTotal.visibility = LinearLayout.GONE
+
         binding.btnIniciar.setOnClickListener {
             if (isFirstClick) {
                 timerController.cancelTimer()
@@ -98,14 +112,13 @@ class EntrenamientoActivity : AppCompatActivity() {
                 bodyMetricsController.totalCalories = 0.0
                 bodyMetricsController.totalCaloriesBurned = 0.0
                 binding.tvHeartRate.text = bodyMetricsController.updateFCM(userDTO).toString()
+
                 if (intent.getStringExtra(Constants.keyDeporte).toString() == "Ride") { //Ride es ciclismo
-                    binding.containerFTP.visibility = android.view.View.VISIBLE
-                    binding.containerPotencia.visibility = android.view.View.VISIBLE
-                    binding.containerCadencia.visibility = android.view.View.VISIBLE
-                    binding.containerRitmo.visibility = android.view.View.VISIBLE
-                    binding.containerStamina.visibility = android.view.View.VISIBLE
+                    consumeIndicadoresActivosCiclismoApi()
+                } else if (intent.getStringExtra(Constants.keyDeporte).toString() == "Run") {
+                    consumeIndicadoresActivosAtletismoApi()
                 }
-                binding.containerVo2max.visibility = android.view.View.VISIBLE
+
                 timerController.startTimer(handler, ::updateTimeView, ::updateCalories)
                 updateHandler.post(updateRunnable)
                 isFirstClick = false
@@ -208,24 +221,136 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeIndicadoresActivosAtletismoApi() {
+        val jsonString = """
+        [
+            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "VO2Max"},
+            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Cadencia"},
+            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Potencia"},
+            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "TiempoContactoSuelo"},
+            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "LongitudZancada"},
+            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Temperatura"}
+        ]
+        """.trimIndent()
+
         lifecycleScope.launch {
             val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_atletismo_endpoint)
             try {
-                indicadoresAtletismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
-                println(indicadoresAtletismoDTO)
+                //indicadoresAtletismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
+                evaluarVisibilidad(jsonString)
             } catch (e: Exception) {
                 showDialog("Error", e.message)
             }
         }
     }
 
+    private fun evaluarVisibilidad(jsonString: String) {
+        val jsonArray = JSONArray(jsonString)
+
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            val nombreIndicador = jsonObject.getString("nombreIndicador")
+            val visible = jsonObject.getBoolean("visible")
+
+            if (nombreIndicador == "FTP") {
+                if (visible) {
+                    binding.containerFTP.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerFTP.visibility = LinearLayout.GONE
+                }
+            }
+
+            if (nombreIndicador == "VO2Max") {
+                if (visible) {
+                    binding.containerVo2max.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerVo2max.visibility = LinearLayout.GONE
+                }
+            }
+
+            if (nombreIndicador == "Cadencia") {
+                if (visible) {
+                    binding.containerCadencia.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerCadencia.visibility = LinearLayout.GONE
+                }
+            }
+
+            if (nombreIndicador == "Potencia") {
+                if (visible) {
+                    binding.containerPotencia.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerPotencia.visibility = LinearLayout.GONE
+                }
+            }
+
+            if (nombreIndicador == "TiempoContactoSuelo") {
+                if (visible) {
+                    binding.containerTiempoContactoSuelo.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerTiempoContactoSuelo.visibility = LinearLayout.GONE
+                }
+            }
+
+            if (nombreIndicador == "LongitudZancada") {
+                if (visible) {
+                    binding.containerLongitudZancada.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerLongitudZancada.visibility = LinearLayout.GONE
+                }
+            }
+
+            if (nombreIndicador == "Temperatura") {
+                if (visible) {
+                    binding.containerTemperatura.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerTemperatura.visibility = LinearLayout.GONE
+                }
+            }
+
+            if (nombreIndicador == "Velocidad") {
+                if (visible) {
+                    binding.containerVelocidad.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerVelocidad.visibility = LinearLayout.GONE
+                }
+            }
+
+            if (nombreIndicador == "AscensoTotal") {
+                if (visible) {
+                    binding.containerAscensoTotal.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                }
+            }
+
+            if (nombreIndicador == "DescensoTotal") {
+                if (visible) {
+                    binding.containerDescensoTotal.visibility = android.view.View.VISIBLE
+                } else {
+                    binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                }
+            }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeIndicadoresActivosCiclismoApi() {
+        val jsonString = """
+        [
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "FTP"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "VO2Max"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "Velocidad"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "AscensoTotal"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "DescensoTotal"},
+            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "Temperatura"}
+        ]
+        """.trimIndent()
+
         lifecycleScope.launch {
             val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_ciclismo_endpoint)
             try {
-                indicadoresCiclismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
-                println(indicadoresCiclismoDTO)
+                //indicadoresCiclismoDTO = apiConsumer.consumeApiGet<Indicadores>(url, tokenAuth).await()
+                evaluarVisibilidad(jsonString)
             } catch (e: Exception) {
                 showDialog("Error", e.message)
             }

@@ -39,7 +39,7 @@ def consultar_indicadores_user(userid: str, deporte: str):
 
 def cambiar_indicador(indicador: Indicador):
     session = create_session()
-    statement = select(Indicador).where(and_(Indicador.nombreIndicador == indicador.nombre_indicador, Indicador.userId == indicador.userId))
+    statement = select(Indicador).where(and_(Indicador.nombreIndicador == indicador.nombreIndicador, Indicador.userId == indicador.userId, Indicador.deporte == indicador.deporte))
     results = session.exec(statement)
     indicador_existente = results.all()
     if indicador_existente:
