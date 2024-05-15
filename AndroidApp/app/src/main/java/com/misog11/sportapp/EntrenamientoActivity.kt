@@ -21,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.misog11.sportapp.eventos.EventosAdapter
 import com.misog11.sportapp.eventos.EventosService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -43,6 +44,7 @@ import org.json.JSONArray
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.math.abs
+import kotlin.system.measureTimeMillis
 import kotlin.random.Random
 
 class EntrenamientoActivity : AppCompatActivity() {
@@ -150,6 +152,8 @@ class EntrenamientoActivity : AppCompatActivity() {
             else{
                 mostrarMensajeMotivacionla()
                 estadoMedidaReculo = "Alerta"
+                mostrarMensajeMotivacionla()
+
             }
 
 
@@ -227,6 +231,11 @@ class EntrenamientoActivity : AppCompatActivity() {
                 val descensoTotal = responsecalcularIndicadoresResponseDto?.descensoTotal.toString()
                 binding.tvValueDescensoTotal.text = descensoTotal
                 recalculoObjetivos(ftp, vo2Max)
+                val tiempoEjecucion = measureTimeMillis{
+                    recalculoObjetivos(ftp, vo2Max)
+                }
+                Log.i("Tiempo Ejecucion Recalculo de Objetivos","$tiempoEjecucion")
+
             } catch (e: Exception) {
                 showDialog("Error", e.message)
             }
@@ -721,6 +730,12 @@ class EntrenamientoActivity : AppCompatActivity() {
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun recalculoObjetivos(ftp:String, vo2Max: String){
+        val maxFtp = 45
+        val maxDeltaFpt = 7 // 7
+
+        val minVo2max = 90
+        val maxDeltaVo2max = 1
+
         if (estadoMedidaReculo == "primeraVez"){
             ftpInicial = ftp.toFloat()
             Vo2MaxInicial = vo2Max.toFloat()
@@ -742,14 +757,15 @@ class EntrenamientoActivity : AppCompatActivity() {
             ftpInicial = ftp_recibido
             Vo2MaxInicial = vo2Max_recibido
 
-            if (delta_ftp> 7  || ftp_recibido > 45){
+            if ((delta_ftp> maxDeltaFpt  || ftp_recibido > maxFtp) && estadoMedidaReculo == "midiendo"){
+                estadoMedidaReculo = "Alerta"
                 mostrarAvisoRecalculo("FTP")
-                estadoMedidaReculo = "Alerta"
-            }
 
-            if (delta_vo2Max > 1 ||  vo2Max_recibido<90){
-                mostrarAvisoRecalculo("VO2MaX")
+            }
+            else if ((delta_vo2Max > maxDeltaVo2max ||  vo2Max_recibido < minVo2max) && estadoMedidaReculo == "midiendo"){
                 estadoMedidaReculo = "Alerta"
+                mostrarAvisoRecalculo("VO2MaX")
+
             }
 
         }
