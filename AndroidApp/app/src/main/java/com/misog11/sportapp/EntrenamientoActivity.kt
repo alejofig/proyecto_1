@@ -242,158 +242,139 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
     }
 
-    fun consumeIndicadoresActivosAtletismoApi() {
-//        val jsonString = """
-//        [
-//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "VO2Max"},
-//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Cadencia"},
-//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Potencia"},
-//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "TiempoContactoSuelo"},
-//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "LongitudZancada"},
-//            {"deporte": "Atletismo", "visible": true, "userId": "1334", "nombreIndicador": "Temperatura"}
-//        ]
-//        """.trimIndent()
-//
-//        lifecycleScope.launch {
-//            val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_atletismo_endpoint)
-//            try {
-//                indicadoresAtletismoDTO = apiConsumer.consumeApiGet<IndicadoresDTO>(url, tokenAuth).await()
-//                evaluarVisibilidad(jsonString)
-//            } catch (e: Exception) {
-//                showDialog("Error", e.message)
-//            }
-//        }
-
-        CoroutineScope(Dispatchers.IO).launch {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun consumeIndicadoresActivosAtletismoApi() {
+        lifecycleScope.launch {
             try {
-                Log.i("Mensaje Prueba 1234: ", tokenAuth)
+                Log.i("Token indicadores: ", tokenAuth)
                 val respuestaAtletismo = retrofitApi.create(EntrenamientoService::class.java).getIndicadoresAtletismo("Bearer $tokenAuth")
-                if (respuestaAtletismo.isSuccessful) {
-//                    Log.i("Exito trayecto Atletismo", "Exito")
-//                    val listaAtletismo = respuestaAtletismo.body()
-//                    if (listaAtletismo != null) {
-//                        if (listaAtletismo.isNotEmpty()) {
-//                            evaluarVisibilidad(listaAtletismo)
-//                        }
-//                    }
-                }
+                respuestaAtletismo.body()?.let { evaluarVisibilidad(it) }
+                /*if (respuestaAtletismo.isSuccessful) {
+                    Log.i("Exito trayecto Atletismo", "Exito")
+                    val listaAtletismo = respuestaAtletismo.body()
+                    if (listaAtletismo != null) {
+                        if (listaAtletismo.isNotEmpty()) {
+                            evaluarVisibilidad(listaAtletismo)
+                        }
+                    }
+                }*/
             } catch (e: Exception) {
-                println("Se ha producido un error: ${e.message}")
+                println("Se ha producido un error en atletismo: ${e.message}")
             }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun consumeIndicadoresActivosCiclismoApi() {
-        val jsonString = """
-        [
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "FTP"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "VO2Max"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "Velocidad"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "AscensoTotal"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "DescensoTotal"},
-            {"deporte": "Ciclismo", "visible": true, "userId": "1334", "nombreIndicador": "Temperatura"}
-        ]
-        """.trimIndent()
-
         lifecycleScope.launch {
-            val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_ciclismo_endpoint)
             try {
-                //indicadoresCiclismoDTO = apiConsumer.consumeApiGet<IndicadoresDTO>(url, tokenAuth).await()
-                //evaluarVisibilidad(jsonString)
+                Log.i("Token indicadores: ", tokenAuth)
+                val respuestaCiclismo = retrofitApi.create(EntrenamientoService::class.java).getIndicadoresCiclismo("Bearer $tokenAuth")
+                respuestaCiclismo.body()?.let { evaluarVisibilidad(it) }
+                /*if (respuestaCiclismo.isSuccessful) {
+                    Log.i("Exito trayecto Atletismo", "Exito")
+                    val listaCiclismo = respuestaCiclismo.body()
+                    if (listaCiclismo != null) {
+                        if (listaCiclismo.isNotEmpty()) {
+                            evaluarVisibilidad(listaCiclismo)
+                        }
+                    }
+                }*/
             } catch (e: Exception) {
-                showDialog("Error", e.message)
+                println("Se ha producido un error en ciclismo: ${e.message}")
             }
         }
     }
 
-    private fun evaluarVisibilidad(listaAtletismo: List<Indicadores>) {
-        val jsonArray = JSONArray(listaAtletismo)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun evaluarVisibilidad(listaDeporte: List<Indicadores>) {
+        try {
+            for (valoresLista in listaDeporte) {
+                val nombreIndicador = valoresLista.nombreIndicador
+                val visible = valoresLista.visible
 
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject = jsonArray.getJSONObject(i)
-            val nombreIndicador = jsonObject.getString("nombreIndicador")
-            val visible = jsonObject.getBoolean("visible")
+                if (nombreIndicador == "FTP") {
+                    if (visible) {
+                        binding.containerFTP.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerFTP.visibility = LinearLayout.GONE
+                    }
+                }
 
-            if (nombreIndicador == "FTP") {
-                if (visible) {
-                    binding.containerFTP.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerFTP.visibility = LinearLayout.GONE
+                if (nombreIndicador == "VO2Max") {
+                    if (visible) {
+                        binding.containerVo2max.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerVo2max.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "Cadencia") {
+                    if (visible) {
+                        binding.containerCadencia.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerCadencia.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "Potencia") {
+                    if (visible) {
+                        binding.containerPotencia.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerPotencia.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "TiempoContactoSuelo") {
+                    if (visible) {
+                        binding.containerTiempoContactoSuelo.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerTiempoContactoSuelo.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "LongitudZancada") {
+                    if (visible) {
+                        binding.containerLongitudZancada.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerLongitudZancada.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "Temperatura") {
+                    if (visible) {
+                        binding.containerTemperatura.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerTemperatura.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "Velocidad") {
+                    if (visible) {
+                        binding.containerVelocidad.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerVelocidad.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "AscensoTotal") {
+                    if (visible) {
+                        binding.containerAscensoTotal.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "DescensoTotal") {
+                    if (visible) {
+                        binding.containerDescensoTotal.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                    }
                 }
             }
-
-            if (nombreIndicador == "VO2Max") {
-                if (visible) {
-                    binding.containerVo2max.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerVo2max.visibility = LinearLayout.GONE
-                }
-            }
-
-            if (nombreIndicador == "Cadencia") {
-                if (visible) {
-                    binding.containerCadencia.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerCadencia.visibility = LinearLayout.GONE
-                }
-            }
-
-            if (nombreIndicador == "Potencia") {
-                if (visible) {
-                    binding.containerPotencia.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerPotencia.visibility = LinearLayout.GONE
-                }
-            }
-
-            if (nombreIndicador == "TiempoContactoSuelo") {
-                if (visible) {
-                    binding.containerTiempoContactoSuelo.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerTiempoContactoSuelo.visibility = LinearLayout.GONE
-                }
-            }
-
-            if (nombreIndicador == "LongitudZancada") {
-                if (visible) {
-                    binding.containerLongitudZancada.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerLongitudZancada.visibility = LinearLayout.GONE
-                }
-            }
-
-            if (nombreIndicador == "Temperatura") {
-                if (visible) {
-                    binding.containerTemperatura.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerTemperatura.visibility = LinearLayout.GONE
-                }
-            }
-
-            if (nombreIndicador == "Velocidad") {
-                if (visible) {
-                    binding.containerVelocidad.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerVelocidad.visibility = LinearLayout.GONE
-                }
-            }
-
-            if (nombreIndicador == "AscensoTotal") {
-                if (visible) {
-                    binding.containerAscensoTotal.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerDescensoTotal.visibility = LinearLayout.GONE
-                }
-            }
-
-            if (nombreIndicador == "DescensoTotal") {
-                if (visible) {
-                    binding.containerDescensoTotal.visibility = android.view.View.VISIBLE
-                } else {
-                    binding.containerDescensoTotal.visibility = LinearLayout.GONE
-                }
-            }
+        } catch (e: Exception) {
+            println("Error en evaluar visibilidad: ${e.message}")
         }
     }
 

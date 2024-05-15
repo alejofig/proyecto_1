@@ -12,6 +12,9 @@ interface EntrenamientoService {
     @POST("entrenamiento")
     suspend fun postEntrenamiento(@Body entrenamiento: Entrenamiento): retrofit2.Response<Any>
 
-    @GET("/consultar_indicadores_usuario_atletismo")
+    @GET("/indicadores_atletismo")
     suspend fun getIndicadoresAtletismo(@Header("Authorization") authToken: String): retrofit2.Response<List<Indicadores>>
+
+    @GET("/indicadores_ciclismo")
+    suspend fun getIndicadoresCiclismo(@Header("Authorization") authToken: String): retrofit2.Response<List<Indicadores>>
 }

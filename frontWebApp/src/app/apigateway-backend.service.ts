@@ -80,10 +80,10 @@ export class ApiGatewayBackendService {
   }
 
   consultar_atletismo(): Observable<any> {
-    return this.callApiWithToken(`${this.apiUrl}/consultar_indicadores_usuario_atletismo/`, 'GET');
+    return this.callApiWithToken(`${this.apiUrl}/indicadores_atletismo/`, 'GET');
   }
 
   consultar_ciclismo(): Observable<any> {
-    return this.callApiWithToken(`${this.apiUrl}/consultar_indicadores_usuario_ciclismo/`, 'GET');
+    return this.callApiWithToken(`${this.apiUrl}/indicadores_ciclismo/`, 'GET');
   }
 }

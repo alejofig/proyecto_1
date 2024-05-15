@@ -477,7 +477,7 @@ def calcular_indicadores(user):
     return {"ftp": ftp, "vo2Max": vo2max, "temperatura": temperatura, "cadencia": cadencia, "potencia": potencia, "velocidad": velocidad, "tiempoContactoSuelo": tiempoContactoSuelo, "longitudZancada": longitudZancada, "ascensoTotal": ascensoTotal, "descensoTotal": descensoTotal}
 
 
-@app.route('/consultar_indicadores_usuario_atletismo', methods=['GET'])
+@app.route('/indicadores_atletismo', methods=['GET'])
 @protected_route_movil
 def indicadores_atletismo(user):
     try:
@@ -486,7 +486,7 @@ def indicadores_atletismo(user):
         user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
         userid = user_data.get('id', 'na')
 
-        response = requests.get(f"{URL_INDICADORES}/consultar_indicadores_usuario_atletismo/{userid}", headers={})
+        response = requests.get(f"{URL_INDICADORES}/indicadores_atletismo/{userid}", headers={})
         if response.status_code != 200:
             print(response)
             return jsonify('Error consultado los indicadores'), 401
@@ -499,7 +499,7 @@ def indicadores_atletismo(user):
     return jsonify(data), 201
 
 
-@app.route('/consultar_indicadores_usuario_ciclismo', methods=['GET'])
+@app.route('/indicadores_ciclismo', methods=['GET'])
 @protected_route_movil
 def indicadores_ciclismo(user):
     try:
@@ -508,7 +508,7 @@ def indicadores_ciclismo(user):
         user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
         userid = user_data.get('id', 'na')
 
-        response = requests.get(f"{URL_INDICADORES}/consultar_indicadores_usuario_ciclismo/{userid}", headers={})
+        response = requests.get(f"{URL_INDICADORES}/indicadores_ciclismo/{userid}", headers={})
         if response.status_code != 200:
             print(response)
             return jsonify('Error consultado los indicadores'), 401

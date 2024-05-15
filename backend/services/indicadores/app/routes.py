@@ -22,14 +22,14 @@ async def consultar_indicadores():
     return indicadores
 
 
-@router.get("/consultar_indicadores_usuario_atletismo/{userid}")
+@router.get("/indicadores_atletismo/{userid}")
 async def consultar_indicadores_usuario_atletismo(userid: str):
     deporte: str = 'Atletismo'
     indicadores_usuario = consultar_indicadores_user(userid, deporte)
     return indicadores_usuario
 
 
-@router.get("/consultar_indicadores_usuario_ciclismo/{userid}")
+@router.get("/indicadores_ciclismo/{userid}")
 async def consultar_indicadores_usuario_ciclismo(userid: str):
     deporte: str = 'Ciclismo'
     indicadores_usuario = consultar_indicadores_user(userid, deporte)
