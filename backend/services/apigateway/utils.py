@@ -72,6 +72,38 @@ def calcular_vo2max(entrenamiento: Entrenamiento) -> float:
     vo2max = 132.6 - (0.17) - (0.39 * entrenamiento.edad) + (6.31 * s) - (3.27 * duration_in_minutes) - (0.156 * entrenamiento.fcm)
     return round(vo2max, 2)
 
+def calcular_temperatura() -> float:
+    temperatura = random.uniform(27, 31)
+    return round(temperatura, 2)
+
+def calcular_cadencia() -> float:
+    cadencia = random.uniform(179, 182)
+    return round(cadencia, 2)
+
+def calcular_potencia() -> float:
+    potencia = random.uniform(250, 351)
+    return round(potencia, 2)
+
+def calcular_velocidad() -> float:
+    velocidad = random.uniform(13, 51)
+    return round(velocidad, 2)
+
+def calcular_tcs() -> float:
+    tcs = random.uniform(208, 241)
+    return round(tcs, 2)
+
+def calcular_lz() -> float:
+    lz = random.uniform(104, 121)
+    return round(lz, 2)
+
+def calcular_at() -> float:
+    at = random.uniform(10, 12)
+    return round(at, 2)
+
+def calcular_dt() -> float:
+    dt = random.uniform(10, 12)
+    return round(dt, 2)
+
 def convert_to_minutes(time_str):
     time_obj = datetime.strptime(time_str, '%H:%M:%S')
     minutes = time_obj.hour * 60 + time_obj.minute + time_obj.second / 60
@@ -105,38 +137,3 @@ def send_to_strava(json_data):
     except Exception as e:
         print(e)
         return jsonify({"detail": "No se pudo enviar el entrenamiento a Strava"}), 500
-
-
-def calcularFisiologico(edad: int, altura: int, peso: int) -> int:
-    # Validar edad
-    if edad <= 30:
-        e = 1
-    elif 31 < edad <= 40:
-        e = 2
-    elif 41 < edad <= 50:
-        e = 3
-    else:
-        e = 4
-
-    # Validar altura
-    if altura <= 160:
-        a = 1
-    elif 161 < altura <= 170:
-        a = 2
-    elif 171 < altura <= 180:
-        a = 3
-    else:
-        a = 4
-
-    # Validar peso
-    if peso <= 50:
-        p = 1
-    elif 51 < peso <= 60:
-        p = 2
-    elif 61 < peso <= 70:
-        p = 3
-    else:
-        p = 4
-
-    total = e + a + p
-    return total

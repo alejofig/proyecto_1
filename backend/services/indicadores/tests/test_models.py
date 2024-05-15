@@ -6,16 +6,12 @@ def test_indicador_model():
         userId="1234",
         nombreIndicador="Potencia",
         deporte="Atletismo",
-        sensor="Optico",
-        unidadMedida="Watts",
-        calculoRealizar="EMC",
+        visible=True,
         detallesAdicionales="Potencia"
     )
 
     assert indicador.userId == "1234"
     assert indicador.nombreIndicador == "Potencia"
     assert indicador.deporte == "Atletismo"
-    assert indicador.sensor == "Optico"
-    assert indicador.unidadMedida == "Watts"
-    assert indicador.calculoRealizar == "EMC"
+    assert indicador.visible == True
     assert indicador.detallesAdicionales == "Potencia"
