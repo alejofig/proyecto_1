@@ -28,7 +28,7 @@ import com.misog11.sportapp.Entrenamiento.EntrenamientoService
 import com.misog11.sportapp.eventos.NotificacionesAdapter
 import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.EntrenamientoInd
-import com.misog11.sportapp.models.IndicadoresDTO
+import com.misog11.sportapp.models.Indicadores
 import com.misog11.sportapp.models.Notificacion
 import com.misog11.sportapp.models.UserDTO
 import com.misog11.sportapp.models.calcularIndicadoresResponseDto
@@ -61,8 +61,6 @@ class EntrenamientoActivity : AppCompatActivity() {
     private var entrenamientoDto: Entrenamiento = Entrenamiento()
     private var entrenamientoIndDto: EntrenamientoInd = EntrenamientoInd()
     private val apiConsumer = RestApiConsumer()
-    private var indicadoresAtletismoDTO: IndicadoresDTO = IndicadoresDTO()
-    private var indicadoresCiclismoDTO: IndicadoresDTO = IndicadoresDTO()
 
     @RequiresApi(Build.VERSION_CODES.O)
     private var bodyMetricsController = BodyMetricsController();
@@ -259,16 +257,16 @@ class EntrenamientoActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Log.i("Token de Auth0: ", tokenAuth)
+                Log.i("Mensaje Prueba 1234: ", tokenAuth)
                 val respuestaAtletismo = retrofitApi.create(EntrenamientoService::class.java).getIndicadoresAtletismo("Bearer $tokenAuth")
                 if (respuestaAtletismo.isSuccessful) {
-                    Log.i("Exito trayecto Atletismo", "Exito")
-                    val listaAtletismo = respuestaAtletismo.body()
-                    if (listaAtletismo != null) {
-                        if (listaAtletismo.isNotEmpty()) {
-                            evaluarVisibilidad(listaAtletismo)
-                        }
-                    }
+//                    Log.i("Exito trayecto Atletismo", "Exito")
+//                    val listaAtletismo = respuestaAtletismo.body()
+//                    if (listaAtletismo != null) {
+//                        if (listaAtletismo.isNotEmpty()) {
+//                            evaluarVisibilidad(listaAtletismo)
+//                        }
+//                    }
                 }
             } catch (e: Exception) {
                 println("Se ha producido un error: ${e.message}")
@@ -292,7 +290,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val url = getString(R.string.indicadores_url_prd) + getString(R.string.indicadores_usuario_ciclismo_endpoint)
             try {
-                indicadoresCiclismoDTO = apiConsumer.consumeApiGet<IndicadoresDTO>(url, tokenAuth).await()
+                //indicadoresCiclismoDTO = apiConsumer.consumeApiGet<IndicadoresDTO>(url, tokenAuth).await()
                 //evaluarVisibilidad(jsonString)
             } catch (e: Exception) {
                 showDialog("Error", e.message)
@@ -300,7 +298,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
     }
 
-    private fun evaluarVisibilidad(listaAtletismo: List<IndicadoresDTO>) {
+    private fun evaluarVisibilidad(listaAtletismo: List<Indicadores>) {
         val jsonArray = JSONArray(listaAtletismo)
 
         for (i in 0 until jsonArray.length()) {
