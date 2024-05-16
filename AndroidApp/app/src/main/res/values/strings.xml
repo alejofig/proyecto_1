@@ -29,8 +29,8 @@
     <string name="vo2max">VO2 max</string>
     <string name="cadencia">Cadencia</string>
     <string name="potencia">Potencia</string>
-    <string name="tiempoContactoSuelo">Tiempo contacto con el suelo</string>
-    <string name="longitudZancada">Longitud de zancada</string>
+    <string name="tiempoContactoSuelo">T. contacto suelo</string>
+    <string name="longitudZancada">Long. zancada</string>
     <string name="temperatura">Temperatura</string>
     <string name="velocidad">Velocidad</string>
     <string name="ascensoTotal">Ascenso total</string>
