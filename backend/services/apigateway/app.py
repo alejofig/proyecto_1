@@ -10,7 +10,7 @@ from flask_cors import CORS
 from pydantic import ValidationError
 import config
 from models import EntrenamientoIndicadores, Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
-from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava
+from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava, calcularFisiologico
 
 load_dotenv()
 
@@ -82,26 +82,25 @@ def consultar_usuario_completo_movil(user):
     return jsonify(usuario_completo.json()), 200
 
 
-@app.route('/get_rutina_alimentacion_movil/', methods=['POST'])
+@app.route('/get_rutina_alimentacion_movil/', methods=['GET'])
 @protected_route_movil
 def consultar_rutina_alimentacion_movil(user):
     user_email = unquote(user["email"])
     usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
     ultimo_entrenamiento = requests.get(f"{URL_ENTRENAMIENTOS}/ultimo_entrenamiento/{usuario_completo.json()['id']}", headers={})
-    
-    rutina_alimentacion = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_alimentacion/", headers={}, json=ultimo_entrenamiento )
+    rutina_alimentacion = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_alimentacion/", headers={}, data=ultimo_entrenamiento )
 
     return jsonify(rutina_alimentacion.json()), 200
 
 
-@app.route('/get_rutina_descanso_movil/', methods=['POST'])
+@app.route('/get_rutina_descanso_movil/', methods=['GET'])
 @protected_route_movil
 def consultar_rutina_descanso_movil(user):
     user_email = unquote(user["email"])
     usuario_completo = requests.get(f"{config.URL_USERS}/user/{str(user_email)}", headers={})
     ultimo_entrenamiento = requests.get(f"{URL_ENTRENAMIENTOS}/ultimo_entrenamiento/{usuario_completo.json()['id']}", headers={})
     
-    rutina_descanso = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_descanso/", headers={}, json=ultimo_entrenamiento )
+    rutina_descanso = requests.post(f"{URL_ENTRENAMIENTOS}/rutina_descanso/", headers={}, data=ultimo_entrenamiento )
 
     return jsonify(rutina_descanso.json()), 200
 
@@ -196,16 +195,48 @@ def consultar_planes(user):
 def generar_plan_entrenamiento(user):
     user_dict = user
     email = user_dict.get('email', 'No email provided')
+    user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+
+    # Obtener datos fisiologicos del usuario
+    edad = user_data.get('edad', 0)
+    altura = user_data.get('altura', 0)
+    peso = user_data.get('peso', 0)
+
     # Obtener datos del cuerpo de la solicitud
     body_data = request.json
+
+    # Obtener el tipo de plan seleccionado
+    tipoPLan = body_data.get('tipoPLan', '')
+
+    # Lógica para determinar los valores segun el tipo de plan
+    try:
+        if tipoPLan == 'Basico' or tipoPLan == 'Avanzado':
+            totalDatosFisiologicos = calcularFisiologico(int(edad), int(altura), int(peso))
+            if totalDatosFisiologicos < 6:
+                cantidadMedida = 10
+                distanciaMedida = 20
+            elif 7 < totalDatosFisiologicos < 8:
+                cantidadMedida = 7
+                distanciaMedida = 15
+            else:
+                cantidadMedida = 5
+                distanciaMedida = 10
+        else:
+            cantidadMedida = body_data.get('cantidadEntrenamientos', '')
+            distanciaMedida = body_data.get('distanciaPorEntrenamientos', '')
+    except ValidationError as e:
+        return jsonify('Error de manejo de datos: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
 
     plan_data = {
         "deporte": body_data.get('deporte', ''),
         "nombre": body_data.get('nombre', ''),
         "usuario": email,
-        "cantidadEntrenamientos": body_data.get('cantidadEntrenamientos', ''),
-        "distanciaPorEntrenamientos": body_data.get('distanciaPorEntrenamientos', ''),
+        "cantidadEntrenamientos": cantidadMedida, #body_data.get('cantidadEntrenamientos', ''),
+        "distanciaPorEntrenamientos": distanciaMedida, #body_data.get('distanciaPorEntrenamientos', ''),
         "fechas": body_data.get('fechas', ''),
+        "tipoPLan": body_data.get('tipoPLan', '')
     }
 
     response = requests.post(f"{URL_PLANES}/plan", headers={}, json=plan_data)
@@ -316,9 +347,11 @@ def crear_entreno(user):
                                  headers=headers)
         if response.status_code != 200:
             return jsonify('Error creando entrenamiento'), 401
+        send_to_strava_str = ""
         if response.status_code == 200 and usuario_completo.json()["strava"]:
+            send_to_strava_str = "y enviado a estrava"
             send_to_strava(json_data)
-        return jsonify({"message": "Entreno creado con éxito"}), 201
+        return jsonify({"message": f"Entreno creado con éxito {send_to_strava_str}"}), 201
     except ValidationError as e:
         return jsonify('Error de validación en los datos de entrada: ' + str(e)), 400
     except Exception as e:

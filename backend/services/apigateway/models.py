@@ -37,6 +37,7 @@ class Plan(BaseModel):
     cantidadEntrenamientos: str
     distanciaPorEntrenamientos: str
     fechas: str
+    tipoPLan: str
 
 class SportType(str, Enum):
     Run = "Run"

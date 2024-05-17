@@ -2,9 +2,9 @@ from app.models import RutinaAlimenticia, RutinaDescanso
 
 
 def calcular_rutina_alimenticia(calorías_activas: float) -> RutinaAlimenticia:
-    carboidratos = calorías_activas * 0.5 / 4  # asumiendo que los carboidratos tienen 4 calorías por gramo
-    proteinas = calorías_activas * 0.3 / 4    # asumiendo que las proteínas tienen 4 calorías por gramo
-    grasas = calorías_activas * 0.2 / 9       # asumiendo que las grasas tienen 9 calorías por gramo
+    carboidratos = round((calorías_activas * 0.5 / 4) , 4)  # asumiendo que los carboidratos tienen 4 calorías por gramo
+    proteinas = round((calorías_activas * 0.3 / 4 ), 4)   # asumiendo que las proteínas tienen 4 calorías por gramo
+    grasas = round((calorías_activas * 0.2 / 9) , 4)       # asumiendo que las grasas tienen 9 calorías por gramo
     return RutinaAlimenticia(carboidratos=carboidratos, proteinas=proteinas, grasas=grasas)
 
 

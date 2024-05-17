@@ -38,6 +38,7 @@ sleep 5
 kill "$uvicorn_pid"
 coverage run -m pytest tests/* -v
 coverage report --fail-under=70
+pytest --cov . --cov-report=xml:terceros.xml
 deactivate
 cleanup
 cd ..
