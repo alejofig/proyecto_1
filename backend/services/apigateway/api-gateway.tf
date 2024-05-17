@@ -256,7 +256,30 @@ resource "aws_iam_role" "ecs_task_role" {
     ]
   })
 }
-
+resource "aws_iam_policy" "ecs_task_role_policy" {
+  name        = "ecs-task-role-policy-apigateway"
+  description = "Policy to allow ECS task to interact with SQS"
+  policy      = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "sqs:SendMessage",
+          "sqs:ReceiveMessage",
+          "sqs:GetQueueAttributes",
+          "sqs:ListQueues"
+        ],
+        "Resource": "*"
+      }
+    ]
+  })
+}
+resource "aws_iam_policy_attachment" "ecs_task_role_policy_attachment" {
+  name= "ecs-task-role-policy-attachment-apigateway"
+  policy_arn = aws_iam_policy.ecs_task_role_policy.arn
+  roles      = [aws_iam_role.ecs_task_role.name]
+}
 
 resource "aws_iam_policy_attachment" "ecs_task_role_sqs_attachment" {
   name       = "ecs-task-role-sqs-policy-attachment"
