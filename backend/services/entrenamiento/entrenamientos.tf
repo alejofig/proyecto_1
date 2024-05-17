@@ -170,7 +170,7 @@ resource "aws_db_instance" "entrenamientos_rds" {
   allocated_storage    = 20
   storage_type         = "gp2"
   engine               = "postgres"
-  engine_version         = "12.14"
+  engine_version         = "12.17"
   instance_class         = "db.t3.micro"
   identifier           = "entrenamientos-db"
   username             = "entrenamientos"
