@@ -8,7 +8,5 @@ class Indicador(SQLModel, table=True):
     userId: str
     nombreIndicador: str
     deporte: str
-    sensor: str
-    unidadMedida: str
-    calculoRealizar: str
+    visible: bool
     detallesAdicionales: str

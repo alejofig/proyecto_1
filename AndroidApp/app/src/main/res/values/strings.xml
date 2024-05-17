@@ -27,6 +27,14 @@
     <string name="fcm">Frecuencia Cardiaca Maxima FCM</string>
     <string name="ftp">FTP</string>
     <string name="vo2max">VO2 max</string>
+    <string name="cadencia">Cadencia</string>
+    <string name="potencia">Potencia</string>
+    <string name="tiempoContactoSuelo">T. contacto suelo</string>
+    <string name="longitudZancada">Long. zancada</string>
+    <string name="temperatura">Temperatura</string>
+    <string name="velocidad">Velocidad</string>
+    <string name="ascensoTotal">Ascenso total</string>
+    <string name="descensoTotal">Descenso total</string>
     <string name="finalizar">Finalizar</string>
     <string name="valor_inicial">0</string>
     <string name="corazon">♥</string>

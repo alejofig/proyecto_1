@@ -78,4 +78,12 @@ export class ApiGatewayBackendService {
   solicitarSesionEntrenador(entrenadorData: any): Observable<any> {
     return this.callApiWithToken(`${this.apiUrl}/solicitar_sesion_entrenador/`, 'POST', entrenadorData);
   }
+
+  consultar_atletismo(): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/indicadores_atletismo/`, 'GET');
+  }
+
+  consultar_ciclismo(): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/indicadores_ciclismo/`, 'GET');
+  }
 }

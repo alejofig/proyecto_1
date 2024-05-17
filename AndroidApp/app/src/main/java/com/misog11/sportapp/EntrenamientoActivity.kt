@@ -13,6 +13,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.misog11.sportapp.databinding.ActivityEntrenamientoBinding
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -24,9 +25,11 @@ import com.misog11.sportapp.eventos.EventosAdapter
 import com.misog11.sportapp.eventos.EventosService
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.misog11.sportapp.Entrenamiento.EntrenamientoService
 import com.misog11.sportapp.eventos.NotificacionesAdapter
 import com.misog11.sportapp.models.Entrenamiento
 import com.misog11.sportapp.models.EntrenamientoInd
+import com.misog11.sportapp.models.Indicadores
 import com.misog11.sportapp.models.Notificacion
 import com.misog11.sportapp.models.UserDTO
 import com.misog11.sportapp.models.calcularIndicadoresResponseDto
@@ -37,10 +40,13 @@ import com.misog11.sportapp.utils.utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.math.abs
 import kotlin.system.measureTimeMillis
+import kotlin.random.Random
+
 class EntrenamientoActivity : AppCompatActivity() {
 
     private lateinit var retrofitApi: Retrofit
@@ -80,6 +86,19 @@ class EntrenamientoActivity : AppCompatActivity() {
         binding = ActivityEntrenamientoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         checkAndSendPendingTrainings()
+
+        // Ocultar todos los campos de indicadores hasta que no inicie actividad
+        binding.containerVo2max.visibility = LinearLayout.GONE
+        binding.containerTemperatura.visibility = LinearLayout.GONE
+        binding.containerCadencia.visibility = LinearLayout.GONE
+        binding.containerPotencia.visibility = LinearLayout.GONE
+        binding.containerFTP.visibility = LinearLayout.GONE
+        binding.containerVelocidad.visibility = LinearLayout.GONE
+        binding.containerTiempoContactoSuelo.visibility = LinearLayout.GONE
+        binding.containerLongitudZancada.visibility = LinearLayout.GONE
+        binding.containerAscensoTotal.visibility = LinearLayout.GONE
+        binding.containerDescensoTotal.visibility = LinearLayout.GONE
+
         binding.btnIniciar.setOnClickListener {
             if (isFirstClick) {
                 timerController.cancelTimer()
@@ -93,9 +112,13 @@ class EntrenamientoActivity : AppCompatActivity() {
                 bodyMetricsController.totalCalories = 0.0
                 bodyMetricsController.totalCaloriesBurned = 0.0
                 binding.tvHeartRate.text = bodyMetricsController.updateFCM(userDTO).toString()
-                if (intent.getStringExtra(Constants.keyDeporte).toString() == "Ride")
-                    binding.containerFTP.visibility = android.view.View.VISIBLE
-                binding.containerVo2max.visibility = android.view.View.VISIBLE
+
+                if (intent.getStringExtra(Constants.keyDeporte).toString() == "Ride") { //Ride es ciclismo
+                    consumeIndicadoresActivosCiclismoApi()
+                } else if (intent.getStringExtra(Constants.keyDeporte).toString() == "Run") {
+                    consumeIndicadoresActivosAtletismoApi()
+                }
+
                 timerController.startTimer(handler, ::updateTimeView, ::updateCalories)
                 updateHandler.post(updateRunnable)
                 isFirstClick = false
@@ -127,6 +150,7 @@ class EntrenamientoActivity : AppCompatActivity() {
                 isFirstClick = !isFirstClick
             }
             else{
+                mostrarMensajeMotivacionla()
                 estadoMedidaReculo = "Alerta"
                 mostrarMensajeMotivacionla()
 
@@ -190,6 +214,23 @@ class EntrenamientoActivity : AppCompatActivity() {
                 binding.tvValueFTP.text = ftp
                 val vo2Max = responsecalcularIndicadoresResponseDto?.vo2Max.toString()
                 binding.tvValueVo2.text = vo2Max
+                val temperatura = responsecalcularIndicadoresResponseDto?.temperatura.toString()
+                binding.tvValueTemperatura.text = temperatura
+                val cadencia = responsecalcularIndicadoresResponseDto?.cadencia.toString()
+                binding.tvValueCadencia.text = cadencia
+                val potencia = responsecalcularIndicadoresResponseDto?.potencia.toString()
+                binding.tvValuePotencia.text = potencia
+                val velocidad = responsecalcularIndicadoresResponseDto?.velocidad.toString()
+                binding.tvValueVelocidad.text = velocidad
+                val tiempoContactoSuelo = responsecalcularIndicadoresResponseDto?.tiempoContactoSuelo.toString()
+                binding.tvValueTiempoContactoSuelo.text = tiempoContactoSuelo
+                val longitudZancada = responsecalcularIndicadoresResponseDto?.longitudZancada.toString()
+                binding.tvValueLongitudZancada.text = longitudZancada
+                val ascensoTotal = responsecalcularIndicadoresResponseDto?.ascensoTotal.toString()
+                binding.tvValueAscensoTotal.text = ascensoTotal
+                val descensoTotal = responsecalcularIndicadoresResponseDto?.descensoTotal.toString()
+                binding.tvValueDescensoTotal.text = descensoTotal
+                recalculoObjetivos(ftp, vo2Max)
                 val tiempoEjecucion = measureTimeMillis{
                     recalculoObjetivos(ftp, vo2Max)
                 }
@@ -198,6 +239,142 @@ class EntrenamientoActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 showDialog("Error", e.message)
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun consumeIndicadoresActivosAtletismoApi() {
+        lifecycleScope.launch {
+            try {
+                Log.i("Token indicadores: ", tokenAuth)
+                val respuestaAtletismo = retrofitApi.create(EntrenamientoService::class.java).getIndicadoresAtletismo("Bearer $tokenAuth")
+                respuestaAtletismo.body()?.let { evaluarVisibilidad(it) }
+                /*if (respuestaAtletismo.isSuccessful) {
+                    Log.i("Exito trayecto Atletismo", "Exito")
+                    val listaAtletismo = respuestaAtletismo.body()
+                    if (listaAtletismo != null) {
+                        if (listaAtletismo.isNotEmpty()) {
+                            evaluarVisibilidad(listaAtletismo)
+                        }
+                    }
+                }*/
+            } catch (e: Exception) {
+                println("Se ha producido un error en atletismo: ${e.message}")
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun consumeIndicadoresActivosCiclismoApi() {
+        lifecycleScope.launch {
+            try {
+                Log.i("Token indicadores: ", tokenAuth)
+                val respuestaCiclismo = retrofitApi.create(EntrenamientoService::class.java).getIndicadoresCiclismo("Bearer $tokenAuth")
+                respuestaCiclismo.body()?.let { evaluarVisibilidad(it) }
+                /*if (respuestaCiclismo.isSuccessful) {
+                    Log.i("Exito trayecto Atletismo", "Exito")
+                    val listaCiclismo = respuestaCiclismo.body()
+                    if (listaCiclismo != null) {
+                        if (listaCiclismo.isNotEmpty()) {
+                            evaluarVisibilidad(listaCiclismo)
+                        }
+                    }
+                }*/
+            } catch (e: Exception) {
+                println("Se ha producido un error en ciclismo: ${e.message}")
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun evaluarVisibilidad(listaDeporte: List<Indicadores>) {
+        try {
+            for (valoresLista in listaDeporte) {
+                val nombreIndicador = valoresLista.nombreIndicador
+                val visible = valoresLista.visible
+
+                if (nombreIndicador == "FTP") {
+                    if (visible) {
+                        binding.containerFTP.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerFTP.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "VO2Max") {
+                    if (visible) {
+                        binding.containerVo2max.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerVo2max.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "Cadencia") {
+                    if (visible) {
+                        binding.containerCadencia.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerCadencia.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "Potencia") {
+                    if (visible) {
+                        binding.containerPotencia.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerPotencia.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "TiempoContactoSuelo") {
+                    if (visible) {
+                        binding.containerTiempoContactoSuelo.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerTiempoContactoSuelo.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "LongitudZancada") {
+                    if (visible) {
+                        binding.containerLongitudZancada.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerLongitudZancada.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "Temperatura") {
+                    if (visible) {
+                        binding.containerTemperatura.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerTemperatura.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "Velocidad") {
+                    if (visible) {
+                        binding.containerVelocidad.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerVelocidad.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "AscensoTotal") {
+                    if (visible) {
+                        binding.containerAscensoTotal.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                    }
+                }
+
+                if (nombreIndicador == "DescensoTotal") {
+                    if (visible) {
+                        binding.containerDescensoTotal.visibility = android.view.View.VISIBLE
+                    } else {
+                        binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            println("Error en evaluar visibilidad: ${e.message}")
         }
     }
 

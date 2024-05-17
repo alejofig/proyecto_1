@@ -10,7 +10,7 @@ from flask_cors import CORS
 from pydantic import ValidationError
 import config
 from models import EntrenamientoIndicadores, Mototaller, User, Plan, Alimentacion, Entrenador, Entrenamiento
-from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava, calcularFisiologico
+from utils import protected_route, protected_route_movil, send_email, calcular_ftp, calcular_vo2max, send_to_strava, calcular_temperatura, calcular_cadencia, calcular_potencia, calcular_velocidad, calcular_tcs, calcular_lz, calcular_at, calcular_dt
 
 load_dotenv()
 
@@ -20,6 +20,7 @@ URL_ENTRENAMIENTOS = os.getenv('ENTRENAMIENTOS_PATH')
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 URL_SERVICIOS = os.getenv('SERVICIOS_PATH')
+URL_INDICADORES = os.getenv('INDICADORES_PATH')
 
 app = Flask(__name__)
 app.secret_key = 'super secret'
@@ -210,17 +211,12 @@ def generar_plan_entrenamiento(user):
 
     # Lógica para determinar los valores segun el tipo de plan
     try:
-        if tipoPLan == 'Basico' or tipoPLan == 'Avanzado':
-            totalDatosFisiologicos = calcularFisiologico(int(edad), int(altura), int(peso))
-            if totalDatosFisiologicos < 6:
-                cantidadMedida = 10
-                distanciaMedida = 20
-            elif 7 < totalDatosFisiologicos < 8:
-                cantidadMedida = 7
-                distanciaMedida = 15
-            else:
-                cantidadMedida = 5
-                distanciaMedida = 10
+        if tipoPLan == 'Basico':
+            cantidadMedida = round(min(int(edad) // 10, 5))
+            distanciaMedida = round(min(int(peso) * 0.3, 10))
+        elif tipoPLan == 'Avanzado':
+            cantidadMedida = round(min(int(edad) // 8, 7))
+            distanciaMedida = round(min(int(peso) * 0.5, 15))
         else:
             cantidadMedida = body_data.get('cantidadEntrenamientos', '')
             distanciaMedida = body_data.get('distanciaPorEntrenamientos', '')
@@ -442,8 +438,16 @@ def calcular_indicadores2(user):
         # Cálculo de indicadores
         ftp = calcular_ftp(entrenamiento)
         vo2max = calcular_vo2max(entrenamiento)
+        temperatura = calcular_temperatura()
+        cadencia = calcular_cadencia()
+        potencia = calcular_potencia()
+        velocidad = calcular_velocidad()
+        tiempoContactoSuelo = calcular_tcs()
+        longitudZancada = calcular_lz()
+        ascensoTotal = calcular_at()
+        descensoTotal = calcular_dt()
 
-        return jsonify({"ftp": ftp, "vo2Max": vo2max}), 200
+        return jsonify({"ftp": ftp, "vo2Max": vo2max, "temperatura": temperatura, "cadencia": cadencia, "potencia": potencia, "velocidad": velocidad, "tiempoContactoSuelo": tiempoContactoSuelo, "longitudZancada": longitudZancada, "ascensoTotal": ascensoTotal, "descensoTotal": descensoTotal}), 200
     except Exception as e:
         return jsonify('Error interno: ' + str(e)), 500
     
@@ -458,12 +462,63 @@ def calcular_indicadores(user):
         print("{{medidor_data}} ", medidor_data)
         ftp = calcular_ftp(medidor_data)
         vo2max = calcular_vo2max(medidor_data)
+        temperatura = calcular_temperatura()
+        cadencia = calcular_cadencia()
+        potencia = calcular_potencia()
+        velocidad = calcular_velocidad()
+        tiempoContactoSuelo = calcular_tcs()
+        longitudZancada = calcular_lz()
+        ascensoTotal = calcular_at()
+        descensoTotal = calcular_dt()
         print("{{FTP}}{{vo2max}} ", ftp, vo2max)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return {"ftp": ftp, "vo2Max": vo2max}
+    return {"ftp": ftp, "vo2Max": vo2max, "temperatura": temperatura, "cadencia": cadencia, "potencia": potencia, "velocidad": velocidad, "tiempoContactoSuelo": tiempoContactoSuelo, "longitudZancada": longitudZancada, "ascensoTotal": ascensoTotal, "descensoTotal": descensoTotal}
 
+
+@app.route('/indicadores_atletismo', methods=['GET'])
+@protected_route_movil
+def indicadores_atletismo(user):
+    try:
+        user_dict = user
+        email = user_dict.get('email', 'No email provided')
+        user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+        userid = user_data.get('id', 'na')
+
+        response = requests.get(f"{URL_INDICADORES}/indicadores_atletismo/{userid}", headers={})
+        if response.status_code != 200:
+            print(response)
+            return jsonify('Error consultado los indicadores'), 401
+        data = response.json()
+    except ValidationError as e:
+        return jsonify('Error de manejo de datos: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
+
+    return jsonify(data), 201
+
+
+@app.route('/indicadores_ciclismo', methods=['GET'])
+@protected_route_movil
+def indicadores_ciclismo(user):
+    try:
+        user_dict = user
+        email = user_dict.get('email', 'No email provided')
+        user_data = requests.get(f"{config.URL_USERS}/user/{email}", headers={}).json()
+        userid = user_data.get('id', 'na')
+
+        response = requests.get(f"{URL_INDICADORES}/indicadores_ciclismo/{userid}", headers={})
+        if response.status_code != 200:
+            print(response)
+            return jsonify('Error consultado los indicadores'), 401
+        data = response.json()
+    except ValidationError as e:
+        return jsonify('Error de manejo de datos: ' + str(e)), 400
+    except Exception as e:
+        return jsonify('Error interno: ' + str(e)), 500
+
+    return jsonify(data), 201
 
 
 @app.route("/login_strava")
