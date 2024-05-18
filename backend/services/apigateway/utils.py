@@ -82,6 +82,7 @@ def send_email(asunto, cuerpo, remitente, destinatario):
         MessageBody=message_url
     )
 
+send_email("Prueba", "Prueba", "alejofig@hotmail.com", "1alejofig1@gmail.com")
 
 def calcular_ftp(entrenamiento: Entrenamiento) -> float:
     velocidad_promedio = random.uniform(10.0, 33.0)

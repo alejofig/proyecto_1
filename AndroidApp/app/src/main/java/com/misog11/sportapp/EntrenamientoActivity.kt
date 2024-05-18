@@ -498,6 +498,9 @@ class EntrenamientoActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
 
+        val tvActiveCalories = binding.tvActiveCalories
+        val activeCalories = tvActiveCalories.text.toString().toDoubleOrNull() ?: 0.0
+        val listaNotificaciones: MutableList<Notificacion> = mutableListOf()
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -506,19 +509,28 @@ class EntrenamientoActivity : AppCompatActivity() {
                     .getNotificaciones("Bearer $tokenAuth")
                 if (respuestaNotificaion.isSuccessful) {
                     Log.i("Exito trayendo Notificaciones", "ss")
-                    var listaNotificaciones = respuestaNotificaion.body()
+                    val listaNotificacionesApi: List<Notificacion> = respuestaNotificaion.body() ?: listOf()
 
-                    if(listaNotificaciones != null){
-                            if(listaNotificaciones.isEmpty()){
-                                listaNotificaciones = listOf(Notificacion("No hay notificaciones ni avisos"))
-                            }
-                            runOnUiThread {
-                                val reciclerNotification = view.findViewById<RecyclerView>(R.id.recyclerNotificaciones)
-                                reciclerNotification.layoutManager = LinearLayoutManager(this@EntrenamientoActivity)
-                                reciclerNotification.adapter = NotificacionesAdapter(listaNotificaciones)
-                            }
+                    runOnUiThread {
+                        if (listaNotificacionesApi.isEmpty()) {
+                            listaNotificaciones.add(Notificacion("No hay notificaciones ni avisos"))
+                        } else {
+                            listaNotificaciones.addAll(listaNotificacionesApi)
                         }
+
+                        // Agregar notificaciones de ingesta de líquido y comida
+                        for (i in 1..(activeCalories / 0.1).toInt()) {
+                            listaNotificaciones.add(Notificacion("Recordatorio de ingesta de líquido"))
+                        }
+                        for (i in 1..(activeCalories / 0.5).toInt()) {
+                            listaNotificaciones.add(Notificacion("Recordatorio de ingesta de comida"))
+                        }
+
+                        val reciclerNotification = view.findViewById<RecyclerView>(R.id.recyclerNotificaciones)
+                        reciclerNotification.layoutManager = LinearLayoutManager(this@EntrenamientoActivity)
+                        reciclerNotification.adapter = NotificacionesAdapter(listaNotificaciones)
                     }
+                }
             } catch (e: Exception) {
                 println("Se ha producido un error: ${e.message}")
             }
