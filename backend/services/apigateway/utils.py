@@ -16,17 +16,36 @@ import urllib.parse
 
 load_dotenv()
 def protected_route(f):
+    """ Implentacion Antigua:
     @wraps(f)
     def decorated_function(*args, **kwargs):
         token = request.headers.get('Authorization')
         try:
             user_id = Auth0.get_current_user()
             user =Auth0.get_user_by_id(user_id)
+            logging.debug(f"usuario retornado {user}") 
             return f(user, *args, **kwargs)
         except Exception as e:
             print(e)
             return jsonify({"detail": "No se pudo validar las credenciales"}), 401
+    return decorated_function"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        try:
+            authorization = request.headers.get('Authorization')
+            logging.debug(f"token recibido {authorization}") 
+            
+            user = requests.get(f"https://{config.AUTH0_DOMAIN}/userinfo", 
+                                headers={"Authorization": f"{authorization}"}) 
+
+            logging.debug(f"usuario retornado {user.json()}") 
+            return f(user.json(), *args, **kwargs)
+        except Exception as e:
+            print(e)
+            return jsonify({"detail": "No se pudo validar las credenciales"}), 401    
+
     return decorated_function
+
 
 def protected_route_movil(f):
     @wraps(f)
@@ -37,13 +56,16 @@ def protected_route_movil(f):
             
             user = requests.get(f"https://{config.AUTH0_DOMAIN}/userinfo", 
                                 headers={"Authorization": f"{authorization}"}) 
-                
+
+            logging.debug(f"usuario retornado {user.json()}") 
             return f(user.json(), *args, **kwargs)
         except Exception as e:
             print(e)
             return jsonify({"detail": "No se pudo validar las credenciales"}), 401    
 
     return decorated_function
+
+
 
 def send_email(asunto, cuerpo, remitente, destinatario):
     sqs = boto3.client('sqs', region_name='us-east-1')
