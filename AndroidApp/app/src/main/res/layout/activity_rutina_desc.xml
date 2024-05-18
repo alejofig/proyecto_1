@@ -59,13 +59,31 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/tvTiempoSuenoLabel"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/valor_inicial"
-                android:textSize="32sp"
-                android:textColor="@color/yellow" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvTiempoSuenoLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor_inicial"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+                <TextView
+                    android:id="@+id/tvTiempoSuenoLabelm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/minutos"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -102,13 +120,30 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/tvTiempoMeditacionLabel"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/valor_inicial"
-                android:textSize="32sp"
-                android:textColor="@color/yellow" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvTiempoMeditacionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor_inicial"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+                <TextView
+                    android:id="@+id/tvTiempoMeditacionLabelm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/minutos"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -144,13 +179,30 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/tvTiempoRelajacionLabel"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/valor_inicial"
-                android:textSize="32sp"
-                android:textColor="@color/yellow" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvTiempoRelajacionLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor_inicial"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+                <TextView
+                    android:id="@+id/tvTiempoRelajacionLabelm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/minutos"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>

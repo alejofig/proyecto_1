@@ -59,13 +59,29 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/tvCarbosLabel"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/valor_inicial"
-                android:textSize="32sp"
-                android:textColor="@color/yellow" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvCarbosLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor_inicial"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+                <TextView
+                    android:id="@+id/tvCarbosLabelg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gramos"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -102,13 +118,29 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/tvProtesLabel"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/valor_inicial"
-                android:textSize="32sp"
-                android:textColor="@color/yellow" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvProtesLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor_inicial"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+                <TextView
+                    android:id="@+id/tvProtesLabelg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gramos"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -144,13 +176,29 @@
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/tvgrasLabel"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/valor_inicial"
-                android:textSize="32sp"
-                android:textColor="@color/yellow" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvgrasLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor_inicial"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+                <TextView
+                    android:id="@+id/tvgrasLabelg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gramos"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
