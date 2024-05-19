@@ -152,7 +152,6 @@ class EntrenamientoActivity : AppCompatActivity() {
             else{
                 mostrarMensajeMotivacionla()
                 estadoMedidaReculo = "Alerta"
-                mostrarMensajeMotivacionla()
 
             }
 
