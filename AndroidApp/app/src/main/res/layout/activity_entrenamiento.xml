@@ -172,7 +172,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/containerIndicators"
+        android:layout_below="@id/containerActiveCaloriesPower"
         android:layout_marginTop="10dp"
         android:padding="16dp">
 
@@ -196,14 +196,18 @@
             android:backgroundTint="@color/red" />
     </LinearLayout>
 
-
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonContainer"
+        >
     <!-- Container ftp vo2max  -->
     <GridLayout
         android:id="@+id/containerIndicators"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/containerActiveCaloriesPower"
+
         android:layout_marginTop="10dp"
         android:columnCount="2"
         android:rowCount="3">
@@ -468,6 +472,7 @@
                 android:textColor="@color/white" />
         </LinearLayout>
     </GridLayout>
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
