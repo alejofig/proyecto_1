@@ -661,6 +661,11 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun mostrarMensajeMotivacionla(){
+        binding.btnIniciar.text = getString(R.string.reanudarTextBtn)
+        timerController.pauseTimer()
+        binding.btnIniciar.backgroundTintList =
+            resources.getColorStateList(R.color.green, null)
+        updateHandler.removeCallbacks(updateRunnable)
         val builder = AlertDialog.Builder(this@EntrenamientoActivity)
         val view = layoutInflater.inflate(R.layout.mensaje_motivacional, null)
 
@@ -706,6 +711,12 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun mostrarAvisoRecalculo(indicador: String){
+        binding.btnIniciar.text = getString(R.string.reanudarTextBtn)
+        timerController.pauseTimer()
+        binding.btnIniciar.backgroundTintList =
+            resources.getColorStateList(R.color.green, null)
+        updateHandler.removeCallbacks(updateRunnable)
+
         val builder = AlertDialog.Builder(this@EntrenamientoActivity)
         val view = layoutInflater.inflate(R.layout.mensaje_motivacional, null)
 
@@ -742,7 +753,7 @@ class EntrenamientoActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun recalculoObjetivos(ftp:String, vo2Max: String){
         val maxFtp = 45
-        val maxDeltaFpt = 10 // 7
+        val maxDeltaFpt = 7 // 7
 
         val minVo2max = 90
         val maxDeltaVo2max = 1.5
