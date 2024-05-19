@@ -287,92 +287,111 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun evaluarVisibilidad(listaDeporte: List<Indicadores>) {
+
         try {
-            for (valoresLista in listaDeporte) {
-                val nombreIndicador = valoresLista.nombreIndicador
-                val visible = valoresLista.visible
+            Log.i("Entra a Visibilidad", "Visualizacion")
+            if(listaDeporte.isEmpty()){
+                binding.containerFTP.visibility = android.view.View.VISIBLE
+                binding.containerVo2max.visibility = android.view.View.VISIBLE
+                binding.containerCadencia.visibility = android.view.View.VISIBLE
+                binding.containerPotencia.visibility = android.view.View.VISIBLE
+                binding.containerTiempoContactoSuelo.visibility =
+                    android.view.View.VISIBLE
+                binding.containerLongitudZancada.visibility = android.view.View.VISIBLE
+                binding.containerTemperatura.visibility = android.view.View.VISIBLE
+                binding.containerVelocidad.visibility = android.view.View.VISIBLE
+                binding.containerAscensoTotal.visibility = android.view.View.VISIBLE
+                binding.containerDescensoTotal.visibility = android.view.View.VISIBLE
+            }
+            else {
+                for (valoresLista in listaDeporte) {
+                    val nombreIndicador = valoresLista.nombreIndicador
+                    val visible = valoresLista.visible
 
-                if (nombreIndicador == "FTP") {
-                    if (visible) {
-                        binding.containerFTP.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerFTP.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "FTP") {
+                        if (visible) {
+                            binding.containerFTP.visibility = android.view.View.VISIBLE
+                        } else {
+                            binding.containerFTP.visibility = LinearLayout.GONE
+                        }
                     }
-                }
 
-                if (nombreIndicador == "VO2Max") {
-                    if (visible) {
-                        binding.containerVo2max.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerVo2max.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "VO2Max") {
+                        if (visible) {
+                            binding.containerVo2max.visibility = android.view.View.VISIBLE
+                        } else {
+                            binding.containerVo2max.visibility = LinearLayout.GONE
+                        }
                     }
-                }
 
-                if (nombreIndicador == "Cadencia") {
-                    if (visible) {
-                        binding.containerCadencia.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerCadencia.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "Cadencia") {
+                        if (visible) {
+                            binding.containerCadencia.visibility = android.view.View.VISIBLE
+                        } else {
+                            binding.containerCadencia.visibility = LinearLayout.GONE
+                        }
                     }
-                }
 
-                if (nombreIndicador == "Potencia") {
-                    if (visible) {
-                        binding.containerPotencia.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerPotencia.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "Potencia") {
+                        if (visible) {
+                            binding.containerPotencia.visibility = android.view.View.VISIBLE
+                        } else {
+                            binding.containerPotencia.visibility = LinearLayout.GONE
+                        }
                     }
-                }
 
-                if (nombreIndicador == "TiempoContactoSuelo") {
-                    if (visible) {
-                        binding.containerTiempoContactoSuelo.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerTiempoContactoSuelo.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "TiempoContactoSuelo") {
+                        if (visible) {
+                            binding.containerTiempoContactoSuelo.visibility =
+                                android.view.View.VISIBLE
+                        } else {
+                            binding.containerTiempoContactoSuelo.visibility = LinearLayout.GONE
+                        }
                     }
-                }
 
-                if (nombreIndicador == "LongitudZancada") {
-                    if (visible) {
-                        binding.containerLongitudZancada.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerLongitudZancada.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "LongitudZancada") {
+                        if (visible) {
+                            binding.containerLongitudZancada.visibility = android.view.View.VISIBLE
+                        } else {
+                            binding.containerLongitudZancada.visibility = LinearLayout.GONE
+                        }
                     }
-                }
 
-                if (nombreIndicador == "Temperatura") {
-                    if (visible) {
-                        binding.containerTemperatura.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerTemperatura.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "Temperatura") {
+                        if (visible) {
+                            binding.containerTemperatura.visibility = android.view.View.VISIBLE
+                        } else {
+                            binding.containerTemperatura.visibility = LinearLayout.GONE
+                        }
                     }
-                }
 
-                if (nombreIndicador == "Velocidad") {
-                    if (visible) {
-                        binding.containerVelocidad.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerVelocidad.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "Velocidad") {
+                        if (visible) {
+                            binding.containerVelocidad.visibility = android.view.View.VISIBLE
+                        } else {
+                            binding.containerVelocidad.visibility = LinearLayout.GONE
+                        }
                     }
-                }
 
-                if (nombreIndicador == "AscensoTotal") {
-                    if (visible) {
-                        binding.containerAscensoTotal.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "AscensoTotal") {
+                        if (visible) {
+                            binding.containerAscensoTotal.visibility = android.view.View.VISIBLE
+                        } else {
+                            binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                        }
                     }
-                }
 
-                if (nombreIndicador == "DescensoTotal") {
-                    if (visible) {
-                        binding.containerDescensoTotal.visibility = android.view.View.VISIBLE
-                    } else {
-                        binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                    if (nombreIndicador == "DescensoTotal") {
+                        if (visible) {
+                            binding.containerDescensoTotal.visibility = android.view.View.VISIBLE
+                        } else {
+                            binding.containerDescensoTotal.visibility = LinearLayout.GONE
+                        }
                     }
                 }
             }
         } catch (e: Exception) {
+            Log.i("Error en evaluar visibilidad", "${e.message}")
             println("Error en evaluar visibilidad: ${e.message}")
         }
     }
@@ -642,6 +661,11 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun mostrarMensajeMotivacionla(){
+        binding.btnIniciar.text = getString(R.string.reanudarTextBtn)
+        timerController.pauseTimer()
+        binding.btnIniciar.backgroundTintList =
+            resources.getColorStateList(R.color.green, null)
+        updateHandler.removeCallbacks(updateRunnable)
         val builder = AlertDialog.Builder(this@EntrenamientoActivity)
         val view = layoutInflater.inflate(R.layout.mensaje_motivacional, null)
 
@@ -687,6 +711,12 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun mostrarAvisoRecalculo(indicador: String){
+        binding.btnIniciar.text = getString(R.string.reanudarTextBtn)
+        timerController.pauseTimer()
+        binding.btnIniciar.backgroundTintList =
+            resources.getColorStateList(R.color.green, null)
+        updateHandler.removeCallbacks(updateRunnable)
+
         val builder = AlertDialog.Builder(this@EntrenamientoActivity)
         val view = layoutInflater.inflate(R.layout.mensaje_motivacional, null)
 
@@ -726,7 +756,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         val maxDeltaFpt = 7 // 7
 
         val minVo2max = 90
-        val maxDeltaVo2max = 1
+        val maxDeltaVo2max = 1.5
 
         if (estadoMedidaReculo == "primeraVez"){
             ftpInicial = ftp.toFloat()
