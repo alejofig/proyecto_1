@@ -1,5 +1,15 @@
+from datetime import datetime
 from typing import List, Optional
 from sqlmodel import Field, SQLModel, JSON, Column
+
+class StravaOAuthToken(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(foreign_key="user.id")
+    access_token: str
+    refresh_token: Optional[str] = None
+    expires_at: datetime
+    token_type: str
+    scope: str
 
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -22,6 +32,8 @@ class User(SQLModel, table=True):
     altura: Optional[int] = None
     tipo_plan: Optional[str] = None
     deportes: List[str] = Field(sa_column=Column(JSON))
+    created_at: datetime = Field(default_factory=datetime.utcnow, nullable=False)
+    strava: Optional[bool] = False
 
     # Needed for Column(JSON)
     class Config:

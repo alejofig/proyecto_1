@@ -21,6 +21,7 @@ export class ApiGatewayBackendService {
       switchMap(token => {
         this.token = token;
         const headers = new HttpHeaders({
+          "Access-Control-Allow-Origin": "*",
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         });
@@ -62,6 +63,10 @@ export class ApiGatewayBackendService {
     });
   }
 
+  stravaLogin(): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/login_strava`, 'GET');
+  }
+
   registrarMototaller(motoTallerData: any): Observable<any> {
     return this.callApiWithToken(`${this.apiUrl}/crear_servicio_mototaller/`, 'POST', motoTallerData);
   }
@@ -72,5 +77,13 @@ export class ApiGatewayBackendService {
 
   solicitarSesionEntrenador(entrenadorData: any): Observable<any> {
     return this.callApiWithToken(`${this.apiUrl}/solicitar_sesion_entrenador/`, 'POST', entrenadorData);
+  }
+
+  consultar_atletismo(): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/indicadores_atletismo/`, 'GET');
+  }
+
+  consultar_ciclismo(): Observable<any> {
+    return this.callApiWithToken(`${this.apiUrl}/indicadores_ciclismo/`, 'GET');
   }
 }

@@ -83,7 +83,7 @@ resource "aws_db_instance" "db_postgres_eventos" {
   identifier             = "db-eventos"
   allocated_storage      = 10
   engine                 = "postgres"
-  engine_version         = "12.15"
+  engine_version         = "12.17"
   instance_class         = "db.t3.micro"
   db_name                = "db_eventos"
   username               = "postgres"

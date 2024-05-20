@@ -11,3 +11,4 @@ class Plan(SQLModel, table=True):
     cantidadEntrenamientos: str
     distanciaPorEntrenamientos: str
     fechas: str
+    tipoPLan: str

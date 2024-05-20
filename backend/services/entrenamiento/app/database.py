@@ -26,6 +26,17 @@ def obtener_entrenamientos():
     session.close()
     return entrenamientos
 
+def obtener_ultimo_entrenamiento(user_id: int):
+    session = create_session()
+    entrenamiento = session.query(Entrenamiento).filter(Entrenamiento.user_id == user_id).order_by(Entrenamiento.id.desc()).first() 
+    session.close()
+    return entrenamiento
+def obtener_entrenamientos_user(user_id: int):
+    session = create_session()
+    entrenamientos = session.query(Entrenamiento).filter(Entrenamiento.user_id == user_id).all()
+    session.close()
+    return entrenamientos
+
 def obtener_estadisticas(user_id: int):
     session = create_session()
     now = datetime.now()

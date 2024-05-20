@@ -1,5 +1,5 @@
 from app import config
-from app.models import Evento
+from app.models import Evento, Notificacion
 from sqlmodel import Session, create_engine, SQLModel, select, func
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}"
@@ -45,3 +45,19 @@ def consultar_eventos_pais_limit(pais, rows):
     eventos = results.all()
     session.close()
     return eventos
+
+
+def consultar_notificaciones_relevantes(pais):
+    session = create_session()
+    statement = select(Notificacion).where((Notificacion.fecha == func.current_date()) & (func.lower(Notificacion.pais) == func.lower(pais)))
+    results = session.exec(statement)
+    notificaciones = results.all()
+    session.close()
+    return notificaciones
+
+def create_notificacion(notificacion: Notificacion):
+    session = create_session()
+    session.add(notificacion)
+    session.commit()
+    session.close()
+    return notificacion

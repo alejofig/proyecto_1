@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <!-- Icono de flecha hacia atrás -->
+    <ImageView
+        android:id="@+id/ivBackArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="21dp"/>
+
+    <!-- Título de Entrenamiento ajustado -->
+    <TextView
+        android:id="@+id/tvRecoTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recomendaciones"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:layout_below="@id/ivBackArrow"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="24dp"/>
+
+    <LinearLayout
+        android:id="@+id/containerRut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/tvRecoTitle"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/tvAlimLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rutinaAlimenticia"
+            android:textSize="20sp"
+            android:layout_marginStart="34dp"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnRutAlim"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ir"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="34dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/containerRutDes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/containerRut"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/tvDesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rutinaDescanso"
+            android:textSize="20sp"
+            android:layout_marginStart="34dp"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnRutDes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ir"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/red"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="34dp" />
+
+    </LinearLayout>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
+        app:menu="@menu/bottom_menu" />
+
+</RelativeLayout>
+

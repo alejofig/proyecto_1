@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <!-- Icono de flecha hacia atrás -->
+    <ImageView
+        android:id="@+id/ivBackArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="21dp"/>
+
+    <!-- Título de Entrenamiento ajustado -->
+    <TextView
+        android:id="@+id/tvRutinaTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rutinaAlimenticia"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:layout_below="@id/ivBackArrow"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="24dp"/>
+
+    <!-- Container carbos -->
+    <LinearLayout
+        android:id="@+id/containerCarbos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/tvRutinaTitle"
+        android:layout_marginTop="40dp">
+
+        <!-- carbos -->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="50dp"
+            android:src="@drawable/round_dining_24" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvCarbosTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/carbos"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvCarbosLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor_inicial"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+                <TextView
+                    android:id="@+id/tvCarbosLabelg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gramos"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/containerProtes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/containerCarbos"
+        android:layout_marginTop="40dp">
+
+        <!-- carbos -->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="50dp"
+            android:src="@drawable/baseline_free_breakfast_24" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvProtesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prote"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvProtesLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor_inicial"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+                <TextView
+                    android:id="@+id/tvProtesLabelg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gramos"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/containerGrasas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/containerProtes"
+        android:layout_marginTop="40dp">
+
+        <!-- carbos -->
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="50dp"
+            android:src="@drawable/baseline_brunch_dining_24" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvgrasTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/grasas"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvgrasLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor_inicial"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+                <TextView
+                    android:id="@+id/tvgrasLabelg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gramos"
+                    android:textSize="32sp"
+                    android:textColor="@color/yellow" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black"
+        app:itemTextColor="@color/white"
+        app:itemIconTint="@color/white"
+        app:menu="@menu/bottom_menu" />
+
+</RelativeLayout>
+

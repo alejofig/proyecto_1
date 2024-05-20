@@ -216,9 +216,16 @@ data "template_file" "task_definition_template" {
     USERS_PATH= "https://users.uniandes-sports.com"
     ENTRENAMIENTOS_PATH = "https://entrenamientos.uniandes-sports.com"
     SERVICIOS_PATH= "https://terceros.uniandes-sports.com"
+    INDICADORES_PATH = "https://indicadores.uniandes-sports.com"
     PLANES_PATH= "https://planes.uniandes-sports.com"
     EVENTS_PATH= "https://eventos.uniandes-sports.com"
     SQS_URL_NOTIFICATIONS="https://sqs.us-east-1.amazonaws.com/344488016360/emails-register-sqs-new5"
+    STRAVA_REDIRECT_URI = "https://apigateway.uniandes-sports.com/strava_callback"
+    STRAVA_CLIENT_ID = "125841"
+    STRAVA_ACCESS_TOKEN="e535b0ee6be2cf09ac6015efaeb7b6e9d86c2207"
+    STRAVA_CLIENT_SECRET="5d2976b1f08f378f086b46e179f5946026bb8d7e"
+    STRAVA_TOKEN_REFRESH="278fc804e7ef37104a2fb0d6a02672a6e9c7b962"
+    FRONT_URL="https://app.uniandes-sports.com"
   }
 }
 resource "aws_ecs_task_definition" "task_definition" {
@@ -249,7 +256,30 @@ resource "aws_iam_role" "ecs_task_role" {
     ]
   })
 }
-
+resource "aws_iam_policy" "ecs_task_role_policy" {
+  name        = "ecs-task-role-policy-apigateway"
+  description = "Policy to allow ECS task to interact with SQS"
+  policy      = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "sqs:SendMessage",
+          "sqs:ReceiveMessage",
+          "sqs:GetQueueAttributes",
+          "sqs:ListQueues"
+        ],
+        "Resource": "*"
+      }
+    ]
+  })
+}
+resource "aws_iam_policy_attachment" "ecs_task_role_policy_attachment" {
+  name= "ecs-task-role-policy-attachment-apigateway"
+  policy_arn = aws_iam_policy.ecs_task_role_policy.arn
+  roles      = [aws_iam_role.ecs_task_role.name]
+}
 
 resource "aws_iam_policy_attachment" "ecs_task_role_sqs_attachment" {
   name       = "ecs-task-role-sqs-policy-attachment"

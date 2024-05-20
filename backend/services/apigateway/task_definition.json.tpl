@@ -45,6 +45,10 @@
             "value":"${SERVICIOS_PATH}"
          },
          {
+            "name":"INDICADORES_PATH",
+            "value":"${INDICADORES_PATH}"
+         },
+         {
             "name":"SQS_URL_NOTIFICATIONS",
             "value":"${SQS_URL_NOTIFICATIONS}"
          },
@@ -67,6 +71,30 @@
          {
             "name":"REDIRECT_URI",
             "value":"${REDIRECT_URI}"
+         },
+         {
+            "name":"STRAVA_REDIRECT_URI",
+            "value":"${STRAVA_REDIRECT_URI}"
+         },
+         {
+            "name":"STRAVA_CLIENT_ID",
+            "value":"${STRAVA_CLIENT_ID}"
+         },
+         {
+            "name":"STRAVA_ACCESS_TOKEN",
+            "value":"${STRAVA_ACCESS_TOKEN}"
+         },
+         {
+            "name":"STRAVA_CLIENT_SECRET",
+            "value":"${STRAVA_CLIENT_SECRET}"
+         },
+         {
+            "name":"STRAVA_TOKEN_REFRESH",
+            "value":"${STRAVA_TOKEN_REFRESH}"
+         },
+         {
+            "name":"FRONT_URL",
+            "value":"${FRONT_URL}"
          }
       ],
       "logConfiguration": {

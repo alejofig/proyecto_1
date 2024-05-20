@@ -32,6 +32,8 @@
         android:id="@+id/ivBell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
         android:src="@drawable/notifications"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -170,7 +172,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/containerIndicators"
+        android:layout_below="@id/containerActiveCaloriesPower"
         android:layout_marginTop="10dp"
         android:padding="16dp">
 
@@ -194,22 +196,131 @@
             android:backgroundTint="@color/red" />
     </LinearLayout>
 
-
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonContainer"
+        >
     <!-- Container ftp vo2max  -->
-    <LinearLayout
+    <GridLayout
         android:id="@+id/containerIndicators"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/containerActiveCaloriesPower"
-        android:layout_marginTop="10dp">
+
+        android:layout_marginTop="10dp"
+        android:columnCount="2"
+        android:rowCount="3">
+
+        <!-- vo2max -->
+        <LinearLayout
+            android:id="@+id/containerVo2max"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvVo2max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vo2max"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueVo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Temperatura -->
+        <LinearLayout
+            android:id="@+id/containerTemperatura"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTemperatura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temperatura"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueTemperatura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Cadencia -->
+        <LinearLayout
+            android:id="@+id/containerCadencia"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvCadencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cadencia"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueCadencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- Potencia -->
+        <LinearLayout
+            android:id="@+id/containerPotencia"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPotencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/potencia"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValuePotencia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
         <!-- FTP -->
         <LinearLayout
             android:id="@+id/containerFTP"
-            android:layout_width="0dp"
+            android:layout_width="205dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:visibility="invisible"
             android:orientation="vertical">
@@ -231,33 +342,137 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <!-- vo2max -->
+        <!-- Velocidad -->
         <LinearLayout
-            android:id="@+id/containerVo2max"
-            android:layout_width="0dp"
+            android:id="@+id/containerVelocidad"
+            android:layout_width="205dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:visibility="invisible"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvVo2max"
+                android:id="@+id/tvVelocidad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/vo2max"
+                android:text="@string/velocidad"
                 android:textSize="20sp"
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/tvValueVo2"
+                android:id="@+id/tvValueVelocidad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/valor_inicial"
                 android:textSize="32sp"
                 android:textColor="@color/white" />
         </LinearLayout>
-    </LinearLayout>
+
+        <!-- TiempoContactoSuelo -->
+        <LinearLayout
+            android:id="@+id/containerTiempoContactoSuelo"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTiempoContactoSuelo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tiempoContactoSuelo"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueTiempoContactoSuelo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- LongitudZancada -->
+        <LinearLayout
+            android:id="@+id/containerLongitudZancada"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvLongitudZancada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/longitudZancada"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueLongitudZancada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- AscensoTotal -->
+        <LinearLayout
+            android:id="@+id/containerAscensoTotal"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAscensoTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ascensoTotal"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueAscensoTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <!-- DescensoTotal -->
+        <LinearLayout
+            android:id="@+id/containerDescensoTotal"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDescensoTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/descensoTotal"
+                android:textSize="20sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tvValueDescensoTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/valor_inicial"
+                android:textSize="32sp"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </GridLayout>
+    </ScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

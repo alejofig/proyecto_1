@@ -5,6 +5,7 @@ export class PlanEntrenamiento {
   cantidadEntrenamientos: number;
   distanciaPorEntrenamientos: number;
   fechas: string;
+  tipoPLan: string;
 
   constructor(
     deporte: string,
@@ -12,7 +13,8 @@ export class PlanEntrenamiento {
     usuario: string,
     cantidadEntrenamientos: number,
     distanciaPorEntrenamientos: number,
-    fechas: string
+    fechas: string,
+    tipoPLan: string
   ) {
     this.deporte = deporte;
     this.nombre = nombre;
@@ -20,5 +22,6 @@ export class PlanEntrenamiento {
     this.cantidadEntrenamientos = cantidadEntrenamientos;
     this.distanciaPorEntrenamientos = distanciaPorEntrenamientos;
     this.fechas = fechas;
+    this.tipoPLan = tipoPLan;
   }
 }
