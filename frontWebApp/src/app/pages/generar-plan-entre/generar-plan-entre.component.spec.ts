@@ -118,6 +118,7 @@ describe('GenerarPlanEntreComponent', () => {
     component.cantidadEntrenamientos = 2;
     component.distanciaPorEntrenamientos = 5;
     component.fechas = '2024/04/15, 2024/04/16';
+    component.tipoPLan = 'Basico';
     const formData = component.imprimirDatos();
 
     expect(formData).toEqual({
@@ -126,7 +127,9 @@ describe('GenerarPlanEntreComponent', () => {
       usuario: 'Juan',
       cantidadEntrenamientos: 2,
       distanciaPorEntrenamientos: 5,
-      fechas: '2024/04/15, 2024/04/16'
+      fechas: '2024/04/15, 2024/04/16',
+      tipoPLan: 'Basico'
+
     })
   })
 });

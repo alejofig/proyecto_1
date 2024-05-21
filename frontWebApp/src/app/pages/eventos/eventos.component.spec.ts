@@ -14,10 +14,11 @@ describe('EventosComponent', () => {
 
 
   beforeEach(async () => {
-    eventosServiceMock = jasmine.createSpyObj('EventosService', ['getEvents', 'getEntrenamientos', 'getSesionesEntrenador']);
+    eventosServiceMock = jasmine.createSpyObj('EventosService', ['getEvents', 'getEntrenamientos', 'getSesionesEntrenador', 'getEntrenamientosApp']);
     eventosServiceMock.getEvents.and.returnValue(of([])); // Retorna un observable vacío inicialmente
     eventosServiceMock.getEntrenamientos.and.returnValue(of([])); // Igual para entrenamientos
     eventosServiceMock.getSesionesEntrenador.and.returnValue(of([])); 
+    eventosServiceMock.getEntrenamientosApp.and.returnValue(of([])); 
 
     await TestBed.configureTestingModule({
       imports: [EventosComponent, HttpClientTestingModule,AuthModule.forRoot({
@@ -68,7 +69,7 @@ describe('EventosComponent', () => {
 
 
   it('should properly transform event data for calendar and general list', () => {
-      const mockEvents = [
+      const mockEvents = {"eventos": [
         {
           nombre: 'Conferencia Angular',
           fecha: '2024-04-15',
@@ -85,7 +86,7 @@ describe('EventosComponent', () => {
           ciudad: 'Barcelona',
           pais: 'España'
         }
-      ];
+      ]};
 
       const expectedCalendarEvents = [
         {
@@ -116,6 +117,7 @@ describe('EventosComponent', () => {
       ];
 
       const transformedData = component.crear_eventos_calendario(mockEvents);
+      console.log(transformedData);
       expect(transformedData[0]).toEqual(expectedCalendarEvents, 'Calendar events should match expected data');
       expect(transformedData[1]).toEqual(expectedGeneralEvents, 'General events should match expected data');
     });
